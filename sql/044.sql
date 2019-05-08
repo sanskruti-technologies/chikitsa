@@ -1,0 +1,5 @@
+ALTER TABLE %dbprefix%contacts ADD second_number VARCHAR( 25 ) NULL AFTER phone_number;
+INSERT INTO %dbprefix%navigation_menu (menu_name, parent_name, menu_order, menu_url, menu_icon, menu_text, required_module) VALUES ('reference_by', 'administration', '750', 'settings/reference_by', NULL, 'Reference By', NULL);
+CREATE TABLE IF NOT EXISTS %dbprefix%reference_by (reference_id int(11) NOT NULL AUTO_INCREMENT, reference_option varchar(25) NOT NULL, reference_add_option int(1) DEFAULT NULL, placeholder VARCHAR( 25 ) NULL , PRIMARY KEY (reference_id));
+CREATE OR REPLACE VIEW %dbprefix%view_patient AS SELECT patient.patient_id,patient.patient_since, patient.display_id,patient.gender,patient.dob, patient.reference_by, patient.followup_date,contacts.display_name,contacts.contact_id,contacts.first_name,contacts.middle_name,contacts.last_name,contacts.phone_number,contacts.second_number,contacts.email FROM %dbprefix%patient as patient LEFT JOIN %dbprefix%contacts as contacts ON patient.contact_id = contacts.contact_id;
+UPDATE %dbprefix%version SET current_version='0.4.4';

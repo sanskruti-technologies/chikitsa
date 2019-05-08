@@ -1,0 +1,1 @@
+UPDATE %dbprefix%version SET current_version='0.1.2';

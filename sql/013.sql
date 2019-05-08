@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS %dbprefix%modules ( module_id int(11) NOT NULL AUTO_INCREMENT, module_name varchar(50) UNIQUE NOT NULL, module_display_name varchar(50) NOT NULL, module_description varchar(150) NOT NULL, module_status int(1) NOT NULL, PRIMARY KEY (module_id) );
+CREATE OR REPLACE VIEW %dbprefix%view_patient AS SELECT patient.patient_id,patient.patient_since, patient.display_id, patient.reference_by, patient.followup_date,contacts.display_name,contacts.contact_id,contacts.first_name,contacts.middle_name,contacts.last_name,contacts.phone_number,contacts.email FROM %dbprefix%patient as patient LEFT JOIN %dbprefix%contacts as contacts ON patient.contact_id = contacts.contact_id;
+UPDATE %dbprefix%version SET current_version='0.1.3';

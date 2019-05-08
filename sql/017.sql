@@ -1,0 +1,4 @@
+INSERT INTO %dbprefix%clinic (clinic_id,start_time,end_time,time_interval,clinic_name,tag_line,clinic_address,landline,mobile,email,facebook,twitter,google_plus,next_followup_days) VALUES ('1', '09:00 AM', '06:00 PM', '0.50', 'Chikitsa', 'Patient Management System', '2/894-95, Navsarjan Hospital, Sagrampura, Surat', '0261-6554433', '9428579989', 'dhara@sanskrutitech.in', '#', '#', '#', '15');
+INSERT INTO %dbprefix%invoice (invoice_id,static_prefix,left_pad,next_id,currency_symbol,currency_postfix) VALUES ('1', 'I', '2', '1', 'Rs.', '/-');
+ALTER TABLE %dbprefix%modules ADD UNIQUE(module_name);
+UPDATE %dbprefix%version SET current_version='0.1.7';

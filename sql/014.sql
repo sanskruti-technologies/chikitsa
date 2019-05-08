@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS %dbprefix%user_categories ( id int(11) NOT NULL AUTO_INCREMENT,  category_name varchar(50), PRIMARY KEY (id) );
+INSERT INTO %dbprefix%user_categories (category_name) VALUES ('Administrator');
+INSERT INTO %dbprefix%user_categories (category_name) VALUES ('Doctor');
+INSERT INTO %dbprefix%user_categories (category_name) VALUES ('Receptionist');
+CREATE TABLE IF NOT EXISTS %dbprefix%navigation_menu ( id int(11) NOT NULL AUTO_INCREMENT, menu_name varchar(250) UNIQUE, parent_name varchar(250) NOT NULL,menu_order int(11) NOT NULL,menu_url varchar(500), menu_icon varchar(100), menu_text varchar(200),required_module VARCHAR(25) NULL, PRIMARY KEY (id) );
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ( 'patients','',100, 'patient/index', 'fa-users', 'Patients');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('appointments','', 200,'appointment/index', 'fa-calendar', 'Appointments');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('reports', '', 400,'#', 'fa-line-chart', 'Reports');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('administration', '', 500,'#', 'fa-cog', 'Administration');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('modules', '', 600,'module/index', 'fa-shopping-cart', 'Modules');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('appointment report', 'reports',100, 'appointment/appointment_report', '', 'Appointment Report');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('bill report', 'reports', 300,'patient/bill_detail_report', '', 'Bill Detail Report');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('clinic detail', 'administration', 100,'settings/clinic', '', 'Clinic Detail');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('invoice setting', 'administration',200, 'settings/invoice', '', 'Invoice');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('users', 'administration', 300,'admin/users', '', 'Users');
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ('setting', 'administration', 500,'settings/change_settings', '', 'Setting');
+CREATE TABLE IF NOT EXISTS %dbprefix%menu_access ( id int(11) NOT NULL AUTO_INCREMENT, menu_name varchar(50) NOT NULL, category_name varchar(50) NOT NULL, allow tinyint(1), PRIMARY KEY (id) );
+UPDATE %dbprefix%version SET current_version='0.1.4';

@@ -1,0 +1,7 @@
+INSERT INTO %dbprefix%navigation_menu (menu_name, parent_name, menu_order, menu_url, menu_icon, menu_text) VALUES ('payment_methods', 'administration', '650', 'settings/payment_methods', NULL, 'payment_methods');
+CREATE TABLE %dbprefix%payment_methods ( payment_method_id INT(11) NOT NULL AUTO_INCREMENT , payment_method_name VARCHAR(25) NOT NULL , has_additional_details INT(1) NOT NULL , additional_detail_label VARCHAR(50) NOT NULL , needs_cash_calc INT(1) NOT NULL DEFAULT '0',PRIMARY KEY (payment_method_id));
+ALTER TABLE %dbprefix%payment CHANGE cheque_no additional_detail VARCHAR(50) NULL DEFAULT NULL;
+CREATE OR REPLACE VIEW %dbprefix%view_payment AS SELECT DISTINCT payment.payment_id,payment.clinic_id,payment.pay_date,payment.pay_mode,payment.additional_detail,payment.pay_amount,patient.patient_id,patient.display_id,contacts.first_name,contacts.middle_name,contacts.last_name   FROM %dbprefix%payment AS payment	       INNER JOIN %dbprefix%patient as patient ON patient.patient_id = payment.patient_id 	   INNER JOIN %dbprefix%contacts as contacts ON contacts.contact_id = patient.contact_id;
+INSERT INTO %dbprefix%payment_methods (payment_method_name, has_additional_details, additional_detail_label, needs_cash_calc) VALUES ( 'Cash', 0, '', 1);
+INSERT INTO %dbprefix%payment_methods (payment_method_name, has_additional_details, additional_detail_label, needs_cash_calc) VALUES ( 'Cheque', 1, 'Cheque Number', 0);
+UPDATE %dbprefix%version SET current_version='0.7.3';

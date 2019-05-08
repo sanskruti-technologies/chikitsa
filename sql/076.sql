@@ -1,0 +1,11 @@
+ALTER TABLE %dbprefix%menu_access ADD UNIQUE( menu_name, category_name);
+UPDATE %dbprefix%data SET %dbprefix%value = 'http://sanskruti.net/chikitsa/bug-tracker/' WHERE %dbprefix%data = 'support_url' AND NOT (SELECT 1 FROM %dbprefix%modules WHERE module_name = 'rebrand');   
+CREATE OR REPLACE VIEW %dbprefix%view_doctor AS SELECT CONCAT(IFNULL(contacts.title,''),' ',IFNULL(contacts.first_name,''),' ',IFNULL(contacts.middle_name,''),' ',IFNULL(contacts.last_name,'')) AS name,users.centers AS centers,contacts.first_name AS first_name,contacts.middle_name AS middle_name,contacts.last_name AS last_name,doctor.doctor_id AS doctor_id,doctor.userid AS userid,doctor.degree AS degree,doctor.specification AS specification,doctor.experience AS experience,doctor.joining_date AS joining_date,doctor.licence_number AS licence_number,doctor.department_id AS department_id,doctor.gender AS gender,contacts.dob AS dob,doctor.contact_id AS contact_id from %dbprefix%doctor doctor join %dbprefix%contacts contacts on contacts.contact_id = doctor.contact_id join %dbprefix%users users on users.userid = doctor.userid;
+CREATE TABLE %dbprefix%list_master (   list_master_id int(11) NOT NULL,  list_name varchar(25) NOT NULL,  list_label varchar(25) NOT NULL,  list_col_1_label varchar(25) NOT NULL,  list_col1_is_req int(1) DEFAULT NULL);
+CREATE TABLE %dbprefix%list_detail (   list_detail_id int(11) NOT NULL,  list_name varchar(25) NOT NULL,  list_col_1_value varchar(25) NOT NULL) ;
+DELETE FROM %dbprefix%navigation_menu WHERE menu_name = 'tax_rates'; 
+DELETE FROM %dbprefix%navigation_menu WHERE menu_name = 'payment_methods'; 
+DELETE FROM %dbprefix%navigation_menu WHERE menu_name = 'reference_by';
+INSERT INTO %dbprefix%navigation_menu (menu_name, parent_name, menu_order, menu_url, menu_icon, menu_text) VALUES ('list_master', 'administration', '500', 'settings/list_master', NULL, 'list_master'); 
+INSERT INTO %dbprefix%menu_access (menu_name, category_name, allow) VALUES ( 'list_master', 'System Administrator', 1);
+UPDATE %dbprefix%version SET current_version='0.7.6';

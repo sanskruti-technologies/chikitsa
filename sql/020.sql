@@ -1,0 +1,10 @@
+ALTER TABLE %dbprefix%bill_detail ADD item_id INT NULL AFTER bill_detail_id;
+ALTER TABLE %dbprefix%receipt_template ADD type VARCHAR(15) NULL;
+UPDATE %dbprefix%receipt_template SET type = 'bill' WHERE template_id = 1;
+INSERT INTO %dbprefix%navigation_menu (menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text,required_module) VALUES ('backup', 'administration', '600', 'settings/backup', NULL, 'Backup', NULL);
+ALTER TABLE %dbprefix%payment CHANGE payment_date pay_date DATE NOT NULL;
+ALTER TABLE %dbprefix%payment CHANGE amount pay_amount decimal(10,0) NOT NULL;
+CREATE OR REPLACE VIEW %dbprefix%view_payment AS SELECT payment.payment_id,payment.bill_id,payment.pay_date,payment.pay_mode,payment.pay_amount,bill.bill_date,bill.patient_id,patient.display_id,contacts.first_name,contacts.middle_name,contacts.last_name FROM %dbprefix%payment AS payment	INNER JOIN %dbprefix%bill as bill ON payment.bill_id = bill.bill_id INNER JOIN %dbprefix%patient as patient ON patient.patient_id = bill.patient_id INNER JOIN %dbprefix%contacts as contacts ON contacts.contact_id = patient.contact_id;
+ALTER TABLE %dbprefix%clinic ADD PRIMARY KEY(clinic_id);
+INSERT INTO %dbprefix%clinic (clinic_id,start_time,end_time,time_interval,clinic_name,tag_line,clinic_address,landline,mobile,email,facebook,twitter, google_plus,next_followup_days) VALUES ('1', '09:00', '18:00', '0.50', 'Chikitsa', 'Patient Management Software', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15');
+UPDATE %dbprefix%version SET current_version='0.2.0';

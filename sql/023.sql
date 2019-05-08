@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS  %dbprefix%followup ( id int(11) NOT NULL,userid int(11) NOT NULL,patient_id int(11) NOT NULL,followup_date date NOT NULL);
+UPDATE %dbprefix%version SET current_version='0.2.3';

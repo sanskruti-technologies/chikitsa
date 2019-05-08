@@ -1,0 +1,84 @@
+body{
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:12px;
+    margin:0;
+}
+/* ----------- Header----------- */
+.header{
+    margin: 0 auto;
+    width: 964px;
+}
+p, h1,h2,h3, form{border:0; margin:0; padding:0;}
+
+.alignright{float:right;}
+
+.receipt{
+    width:21cm;
+    margin:25px auto;
+    font-family:"times",serif;
+    font-size: 16px;
+}
+.receipt .header{
+    width:100%;
+}
+.receipt .header h1{
+    text-align: center;
+    font-size: 30px;
+}
+.receipt .header h2{
+    text-align: center;
+    font-size: 20px;
+}
+.receipt .header .clinic_address{
+    text-align: center;
+    font-size: 14px;
+    display: block;
+}
+.receipt .header .contact{
+    text-align: center;
+    font-size: 14px;
+    display: block;
+}
+.receipt h3{
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.receipt .header hr {
+    height: 2px;
+    background-color: #000;
+}
+.receipt hr {
+    height: 1px;
+    background-color: #000;
+}
+.patient_name{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.bill_no{
+    text-align: right;
+    float: right;
+}
+.receipt table{
+    width:100%;
+    margin-top:25px;
+    margin-bottom:25px;
+    border-collapse: collapse;
+}
+.receipt td ,.receipt th{
+    border:1px solid black;
+    padding:5px;
+    
+}
+.receipt .particular{
+    width:400px;
+    text-align: left;
+}
+.receipt .amount{
+    width:250px;
+    text-align: right;
+}

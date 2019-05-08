@@ -1,0 +1,14 @@
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text,required_module) VALUES ('working_days','administration',200, 'settings/working_days',NULL, 'Working Days',NULL);
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text,required_module) VALUES ('all_users', 'users', '100', 'admin/users', NULL, 'All Users', NULL);
+UPDATE %dbprefix%navigation_menu SET parent_name = 'users' WHERE menu_name = "categories";
+UPDATE %dbprefix%navigation_menu SET menu_text = 'User Categories' WHERE menu_name = "categories";
+UPDATE %dbprefix%navigation_menu SET parent_name = 'users' WHERE menu_name = "menu_access";
+UPDATE %dbprefix%navigation_menu SET menu_url = '#' WHERE menu_name = "users";	
+CREATE TABLE IF NOT EXISTS %dbprefix%working_days (uid int(11) NOT NULL AUTO_INCREMENT,working_date date NOT NULL,working_status varchar(15) NOT NULL, working_reason varchar(50) NULL, PRIMARY KEY (uid));
+INSERT INTO %dbprefix%data (ck_key, ck_value) VALUES ( 'working_days', '7,1,2,3,4,5,6');
+ALTER TABLE %dbprefix%appointments ADD appointment_reason VARCHAR(100) NULL AFTER visit_id;
+ALTER TABLE %dbprefix%appointment_log ADD appointment_reason VARCHAR(100) NULL AFTER name;
+ALTER TABLE %dbprefix%patient CHANGE reference_by reference_by VARCHAR( 255 ) NULL;
+ALTER TABLE %dbprefix%visit ADD appointment_reason VARCHAR(100) NULL AFTER patient_notes;
+ALTER TABLE %dbprefix%clinic CHANGE clinic_id  clinic_id INT( 11 ) NOT NULL AUTO_INCREMENT ;
+UPDATE %dbprefix%version SET current_version='0.3.7';

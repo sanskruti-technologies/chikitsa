@@ -1,0 +1,20 @@
+ALTER TABLE %dbprefix%modules ADD module_display_name VARCHAR(50) NOT NULL AFTER module_name;
+INSERT INTO %dbprefix%navigation_menu(menu_name,parent_name,menu_order,menu_url,menu_icon,menu_text) VALUES ( 'user_manage','users',100, 'admin/users', '', 'User');
+ALTER TABLE %dbprefix%menu_access CHANGE category_id category_name VARCHAR(50) NOT NULL;
+ALTER TABLE %dbprefix%menu_access CHANGE menu_id menu_name VARCHAR(50) NOT NULL;
+TRUNCATE %dbprefix%menu_access
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'patients','Doctor',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointments','Doctor',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'reports','Doctor',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'patients','Receptionist',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointments','Receptionist',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointment report','Doctor',1);
+CREATE OR REPLACE VIEW %dbprefix%view_patient AS SELECT patient.patient_id,patient.patient_since, patient.display_id, patient.reference_by, patient.followup_date,contacts.display_name,contacts.contact_id,contacts.first_name,contacts.middle_name,contacts.last_name,contacts.phone_number,contacts.email FROM %dbprefix%patient as patient LEFT JOIN %dbprefix%contacts as contacts ON patient.contact_id = contacts.contact_id;
+CREATE OR REPLACE VIEW %dbprefix%view_report AS SELECT appointment.appointment_id,appointment.patient_id,CONCAT(IFNULL(view_patient.first_name,''),' ',IFNULL(view_patient.middle_name,''), ' ',IFNULL(view_patient.last_name,'')) as patient_name,appointment.userid,appointment.appointment_date,min(appointment.start_time) as appointment_time,max(CASE appointment_log.status WHEN 'Waiting' THEN appointment_log.from_time END) as waiting_in,(max(CASE appointment_log.status WHEN 'Consultation' THEN appointment_log.from_time END) - max(CASE appointment_log.status WHEN 'Waiting' THEN appointment_log.from_time END)) as waiting_duration, max(CASE appointment_log.status WHEN 'Consultation' THEN appointment_log.from_time END) as consultation_in, max(CASE appointment_log.status WHEN 'Complete' THEN appointment_log.from_time END) as consultation_out, (max(CASE appointment_log.status WHEN 'Complete' THEN appointment_log.from_time END) - max(CASE appointment_log.status WHEN 'Consultation' THEN appointment_log.from_time END)) as consultation_duration,max(CASE appointment_log.old_status WHEN 'Consultation' THEN timediff(appointment_log.to_time,appointment_log.from_time) END) as waiting_out,max(bill.total_amount) as collection_amount FROM  %dbprefix%appointments as appointment LEFT JOIN %dbprefix%view_patient as view_patient ON appointment.patient_id = view_patient.patient_id LEFT JOIN %dbprefix%bill as bill ON appointment.visit_id = bill.visit_id LEFT JOIN %dbprefix%appointment_log as appointment_log ON appointment.appointment_id = appointment_log.appointment_id GROUP BY appointment.appointment_id,patient_name;
+CREATE OR REPLACE VIEW %dbprefix%view_visit AS SELECT visit.visit_id,visit.visit_date,visit.visit_time,visit.type,visit.notes,visit.userid,users.name,visit.patient_id,bill.bill_id,bill.total_amount,bill.due_amount FROM %dbprefix%visit as visit INNER JOIN %dbprefix%users as users ON users.userid = visit.userid INNER JOIN %dbprefix%bill as bill ON bill.visit_id = visit.visit_id ORDER BY patient_id,visit_date,visit_time;
+ALTER TABLE %dbprefix%clinic ADD facebook VARCHAR(50) NULL ;
+ALTER TABLE %dbprefix%clinic ADD twitter VARCHAR(50) NULL ;
+ALTER TABLE %dbprefix%clinic ADD google_plus VARCHAR(50) NULL ;
+ALTER TABLE %dbprefix%modules ADD UNIQUE(module_name);
+UPDATE %dbprefix%user_categories SET category_name = 'Receptionist' WHERE category_name = 'Staff';
+UPDATE %dbprefix%version SET current_version='0.1.5';

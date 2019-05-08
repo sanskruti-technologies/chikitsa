@@ -1,0 +1,17 @@
+ALTER TABLE %dbprefix%patient ADD wp_user_id INT( 11 ) NULL;
+ALTER TABLE %dbprefix%patient CHANGE  followup_date followup_date DATE NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE display_name display_name VARCHAR( 255 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE phone_number phone_number VARCHAR( 15 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE email email VARCHAR( 150 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE address_line_1 address_line_1 VARCHAR( 150 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE address_line_2 address_line_2 VARCHAR( 150 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE city city VARCHAR( 50 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE state state VARCHAR( 50 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE postal_code postal_code VARCHAR( 50 ) NULL ;
+ALTER TABLE %dbprefix%contacts CHANGE country country VARCHAR( 50 ) NULL ;
+ALTER TABLE %dbprefix%appointments ADD clinic_id INT( 11 ) NULL ;
+ALTER TABLE %dbprefix%clinic ADD max_patient INT( 11 ) NULL;
+UPDATE %dbprefix%clinic SET max_patient = 0;
+ALTER TABLE %dbprefix%email_log CHANGE email_response email_response VARCHAR( 500 );
+ALTER TABLE %dbprefix%supplier ADD is_deleted INT( 11 ) NULL ;
+UPDATE %dbprefix%version SET current_version='0.3.8';

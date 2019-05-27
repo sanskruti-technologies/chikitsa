@@ -81,57 +81,9 @@ $(document).ready(function(){
 	}else{
 		$('#reference_details').parent().hide();
 	}
-	var departments = '<?php echo $doctor['department_id'];?>';
-	departments = departments.split(",");
-	$( ".section" ).each(function( index ) {
-		  console.log( index + ": " + $( this ).text() );
-		  var section_departments = $(this).data('department');
-		  section_departments = section_departments.toString();
-		  section_departments = section_departments.split(",");
-		  var flag = false;
-			$.each(section_departments, function( index, section_department_id ) {
-				if(departments.includes(section_department_id)){
-					flag = true;
-				}
-			});
-		  if(flag){
-			  $( this ).show();
-		  }else{
-			  $( this ).hide();
-		  }
-	});
-	
-	
-	$('#doctor').on('change', function (e) {
-		var departments = $(this).find(':selected').data('departments');
-		departments = departments.toString();
-		departments = departments.split(",");
-		
-		$( ".section" ).each(function( index ) {
-		  //console.log( index + ": " + $( this ).text() );
-		  var section_departments = $(this).data('department');
-		  section_departments = section_departments.toString();
-		  section_departments = section_departments.split(",");
-		  var flag = false;
-			$.each(section_departments, function( index, section_department_id ) {
-				if(departments.includes(section_department_id)){
-					flag = true;
-				}
-			});
-		  if(flag){
-			  $( this ).show();
-		  }else{
-			  $( this ).hide();
-		  }
-		});
-	});
 });
 </script>
-<style>
-	.collapsed{
-		display:none;
-	}
-</style>
+
 
 <?php 
 	$bal_amount=0;
@@ -154,11 +106,17 @@ $(document).ready(function(){
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
+								<label><?php echo $this->lang->line('ssn_id');?> :</label>
+								<span><?php echo $patient['ssn_id']; ?></span>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
 								<label><?php echo $this->lang->line('name');?> :</label>
 								<span><?php echo $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name']; ?></span>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label><?php echo $this->lang->line('display_name');?>:</label>
 								<span><?php echo $patient['display_name']; ?></span>
@@ -397,8 +355,14 @@ $(document).ready(function(){
 							<div class="col-md-4">	
 								<label for="visit_treatment" style="display:block;text-align:left;"><?php echo $this->lang->line('treatment');?></label>
 								<select id="treatment" class="form-control" multiple="multiple" style="width:350px;" tabindex="4" name="treatment[]">
-									<?php foreach ($treatments as $treatment) { ?>
-										<option data-departments="<?=$treatment['departments'];?>" value="<?=$treatment['id'];?>"><?= $treatment['treatment']; ?></option>
+									<?php foreach ($treatments as $treatment) { 
+										if(in_array("departments",$treatment)){
+											$treatment_departments = $treatment['departments'];
+										}else{
+											$treatment_departments = NULL;
+										}
+									?>
+										<option data-departments="<?=$treatment_departments;?>" value="<?=$treatment['id'];?>"><?= $treatment['treatment']; ?></option>
 									<?php } ?>
 								</select>
 								<script>
@@ -455,6 +419,23 @@ $(document).ready(function(){
 												}
 											});
 										});	
+									});
+								</script>
+							</div>
+						</div>
+						<?php } ?>
+						<?php if (in_array("lab", $active_modules)) { ?>
+						<div class="col-md-12">	
+							<div class="col-md-4">	
+								<label for="lab_test" style="display:block;text-align:left;"><?php echo $this->lang->line('lab_tests');?></label>
+								<select id="lab_test" class="form-control" multiple="multiple" style="width:350px;" name="lab_test[]">
+									<?php foreach ($lab_tests as $lab_test) { ?>
+										<option value="<?php echo $lab_test['test_id'] ?>"><?= $lab_test['test_name']; ?></option>
+									<?php } ?>
+								</select>
+								<script>
+									$(window).load(function() {
+										$('#lab_test').chosen();
 									});
 								</script>
 							</div>
@@ -578,54 +559,14 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<?php } ?>
-						<div class="col-md-12">
-							<?php if(isset($section_master)){ ?>
-								<script>
-								<?php
-									foreach($section_conditions as $section_condition){
-										echo "$(document).on('change', '#".$field_name[$section_condition['field_name']]."', function() {\n";
-										//Check Value of field
-										if($section_condition['field_is_checked'] != NULL &  $section_condition['field_is_checked'] == 1){ //checked
-											echo "if ($('#".$field_name[$section_condition['field_name']]."').is(':checked')) {";
-										}elseif($section_condition['field_is_checked'] != NULL & $section_condition['field_is_checked'] == 0){ //unchecked
-											echo "if (!$('#".$field_name[$section_condition['field_name']]."').is(':checked')) {";
-										}elseif($section_condition['condition_type'] == 'has_value' ){ //has value
-											echo "var flag = false;\n";
-											echo "$('#".$field_name[$section_condition['field_name']].":checked').each(function() {\n";
-											echo "  if(this.value == '".$section_condition['field_has_value']."'){\n";
-											echo "	flag = true;\n";
-											echo "	}\n";
-											echo "});\n";
-											echo "if(flag){\n";
-											//echo "if ($('#".$field_name[$section_condition['field_name']]."').val() == '".$section_condition['field_has_value']."') {";
-										}elseif($section_condition['condition_type'] == 'does_not_has_value' ){ //does not has value
-											echo "var flag = true;\n";
-											echo "$('#".$field_name[$section_condition['field_name']].":checked').each(function() {\n";
-											echo "  if(this.value == '".$section_condition['field_has_value']."'){\n";
-											echo "	flag = false;\n";
-											echo "	}\n";
-											echo "});\n";
-											echo "if(flag){\n";
-											//echo "if ($('#".$field_name[$section_condition['field_name']]."').val() == '".$section_condition['field_has_value']."') {";
-										}
-										
-										//Change Status of field
-										if($section_condition['change_status_to'] == 'enabled'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().show();";
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').prop('disabled', false);";
-										}elseif($section_condition['change_status_to'] == 'disabled'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().show();";
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').prop('disabled', true);";
-										}elseif($section_condition['change_status_to'] == 'hidden'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().hide();";
-										
-										}
-										echo "}";
-										echo "});";
-									} ?>
-								</script>
+						<?php if (in_array("prescription", $active_modules)){
+							if (file_exists(APPPATH."views/log/display_fields.".EXT)){
+								$this->load->view('history/display_fields'); 
+							}else{?>
+								<div class="col-md-12">
+							<div class="col-md-6">
+								<?php if(isset($section_master)){ ?>
 								<?php foreach($section_master as $section){ ?>
-									<div class="section" data-department="<?=$section['department_id'];?>">
 									<h3><?=$section['section_name'];?></h3>
 									<?php $section_id = $section['section_id'];?>
 									<?php foreach($section_fields as $field){?>
@@ -635,28 +576,14 @@ $(document).ready(function(){
 										}else{
 											$value = "";
 										}?>
-										<?php
-											$style="";
-											$disabled="";
-											if($field['field_status'] == 'hidden' ){
-												$style="style='display:none;'";
-											}
-											if($field['field_status'] == 'disabled' ){
-												$disabled=" disabled='disabled'";
-											}
-										?>
-										<div class="form-group col-md-<?=$field['field_width'];?>" <?=$style;?>>
-										<?php if($field['field_type'] == "header"){?>
-											<h4><?=$field['field_label'];?></h4> 
-										<?php }else{ ?>
+										<div class="form-group">
 											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label> 
-										<?php } ?>
 										<?php if($field['field_type'] == "text"){?>
-											<input type="input" <?=$disabled;?> class="form-control" id="<?=$field['field_name'];?>" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
+											<input type="input" class="form-control" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
 										<?php }elseif($field['field_type'] == "date"){ ?>
-											<input type="input" <?=$disabled;?> class="form-control datetimepicker" id="<?=$field['field_name'];?>" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
+											<input type="input" class="form-control datetimepicker" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
 										<?php }elseif($field['field_type'] == "combo"){ ?>
-											<select id="<?=$field['field_name'];?>" class="form-control" <?=$disabled;?> name="history_<?=$field['field_id'];?>">
+											<select class="form-control" name="history_<?=$field['field_id'];?>">
 												<?php foreach($field_options as $field_option){ ?>
 													<?php if($field_option['field_id'] == $field['field_id']){?>
 													<option value="<?=$field_option['option_value'];?>" <?php if($field_option['option_value'] == $value ){echo "selected";}?>><?=$field_option['option_label'];?></option>
@@ -667,7 +594,7 @@ $(document).ready(function(){
 											<?php foreach($field_options as $field_option){ ?>
 												<?php if($field_option['field_id'] == $field['field_id']){?>
 													<label class="checkbox">
-														<input id="<?=$field['field_name'];?>" <?=$disabled;?> type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
+														<input type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
 													</label>
 												<?php } ?> 
 											<?php } ?> 
@@ -677,7 +604,7 @@ $(document).ready(function(){
 												<?php if($field_option['field_id'] == $field['field_id']){?>
 													<div class="radio">
 														<label>
-															<input id="<?=$field['field_name'];?>" <?=$disabled;?> type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
+															<input type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
 														</label>
 													</div>
 												<?php } ?> 
@@ -687,9 +614,11 @@ $(document).ready(function(){
 										</div>
 									<?php } ?>
 								<?php } ?>
-								</div>
-							<?php } ?>
+								<?php } ?>
+							</div>
 						</div>
+							<?php }
+						}?>
 						<div class="col-md-12">	
 							<div class="col-md-4">	
 								<div class="form-group">
@@ -788,9 +717,29 @@ $(document).ready(function(){
 									<?php if ($this->prescription_model->is_prescription($visit['visit_id'])){ ?>
 										<a target="_blank" class="btn btn-xs btn-primary square-btn-adjust" href="<?= site_url('prescription/print_prescription') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('prescription');?></a></br>
 										<a class="btn btn-primary btn-xs square-btn-adjust" href="<?= site_url('prescription/edit_prescription') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('edit') . ' ' . $this->lang->line('prescription');?></a>
-									<?php }?>
+									<?php }else{ ?>
+										<a target="_blank" class="btn btn-xs btn-primary square-btn-adjust" href="<?= site_url('prescription/add_prescription') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('add') . ' ' . $this->lang->line('prescription');?></a></br>
+									<?php } ?>
 								<?php } ?>
-								
+								<?php 
+								$flag = FALSE;
+								foreach ($visit_lab_tests as $visit_lab_test) {
+									if ($visit_lab_test['visit_id'] == $visit['visit_id']) {
+										if ($flag == FALSE) {   
+											echo "<strong>Lab Tests :</strong> ";
+											$flag = TRUE;
+										} else {
+											echo " ,";
+										}
+										if($visit_lab_test['file_name'] != NULL){
+											echo "<a class='btn btn-xs btn-primary square-btn-adjust' href='".base_url('uploads/reports/'.$visit_lab_test['file_name'])."' target='_blank'>".$lab_test_name[$visit_lab_test['test_id']]."</a>";
+										}else{
+											echo $lab_test_name[$visit_lab_test['test_id']];
+										}
+										
+									}
+								}
+								?>
 								</td>
 								<td><?php echo $visit['name']; ?></td>
 								<?php if (in_array("gallery",$active_modules)) {?>
@@ -802,8 +751,8 @@ $(document).ready(function(){
 								</td>
 								<?php }?>
 								<td>
-									Total : <?php echo currency_format($visit['total_amount']+ $visit[$tax_type.'_tax_amount']);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?><br/>
-									Balance : <?php echo currency_format($visit['due_amount']);if($currency_postfix) {echo $currency_postfix['currency_postfix'];} ?><br/>
+									Total : <?php echo currency_format($visit['total_amount']+ $visit[$tax_type.'_tax_amount']);if($currency_postfix) echo $currency_postfix; ?><br/>
+									Balance : <?php echo currency_format($visit['due_amount']);if($currency_postfix) {echo $currency_postfix;} ?><br/>
 									<a class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('patient/bill') . "/" . $visit['visit_id'] . "/" . $visit['patient_id']; ?>"><?php echo $this->lang->line('bill');?></a>
 									<a target="_blank" class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('patient/print_receipt') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('bill');?></a>
 								</td>
@@ -823,6 +772,7 @@ $(document).ready(function(){
 								<th></th>
 								<th></th>
 								<th></th>
+								<th></th>
 								
 								<?php if (in_array("gallery",$active_modules)) {?>
 								<th></th>
@@ -830,14 +780,10 @@ $(document).ready(function(){
 								<?php if (in_array("marking",$active_modules)) {?>
 								<th></th>
 								<?php }?>
+								<th style="text-align:right;">Total : <?php echo currency_format($total_amount)?><br/>
+								Balance : <?php echo currency_format($bal_amount)?></th>
 								<th></th>
-								<th style="text-align:right;"><?php echo currency_format($total_amount)?></th>
-								<th style="text-align:right;"><?php echo currency_format($bal_amount)?></th>
-								<th></th>
-								<?php if (in_array("prescription", $active_modules)) { ?>
-								<th></th>
-								<?php }?>
-								<th></th>
+								
 							</tr>
 						</tfoot>
 						</table>

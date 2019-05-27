@@ -41,6 +41,7 @@ class Patient extends CI_Controller {
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
 			$data['show_columns'] = array($this->lang->line('id'),
+											$this->lang->line('ssn_id'),
 											$this->lang->line('name'),
 											$this->lang->line('display')." ".$this->lang->line("name"),
 											$this->lang->line('phone_number'),
@@ -76,6 +77,7 @@ class Patient extends CI_Controller {
 				$followup_date = "Set Next Follow Up";
 			}
 			$col[$this->lang->line('id')] = $patient['display_id'];
+			$col[$this->lang->line('ssn_id')] = $patient['ssn_id'];
 			$col[$this->lang->line('name')] = "<a class='btn btn-info btn-sm square-btn-adjust' title='Edit' href='".site_url("patient/edit/" . $patient['patient_id']."/patient")."'>".$patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] ."</a>";
 			$col[$this->lang->line("display")." ".$this->lang->line("name")] = $patient['display_name'];
 			$contacts = "";
@@ -407,7 +409,8 @@ class Patient extends CI_Controller {
 				$id = $this->session->userdata('id');
 				$data['doctors']=$this->admin_model->get_doctor($id);
 			}else{
-				$data['doctors'] = $this->admin_model->get_doctor();
+				$data['doctors'] = $this->doctor_model->get_doctors();
+				//print_r($data);
 				$this->form_validation->set_rules('doctor', $this->lang->line('doctor'), 'required');
 			}
 			
@@ -423,6 +426,10 @@ class Patient extends CI_Controller {
             	$data['treatments'] = $this->treatment_model->get_treatments();
             	$data['treatment_name'] = $this->treatment_model->get_treatment_name();
             }
+			if (in_array("lab", $active_modules)){
+				$this->load->model('lab/lab_model');
+            	$data['lab_tests'] = $this->lab_model->get_tests();
+            }
 			if (in_array("disease", $active_modules)){
 				$this->load->model('disease/disease_model');
             	$data['diseases'] = $this->disease_model->get_diseases();
@@ -436,10 +443,17 @@ class Patient extends CI_Controller {
 				$this->load->model('history/history_model');
 				$data['section_master'] = $this->history_model->get_section_by_display_in("visits");
 				$data['section_fields'] = $this->history_model->get_fields_by_display_in("visits");
-				//print_r($data['section_fields']);
+				if ( method_exists($this->history_model,'access_granted')){
 				$data['section_conditions'] = $this->history_model->get_conditions_by_display_in("visits");
+				}else{
+				    $data['section_conditions'] = array();
+				}
 				$data['field_options'] = $this->history_model->get_field_options_by_display_in("visits");
+				if ( method_exists($this->history_model,'access_granted')){
 				$data['field_name'] = $this->history_model->get_field_names();
+				}else{
+				    $data['field_name'] = array();
+				}
 				//$data['patient_history_details'] = $this->history_model->get_patient_history_details($patient_id);
 			}
 			$data['clinic_settings'] = $this->settings_model->get_clinic_settings();
@@ -454,10 +468,35 @@ class Patient extends CI_Controller {
             if ($this->form_validation->run() === FALSE) {
                 
             } else {
+				
+                $visit_id = $this->patient_model->insert_visit();
+				$appointment_id=$this->input->post('appointment_id');
+				$this->appointment_model->add_visit_id_to_appointment($appointment_id,$visit_id);
+				$patient_id = $this->input->post('patient_id');
+				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id);
+				
 				if (in_array("treatment", $active_modules)) {
 					$this->load->model('treatment/treatment_model');
+					if ( method_exists($this->treatment_model,'access_granted')){
+						$this->treatment_model->add_visit_treatment($visit_id);
+					}
+					if($this->input->post('treatment')){
+						$treatments = $this->input->post('treatment');
+						foreach($treatments as $treatment_id){
+							$treatment = $this->treatment_model->get_treatment($treatment_id);
+							$this->bill_model->add_bill_item('treatment', $bill_id, $treatment['treatment'], 1, $treatment['price'], $treatment['price'], NULL, NULL, NULL);
+						}
+					}
 				}
-                $visit_id = $this->patient_model->insert_visit();
+				if (in_array("lab", $active_modules)) {
+					$this->load->model('lab/lab_model');
+					$this->lab_model->add_test_visit($visit_id);
+					$lab_tests = $this->input->post('lab_test[]');
+					foreach($lab_tests as $test_id){
+						$lab_test = $this->lab_model->get_test($test_id);
+						$this->bill_model->add_bill_item('lab_test', $bill_id, $lab_test['test_name'], 1, $lab_test['test_charges'], $lab_test['test_charges'], NULL, NULL, NULL);
+					}
+				}
 				if (in_array("sessions", $active_modules)){
 					$session_date_id = $this->input->post('session_date_id');
 					if($session_date_id != NULL){
@@ -465,7 +504,6 @@ class Patient extends CI_Controller {
 						$this->sessions_model->update_visit_id($session_date_id,$visit_id);
 					}
 				}
-				$patient_id = $this->input->post('patient_id');
 				if (in_array("prescription", $active_modules)){
 					$this->prescription_model->insert_prescription($visit_id,$patient_id);
 				}
@@ -526,6 +564,11 @@ class Patient extends CI_Controller {
             	$data['treatments'] = $this->treatment_model->get_treatments();
             	$data['treatment_name'] = $this->treatment_model->get_treatment_name();
             }
+			if (in_array("lab", $active_modules)) {
+				$this->load->model('lab/lab_model');
+				$data['visit_lab_tests'] = $this->lab_model->get_all_visit_tests();
+				$data['lab_test_name'] = $this->lab_model->get_test_name_array();
+			}
 			$data['references'] = $this->settings_model->get_reference_by();
 			$data['patient'] = $this->patient_model->get_patient_detail($patient_id);
 			$data['contact_details'] = $this->contact_model->get_all_contact_details();
@@ -608,6 +651,11 @@ class Patient extends CI_Controller {
 					$this->load->model('treatment/treatment_model');
                 	$data['treatments'] = $this->treatment_model->get_treatments();
 				}
+				if (in_array("lab", $active_modules)){
+					$this->load->model('lab/lab_model');
+					$data['lab_tests'] = $this->lab_model->get_tests();
+					$data['visit_lab_tests'] = $this->lab_model->get_visit_tests($visit_id);
+				}
 				if (in_array("disease", $active_modules)){
 					$this->load->model('disease/disease_model');
 					$data['diseases'] = $this->disease_model->get_diseases();
@@ -668,6 +716,18 @@ class Patient extends CI_Controller {
 					$patient_id = $this->patient_model->get_patient_id($visit_id);
 					$this->load->model('prescription/prescription_model');
 					$this->prescription_model->update_prescription($visit_id,$patient_id);
+				}
+				if (in_array("lab", $active_modules)) {
+					$this->load->model('lab/lab_model');
+					$this->lab_model->add_test_visit($visit_id);
+					$bill_id = $this->patient_model->get_bill_id($visit_id);
+					$lab_tests = $this->input->post('lab_test[]');
+					foreach($lab_tests as $test_id){
+						if(!$this->lab_model->is_test_added($visit_id, $test_id)){
+							$lab_test = $this->lab_model->get_test($test_id);
+							$this->bill_model->add_bill_item('lab_test', $bill_id, $lab_test['test_name'], 1, $lab_test['test_charges'], $lab_test['test_charges'], NULL, NULL, NULL);
+						}
+					}
 				}
 				redirect('patient/visit/' . $patient_id);
             }
@@ -757,6 +817,11 @@ class Patient extends CI_Controller {
 				$data['treatments'] = $this->treatment_model->get_treatments();
 			}
 			
+			if (in_array("lab", $active_modules)) {
+				$this->load->model('lab/lab_model');
+				$data['lab_tests'] = $this->lab_model->get_tests();
+			}
+			
             if ($action == 'item') {
 				$item_id = $this->input->post('item_id');
 				$this->form_validation->set_rules('item_name', $this->lang->line('item_name'), 'required');
@@ -770,7 +835,8 @@ class Patient extends CI_Controller {
                     $amount = $this->input->post('item_amount');
 					$quantity = $this->input->post('item_quantity');
                     $this->patient_model->add_bill_item($action, $bill_id, $item, $quantity, $amount*$quantity, $amount,$item_id);
-                }
+					$this->bill_model->recalculate_tax($bill_id);
+				}
 				
                 $data['bill_id'] = $bill_id;
 				
@@ -788,6 +854,7 @@ class Patient extends CI_Controller {
                     $fees_detail = $this->input->post('fees_detail');
                     $fees_amount = $this->input->post('fees_amount');
                     $this->patient_model->add_bill_item($action, $bill_id, $fees_detail, 1, $fees_amount,$fees_amount);
+					$this->bill_model->recalculate_tax($bill_id);
                 }
 				
                 $data['bill_id'] = $bill_id;
@@ -807,6 +874,27 @@ class Patient extends CI_Controller {
 					$tax_amount = $this->input->post('treatment_rate');
 					
                     $this->bill_model->add_bill_item($action, $bill_id, $treatment, 1, $treatment_price,$treatment_price,NULL,$tax_amount);
+					$this->bill_model->recalculate_tax($bill_id);
+                }
+				
+                $data['bill_id'] = $bill_id;
+				
+                $data['bill'] = $this->bill_model->get_bill($bill_id);
+                $data['bill_details'] = $this->bill_model->get_bill_detail($bill_id);
+                
+				$data['balance'] = $this->patient_model->get_balance_amount($bill_id,$patient_id);
+			}elseif ($action == 'lab_test') {
+				$this->form_validation->set_rules('lab_test', $this->lang->line('lab_test'), 'required');
+                $this->form_validation->set_rules('test_price', $this->lang->line('amount'), 'required|numeric');
+				if ($this->form_validation->run() === FALSE) {
+                   
+                } else {
+                    $test_id = $this->input->post('test_id');
+                    $lab_test = $this->input->post('lab_test');
+                    $test_price = $this->input->post('test_price');
+					$this->lab_model->add_single_test_visit($visit_id,$test_id);
+                    $this->bill_model->add_bill_item($action, $bill_id, $lab_test, 1, $test_price,$test_price,NULL,NULL);
+					$this->bill_model->recalculate_tax($bill_id);
                 }
 				
                 $data['bill_id'] = $bill_id;
@@ -823,7 +911,8 @@ class Patient extends CI_Controller {
                     $session_charges = $this->input->post('session_charges');
 					
                     $this->patient_model->add_bill_item($action, $bill_id, 'Session', 1, $session_charges,$session_charges,NULL,0);
-                }
+					$this->bill_model->recalculate_tax($bill_id);
+				}
 				
                 $data['bill_id'] = $bill_id;
 				
@@ -843,7 +932,8 @@ class Patient extends CI_Controller {
                     $tax_amount = $this->input->post('tax_amount');
 					
 					$this->bill_model->add_bill_item($action, $bill_id, $particular, 1, $particular_amount,$particular_amount,NULL,$tax_amount);
-                }
+					$this->bill_model->recalculate_tax($bill_id);
+				}
                 $data['bill_id'] = $bill_id;
                 $data['bill'] = $this->bill_model->get_bill_by_visit($visit_id);
                 $data['bill_details'] = $this->bill_model->get_bill_detail_by_visit($visit_id);
@@ -866,9 +956,8 @@ class Patient extends CI_Controller {
                 $data['bill_details'] = $this->bill_model->get_bill_detail($bill_id);
 				$data['balance'] = $this->patient_model->get_balance_amount($bill_id,$patient_id);
 			}elseif ($action == 'tax') {
-				$bill_amount = $this->bill_model->get_bill_amount($bill_id);
+				$taxable_amount = $this->bill_model->get_taxable_amount($bill_id);
 				$discount = $this->bill_model->get_discount_amount($bill_id);
-				$taxable_amount = $bill_amount; 
                 $this->form_validation->set_rules('bill_tax_rate', $this->lang->line("tax"), 'required');
 				if ($this->form_validation->run() === FALSE) {
 					
@@ -881,7 +970,7 @@ class Patient extends CI_Controller {
 					$tax_amount = $taxable_amount * $tax_rate_percent /100;
                     
 					//$discount_amount = $this->input->post('discount');
-                    $this->bill_model->add_bill_item($action, $bill_id, $tax_rate_name, 1, $tax_amount,$tax_amount,NULL,NULL);
+                    $this->bill_model->add_bill_item($action, $bill_id, $tax_rate_name, 1, $tax_amount,$tax_amount,NULL,NULL,$tax_id);
                 }
                 $data['bill_id'] = $bill_id;
                 $data['bill'] = $this->bill_model->get_bill($visit_id);
@@ -920,6 +1009,11 @@ class Patient extends CI_Controller {
 				$data['treatment_total'] = $this->patient_model->get_treatment_total($visit_id);
 			}else{
 				$data['treatment_total'] = 0;
+			}
+			if (in_array("lab", $active_modules)) {
+				$data['lab_test_total'] = $this->bill_model->get_total("lab_test",$bill_id);
+			}else{
+				$data['lab_test_total'] = 0;
 			}
 			$data['tax_rates'] = $this->settings_model->get_tax_rates();
 			$data['tax_rate_name'] = $this->settings_model->get_tax_rate_name(); 
@@ -1385,7 +1479,13 @@ class Patient extends CI_Controller {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
         } else {
-            $this->bill_model->delete_bill_detail($bill_detail_id, $bill_id);
+            
+			$bill_detail = $this->bill_model->get_bill_detail_by_id($bill_detail_id);
+			//print_r($bill_detail);
+			$this->bill_model->delete_bill_detail($bill_detail_id, $bill_id);
+			if($bill_detail['type'] != "tax"){
+				$this->bill_model->recalculate_tax($bill_id);
+			}
 			$called_from = str_replace("_","/",$called_from);
             redirect($called_from);
         }

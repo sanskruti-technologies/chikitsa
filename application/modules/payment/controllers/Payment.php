@@ -108,8 +108,7 @@ class Payment extends CI_Controller {
 						$in_account_amount = $this->input->post('in_account_amount');
 						$this->payment_model->add_payment_in_account($patient_id ,$payment_id,$in_account_amount);
 					}
-					
-					
+				
 					if($called_from == 'bill'){
 						//redirect('patient/visit/'.$patient_id);
 						$active_modules = $this->module_model->get_active_modules();
@@ -130,6 +129,37 @@ class Payment extends CI_Controller {
 			}
         }
     }
+	public function pending_payments(){
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+        } else {
+			$data['pending_payments'] = $this->payment_model->get_pending_payments();
+			$data['def_dateformate'] = $this->settings_model->get_date_formate();
+			$data['currency_postfix'] = $this->settings_model->get_currency_postfix();		
+			$clinic_id = $this->session->userdata('clinic_id'); 
+			$user_id = $this->session->userdata('user_id'); 
+			$header_data['clinic_id'] = $clinic_id;
+			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+			$header_data['active_modules'] = $this->module_model->get_active_modules();
+			$header_data['user_id'] = $user_id;
+			$header_data['user'] = $this->admin_model->get_user($user_id);
+			$header_data['login_page'] = get_main_page();
+				
+			$this->load->view('templates/header',$header_data);
+			$this->load->view('templates/menu');
+			$this->load->view('pending_payments',$data);
+			$this->load->view('templates/footer');
+		}
+	}
+	public function approve($payment_id){
+		$this->payment_model->approve($payment_id);
+		
+		$this->pending_payments();
+	}
+	public function reject($payment_id){
+		$this->payment_model->reject($payment_id);
+		$this->pending_payments();
+	}
 	public function edit($payment_id,$called_from='payment'){
 		//Check if user has logged in 
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
@@ -154,6 +184,8 @@ class Payment extends CI_Controller {
 				$data['currency_symbol'] = $this->settings_model->get_currency_symbol();
 				$data['currency_postfix'] = $this->settings_model->get_currency_postfix();
 				$data['patients'] = $this->patient_model->get_patient();
+				$data['payment_methods'] = $this->settings_model->get_payment_methods();
+
 				/*
 				$bill_id = $payment->bill_id;
 				$data['bill_id'] = $bill_id;
@@ -287,5 +319,77 @@ class Payment extends CI_Controller {
 		$this->payment_model->delete_refund($refund_id);
 		$this->issue_refund();
 	}
+	
+	public function payment_methods(){
+		$clinic_id = $this->session->userdata('clinic_id'); 
+		$user_id = $this->session->userdata('user_id'); 
+		
+		$header_data['clinic_id'] = $clinic_id;
+		$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+		$header_data['active_modules'] = $this->module_model->get_active_modules();
+		$header_data['user_id'] = $user_id;
+		$header_data['user'] = $this->admin_model->get_user($user_id);
+		$header_data['login_page'] = get_main_page();
+		
+		$data['payment_methods'] = $this->settings_model->get_payment_methods(); 
+		$this->load->view('templates/header',$header_data);
+		$this->load->view('templates/menu');
+		$this->load->view('payment/payment_methods',$data);
+		$this->load->view('templates/footer');
+	}
+	public function insert_payment_method(){
+		$this->form_validation->set_rules('payment_method_name', $this->lang->line('payment_method')." ".$this->lang->line('name'), 'required|is_unique[payment_methods.payment_method_name]');
+			
+		if ($this->form_validation->run() === FALSE) {
+		
+			$clinic_id = $this->session->userdata('clinic_id'); 
+			$user_id = $this->session->userdata('user_id'); 
+			
+			$header_data['clinic_id'] = $clinic_id;
+			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+			$header_data['active_modules'] = $this->module_model->get_active_modules();
+			$header_data['user_id'] = $user_id;
+			$header_data['user'] = $this->admin_model->get_user($user_id);
+			$header_data['login_page'] = get_main_page();
+			
+			$this->load->view('templates/header_chikitsa',$header_data);
+			$this->load->view('templates/menu');
+			$this->load->view('payment/payment_method_form');
+			$this->load->view('templates/footer');
+		}else{
+			$this->settings_model->insert_payment_method();
+			$this->payment_methods();
+		}
+	}
+	public function edit_payment_method($payment_method_id){
+		$this->form_validation->set_rules('payment_method_name', $this->lang->line('payment_method')." ".$this->lang->line('name'), 'required');
+			
+		if ($this->form_validation->run() === FALSE) {
+		
+			$clinic_id = $this->session->userdata('clinic_id'); 
+			$user_id = $this->session->userdata('user_id'); 
+			
+			$header_data['clinic_id'] = $clinic_id;
+			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+			$header_data['active_modules'] = $this->module_model->get_active_modules();
+			$header_data['user_id'] = $user_id;
+			$header_data['user'] = $this->admin_model->get_user($user_id);
+			$header_data['login_page'] = get_main_page();
+			
+			$data['payment_method'] = $this->settings_model->get_payment_method($payment_method_id);
+			$this->load->view('templates/header_chikitsa',$header_data);
+			$this->load->view('templates/menu');
+			$this->load->view('payment/payment_method_form',$data);
+			$this->load->view('templates/footer');
+		}else{
+			$this->settings_model->edit_payment_method($payment_method_id);
+			$this->payment_methods();
+		}
+	}
+	public function delete_payment_method($payment_method_id){
+		$this->settings_model->delete_payment_method($payment_method_id);
+		$this->payment_methods();
+	}
+	
 }
 ?>

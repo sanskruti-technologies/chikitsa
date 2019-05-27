@@ -199,6 +199,7 @@ $(document).ready(function(){
 		$age = $patient['age'];
 		$blood_group = $patient['blood_group'];
 		$display_id = set_value('display_id',$patient['display_id']);
+		$ssn_id = set_value('ssn_id',$patient['ssn_id']);
 		$gender = set_value('gender',$patient['gender']);
 		$patient_reference_by = $patient['reference_by'];
 		$patient_reference_by_detail = $patient['reference_by_detail'];		
@@ -207,6 +208,7 @@ $(document).ready(function(){
 		$blood_group =  set_value('blood_group',"");
 		$dob =  set_value('dob',"");
 		$display_id = set_value('display_id',"");
+		$ssn_id = set_value('ssn_id',"");
 		$gender= set_value('gender',"");
 		$reference_by = set_value('reference_by',"");
 		//echo $reference_by;
@@ -313,12 +315,17 @@ $(document).ready(function(){
 								<?php echo form_error('display_id','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
+								<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
+								<input type="input" name="ssn_id" class="form-control" value="<?php echo $ssn_id; ?>"/>
+								<?php echo form_error('ssn_id','<div class="alert alert-danger">','</div>'); ?>
+							</div>
+							<div class="form-group">
 								<label for="display_name"><?php echo $this->lang->line('display_name');?></label>
 								<input type="input" name="display_name" class="form-control" value="<?php echo $contact_display_name; ?>"/>
 								<?php echo form_error('display_name','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="gender"><?php echo "Gender";?></label> 
+								<label for="gender"><?php echo $this->lang->line('gender');?></label> 
 								<input type="radio" name="gender" value="male" <?php if($gender == 'male'){echo "checked='checked'";}?>/><?php echo $this->lang->line("male");?>
 								<input type="radio" name="gender" value="female" <?php if($gender == 'female'){echo "checked='checked'";}?>/><?php echo $this->lang->line("female");?>
 								<input type="radio" name="gender" value="other" <?php if($gender == 'other'){echo "checked='checked'";}?>/><?php echo $this->lang->line("other");?>
@@ -352,6 +359,7 @@ $(document).ready(function(){
 							<div class="form-group">
 								<label for="reference_by"><?php echo $this->lang->line('reference_by');?></label>
 								<select name="reference_by" class="form-control" id="reference_by">
+									<option></option>
 									<?php foreach($references as $reference){?>
 										<?php 
 										$selected = "";
@@ -365,7 +373,7 @@ $(document).ready(function(){
 										//echo $reference['reference_option'];
 										//echo $patient['reference_by'];
 										?>
-										<option reference_placeholder="<?php echo $reference['placeholder']; ?>" reference_add_option="<?php echo $reference['reference_add_option']; ?>" value="<?php echo $reference['reference_option']; ?>" <?=$selected?>>
+										<option reference_placeholder="<?php echo $reference['placeholder']; ?>" reference_add_option="<?php echo $reference['reference_add_option']; ?>" value="<?php echo $reference['reference_option']; ?>">
 										<?php echo $reference['reference_option']; ?>
 										</option>
 									<?php }?>
@@ -504,52 +512,13 @@ $(document).ready(function(){
 							
 						</div>
 					</div>
-					<div class="col-md-12">
-							<?php if(isset($section_master)){ ?>
-								<script>
-								<?php
-									foreach($section_conditions as $section_condition){
-										echo "$(document).on('change', '#".$field_name[$section_condition['field_name']]."', function() {\n";
-										//Check Value of field
-										if($section_condition['field_is_checked'] != NULL &  $section_condition['field_is_checked'] == 1){ //checked
-											echo "if ($('#".$field_name[$section_condition['field_name']]."').is(':checked')) {";
-										}elseif($section_condition['field_is_checked'] != NULL & $section_condition['field_is_checked'] == 0){ //unchecked
-											echo "if (!$('#".$field_name[$section_condition['field_name']]."').is(':checked')) {";
-										}elseif($section_condition['condition_type'] == 'has_value' ){ //has value
-											echo "var flag = false;\n";
-											echo "$('#".$field_name[$section_condition['field_name']].":checked').each(function() {\n";
-											echo "  if(this.value == '".$section_condition['field_has_value']."'){\n";
-											echo "	flag = true;\n";
-											echo "	}\n";
-											echo "});\n";
-											echo "if(flag){\n";
-											//echo "if ($('#".$field_name[$section_condition['field_name']]."').val() == '".$section_condition['field_has_value']."') {";
-										}elseif($section_condition['condition_type'] == 'does_not_has_value' ){ //does not has value
-											echo "var flag = true;\n";
-											echo "$('#".$field_name[$section_condition['field_name']].":checked').each(function() {\n";
-											echo "  if(this.value == '".$section_condition['field_has_value']."'){\n";
-											echo "	flag = false;\n";
-											echo "	}\n";
-											echo "});\n";
-											echo "if(flag){\n";
-											//echo "if ($('#".$field_name[$section_condition['field_name']]."').val() == '".$section_condition['field_has_value']."') {";
-										}
-										
-										//Change Status of field
-										if($section_condition['change_status_to'] == 'enabled'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().show();";
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').prop('disabled', false);";
-										}elseif($section_condition['change_status_to'] == 'disabled'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().show();";
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').prop('disabled', true);";
-										}elseif($section_condition['change_status_to'] == 'hidden'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().hide();";
-										
-										}
-										echo "}";
-										echo "});";
-									} ?>
-								</script>
+					<?php if (in_array("history", $active_modules)){
+						if (file_exists(APPPATH."views/log/display_fields.".EXT)){
+								$this->load->view('history/display_fields'); 
+							}else{?>
+								<div class="col-md-12">
+							<div class="col-md-6">
+								<?php if(isset($section_master)){ ?>
 								<?php foreach($section_master as $section){ ?>
 									<h3><?=$section['section_name'];?></h3>
 									<?php $section_id = $section['section_id'];?>
@@ -560,28 +529,14 @@ $(document).ready(function(){
 										}else{
 											$value = "";
 										}?>
-										<?php
-											$style="";
-											$disabled="";
-											if($field['field_status'] == 'hidden' ){
-												$style="style='display:none;'";
-											}
-											if($field['field_status'] == 'disabled' ){
-												$disabled=" disabled='disabled'";
-											}
-										?>
-										<div class="form-group col-md-<?=$field['field_width'];?>" <?=$style;?>>
-										<?php if($field['field_type'] == "header"){?>
-											<h3><?=$field['field_label'];?></h3> 
-										<?php }else{ ?>
+										<div class="form-group">
 											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label> 
-										<?php } ?>
 										<?php if($field['field_type'] == "text"){?>
-											<input type="input" <?=$disabled;?> class="form-control" id="<?=$field['field_name'];?>" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
+											<input type="input" class="form-control" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
 										<?php }elseif($field['field_type'] == "date"){ ?>
-											<input type="input" <?=$disabled;?> class="form-control datetimepicker" id="<?=$field['field_name'];?>" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
+											<input type="input" class="form-control datetimepicker" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
 										<?php }elseif($field['field_type'] == "combo"){ ?>
-											<select id="<?=$field['field_name'];?>" class="form-control" <?=$disabled;?> name="history_<?=$field['field_id'];?>">
+											<select class="form-control" name="history_<?=$field['field_id'];?>">
 												<?php foreach($field_options as $field_option){ ?>
 													<?php if($field_option['field_id'] == $field['field_id']){?>
 													<option value="<?=$field_option['option_value'];?>" <?php if($field_option['option_value'] == $value ){echo "selected";}?>><?=$field_option['option_label'];?></option>
@@ -592,7 +547,7 @@ $(document).ready(function(){
 											<?php foreach($field_options as $field_option){ ?>
 												<?php if($field_option['field_id'] == $field['field_id']){?>
 													<label class="checkbox">
-														<input id="<?=$field['field_name'];?>" <?=$disabled;?> type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
+														<input type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
 													</label>
 												<?php } ?> 
 											<?php } ?> 
@@ -602,7 +557,7 @@ $(document).ready(function(){
 												<?php if($field_option['field_id'] == $field['field_id']){?>
 													<div class="radio">
 														<label>
-															<input id="<?=$field['field_name'];?>" <?=$disabled;?> type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
+															<input type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
 														</label>
 													</div>
 												<?php } ?> 
@@ -612,8 +567,11 @@ $(document).ready(function(){
 										</div>
 									<?php } ?>
 								<?php } ?>
-							<?php } ?>
-					</div>
+								<?php } ?>
+							</div>
+						</div>
+							<?php }
+						}?>
 					<?php if (in_array("alert", $active_modules) && isset($patient_id)) { ?>
 					<div class="col-md-6">
 						<h4><?=$this->lang->line('patient_wise_alert_settings');?></h4>

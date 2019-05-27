@@ -1,0 +1,81 @@
+Sending Patients to ERPNext
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Error while Inserting Item :
+Array
+(
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 115, in handle
+    data.update({
+AttributeError: 'list' object has no attribute 'update'
+
+)
+
+Error while Inserting Item :
+Array
+(
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 115, in handle
+    data.update({
+AttributeError: 'list' object has no attribute 'update'
+
+)
+
+Error while Inserting Item :
+Array
+(
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 115, in handle
+    data.update({
+AttributeError: 'list' object has no attribute 'update'
+
+)
+
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Synchronization Completed

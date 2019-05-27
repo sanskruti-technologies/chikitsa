@@ -52,10 +52,10 @@
 		<div class="col-md-12">
 			<?php if(!isset($appointment) && !isset($curr_patient)){ ?>
 			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<?php echo $this->lang->line('add')." ".$this->lang->line('patient');?>
+				<div class="panel-heading expand-collapse-header"><i class="fa fa-arrow-circle-down"></i>
+					<?php echo $this->lang->line('add')." ".$this->lang->line('patient');?> <?php echo $this->lang->line('clickto_toggle_display');?>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body expand-collapse-content collapsed">
 					<?php $s_time = date('H:i',strtotime($start_time));?>
 					<?php $time = explode(":", $s_time); ?>
 					<?php echo form_open('appointment/insert_patient_add_appointment' . "/" . $time[0] . "/" . $time[1] . "/" . $appointment_date . "/" . $status . "/" . $selected_doctor_id."/0/") ?>    	
@@ -92,13 +92,6 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="second_number"><?php echo $this->lang->line('second_number')?></label>
-								<input type="text" name="second_number" value="<?= $second_number ?>" class="form-control"/>
-								<?php echo form_error('second_number','<div class="alert alert-danger">','</div>'); ?>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
 								<label for="email"><?php echo $this->lang->line('email')?></label>
 								<input type="text" name="email" value="<?= $email ?>" class="form-control"/>
 								<?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
@@ -131,13 +124,20 @@
 					<div class="col-md-12">
 						<div class="col-md-3">
 							<div class="form-group">
+								<label for="gender"><?php echo $this->lang->line('gender');?></label><br/> 
+								<input type="radio" name="gender" value="male" /><?php echo $this->lang->line("male");?>
+								<input type="radio" name="gender" value="female" /><?php echo $this->lang->line("female");?>
+								<input type="radio" name="gender" value="other" /><?php echo $this->lang->line("other");?>
+								<?php echo form_error('gender','<div class="alert alert-danger">','</div>'); ?>
+							</div>
+						</div>	
+						<div class="col-md-3">
+							<div class="form-group">
 								<label for="dob"><?php echo $this->lang->line('dob')?></label>
 								<input type="text" name="dob" id="dob" value="" class="form-control"/>
 								<?php echo form_error('dob','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="reference_by"><?php echo $this->lang->line('reference_by')?></label>
@@ -197,7 +197,11 @@
 								<input type="text" <?php if(isset($session_date_id)){echo "readonly";}?> name="display_id" id="display_id" value="<?php if(isset($curr_patient)){echo $curr_patient['display_id']; } ?>" class="form-control"/>
 							</div>
 							<div class="col-md-3">
-								<label for="patient"><?php echo $this->lang->line('patient');?></label>
+								<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
+								<input type="text" <?php if(isset($session_date_id)){echo "readonly";}?> name="ssn_id" id="ssn_id" value="<?php if(isset($curr_patient)){echo $curr_patient['ssn_id']; } ?>" class="form-control"/>
+							</div>
+							<div class="col-md-3">
+								<label for="patient"><?php echo $this->lang->line('patient_name');?></label>
 								<input type="text" <?php if(isset($session_date_id)){echo "readonly";}?> name="patient_name" id="patient_name" value="<?php if(isset($curr_patient)){echo $curr_patient['first_name']." " .$curr_patient['middle_name']." " .$curr_patient['last_name']; } ?>" class="form-control"/>
 								<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
 							</div>
@@ -206,10 +210,7 @@
 								<label for="phone"><?php echo $this->lang->line('mobile');?></label>
 								<input type="text" <?php if(isset($session_date_id)){echo "readonly";}?> name="phone_number" id="phone_number" value="<?php if(isset($curr_patient)){echo $curr_patient['phone_number']; } ?>" class="form-control"/>
 							</div>
-							<div class="col-md-3">
-								<label for="email_id"><?php echo $this->lang->line('email');?></label>
-								<input type="text" <?php if(isset($session_date_id)){echo "readonly";}?> name="email_id" id="email_id" value="<?php if(isset($curr_patient)){echo $curr_patient['email']; } ?>" class="form-control"/>
-							</div>
+							
 						</div>
 					</div>
 					<input type="hidden" name="session_date_id" value="<?=@$session_date_id;?>" />
@@ -274,7 +275,11 @@
 							<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="save"/><?php echo $this->lang->line('save');?></button>
 							<a class="btn btn-primary square-btn-adjust" href="<?=base_url() . "index.php/appointment/index/";?>"><?=$this->lang->line('back_to_app');?></a>
 							<?php if(isset($appointment)){ ?>
+								<?php if(isset($bill)) {?>
+								<a class="btn btn-primary square-btn-adjust" href="<?=site_url("bill/edit/".$bill['bill_id']);?>"><?=$this->lang->line('bill');?></a>
+								<?php } else{  ?>
 								<a class="btn btn-primary square-btn-adjust" href="<?=base_url() . "index.php/bill/insert/".$patient_id."/".$doctor['doctor_id']."/".$appointment['appointment_id'];?>"><?=$this->lang->line('bill');?></a>
+								<?php } ?>
 							<?php }else{ ?>
 								<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="save_and_bill"/><?php echo $this->lang->line('save_and_bill');?></button>
 							<?php } ?>
@@ -323,11 +328,25 @@
 <script type="text/javascript">
  
     $(window).load(function(){
- 
+		$(".expand-collapse-header").click(function () {
+			if($(this).find("i").hasClass("fa-arrow-circle-down"))
+			{
+				$(this).find("i").removeClass("fa-arrow-circle-down");
+				$(this).find("i").addClass("fa-arrow-circle-up");
+			}else{
+				$(this).find("i").removeClass("fa-arrow-circle-up");
+				$(this).find("i").addClass("fa-arrow-circle-down");
+			}
+			
+			$content = $(this).next('.expand-collapse-content');
+			$content.slideToggle(500);
+
+		});
+
 		var searcharrpatient=[<?php $i = 0;
 		foreach ($patients as $patient) {
 			if ($i > 0) { echo ",";}
-			echo '{value:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",id:"' . $patient['patient_id'] . '",display:"' . $patient['display_id'] . '",num:"' . $patient['phone_number'] . '",email:"' . $patient['email'] . '"}';
+			echo '{value:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",id:"' . $patient['patient_id'] . '",display:"' . $patient['display_id'] . '",num:"' . $patient['phone_number'] . '",ssn_id:"' . $patient['ssn_id'] . '"}';
 			$i++;
 		}?>];
 		$("#patient_name").autocomplete({
@@ -340,7 +359,7 @@
 				$("#patient_id").val(ui.item ? ui.item.id : '');
 				$("#phone_number").val(ui.item ? ui.item.num : '');
 				$("#display_id").val(ui.item ? ui.item.display : '');
-				$("#email_id").val(ui.item ? ui.item.email : '');
+				$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
 				
 			},
 			change: function(event, ui) {
@@ -349,7 +368,7 @@
 					$("#phone_number").val('');
 					$("#display_id").val('');
 					$("#patient_name").val('');
-					$("#email_id").val('');
+					$("#ssn_id").val('');
 					}
 			},
 			response: function(event, ui) {
@@ -359,7 +378,7 @@
 					$("#phone_number").val('');
 					$("#display_id").val('');
 					$("#patient_name").val('');
-					$("#email_id").val('');
+					$("#ssn_id").val('');
 				}
 			}
 		});   
@@ -368,7 +387,7 @@
 			if ($i > 0) {
 				echo ",";
 			}
-				echo '{value:"' . $patient['display_id'] . '",id:"' . $patient['patient_id'] . '",num:"' . $patient['phone_number'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",email:"' . $patient['email'] . '"}';
+				echo '{value:"' . $patient['display_id'] . '",id:"' . $patient['patient_id'] . '",num:"' . $patient['phone_number'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",ssn_id:"' . $patient['ssn_id'] . '"}';
 			$i++;
 		}?>];
 		$("#display_id").autocomplete({
@@ -381,7 +400,7 @@
 			   $("#patient_id").val(ui.item ? ui.item.id : '');
 			   $("#patient_name").val(ui.item ? ui.item.patient : '');
 			   $("#phone_number").val(ui.item ? ui.item.num : '');
-			   	$("#email_id").val(ui.item ? ui.item.email : '');
+			   	$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
 			},
 			change: function(event, ui) 
 			{
@@ -410,7 +429,7 @@
 			if ($i > 0) {
 				echo ",";
 			}
-				echo '{value:"' . $patient['phone_number'] . '",email:"' . $patient['email'] . '",id:"' . $patient['patient_id'] . '",display:"' . $patient['display_id'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",email:"' . $patient['email'] . '"}';
+				echo '{value:"' . $patient['phone_number'] . '",ssn_id:"' . $patient['ssn_id'] . '",id:"' . $patient['patient_id'] . '",display:"' . $patient['display_id'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '"}';
 			$i++;
 		}?>];
 		$("#phone_number").autocomplete({
@@ -422,7 +441,7 @@
 				$("#patient_id").val(ui.item ? ui.item.id : '');
 				$("#patient_name").val(ui.item ? ui.item.patient : '');
 				$("#display_id").val(ui.item ? ui.item.display : '');
-				$("#email_id").val(ui.item ? ui.item.email : '');
+				$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
 			},
 			change: function(event, ui) {
 				if (ui.item == null) {
@@ -430,7 +449,7 @@
 					$("#phone_number").val('');
 					$("#display_id").val('');
 					$("#patient_name").val('');
-					$("#email_id").val('');
+					$("#ssn_id").val('');
 				}
 			},
 			response: function(event, ui) {
@@ -440,21 +459,21 @@
 					$("#phone_number").val('');
 					$("#display_id").val('');
 					$("#patient_name").val('');
-					$("#email_id").val('');
+					$("#ssn_id").val('');
 				}
 			}
 		});  
-		var searchemail=[<?php $i = 0;
+		var search_ssn_id=[<?php $i = 0;
 		foreach ($patients as $patient) {
 			if ($i > 0) {
 				echo ",";
 			}
-				echo '{value:"' . $patient['email'] . '",id:"' . $patient['patient_id'] . '",num:"' . $patient['phone_number'] . '",display:"' . $patient['display_id'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",email:"' . $patient['email'] . '"}';
+				echo '{value:"' . $patient['ssn_id'] . '",id:"' . $patient['patient_id'] . '",num:"' . $patient['phone_number'] . '",display:"' . $patient['display_id'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",email:"' . $patient['email'] . '"}';
 			$i++;
 		}?>];
-		$("#email_id").autocomplete({
+		$("#ssn_id").autocomplete({
 			autoFocus: true,
-			source: searchemail,
+			source: search_ssn_id,
 			minLength: 1,//search after one characters
 			select: function(event,ui){
 				//do something
@@ -462,7 +481,6 @@
 				$("#phone_number").val(ui.item ? ui.item.num : '');
 				$("#patient_name").val(ui.item ? ui.item.patient : '');
 				$("#display_id").val(ui.item ? ui.item.display : '');
-				$("#email_id").val(ui.item ? ui.item.email : '');
 			},
 			change: function(event, ui) {
 				if (ui.item == null) {
@@ -470,7 +488,7 @@
 					$("#phone_number").val('');
 					$("#display_id").val('');
 					$("#patient_name").val('');
-					$("#email_id").val('');
+					$("#ssn_id").val('');
 				}
 			},
 			response: function(event, ui) {
@@ -480,7 +498,7 @@
 					$("#phone_number").val('');
 					$("#display_id").val('');
 					$("#patient_name").val('');
-					$("#email_id").val('');
+					$("#ssn_id").val('');
 				}
 			}
 		});  

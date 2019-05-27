@@ -47,6 +47,7 @@ function get_cases($payment_cases,$payment_id){
 									<?php if (in_array("snaap", $active_modules)) {	?>
 									<th><?php echo $this->lang->line("cases");?></th>
 									<?php } ?>
+									<th><?php echo $this->lang->line("status");?></th>
 									<th><?php echo $this->lang->line("action");?></th>
 								</tr>
 							</thead>
@@ -59,15 +60,17 @@ function get_cases($payment_cases,$payment_id){
 								<?php }else{ ?>
 								<?php $payment_date = "--"; ?>
 								<?php } ?>
-								<tr <?php if ($i%2 == 0) { echo "class='even'"; } else { echo "class='odd'"; }?> >
+								<tr <?php if($payment['payment_status'] == 'rejected'){ echo "class='danger'";} elseif ($i%2 == 0) { echo "class='even'"; } else { echo "class='odd'"; } ?> >
 									<td><?php echo $i; ?></td>
 									<td><?php echo $payment_date; ?></td>
 									<td><?php echo $payment['first_name'] . ' ' . $payment['middle_name'] . ' ' . $payment['last_name']; ?></td>
-									<td><?php echo currency_format($payment['pay_amount']); ?><?php if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></td>
+									<td style='text-align:right;'><?php echo currency_format($payment['pay_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
 									<td><?php echo ucfirst($payment['pay_mode']); ?><?php if($payment['pay_mode'] == "cheque") {echo "  ( ".$payment['cheque_no']." )";} ?></td>
 									<?php if (in_array("snaap", $active_modules)) {	?>
 									<td><?php echo get_cases($payment_cases,$payment['payment_id']); ?></td>
 									<?php } ?>
+									<td><?php echo ucfirst($payment['payment_status']); ?></td>
+									
 									<td><a href="<?= site_url('payment/edit/'.$payment['payment_id'].'/payment');?>" class="btn btn-sm btn-primary square-btn-adjust"><?php echo $this->lang->line("edit");?></a>
 										<a href="<?= site_url('payment/delete/'.$payment['payment_id'].'/payment');?>" class="btn btn-sm btn-danger square-btn-adjust confirmDelete"><?php echo $this->lang->line("delete");?></a>
 									</td>

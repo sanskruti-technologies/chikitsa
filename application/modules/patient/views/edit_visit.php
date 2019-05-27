@@ -91,51 +91,6 @@ $(document).ready(function(){
 	}else{
 		$('#reference_details').parent().hide();
 	}
-	
-	var departments = '<?php echo $doctor['department_id'];?>';
-	departments = departments.split(",");
-	$( ".section" ).each(function( index ) {
-		  //console.log( index + ": " + $( this ).text() );
-		  var section_departments = $(this).data('department');
-		  section_departments = section_departments.toString();
-		  section_departments = section_departments.split(",");
-		  var flag = false;
-			$.each(section_departments, function( index, section_department_id ) {
-				if(departments.includes(section_department_id)){
-					flag = true;
-				}
-			});
-		  if(flag){
-			  $( this ).show();
-		  }else{
-			  $( this ).hide();
-		  }
-	});
-	
-	
-	$('#visit_doctor').on('change', function (e) {
-		var departments = $(this).find(':selected').data('department');
-		departments = departments.toString();
-		departments = departments.split(",");
-		
-		$( ".section" ).each(function( index ) {
-		  //console.log( index + ": " + $( this ).text() );
-		  var section_departments = $(this).data('department');
-		  section_departments = section_departments.toString();
-		  section_departments = section_departments.split(",");
-		  var flag = false;
-			$.each(section_departments, function( index, section_department_id ) {
-				if(departments.includes(section_department_id)){
-					flag = true;
-				}
-			});
-		  if(flag){
-			  $( this ).show();
-		  }else{
-			  $( this ).hide();
-		  }
-		});
-	});
 });
 </script>
 <?php 
@@ -199,8 +154,8 @@ if(isset($visit)){
 			</div>
 			
 			<div class="form-group">
-				<label><?php echo $this->lang->line('reason');?></label>
-				<input type="text" name="appointment_reason" id="appointment_reason" class="form-control" value="<?=$visit['appointment_reason'];?>" />
+				<label><?php echo $this->lang->line("reason");?></label>
+				<input type="text" name="appointment_reason" id="appointment_reason" class="form-control" value="<?=$visit['appointment_reason'];?>"  />
 				<?php echo form_error('appointment_reason','<div class="alert alert-danger">','</div>'); ?>
 			</div>
 			
@@ -222,18 +177,13 @@ if(isset($visit)){
 					<?php            
 					
 					foreach ($treatments as $treatment) { 
+						$selected = "";
+						foreach ($visit_treatments as $visit_treatment) { 
+							if($visit_treatment['particular'] == $treatment['treatment']) 
+								$selected = "selected";                              
+						}
 					?>
-						<option value="<?php echo $treatment['id'] . "/" . $treatment['treatment'] . "/" . $treatment['price'] ?>" 
-							<?php 
-								foreach ($visit_treatments as $visit_treatment) { 
-									if($visit_treatment['particular'] == $treatment['treatment']) 
-									{   
-										echo 'selected=\'selected\'';                                
-									}
-								}
-							?>
-						>
-						<?= $treatment['treatment']; ?></option>
+						<option value="<?php echo $treatment['id'] . "/" . $treatment['treatment'] . "/" . $treatment['price'] ?>" <?=$selected;?>><?= $treatment['treatment']; ?></option>
 					<?php 
 					}
 					?>
@@ -241,6 +191,27 @@ if(isset($visit)){
 				<?php echo form_error('notes','<div class="alert alert-danger">','</div>'); ?>
 				<script>jQuery('#treatment').chosen();</script>
 			</div>
+			<?php } ?>
+			<?php if (in_array("lab", $active_modules)) { ?>
+				<div class="form-group">
+					<label for="lab_test" style="display:block;text-align:left;"><?php echo $this->lang->line('lab_tests');?></label>
+					<select id="lab_test" class="form-control" multiple="multiple" style="width:350px;" name="lab_test[]">
+						<?php foreach ($lab_tests as $lab_test) { 
+						$selected = "";
+						foreach ($visit_lab_tests as $visit_lab_test) { 
+							if($visit_lab_test['test_id'] == $lab_test['test_id']) 
+								$selected = "selected";                              
+						}
+						?>
+							<option value="<?php echo $lab_test['test_id'] ?>" <?=$selected;?>><?= $lab_test['test_name']; ?></option>
+						<?php } ?>
+					</select>
+					<script>
+						$(window).load(function() {
+							$('#lab_test').chosen();
+						});
+					</script>
+				</div>
 			<?php } ?>
 			<?php if (in_array("disease", $active_modules)) { ?>
 			<div class="form-group">
@@ -287,7 +258,7 @@ if(isset($visit)){
 			<div class="col-md-12">
 				<div id="prescription_list">
 					<div class="col-md-12">
-						<a href="#" id="add_medicine" class="btn btn-primary square-btn-adjust"><?=$this->lang->line('add_another_medicine');?></a>
+						<a id="add_medicine" class="btn btn-primary square-btn-adjust"><?=$this->lang->line('add_another_medicine');?></a>
 						<input type="hidden" id="medicine_count" value="0"/>
 					</div>
 					<?php foreach($prescriptions as $medicine){
@@ -342,118 +313,66 @@ if(isset($visit)){
 				</div>
 			</div>
 			<?php }?>
-			<div class="col-md-12">
+			<?php if (in_array("history", $active_modules)){
+				if (file_exists(APPPATH."views/log/display_fields.".EXT)){
+					$this->load->view('history/display_fields'); 
+				}else{?>
+					<div class="col-md-12">
+						<div class="col-md-6">
 							<?php if(isset($section_master)){ ?>
-								<script>
-								<?php
-									foreach($section_conditions as $section_condition){
-										echo "$(document).on('change', '#".$field_name[$section_condition['field_name']]."', function() {\n";
-										//Check Value of field
-										if($section_condition['field_is_checked'] != NULL &  $section_condition['field_is_checked'] == 1){ //checked
-											echo "if ($('#".$field_name[$section_condition['field_name']]."').is(':checked')) {";
-										}elseif($section_condition['field_is_checked'] != NULL & $section_condition['field_is_checked'] == 0){ //unchecked
-											echo "if (!$('#".$field_name[$section_condition['field_name']]."').is(':checked')) {";
-										}elseif($section_condition['condition_type'] == 'has_value' ){ //has value
-											echo "var flag = false;\n";
-											echo "$('#".$field_name[$section_condition['field_name']].":checked').each(function() {\n";
-											echo "  if(this.value == '".$section_condition['field_has_value']."'){\n";
-											echo "	flag = true;\n";
-											echo "	}\n";
-											echo "});\n";
-											echo "if(flag){\n";
-											//echo "if ($('#".$field_name[$section_condition['field_name']]."').val() == '".$section_condition['field_has_value']."') {";
-										}elseif($section_condition['condition_type'] == 'does_not_has_value' ){ //does not has value
-											echo "var flag = true;\n";
-											echo "$('#".$field_name[$section_condition['field_name']].":checked').each(function() {\n";
-											echo "  if(this.value == '".$section_condition['field_has_value']."'){\n";
-											echo "	flag = false;\n";
-											echo "	}\n";
-											echo "});\n";
-											echo "if(flag){\n";
-											//echo "if ($('#".$field_name[$section_condition['field_name']]."').val() == '".$section_condition['field_has_value']."') {";
-										}
-										
-										//Change Status of field
-										if($section_condition['change_status_to'] == 'enabled'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().show();";
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').prop('disabled', false);";
-										}elseif($section_condition['change_status_to'] == 'disabled'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().show();";
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').prop('disabled', true);";
-										}elseif($section_condition['change_status_to'] == 'hidden'){
-											echo "$('#".$field_name[$section_condition['change_status_of_field']]."').parent().hide();";
-										
-										}
-										echo "}";
-										echo "});";
-									} ?>
-								</script>
-								<?php foreach($section_master as $section){ ?>
-									<div class="section" data-department="<?=$section['department_id'];?>">
-									<h3><?=$section['section_name'];?></h3>
-									<?php $section_id = $section['section_id'];?>
-									<?php foreach($section_fields as $field){?>
-										<?php 
-										if(isset($visit_history_details[$field['field_id']])){
-											$value = $visit_history_details[$field['field_id']];
-										}else{
-											$value = "";
-										}?>
-										<?php
-											$style="";
-											$disabled="";
-											if($field['field_status'] == 'hidden' ){
-												$style="style='display:none;'";
-											}
-											if($field['field_status'] == 'disabled' ){
-												$disabled=" disabled='disabled'";
-											}
-										?>
-										<div class="form-group col-md-<?=$field['field_width'];?>" <?=$style;?>>
-										<?php if($field['field_type'] == "header"){?>
-											<h4><?=$field['field_label'];?></h4> 
-										<?php }else{ ?>
-											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label> 
-										<?php } ?>
-										<?php if($field['field_type'] == "text"){?>
-											<input type="input" <?=$disabled;?> class="form-control" id="<?=$field['field_name'];?>" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
-										<?php }elseif($field['field_type'] == "date"){ ?>
-											<input type="input" <?=$disabled;?> class="form-control datetimepicker" id="<?=$field['field_name'];?>" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
-										<?php }elseif($field['field_type'] == "combo"){ ?>
-											<select id="<?=$field['field_name'];?>" class="form-control" <?=$disabled;?> name="history_<?=$field['field_id'];?>">
-												<?php foreach($field_options as $field_option){ ?>
-													<?php if($field_option['field_id'] == $field['field_id']){?>
-													<option value="<?=$field_option['option_value'];?>" <?php if($field_option['option_value'] == $value ){echo "selected";}?>><?=$field_option['option_label'];?></option>
-													<?php } ?> 
-												<?php } ?> 
-											</select>
-										<?php }elseif($field['field_type'] == "checkbox"){ ?>
+							<?php foreach($section_master as $section){ ?>
+								<h3><?=$section['section_name'];?></h3>
+								<?php $section_id = $section['section_id'];?>
+								<?php foreach($section_fields as $field){?>
+									<?php 
+									if(isset($patient_history_details[$field['field_id']])){
+										$value = $patient_history_details[$field['field_id']];
+									}else{
+										$value = "";
+									}?>
+									<div class="form-group">
+										<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label> 
+									<?php if($field['field_type'] == "text"){?>
+										<input type="input" class="form-control" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
+									<?php }elseif($field['field_type'] == "date"){ ?>
+										<input type="input" class="form-control datetimepicker" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
+									<?php }elseif($field['field_type'] == "combo"){ ?>
+										<select class="form-control" name="history_<?=$field['field_id'];?>">
 											<?php foreach($field_options as $field_option){ ?>
 												<?php if($field_option['field_id'] == $field['field_id']){?>
-													<label class="checkbox">
-														<input id="<?=$field['field_name'];?>" <?=$disabled;?> type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
-													</label>
+												<option value="<?=$field_option['option_value'];?>" <?php if($field_option['option_value'] == $value ){echo "selected";}?>><?=$field_option['option_label'];?></option>
 												<?php } ?> 
 											<?php } ?> 
-										<?php }elseif($field['field_type'] == "radio"){ ?>
-											
-											<?php foreach($field_options as $field_option){ ?>
-												<?php if($field_option['field_id'] == $field['field_id']){?>
-													<div class="radio">
-														<label>
-															<input id="<?=$field['field_name'];?>" <?=$disabled;?> type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
-														</label>
-													</div>
-												<?php } ?> 
+										</select>
+									<?php }elseif($field['field_type'] == "checkbox"){ ?>
+										<?php foreach($field_options as $field_option){ ?>
+											<?php if($field_option['field_id'] == $field['field_id']){?>
+												<label class="checkbox">
+													<input type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
+												</label>
 											<?php } ?> 
 										<?php } ?> 
-											<?php echo form_error($field['field_id'],'<div class="alert alert-danger">','</div>'); ?>
-										</div>
-									<?php } ?>
+									<?php }elseif($field['field_type'] == "radio"){ ?>
+										
+										<?php foreach($field_options as $field_option){ ?>
+											<?php if($field_option['field_id'] == $field['field_id']){?>
+												<div class="radio">
+													<label>
+														<input type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
+													</label>
+												</div>
+											<?php } ?> 
+										<?php } ?> 
+									<?php } ?> 
+										<?php echo form_error($field['field_id'],'<div class="alert alert-danger">','</div>'); ?>
+									</div>
 								<?php } ?>
-								</div>
+							<?php } ?>
 							<?php } ?>
 						</div>
+					</div>
+				<?php }
+			}?>
 			<div class="col-md-12">
 			<div class="form-group">
 				<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" /><?php echo $this->lang->line("save");?></button>

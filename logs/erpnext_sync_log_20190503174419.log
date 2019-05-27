@@ -1,0 +1,50 @@
+Sending Patients to ERPNext
+Inserted Patient : Astha  Ramwala
+Error while Updating Patient :Jisha  Shah
+Array
+(
+    [customer_name] => Jisha  Shah
+    [sex] => Female
+    [email] => 
+    [phone] => 
+    [dob] => 2008-04-26
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Inserted Item : Paracetamol
+Inserted Item : Metacin
+Inserted Item : New
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Synchronization Completed

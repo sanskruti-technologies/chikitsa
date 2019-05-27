@@ -44,7 +44,7 @@ class Contact_model extends CI_Model {
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
         
 		$this->db->insert('contacts', $data);
-		///echo $this->db->last_query();
+		//echo $this->db->last_query();
 		$contact_id = $this->db->insert_id();
 		
 		
@@ -114,6 +114,9 @@ class Contact_model extends CI_Model {
 		}
 		if($this->input->post('country') != false){
 			$data['country'] = $this->input->post('country');
+		}
+		if($this->input->post('phone_number') != false){
+			$data['phone_number'] = $this->input->post('phone_number');
 		}
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
         $data['contact_image'] = 'uploads/images/Profile.png';

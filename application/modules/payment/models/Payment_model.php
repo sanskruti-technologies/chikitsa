@@ -7,10 +7,10 @@ class Payment_model extends CI_Model {
     }
 
     public function list_payments() {
-		if($this->session->userdata('clinic_code')){
+		/*if($this->session->userdata('clinic_code')){
 			$clinic_code = $this->session->userdata('clinic_code');
 			$this->db->where("clinic_code", $clinic_code);      
-		}
+		}*/
 		$this->db->order_by("pay_date", "desc");
         $query = $this->db->get('view_payment');
         //echo $this->db->last_query();
@@ -57,7 +57,7 @@ class Payment_model extends CI_Model {
         $query = $this->db->get('bill_payment_r');
         return $query->result_array();
     }
-	function add_payment_in_account($patient_id ,$payment_id,$in_account_amount){
+	public function add_payment_in_account($patient_id ,$payment_id,$in_account_amount){
 		$data['patient_id'] = $patient_id ;
 		$data['payment_id'] = $payment_id ;
 		$data['adjust_amount'] = $in_account_amount ;
@@ -65,7 +65,7 @@ class Payment_model extends CI_Model {
 		
 		//echo $this->db->last_query();
 	}
-	function update_payment_in_account($patient_id ,$payment_id,$in_account_amount){
+	public function update_payment_in_account($patient_id ,$payment_id,$in_account_amount){
 		
 		$query=$this->db->get_where('patient_account',array('patient_id'=>$patient_id,'payment_id'=>$payment_id));
 		$row=$query->row();
@@ -83,7 +83,7 @@ class Payment_model extends CI_Model {
 		
 
 	}
-	function adjust_from_account($patient_id){
+	public function adjust_from_account($patient_id){
 		
 		/** Multiple Bill Adjustment */
 		if($this->input->post('bill_id')){
@@ -111,7 +111,11 @@ class Payment_model extends CI_Model {
 		}
 		//$this->db->insert('patient_account', $data);
 	}
-	function insert_payment() {
+	public function get_payment_method_by_name($payment_method_name){
+		$query = $this->db->get_where('payment_methods',array('payment_method_name' => $payment_method_name));
+        return $query->row_array();	
+	}
+	public function insert_payment() {
 		$data = array();
 		$data_r = array();
 		
@@ -124,6 +128,11 @@ class Payment_model extends CI_Model {
 		$data['patient_id'] = $this->input->post('patient_id');
 		if($this->session->userdata('clinic_code')){
 			$data['clinic_code'] = $this->session->userdata('clinic_code');
+		}
+		$payment_method = $this->get_payment_method_by_name($data['pay_mode']);
+		$data['payment_status'] = 'complete';
+		if($payment_method['payment_pending'] == 1){
+			$data['payment_status'] = 'pending';
 		}
 		$this->db->insert('payment', $data);
 		//echo $this->db->last_query();
@@ -146,18 +155,23 @@ class Payment_model extends CI_Model {
 				$this->db->insert('bill_payment_r', $data_r);
 				//echo $this->db->last_query();
 				
-				$this->db->set('due_amount', "`due_amount`-$bill_adjust_amount", FALSE);
-				$this->db->set('sync_status', 0);
-				$this->db->where('bill_id', $bill_id);
-				$this->db->update('bill');
-				//echo $this->db->last_query();
-				
+				//if($payment_method['payment_pending'] != 1){
+					$this->db->set('due_amount', "`due_amount`-$bill_adjust_amount", FALSE);
+					$this->db->set('sync_status', 0);
+					$this->db->where('bill_id', $bill_id);
+					$this->db->update('bill');
+					//echo $this->db->last_query();
+				//}
 				$i++;
 			}
 		}
 		return 	$payment_id;
     }
-	function get_paid_amount($bill_id){
+	public function get_pending_payments(){
+		$query = $this->db->get_where('view_payment', array('payment_status' => 'pending'));
+        return $query->result_array();
+	}
+	public function get_paid_amount($bill_id){
 		$payments =  $this->get_payments_for_bill($bill_id);
 		$total_payment = 0;
 		foreach($payments as $payment){
@@ -166,6 +180,33 @@ class Payment_model extends CI_Model {
 			$total_payment = $total_payment + $adjust_amount;
 		}
 		return $total_payment;
+	}
+	function approve($payment_id){
+		
+		
+		$data['payment_status'] = 'complete';
+		$this->db->where('payment_id', $payment_id);
+		$this->db->update('payment', $data);
+	}
+	function reject($payment_id){
+		
+		$this->db->where('payment_id', $payment_id);
+        $query = $this->db->get('bill_payment_r');
+        $bill_payments = $query->result_array();
+		
+		foreach($bill_payments as $bill_payment){
+			$adjust_amount = $bill_payment['adjust_amount'];
+			$bill_id = $bill_payment['bill_id'];
+			
+			$this->db->set('due_amount', "`due_amount`+$adjust_amount", FALSE);
+			$this->db->set('sync_status', 0);
+			$this->db->where('bill_id', $bill_id);
+			$this->db->update('bill');
+		}
+		
+		$data['payment_status'] = 'rejected';
+		$this->db->where('payment_id', $payment_id);
+		$this->db->update('payment', $data);
 	}
 	function get_payment($payment_id){
 		$query = $this->db->get_where('payment', array('payment_id' => $payment_id));
@@ -192,13 +233,14 @@ class Payment_model extends CI_Model {
 			$this->db->update('bill_payment_r', $data_r);
 			//echo $this->db->last_query();
 			
-			//Update Bill
-			$this->db->set('due_amount', "`due_amount`+$previous_adjust_amount-$bill_adjust_amount", FALSE);
-			$this->db->set('sync_status',0);
-			$this->db->where('bill_id', $bill_id);
-			$this->db->update('bill');
-			//echo $this->db->last_query();
-			
+			//if($payment_method['payment_pending'] != 1){
+				//Update Bill
+				$this->db->set('due_amount', "`due_amount`+$previous_adjust_amount-$bill_adjust_amount", FALSE);
+				$this->db->set('sync_status',0);
+				$this->db->where('bill_id', $bill_id);
+				$this->db->update('bill');
+				//echo $this->db->last_query();
+			//}
 			$i++;
 		}
 		

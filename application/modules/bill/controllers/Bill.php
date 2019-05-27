@@ -29,6 +29,7 @@ class Bill extends CI_Controller {
          } else {
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
 		  	$data['def_dateformate'] = $this->settings_model->get_date_formate();
+			$data['currency_postfix'] = $this->settings_model->get_currency_postfix();
 			$data['bills'] = $this->bill_model->get_bills();
 		    $data['doctors']=$this->doctor_model->get_doctors();
 			if($this->input->post('from_date')){
@@ -82,6 +83,10 @@ class Bill extends CI_Controller {
 				$this->load->model('treatment/treatment_model');
 				$data['treatments'] = $this->treatment_model->get_treatments();
 			}
+			if (in_array("lab", $active_modules)) {
+				$this->load->model('lab/lab_model');
+				$data['lab_tests'] = $this->lab_model->get_tests();
+			}
 			$data['clinic_start_time'] = $this->settings_model->get_clinic_start_time();
 			$data['clinic_end_time'] = $this->settings_model->get_clinic_end_time();
 			
@@ -93,10 +98,16 @@ class Bill extends CI_Controller {
 			$data['doctor_id'] = $doctor_id;
 			$data['appointment_id'] = $appointment_id;
 			$data['doctor'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
+			$data['doc'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
+			//print_r($data['doc']);
 			$data['doctors'] = $this->doctor_model->get_doctors();
 			$data['fees'] = array();
 			if (in_array("doctor", $active_modules)) {
 				$data['fees'] = $this->doctor_model->get_doctor_fees();
+			}
+			if (in_array("stock", $active_modules)) {
+				$this->load->model('stock/stock_model');
+				$data['items'] = $this->stock_model->get_items();
 			}
 			$data['bill_id'] = 0;
 			$data['discount'] = 0;
@@ -104,6 +115,7 @@ class Bill extends CI_Controller {
 			$data['particular_total'] = 0;
 			$data['session_total'] = 0;
 			$data['treatment_total'] = 0;
+			$data['lab_test_total'] = 0;
 			$data['item_total'] = 0;
 			$data['bill_details'] = array();
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
@@ -139,6 +151,15 @@ class Bill extends CI_Controller {
 			$data['tax_type'] = $this->settings_model->get_data_value('tax_type');
 			$data['tax_rates'] = $this->settings_model->get_tax_rates();
 			$data['called_from'] = "bill_edit_".$bill_id;
+			
+			$doctor_id = NULL;
+			$data['doctor'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
+			$data['doc'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
+			if (in_array("treatment", $active_modules)) {
+				$this->load->model('treatment/treatment_model');
+				$data['treatments'] = $this->treatment_model->get_treatments();
+			}
+			
 			$this->form_validation->set_rules('patient_id', $this->lang->line("patient_id"), 'required');
 			$this->form_validation->set_rules('bill_date', $this->lang->line("bill_date"), 'required');
 			$this->form_validation->set_rules('bill_time', $this->lang->line("bill_time"), 'required');
@@ -165,6 +186,25 @@ class Bill extends CI_Controller {
 						$quantity = $this->input->post('item_quantity');
 						$this->patient_model->add_bill_item($action, $bill_id, $item, $quantity, $amount*$quantity, $amount,$item_id);
 					}
+				}elseif ($action == 'lab_test') {
+					$this->form_validation->set_rules('lab_test', $this->lang->line('lab_test'), 'required');
+					$this->form_validation->set_rules('test_price', $this->lang->line('amount'), 'required|numeric');
+					if ($this->form_validation->run() === FALSE) {
+					   
+					} else {
+						$lab_test = $this->input->post('lab_test');
+						$test_price = $this->input->post('test_price');
+						
+						$this->bill_model->add_bill_item($action, $bill_id, $lab_test, 1, $test_price,$test_price,NULL,NULL);
+						$this->bill_model->recalculate_tax($bill_id);
+					}
+					
+					$data['bill_id'] = $bill_id;
+					
+					$data['bill'] = $this->bill_model->get_bill($bill_id);
+					$data['bill_details'] = $this->bill_model->get_bill_detail($bill_id);
+					
+					$data['balance'] = $this->patient_model->get_balance_amount($bill_id,$patient_id);
 				}elseif ($action == 'session') {
 					$this->form_validation->set_rules('session_charges', $this->lang->line('charges'), 'required');
 					if ($this->form_validation->run() === FALSE) {
@@ -208,7 +248,7 @@ class Bill extends CI_Controller {
 						$this->bill_model->add_bill_item($action, $bill_id, $particular, 1, $particular_amount,$particular_amount);
 					}
 				}elseif ($action == 'tax') {
-					$bill_amount = $this->patient_model->get_bill_amount($bill_id);
+					$bill_amount = $this->bill_model->get_bill_amount($bill_id);
 					$discount = $this->patient_model->get_discount_amount($bill_id);
 					$taxable_amount = $bill_amount - $discount; 
 					
@@ -221,9 +261,8 @@ class Bill extends CI_Controller {
 						$tax_rate_percent = $tax_rate['tax_rate'];
 						$tax_rate_name = $tax_rate['tax_rate_name']." ( ".$tax_rate_percent."% )";
 						$tax_amount = $taxable_amount * $tax_rate_percent /100;
-						
-						//$discount_amount = $this->input->post('discount');
-						$this->patient_model->add_bill_item($action, $bill_id, $tax_rate_name, 1, $tax_amount,$tax_amount,NULL,NULL);
+					
+						$this->bill_model->add_bill_item($action, $bill_id, $tax_rate_name, 1, $tax_amount,$tax_amount,NULL,NULL,$tax_id);
 					}
 				}elseif ($action == 'discount') {
 					//echo $bill_id."<br/>";
@@ -249,6 +288,13 @@ class Bill extends CI_Controller {
 				$data['treatments'] = $this->treatment_model->get_treatments();
 				
 			}
+			if (in_array("lab", $active_modules)) {
+				$this->load->model('lab/lab_model');
+				$data['lab_tests'] = $this->lab_model->get_tests();
+				$data['lab_test_total'] = $this->bill_model->get_total("lab_test",$bill_id);
+			}else{
+				$data['lab_test_total'] = 0;
+			}
 			if (in_array("stock", $active_modules)) {
 				$this->load->model('stock/stock_model');
 				$data['items'] = $this->stock_model->get_items();
@@ -267,6 +313,7 @@ class Bill extends CI_Controller {
 			$data['time_interval'] = $this->settings_model->get_time_interval();
 			
 			$data['patients'] = $this->patient_model->get_patient();
+			$data['doctors'] = $this->doctor_model->get_doctors();
             //$data['package'] = $this->package_model->get_packages();
 			$data['bill_id'] = $bill_id;
 			$bill = $this->bill_model->get_bill($bill_id);
@@ -280,7 +327,6 @@ class Bill extends CI_Controller {
 			$patient_id = $data['bill']['patient_id'];
 			$data['patient_id'] = $patient_id;
 			$data['patient'] = $this->patient_model->get_patient_detail($patient_id);
-			//print_r($data['bill_details']);
 			$data['balance'] = $this->patient_model->get_balance_amount($bill_id);
 			
 			$data['particular_total'] = $this->bill_model->get_particular_total($bill_id);

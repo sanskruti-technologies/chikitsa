@@ -1,0 +1,71 @@
+Sending Patients to ERPNext
+Error while Inserting Patient :યશવી  શાહ
+Array
+(
+    [patient_name] => યશવી  શાહ
+    [sex] => 
+    [email] => 
+    [phone] => 
+    [dob] => 
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 222, in insert
+    self._validate()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 443, in _validate
+    self._validate_mandatory()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 710, in _validate_mandatory
+    name=self.name))
+MandatoryError: [Patient, PID-00015]: sex
+
+)
+
+Error while Inserting Patient :યશવી  શાહ
+Array
+(
+    [patient_name] => યશવી  શાહ
+    [sex] => 
+    [email] => 
+    [phone] => 
+    [dob] => 
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 222, in insert
+    self._validate()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 443, in _validate
+    self._validate_mandatory()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 710, in _validate_mandatory
+    name=self.name))
+MandatoryError: [Patient, PID-00015]: sex
+
+)
+
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+

@@ -468,6 +468,7 @@ class Settings_model extends CI_Model {
 		$query = $this->db->get_where('payment_methods',array('payment_method_id' => $payment_method_id));
         return $query->row_array();	
 	}
+	
 	public function insert_payment_method(){
 		$data['payment_method_name'] = $this->input->post('payment_method_name');
 		if($this->input->post('has_additional_details')){
@@ -475,6 +476,9 @@ class Settings_model extends CI_Model {
 		}
 		if($this->input->post('needs_cash_calc')){
 			$data['needs_cash_calc'] = 1;
+		}
+		if($this->input->post('payment_pending')){
+			$data['payment_pending'] = 1;
 		}
 		$data['additional_detail_label'] = $this->input->post('additional_detail_label');
 		
@@ -491,6 +495,11 @@ class Settings_model extends CI_Model {
 			$data['needs_cash_calc'] = 1;
 		}else{
 			$data['needs_cash_calc'] = 0;
+		}
+		if($this->input->post('payment_pending')){
+			$data['payment_pending'] = 1;
+		}else{
+			$data['payment_pending'] = 0;
 		}
 		$data['additional_detail_label'] = $this->input->post('additional_detail_label');
 		$this->db->update('payment_methods',$data,array('payment_method_id' => $payment_method_id));	

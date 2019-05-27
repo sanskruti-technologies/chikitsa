@@ -22,6 +22,7 @@
 					<div class="col-md-6">
 						<select name="show_columns[]" id="show_columns" class="form-control" multiple="multiple" >
 							<option <?php if(in_array($this->lang->line('id'),$show_columns)) echo "selected";?>><?php echo $this->lang->line('id');?></option>
+							<option <?php if(in_array($this->lang->line('ssn_id'),$show_columns)) echo "selected";?>><?php echo $this->lang->line('ssn_id');?></option>
 							<option <?php if(in_array($this->lang->line('name'),$show_columns)) echo "selected";?>><?php echo $this->lang->line('name');?></option>
 							<option <?php if(in_array($this->lang->line('display')." ".$this->lang->line("name"),$show_columns)) echo "selected";?>><?php echo $this->lang->line("display")." ".$this->lang->line("name");?></option>
 							<option <?php if(in_array($this->lang->line('phone_number'),$show_columns)) echo "selected";?>><?php echo $this->lang->line("phone_number");?></option>
@@ -81,6 +82,9 @@
 									<?php if(in_array($this->lang->line('id'),$show_columns)) {?>
 									<th><?php echo $this->lang->line("id");?></th>
 									<?php } ?>
+									<?php if(in_array($this->lang->line('ssn_id'),$show_columns)) {?>
+									<th><?php echo $this->lang->line("ssn_id");?></th>
+									<?php } ?>
 									<?php if(in_array($this->lang->line('name'),$show_columns)) {?>
 									<th><?php echo $this->lang->line("name");?></th>
 									<?php } ?>
@@ -126,24 +130,24 @@
 		</div>
 	</div>
 </div>
- <!-- JQUERY SCRIPTS -->
+<!-- JQUERY SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/jquery-1.11.3.min.js"></script>
 <!-- JQUERY UI SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
-		<!-- BOOTSTRAP SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
-		<!-- METISMENU SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/jquery.metisMenu.min.js"></script>
-		 <!-- DATA TABLE SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/dataTables/jquery.dataTables.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/dataTables/dataTables.bootstrap.min.js"></script>
-		<script src="<?= base_url() ?>/assets/js/dataTables/moment.min.js"></script>
-		<script src="<?= base_url() ?>/assets/js/dataTables/datetime-moment.min.js"></script>
-		<!-- CUSTOM SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/custom.min.js"></script>
-		<!-- CHOSEN SCRIPTS-->
-		<script src="<?= base_url() ?>assets/js/chosen.jquery.min.js"></script>
-		<link href="<?= base_url() ?>assets/css/chosen.min.css" rel="stylesheet" />
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
+<!-- METISMENU SCRIPTS -->
+<script src="<?= base_url() ?>assets/js/jquery.metisMenu.min.js"></script>
+ <!-- DATA TABLE SCRIPTS -->
+<script src="<?= base_url() ?>assets/js/dataTables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url() ?>assets/js/dataTables/dataTables.bootstrap.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/dataTables/moment.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/dataTables/datetime-moment.min.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script src="<?= base_url() ?>assets/js/custom.min.js"></script>
+<!-- CHOSEN SCRIPTS-->
+<script src="<?= base_url() ?>assets/js/chosen.jquery.min.js"></script>
+<link href="<?= base_url() ?>assets/css/chosen.min.css" rel="stylesheet" />
 		
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {

@@ -25,7 +25,7 @@ class Bill_model extends CI_Model {
         $row = $query->row_array();
 		return $row;
 	}
-	function update_remaining_quantity($bill_detail_id) {
+	public function update_remaining_quantity($bill_detail_id) {
         $this->db->select('purchase_id,quantity');
         $query = $this->db->get_where('bill_detail', array('bill_detail_id' => $bill_detail_id));
         $row = $query->row();
@@ -34,6 +34,53 @@ class Bill_model extends CI_Model {
         else
             return 0;
     }
+	public function get_bill_from_appointment_id($appointment_id){
+		$query = $this->db->get_where('bill', array('appointment_id' => $appointment_id));
+        $row = $query->row_array();
+		return $row;
+	}
+	public function get_taxable_amount($bill_id){
+		$bill_details = $this->get_bill_detail($bill_id);
+		$taxable_total = 0;
+		foreach($bill_details as $bill_detail){
+			if($bill_detail['type'] != 'tax' && $bill_detail['type'] != 'discount'){
+				$taxable_total = $taxable_total + $bill_detail['amount'];
+			}		
+		}
+		return $taxable_total;
+	}
+	public function recalculate_tax($bill_id){
+		$bill_details = $this->get_bill_detail($bill_id);
+		//Get Total Before Discount
+		$taxable_total = $this->get_taxable_amount($bill_id);
+		
+		//Update Tax
+		foreach($bill_details as $bill_detail){
+			if($bill_detail['type'] == 'tax'){
+				$bill_detail_id = $bill_detail['bill_detail_id'];
+				$org_tax_amount = $bill_detail['amount'];
+				
+				$tax_id = $bill_detail['tax_id'];
+				$tax_rate = $this->settings_model->get_tax_rate($tax_id);
+				$tax_rate_percent = $tax_rate['tax_rate'];
+				//echo $taxable_total."<br/>";
+				//echo $tax_id."<br/>";
+				//echo $tax_rate_percent."<br/>";
+				$new_tax_amount = $taxable_total * $tax_rate_percent / 100;
+				//echo $new_tax_amount."<br/>";
+				//Update Bill Detail
+				$sql = "update " . $this->db->dbprefix('bill_detail') . " set sync_status = 0,amount = ?,mrp = ? where bill_detail_id = ?;";
+				$this->db->query($sql, array($new_tax_amount,$new_tax_amount,$bill_detail_id));
+				//echo $this->db->last_query()."<br/>";
+
+				$amount_change = $new_tax_amount - $org_tax_amount;
+				//Update Bill
+				$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount + ?,due_amount = due_amount + ?,tax_amount = tax_amount + ? where bill_id = ?;";
+				$this->db->query($sql, array($amount_change,$amount_change,$amount_change, $bill_id));
+				//echo $this->db->last_query()."<br/>";
+			}
+		}	
+	}
 	public function delete_bill_detail($bill_detail_id = NULL, $bill_id = NULL) {
         $bill_detail = $this->get_bill_detail_by_id($bill_detail_id);
 		
@@ -50,7 +97,7 @@ class Bill_model extends CI_Model {
         $quantity = 0;
 
         $remain_quantity = $this->update_remaining_quantity($bill_detail_id);
-        if ($remain_quantity != 0) {
+        if ($remain_quantity) {
             $purchase_id = $remain_quantity->purchase_id;
             $quantity = $remain_quantity->quantity;
         }
@@ -60,7 +107,7 @@ class Bill_model extends CI_Model {
         
 		$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount - ?,due_amount = due_amount - ?,tax_amount = tax_amount - ? where bill_id = ?;";
         $this->db->query($sql, array($total_amount,$due_amount,$tax_amount, $bill_id));
-		echo $this->db->last_query()."<br/>";
+		//echo $this->db->last_query()."<br/>";
 		
 		//Adjust Payment
 		$this->update_payment($bill_id,$due_amount);
@@ -208,6 +255,7 @@ class Bill_model extends CI_Model {
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
         
         $this->db->insert('bill', $data);
+		//echo $this->db->last_query()."<br/>";
         return $this->db->insert_id();
     }
 	public function create_bill_for_patient($patient_id, $due_amount = NULL,$doctor_id = NULL) {
@@ -217,6 +265,9 @@ class Bill_model extends CI_Model {
 		}
 		$clinic_id = $this->session->userdata('clinic_id');
 		$data['clinic_id'] = $clinic_id;
+		if($this->input->post('appointment_id')){
+			$data['appointment_id'] = $this->input->post('appointment_id');
+		}
 		if($this->input->post('bill_date')){
 			 $data['bill_date'] = date('Y-m-d',strtotime($this->input->post('bill_date')));
 		}else{
@@ -326,7 +377,7 @@ class Bill_model extends CI_Model {
 		return $balance_amount;
 		
     }
-	public function add_bill_item($action, $bill_id, $particular, $qnt = NULL, $amt = NULL, $mrp = NULL, $item_id = NULL, $tax_amount = NULL) {
+	public function add_bill_item($action, $bill_id, $particular, $qnt = NULL, $amt = NULL, $mrp = NULL, $item_id = NULL, $tax_amount = NULL,$tax_id = NULL) {
 		//If item already exists,just update item
 		$data['bill_id'] = $bill_id;
 		$data['particular'] = $particular;
@@ -337,6 +388,7 @@ class Bill_model extends CI_Model {
 		$data['item_id'] = $item_id;
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
 		$data['tax_amount'] = $tax_amount;
+		$data['tax_id'] = $tax_id;
 		
 		if ($item_id != NULL){
 			$query = $this->db->get_where('bill_detail', array('bill_id ' => $bill_id, 'item_id ' => $item_id));
@@ -390,7 +442,7 @@ class Bill_model extends CI_Model {
 		$data['item_id'] = $item_id;
 		
 		$this->db->update('bill_detail', $data,array('bill_id' =>  $bill_id,'type'=>$type));
-		echo $this->db->last_query();
+		//echo $this->db->last_query();
 	}
 	public function edit_bill_item($bill_detail_id,$particular,	$amount,$quantity){
 		$data['particular'] = $particular;

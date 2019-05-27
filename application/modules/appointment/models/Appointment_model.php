@@ -716,5 +716,9 @@ class Appointment_model extends CI_Model {
 		$this->db->insert('appointments', $data);
 		echo $this->db->last_query()."<br/>";
 	}
-	
+	function add_visit_id_to_appointment($appointment_id,$visit_id){
+		$data['visit_id'] = $visit_id;
+		$data['sync_status'] = 0;
+		$this->db->update('appointments', $data, array('appointment_id' => $appointment_id));
+	}
 }

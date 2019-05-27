@@ -55,7 +55,6 @@ class Appointment extends CI_Controller {
 				//Fetch appointments for the date
                 $appointments = $this->appointment_model->get_appointments($appointment_date);
             }
-			
 			$appointment_array = array();
 			foreach($appointments as $appointment){
 				$row = array();
@@ -74,11 +73,7 @@ class Appointment extends CI_Controller {
 				$href = site_url("appointment/edit_appointment/" . $appointment_id );
 				
 				
-				if (strlen($appointment['title'])>12){ 
-					$appointment_title = substr($appointment['title'],0,9)."..." ;
-				}else{
-					$appointment_title = $appointment['title'];
-				}
+				$appointment_title = $appointment['title'];
 				
 				$appointment_column = 0;
 				$doctor_id = 0;
@@ -200,7 +195,6 @@ class Appointment extends CI_Controller {
 				
 				$appointment_array[] = $row;
 			}
-		
 		echo json_encode($appointment_array);
 	}
 	public function index($year = NULL, $month = NULL, $day = NULL) {
@@ -504,6 +498,7 @@ class Appointment extends CI_Controller {
 			$this->form_validation->set_rules('appointment_date', $this->lang->line('appointment_date'), 'required');
 			if ($this->form_validation->run() === FALSE){
 				$appointment = $this->appointment_model->get_appointments_id($appointment_id);
+				$data['bill'] = $this->bill_model->get_bill_from_appointment_id($appointment_id);
 				$data['appointment']=$appointment;
 				$patient_id = $appointment['patient_id'];
 				$data['curr_patient']=$this->patient_model->get_patient_detail($patient_id);
@@ -562,10 +557,9 @@ class Appointment extends CI_Controller {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
         } else {            
-            $this->form_validation->set_rules('first_name', $this->lang->line('first_name'), 'alpha|callback_validate_name');
-            $this->form_validation->set_rules('last_name', $this->lang->line('last_name'), 'alpha|callback_validate_name');
-			$this->form_validation->set_rules('middle_name', $this->lang->line('middle_name'), 'alpha');
-
+            $this->form_validation->set_rules('first_name', $this->lang->line('first_name'), 'callback_validate_name');
+            $this->form_validation->set_rules('last_name', $this->lang->line('last_name'), 'callback_validate_name');
+			
             if ($this->form_validation->run() === FALSE) {                				
 				$this->add();
             }else{	

@@ -172,6 +172,40 @@ $(window).load(function(){
 			}
 		});   
 	<?php } ?>
+	<?php if (in_array("lab",$active_modules)) { ?>
+		var list_lab_test=[<?php $i = 0;
+			foreach ($lab_tests as $lab_test) {
+				if ($i > 0) { echo ",";}
+				echo '{value:"' . $lab_test['test_name'] . '",amount:"' . $lab_test['test_charges'] .'",id:"'.$lab_test['test_id'].'"}';
+				$i++;
+			}?>];
+		$("#lab_test").autocomplete({
+			autoFocus: true,
+			source: list_lab_test,
+			minLength: 1,//search after one characters
+			
+			select: function(event,ui){
+				//do something
+				$("#test_price").val(ui.item ? ui.item.amount : '');
+				$("#test_id").val(ui.item ? ui.item.id : '');
+			},
+			change: function(event, ui) {
+				 if (ui.item == null) {
+					$("#test_price").val('');
+					$("#test_id").val('');
+					$("#lab_test").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0) 
+				{
+					$("#test_price").val('');
+					$("#test_id").val('');
+					$("#lab_test").val('');
+				}
+			}
+		});   
+	<?php } ?>
 });
 </script>
 
@@ -369,6 +403,52 @@ $(window).load(function(){
 										<?php } ?>
 										<div class="col-md-3">
 											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="treatment" /><?php echo $this->lang->line("add");?></button>
+										</div>
+									</div>						
+								</div>
+								<?php }?>
+								<?php if (in_array("lab",$active_modules)) {?>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="col-md-3">
+											<?php echo $this->lang->line("lab_test");?>
+										</div>
+										<div class="col-md-2">
+											<?php echo $this->lang->line("amount");?>
+										</div>
+										<?php if($tax_type == "item"){?>
+										<div class="col-md-2">
+											<?php echo $this->lang->line("tax_rate_name");?>
+										</div>
+										<div class="col-md-2">
+											<?php echo $this->lang->line("rate");?>
+										</div>
+										<?php } ?>
+										<div class="col-md-3">
+											
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="col-md-3">
+											<input type="hidden" name="action" value="lab_test">
+											<input type="hidden" name="test_id" id="test_id">
+											<input name="lab_test" id="lab_test" class="form-control" value=""/>
+										</div>
+										<div class="col-md-2">
+											<input type="text" name="test_price" id="test_price" class="form-control"/>
+										</div>
+										<?php if($tax_type == "item"){?>
+										<div class="col-md-2">
+											<input type="text" name="lab_test_rate_name" readonly id="lab_test_rate_name" class="form-control" />
+										</div>
+										<div class="col-md-2">
+											<input type="text" style="text-align:right;" name="lab_test_rate" id="lab_test_rate" readonly class="form-control"  />
+										</div>
+										<?php } ?>
+										<div class="col-md-3">
+											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="lab_test" /><?php echo $this->lang->line("add");?></button>
 										</div>
 									</div>						
 								</div>

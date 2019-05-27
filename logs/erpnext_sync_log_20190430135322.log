@@ -1,0 +1,120 @@
+Sending Patients to ERPNext
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Error while Inserting Item :Test2
+Array
+(
+    [item_code] => 2
+    [item_name] => Test2
+    [item_group] => Item Group
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 220, in insert
+    self._validate_links()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 726, in _validate_links
+    frappe.LinkValidationError)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 323, in throw
+    msgprint(msg, raise_exception=exc, title=title, indicator='red')
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 309, in msgprint
+    _raise_exception()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 282, in _raise_exception
+    raise raise_exception(encode(msg))
+LinkValidationError: Could not find Item Group: Item Group
+
+)
+
+Error while Inserting Item :Test
+Array
+(
+    [item_code] => 3
+    [item_name] => Test
+    [item_group] => Item Group
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 220, in insert
+    self._validate_links()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 726, in _validate_links
+    frappe.LinkValidationError)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 323, in throw
+    msgprint(msg, raise_exception=exc, title=title, indicator='red')
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 309, in msgprint
+    _raise_exception()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 282, in _raise_exception
+    raise raise_exception(encode(msg))
+LinkValidationError: Could not find Item Group: Item Group
+
+)
+
+Error while Inserting Item :Test
+Array
+(
+    [item_code] => 5
+    [item_name] => Test
+    [item_group] => Item Group
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 220, in insert
+    self._validate_links()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 726, in _validate_links
+    frappe.LinkValidationError)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 323, in throw
+    msgprint(msg, raise_exception=exc, title=title, indicator='red')
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 309, in msgprint
+    _raise_exception()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 282, in _raise_exception
+    raise raise_exception(encode(msg))
+LinkValidationError: Could not find Item Group: Item Group
+
+)
+
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Synchronization Completed

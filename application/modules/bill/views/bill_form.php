@@ -1,11 +1,18 @@
 <?php
 	$total = ($particular_total + $fees_total + $treatment_total + $item_total + $session_total);
 	$time_interval = $time_interval*60;
+	$patient_name = "";
+	$ssn_id = "";
+	$display_id = "";
+	$phone_number = "";
 	if(isset($patient)){
 		$patient_name = $patient['title']." ".$patient['first_name']." ".$patient['middle_name']." ".$patient['last_name'];
+		$ssn_id = $patient['ssn_id'];
+		$display_id = $patient['display_id'];
+		$phone_number = $patient['phone_number'];
 	}
 	if(isset($doctor)){
-		$doctor_name = $doctor['title']." ".$doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
+		$doctor_name = $doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
 	}
 ?>
 <script type="text/javascript" charset="utf-8">
@@ -67,8 +74,9 @@ $(window).load(function(){
 			}
 		});
 	<?php } ?>
+	var list_fees=[];
 	<?php if(isset($fees)){ ?>
-	var list_fees = {	
+	list_fees = {	
 	<?php 
 		$fees_doctor = 0;
 		$fees_string = "";
@@ -140,8 +148,33 @@ $(window).load(function(){
 	if (in_array("treatment",$active_modules)) {?>
 		var list_treatment=[<?php $i = 0;
 			foreach ($treatments as $treatment) {
-				if ($i > 0) { echo ",";}
-				echo '{value:"' . $treatment['treatment'] . '",amount:"' . $treatment['price'] .'",tax_rate_name:"' . $tax_rate_name[$treatment['tax_id']] .'",treatment_rate:"' . ($treatment['price']*$tax_rate_array[$treatment['tax_id']]/100) . '"}';
+				$flag=FALSE;
+				$doctor_department = explode(",",$doc['department_id']);
+				if(in_array("departments",$treatment)){
+					$treatment_departments = explode(",",$treatment['departments']);
+				}else{
+					$treatment_departments = NULL;
+				}
+				//$treatment_department = explode(",",$treatment['departments']);
+				foreach ($doctor_department as $doc_dept){
+					foreach ($treatment_department as $treatment_dept){
+						if ($treatment_dept==""){
+							$flag=TRUE;
+						}
+						if ($doc_dept == 0){
+							$flag=TRUE;
+						}
+						else if(in_array($doc_dept,$treatment_department)) {  
+							$flag=TRUE;
+						}					
+					}
+				}
+				if($flag == TRUE){
+					if ($i > 0) { echo ",";}
+					if(isset($tax_rate_name[$treatment['tax_id']])){
+						echo '{value:"' . $treatment['treatment'] . '",amount:"' . $treatment['price'] .'",tax_rate_name:"' . $tax_rate_name[$treatment['tax_id']] .'",treatment_rate:"' . ($treatment['price']*$tax_rate_array[$treatment['tax_id']]/100) . '"}';
+					}
+				}
 				$i++;
 			}?>];
 		$("#treatment").autocomplete({
@@ -178,7 +211,7 @@ $(window).load(function(){
 	    var patient=[<?php $i = 0;
 			foreach ($patients as $patient) {
 				if ($i > 0) { echo ",";}
-				echo '{value:"' . $patient['first_name'] .' '.$patient['middle_name'].' '.$patient['last_name']. '",id:"' . $patient['patient_id'].'"}';
+				echo '{value:"' . $patient['first_name'] .' '.$patient['middle_name'].' '.$patient['last_name']. '",num:"' . $patient['phone_number'] . '",ssn_id:"' . $patient['ssn_id'] . '",id:"' . $patient['patient_id'].'",display:"' . $patient['display_id'] . '"}';
 				$i++;
 			}?>];
 		$("#patient_name").autocomplete({
@@ -188,22 +221,150 @@ $(window).load(function(){
 			select: function(event,ui){
 				//do something
 				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#phone_number").val(ui.item ? ui.item.num : '');
+				$("#display_id").val(ui.item ? ui.item.display : '');
+				$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
 					$("#patient_name").val('');
 					$("#patient_id").val('');
+					$("#display_id").val('');
+					$("#phone_number").val('');
+					$("#ssn_id").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0) {
+					$("#patient_name").val('');
+					$("#patient_id").val('');
+					$("#display_id").val('');
+					$("#phone_number").val('');
+					$("#ssn_id").val('');
+				}
+			}
+		});   
+		
+		var searcharrdispname=[<?php $i = 0;
+		foreach ($patients as $patient) {
+			if ($i > 0) {
+				echo ",";
+			}
+				echo '{value:"' . $patient['display_id'] . '",id:"' . $patient['patient_id'] . '",num:"' . $patient['phone_number'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",ssn_id:"' . $patient['ssn_id'] . '"}';
+			$i++;
+		}?>];
+		$("#display_id").autocomplete({
+			autoFocus: true,
+			source: searcharrdispname,
+			minLength: 1,//search after one characters
+			select: function(event,ui)
+			{
+				//do something
+			   $("#patient_id").val(ui.item ? ui.item.id : '');
+			   $("#patient_name").val(ui.item ? ui.item.patient : '');
+			   $("#phone_number").val(ui.item ? ui.item.num : '');
+			   	$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
+			},
+			change: function(event, ui) 
+			{
+				if (ui.item == null) {
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#email_id").val('');
+				}
+			},
+			response: function(event, ui) 
+			{
+				if (ui.content.length === 0) 
+				{
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#email_id").val('');
+				}
+			}
+		});  
+		var search_ssn_id=[<?php $i = 0;
+		foreach ($patients as $patient) {
+			if ($i > 0) {
+				echo ",";
+			}
+				echo '{value:"' . $patient['ssn_id'] . '",id:"' . $patient['patient_id'] . '",num:"' . $patient['phone_number'] . '",display:"' . $patient['display_id'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '",email:"' . $patient['email'] . '"}';
+			$i++;
+		}?>];
+		$("#ssn_id").autocomplete({
+			autoFocus: true,
+			source: search_ssn_id,
+			minLength: 1,//search after one characters
+			select: function(event,ui){
+				//do something
+				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#phone_number").val(ui.item ? ui.item.num : '');
+				$("#patient_name").val(ui.item ? ui.item.patient : '');
+				$("#display_id").val(ui.item ? ui.item.display : '');
+			},
+			change: function(event, ui) {
+				if (ui.item == null) {
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
 				}
 			},
 			response: function(event, ui) {
 				if (ui.content.length === 0) 
 				{
-					$("#patient_name").val('');
 					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
 				}
 			}
-		});   
-		
+		});  
+		var searcharrmob=[<?php $i = 0;
+		foreach ($patients as $patient) {
+			if ($i > 0) {
+				echo ",";
+			}
+				echo '{value:"' . $patient['phone_number'] . '",ssn_id:"' . $patient['ssn_id'] . '",id:"' . $patient['patient_id'] . '",display:"' . $patient['display_id'] . '",patient:"' . $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'] . '"}';
+			$i++;
+		}?>];
+		$("#phone_number").autocomplete({
+			autoFocus: true,
+			source: searcharrmob,
+			minLength: 1,//search after one characters
+			select: function(event,ui){
+				//do something
+				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#patient_name").val(ui.item ? ui.item.patient : '');
+				$("#display_id").val(ui.item ? ui.item.display : '');
+				$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
+			},
+			change: function(event, ui) {
+				if (ui.item == null) {
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0) 
+				{
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			}
+		});  
 		var doctor=[<?php $i = 0;
 			foreach ($doctors as $doctor) {
 				if ($i > 0) { echo ",";}
@@ -237,7 +398,7 @@ $(window).load(function(){
 				}
 			}
 		});   
-	<?php if($doctor_id == NULL){ ?>
+	<?php if(!isset($doctor_id) || $doctor_id == NULL){ ?>
 		$("#fees_section").hide();
 	<?php }else{ ?>
 		var doctor_id = $('#doctor_id').val();
@@ -263,6 +424,37 @@ $(window).load(function(){
 		scrollTime:false,
 		scrollInput:false,
 	}); 
+	<?php if (in_array("lab",$active_modules)) { ?>
+		var list_lab_test=[<?php $i = 0;
+			foreach ($lab_tests as $lab_test) {
+				if ($i > 0) { echo ",";}
+				echo '{value:"' . $lab_test['test_name'] . '",amount:"' . $lab_test['test_charges'] .'"}';
+				$i++;
+			}?>];
+		$("#lab_test").autocomplete({
+			autoFocus: true,
+			source: list_lab_test,
+			minLength: 1,//search after one characters
+			
+			select: function(event,ui){
+				//do something
+				$("#test_price").val(ui.item ? ui.item.amount : '');
+			},
+			change: function(event, ui) {
+				 if (ui.item == null) {
+					$("#test_price").val('');
+					$("#lab_test").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0) 
+				{
+					$("#test_price").val('');
+					$("#lab_test").val('');
+				}
+			}
+		});   
+	<?php } ?>
 });
 </script>
 
@@ -298,12 +490,32 @@ $(window).load(function(){
 				<div>
 					<input type="hidden" name="bill_id" value="<?=$bill_id?>"/> 
 					<div class="col-md-12">
-						<div class="form-group col-md-6">
-							<label for="patient_name"><?php echo $this->lang->line("patient");?></label>
-							<input type="text" name="patient_name" class="form-control" id="patient_name" value="<?=@$patient_name;?>">
-							<input type="hidden" name="patient_id" id="patient_id" value="<?= @$patient_id ?>"/>
-							<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
-						</div>
+						<div class="panel panel-default">
+								<div class="panel-heading">
+									<?= $this->lang->line('search')." ".$this->lang->line('patient');?>
+								</div>
+								<div class="panel-body">
+					
+									<div class="col-md-3">
+										<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
+										<input type="hidden" name="patient_id" id="patient_id" value="<?=$patient_id; ?>">
+										<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control"/>
+									</div>
+									<div class="col-md-3">
+										<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
+										<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control"/>
+									</div>
+									<div class="col-md-3">
+										<label for="patient"><?php echo $this->lang->line('patient_name');?></label>
+										<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name;?>" class="form-control"/>
+										<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
+									</div>
+									<div class="col-md-3">
+										<label for="phone"><?php echo $this->lang->line('mobile');?></label>
+										<input type="text" name="phone_number" id="phone_number" value="<?php if(isset($curr_patient)){echo $curr_patient['phone_number']; } ?>" class="form-control"/>
+									</div>
+								</div>
+							</div>
 						<div class="form-group col-md-6">
 							<label for="patient_name"><?php echo $this->lang->line("doctor");?></label>
 							<input type="text" name="doctor_name" class="form-control" id="doctor_name" value="<?=@$doctor_name;?>">
@@ -502,6 +714,51 @@ $(window).load(function(){
 									</div>						
 								</div>
 								<?php }?>
+								<?php /*if (in_array("lab",$active_modules)) {?>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="col-md-3">
+											<?php echo $this->lang->line("lab_test");?>
+										</div>
+										<div class="col-md-2">
+											<?php echo $this->lang->line("amount");?>
+										</div>
+										<?php if($tax_type == "item"){?>
+										<div class="col-md-2">
+											<?php echo $this->lang->line("tax_rate_name");?>
+										</div>
+										<div class="col-md-2">
+											<?php echo $this->lang->line("rate");?>
+										</div>
+										<?php } ?>
+										<div class="col-md-3">
+											
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="col-md-3">
+											<input type="hidden" name="action" value="lab_test">
+											<input name="lab_test" id="lab_test" class="form-control" value=""/>
+										</div>
+										<div class="col-md-2">
+											<input type="text" name="test_price" id="test_price" class="form-control"/>
+										</div>
+										<?php if($tax_type == "item"){?>
+										<div class="col-md-2">
+											<input type="text" name="lab_test_rate_name" readonly id="lab_test_rate_name" class="form-control" />
+										</div>
+										<div class="col-md-2">
+											<input type="text" style="text-align:right;" name="lab_test_rate" id="lab_test_rate" readonly class="form-control"  />
+										</div>
+										<?php } ?>
+										<div class="col-md-3">
+											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="lab_test" /><?php echo $this->lang->line("add");?></button>
+										</div>
+									</div>						
+								</div>
+								<?php }*/ ?>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">

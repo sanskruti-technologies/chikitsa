@@ -1,0 +1,44 @@
+Sending Patients to ERPNext
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Error while Updating Item :Test3
+Array
+(
+    [item_code] => 2
+    [item_name] => Test3
+    [item_group] => Products
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Synchronization Completed

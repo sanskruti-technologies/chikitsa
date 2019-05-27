@@ -2,6 +2,27 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.7.7] - 2019-05-19
+### Added
+- Allow to add Bill before Consultation
+- Allow to add name of Patient in Regional Languages
+- Added Aadhar Number / Unique ID to record Government Identifier for Patient.
+- Instead of Email, Aadhar Number can be used to serach for Patient.
+- Search Patient using Patient ID / Aadhar Number / Mobile Along with Name in Bill and Payment.
+- Allow to add Doctor in Bill without Visit
+- Show selected columns in Patient
+- Add Inquiry on Inquiry Page
+- Pending Payments - Some payment methods can be kept as pending .e.g. Cheque, Insurance.
+  The Payment when done using this method will be kept as pending unless marked as Approved.
+  If Payment is marked as Rejected, the amount will show as outstanding.
+### Changed
+- Problem in taking the last appointment of the day solved.
+- If a visit is created for a appointment, clicking on the Appointment on Calendar will lead to Edit Visit.
+- Add Patient will be in collapsed state while adding appointment
+- Correction in Tax Calculation
+- No hard codded Dr. Title for Doctor. Add the title while adding user.
+- Minor Fixes
+
 ## [0.7.6] - 2019-03-19
 ### Added
 - Browse Extensions from Chikitsa

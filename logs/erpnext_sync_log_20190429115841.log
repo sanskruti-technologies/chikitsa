@@ -1,0 +1,46 @@
+Array
+(
+    [department_name] => Opthalmology
+)
+
+Array
+(
+    [status] => success
+    [key] => Opthalmology
+)
+
+Array
+(
+    [department_name] => Cardiology
+)
+
+Array
+(
+    [status] => success
+    [key] => Cardiology
+)
+
+Array
+(
+    [department_name] => Pediatric
+)
+
+Array
+(
+    [status] => success
+    [key] => Pediatric
+)
+
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+

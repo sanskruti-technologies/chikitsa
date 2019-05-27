@@ -644,15 +644,27 @@
 										?>
 										<script type="text/javascript">
 											var update_sqls = <?php echo json_encode($sqls); ?>;
+											var ajax_caller = function(data) {
+												return $.ajax({
+													url: data.url, 
+													method: data.method,
+													data: data.data
+												});
+											};
+											
+											var ajax_calls = [];
 											jQuery.each( update_sqls, function( i, sql) {
-												$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
-												if(result != ''){
-													result =  $("#install_logs").val() + result + '\n';
-													$("#install_logs").val(result);
-													var $textarea = $("#install_logs");
-													$textarea.scrollTop($textarea[0].scrollHeight);
-												}
-												}});
+												ajax_calls.push(ajax_caller({
+													url: "install_functions.php",
+													method: 'GET',
+													data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'}
+												}));
+											});
+											$.when.apply(this, ajax_calls).done(function() {
+												result =  $("#install_logs").val() + result + '\n';
+												$("#install_logs").val(result);
+												var $textarea = $("#install_logs");
+												$textarea.scrollTop($textarea[0].scrollHeight);
 											});
 										</script>
 										
@@ -775,6 +787,7 @@
 						$sqls = file($sql_file_name);	
 						$count = count($sqls);
 						$sqls[] = "done";
+						
 						?>
 						<script type="text/javascript">
 						$("#continue_form").hide();

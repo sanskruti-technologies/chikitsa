@@ -26,12 +26,30 @@ class Patient_model extends CI_Model {
 			//echo $this->db->last_query()."<br/>";
         	return $query->num_rows();
     }
+	public function get_members(){
+		$this->db->group_by('patient_id');
+        $query = $this->db->get('view_patient');
+		$this->db->where('IFNULL(is_inquiry,1) == 0');
+		//echo $this->db->last_query()."<br/>";
+        return $query->result_array();
+	}
     public function get_patient() {
 		$this->db->group_by('patient_id');
         $query = $this->db->get('view_patient');
 		//echo $this->db->last_query()."<br/>";
         return $query->result_array();
     }
+	public function get_patient_erpnext_key($erpnext_key){
+		$this->db->where('erpnext_key', $erpnext_key);
+		$query = $this->db->get('view_patient');
+		//echo $this->db->last_query()."<br/>";
+		return $query->row_array();
+	}
+	public function set_erpnext_key($patient_id,$erpnext_key){
+		$data['erpnext_key'] = $erpnext_key;
+		$this->db->update('patient', $data, array('patient_id' =>  $patient_id));
+		//echo $this->db->last_query()."<br/>";
+	}
 	public function get_mobile_number() {
         $query = $this->db->get('view_patient');
         $patient_array = $query->result_array();
@@ -96,6 +114,7 @@ class Patient_model extends CI_Model {
         $data['contact_id'] = $contact_id;
         $data['patient_since'] = $patient_since;
         $data['display_id'] = $this->input->post('display_id');
+        $data['ssn_id'] = $this->input->post('ssn_id');
 		$data['blood_group'] = $this->input->post('blood_group');
 		$data['reference_by'] = $this->input->post('reference_by');
 		$data['reference_by_detail'] = $this->input->post('reference_details');	
@@ -110,7 +129,7 @@ class Patient_model extends CI_Model {
 		}
         $this->db->insert('patient', $data);
 		//echo $this->db->last_query()."<br/>";
-        $p_id = $this->db->insert_id();
+		$p_id = $this->db->insert_id();
 		if($this->input->post('display_id') == ""){
 			$this->display_id($p_id);
 		}
@@ -150,10 +169,21 @@ class Patient_model extends CI_Model {
 		
 		$this->db->update('patient', $data, array('patient_id' =>  $patient_id));
 	}
+	function is_english($str){
+		if (strlen($str) != strlen(utf8_decode($str))) {
+			return false;
+		} else {
+			return true;
+		}
+	}
     function display_id($id) {
         $lname = $this->input->post('last_name');
-        $str = $lname[0];
-        $str = strtoupper($str);
+		$str = "";
+		if($this->is_english($lname)){
+			$str = $lname[0];
+			$str = strtoupper($str);
+		}
+       
 
         $p_id = $id;
         $n = 5;
@@ -196,8 +226,9 @@ class Patient_model extends CI_Model {
         }
     }
     function get_patient_detail($patient_id) {
-        $this->db->group_by('patient_id');
+        //$this->db->group_by('patient_id');
         $query = $this->db->get_where('view_patient', array('patient_id' => $patient_id));
+		//echo $this->db->last_query()."<br/>";
         return $query->row_array();
     }
 	function find_patient_by_display_id($display_id) {
@@ -310,129 +341,8 @@ class Patient_model extends CI_Model {
 		$this->db->insert('visit', $data);
 		//echo $this->db->last_query()."<br/>";
 		$visit_id = $this->db->insert_id();
+			
 		
-			
-		/* Update Appointment with Visit ID*/
-		$data_app = array();
-		$data_app['visit_id'] = $visit_id;
-		$data_app['sync_status'] = 0;
-		$appointment_id=$this->input->post('appointment_id');
-		if($appointment_id != NULL){
-			$this->db->update('appointments', $data_app, array('appointment_id' => $appointment_id));
-		}else{
-			$data_app['appointment_date'] = $data['visit_date'];
-			$data_app['start_time'] = $data['visit_time'];
-			$data_app['title'] = $patient_detail['first_name'] ." ".$patient_detail['middle_name']." ".$patient_detail['last_name'];
-			$data_app['patient_id'] = $data['patient_id'];
-			$data_app['doctor_id'] = $data['doctor_id'];
-			if($this->session->userdata('clinic_code')){
-				$data_app['clinic_code'] = $this->session->userdata('clinic_code');
-			}
-			$data_app['status'] = "Consultation";
-			$this->db->insert('appointments', $data_app);
-			$appointment_id = $this->db->insert_id();
-			/*Do Entry in Appointment Log */
-			$data_app_log['appointment_id'] = $appointment_id;
-			$data_app_log['status'] = "Consultation";
-			$data_app_log['change_date_time'] = date("Y-m-d H:i:s", strtotime($visit_date ." ".$visit_time));
-			$data_app_log['from_time'] = date("H:i:s", strtotime($this->input->post('visit_time')));
-			$data_app_log['name'] = $this->session->userdata('name');
-			$this->db->insert('appointment_log', $data_app_log);
-		}
-					
-		/* Get Insert Visit's patient_id */
-		$patient_id = $this->get_patient_id($visit_id);
-		//$this->get_previous_due($patient_id);
-			$this->db->select('bill_id');
-			$this->db->order_by("bill_id", "desc");
-			$this->db->limit(1);
-			$query = $this->db->get_where('bill', array('patient_id' => $patient_id));
-			$result = $query->row();
-
-			if($result){
-				
-				$result = $query->row();
-				$bill_id = $result->bill_id;            
-
-				$this->db->select('due_amount');
-				$query = $this->db->get_where('bill', array('bill_id' => $bill_id));
-				$result = $query->row();
-				$pre_due_amount = $result->due_amount;
-
-				$this->db->select_sum('amount');
-				$query = $this->db->get_where('bill_detail', array('bill_id' => $bill_id));
-				$result = $query->row();
-				$bill_amount = $result->amount;
-
-				$this->db->select('amount');
-				$query = $this->db->get_where('payment_transaction', array('bill_id' => $bill_id, 'payment_type' => 'bill_payment'));
-				
-				if($query->num_rows() > 0){
-					$result = $query->row();
-					$paid_amount = $result->amount;
-				}else{
-					$paid_amount = 0;
-				}
-				$due_amount = $pre_due_amount + $bill_amount - $paid_amount;
-
-				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id);
-			}else{
-				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id);
-			}
-			/* Create Bill For Newly Entered Visit and Get bill_id */
-
-
-			/* Get All Selected Treatments */
-			$treatments = $this->input->post('treatment');
-
-			/* Check If Treatment is Seleceted Then Perform Insert Treatment(s) In bill_detail Table */
-			if ($treatments){
-				$treatment_total = 0;
-				$tax_total = 0;
-				foreach ($treatments as $treatment_id){
-					$treatment = $this->treatment_model->get_treatment($treatment_id);
-					$tax_type = $this->settings_model->get_data_value('tax_type');
-					if($tax_type == "item"){	
-						$tax_id = $treatment['tax_id'];
-						$query = $this->db->get_where('tax_rates', array('tax_id' => $tax_id));
-						$tax = $query->row_array();
-						$tax_amount = $tax['tax_rate']*$treatment[2]/100;
-					}else{
-						$tax_amount = 0;
-					}
-					$data2['bill_id'] = $bill_id;
-					$data2['purchase_id'] = NULL;
-					$data2['particular'] = $treatment['treatment'];
-					$data2['amount'] = $treatment['price'];
-					$data2['quantity'] = 1;
-					$data2['mrp'] = $treatment['price'];
-					$data2['type'] = 'treatment';
-					$data2['tax_amount'] = $tax_amount;
-					$treatment_total = $treatment_total + $treatment['price'];
-					$tax_total = $tax_total + $tax_amount;
-					$data2['clinic_code'] = $this->session->userdata('clinic_code');
-        
-					$this->db->insert('bill_detail', $data2);
-					//echo $this->db->last_query()."<br/>";
-					//Insert in Visit Treatment R
-					$data3['visit_id'] = $visit_id;
-					$data3['treatment_id'] = $treatment['id'];
-					$this->db->insert('visit_treatment_r', $data3);
-				}
-				$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount + ?,tax_amount = tax_amount + ?, due_amount = due_amount + ? where bill_id = ?;";
-				$this->db->query($sql, array($treatment_total,$tax_total, $treatment_total + $tax_total,  $bill_id));
-				
-			}
-			
-			$diseases = $this->input->post('disease');
-			if ($diseases){
-				foreach ($diseases as $disease){
-					//Insert in Visit Treatment R
-					$data4['visit_id'] = $visit_id;
-					$data4['disease_id'] = $disease[0];
-					$this->db->insert('visit_disease_r', $data4);
-				}
-			}
 		return $visit_id;
     }
 	function get_followups($till_date,$doctor_id = 0){
@@ -1201,6 +1111,7 @@ class Patient_model extends CI_Model {
 	 public function update_patient_data($patient_id){
 		 $data['age'] = $this->input->post('age');
         $data['gender'] = $this->input->post('gender');
+        $data['ssn_id'] = $this->input->post('ssn_id');
 		$data['blood_group'] = $this->input->post('blood_group');
 		$data['sync_status'] = 0;
 		if($this->session->userdata('clinic_code')){
@@ -1211,6 +1122,7 @@ class Patient_model extends CI_Model {
 			$data['dob'] = date('Y-m-d',strtotime($this->input->post('dob')));
 		}
         $this->db->update('patient', $data, array('patient_id' => $patient_id));
+//echo $this->db->last_query();
     }
 	public function update_display_id(){
 		$patient_id = $this->input->post('patient_id');

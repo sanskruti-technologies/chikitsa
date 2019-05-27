@@ -3,10 +3,13 @@
 		$payment_additional_detail = $payment['additional_detail'];
 		$payment_pay_amount = $payment['pay_amount'];
 		$payment_pay_mode = $payment['pay_mode'];
+		$payment_status = $payment['payment_status'];
+		//echo $payment_status;
 	} else {
 		$payment_additional_detail = "";
 		$payment_pay_amount = 0;
 		$payment_pay_mode = "";
+		$payment_status = "";
 	}
 	if(isset($patient)){
 		$patient_first_name = $patient['first_name'];
@@ -62,11 +65,11 @@
 				foreach($bills as $bill){
 					$total_due_amount = $total_due_amount + $bill['due_amount'];	
 					$bill_due_amount = currency_format($bill['due_amount']);
-					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix['currency_postfix'];	
+					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;	
 					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
 				}
 				$total_due_amount = currency_format($total_due_amount );
-				if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix['currency_postfix'];	
+				if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;	
 				?>
 				];
 				var total_due_amount = 0;
@@ -99,7 +102,7 @@
 		var searcharrpatient=[<?php $i = 0;
 		foreach ($patients as $p) {
 			if ($i > 0) { echo ",";}
-			echo '{value:"' . $p['first_name'] . " " . $p['middle_name'] . " " . $p['last_name'] . '",id:"' . $p['patient_id'] . '",in_account_amount:"'. $p['in_account_amount'] .'",display:"' . $p['display_id'] . '",num:"' . $p['phone_number'] . '"}';
+			echo '{value:"' . $p['first_name'] . " " . $p['middle_name'] . " " . $p['last_name'] . '",id:"' . $p['patient_id'] . '",in_account_amount:"'. $p['in_account_amount'] .'",display_id:"' . $p['display_id'] . '",num:"' . $p['phone_number'] . '"}';
 			$i++;
 		}?>];
 		$("#patient_name").autocomplete({
@@ -110,64 +113,16 @@
 			select: function(event,ui){
 				//do something
 				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#display_id").val(ui.item ? ui.item.display_id : '');
 				$("#adjust_from_account_amount").html(ui.item ? ui.item.in_account_amount : '');
 				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
-				var this_patient_id = ui.item.id;
-				var billArray = [
-				<?php 
-				$total_due_amount = 0;
-				foreach($bills as $bill){
-					
-					$total_due_amount = $total_due_amount + $bill['due_amount'];	
-					$bill_due_amount = currency_format($bill['due_amount']);
-					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix['currency_postfix'];	
-					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
-				}
-				//$ttl_due_amount = $total_due_amount;
-				//$total_due_amount = currency_format($total_due_amount );
-				//if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix['currency_postfix'];	
-				?>
-				];
-				var bill_id;
-				var patient_id;
-				var due_amount;
-				var total_due_amount = 0;
-				var total_due_after_payment = 0;
-				$("#bill_detail").empty();
-				$("#bill_detail_footer").empty();
-				//total_due_amount = '<?=$total_due_amount;?>';
-				//ttl_due_amount = '<?=$ttl_due_amount;?>';
-				$.each(billArray, function(i,val) {
-					$.each(val, function(index,value) {
-						if(index == 0){	//bill id
-							bill_id = value;
-						}
-						if(index == 1){	//patient id
-							patient_id = value;
-						}
-						if(index == 2){	//due amount string
-							due_amount = value;
-						}
-						if(index == 3){	//due amount string
-							due_amount_val = value;
-						}
-						
-					});
-					if(this_patient_id == patient_id){
-						$("#bill_detail").append("<tr><td><a href='<?=site_url('bill/edit/');?>/"+bill_id+"' class='btn btn-primary btn-sm square-btn-adjust'>"+bill_id+"</a><input type='hidden' name='bill_id[]' value='"+bill_id+"'/></td><td style='text-align:right;'>"+due_amount+"</td><td style='text-align:right;' class='adjust_amount' amount='"+due_amount_val+"'></td></tr>");
-						total_due_amount = parseInt(total_due_amount) + parseInt(due_amount_val);
-					}
-					
-				});
-				$("#bill_detail").append("<tr><td>Patient Account</td><td style='text-align:right;'></td><td style='text-align:right;' id='in_account'></td><input type='hidden' id='in_account_amount' name='in_account_amount' value=''/></tr>");
-				
-				$("#bill_detail_footer").append("<tr><th>Total</th><th style='text-align:right;'>"+currency_format(total_due_amount)+"<input type='hidden' id='total_due_amount' name='total_due_amount' value='"+total_due_amount+"'/></th><th style='text-align:right;' id='total_payment_amount'></th></tr>");
-				$("#bill_detail_footer").append("<tr><th colspan='2'>Total Due After Payment</th><th style='text-align:right;' id='total_due_after_payment'>"+total_due_after_payment+"</th></tr>");
+				load_bill_table(ui.item.id);
 			},
 			
 			change: function(event, ui) {
 				 if (ui.item == null) {
 					$("#patient_id").val('');
+					$("#display_id").val('');
 					$("#patient_name").val('');
 					}
 			},
@@ -176,9 +131,187 @@
 				{
 					$("#patient_id").val('');
 					$("#patient_name").val('');
+					$("#display_id").val('');
 				}
 			}
 		});
+		var search_display_id=[<?php $i = 0;
+		foreach ($patients as $p) {
+			if ($i > 0) {
+				echo ",";
+			}
+				echo '{value:"' . $p['display_id'] . '",id:"' . $p['patient_id'] . '",num:"' . $p['phone_number'] . '",in_account_amount:"'. $p['in_account_amount'] .'",patient:"' . $p['first_name'] . " " . $p['middle_name'] . " " . $p['last_name'] . '",ssn_id:"' . $p['ssn_id'] . '"}';
+			$i++;
+		}?>];
+		$("#display_id").autocomplete({
+			autoFocus: true,
+			source: search_display_id,
+			minLength: 1,//search after one characters
+			select: function(event,ui)
+			{
+				//do something
+				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#patient_name").val(ui.item ? ui.item.patient : '');
+				$("#phone_number").val(ui.item ? ui.item.num : '');
+			   	$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
+				$("#adjust_from_account_amount").html(ui.item ? ui.item.in_account_amount : '');
+				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
+				load_bill_table(ui.item.id);
+			},
+			change: function(event, ui) 
+			{
+				if (ui.item == null) {
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			},
+			response: function(event, ui) 
+			{
+				if (ui.content.length === 0) 
+				{
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			}
+		});   
+		var searcharrmob=[<?php $i = 0;
+		foreach ($patients as $p) {
+			if ($i > 0) {
+				echo ",";
+			}
+				echo '{value:"' . $p['phone_number'] . '",ssn_id:"' . $p['ssn_id'] . '",id:"' . $p['patient_id'] . '",in_account_amount:"'. $p['in_account_amount'] .'",display:"' . $p['display_id'] . '",patient:"' . $p['first_name'] . " " . $p['middle_name'] . " " . $p['last_name'] . '"}';
+			$i++;
+		}?>];
+		$("#phone_number").autocomplete({
+			autoFocus: true,
+			source: searcharrmob,
+			minLength: 1,//search after one characters
+			select: function(event,ui){
+				//do something
+				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#patient_name").val(ui.item ? ui.item.patient : '');
+				$("#display_id").val(ui.item ? ui.item.display : '');
+				$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
+				$("#adjust_from_account_amount").html(ui.item ? ui.item.in_account_amount : '');
+				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
+				load_bill_table(ui.item.id);
+			},
+			change: function(event, ui) {
+				if (ui.item == null) {
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0) 
+				{
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			}
+		});  
+		var search_ssn_id=[<?php $i = 0;
+		foreach ($patients as $p) {
+			if ($i > 0) {
+				echo ",";
+			}
+				echo '{value:"' . $p['ssn_id'] . '",id:"' . $p['patient_id'] . '",num:"' . $p['phone_number'] . '",display:"' . $p['display_id'] . '",patient:"' . $p['first_name'] . " " . $p['middle_name'] . " " . $p['last_name'] . '",in_account_amount:"'. $p['in_account_amount'] .'"}';
+			$i++;
+		}?>];
+		$("#ssn_id").autocomplete({
+			autoFocus: true,
+			source: search_ssn_id,
+			minLength: 1,//search after one characters
+			select: function(event,ui){
+				//do something
+				$("#patient_id").val(ui.item ? ui.item.id : '');
+				$("#phone_number").val(ui.item ? ui.item.num : '');
+				$("#patient_name").val(ui.item ? ui.item.patient : '');
+				$("#display_id").val(ui.item ? ui.item.display : '');
+				$("#adjust_from_account_amount").html(ui.item ? ui.item.in_account_amount : '');
+				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
+				load_bill_table(ui.item.id);
+			},
+			change: function(event, ui) {
+				if (ui.item == null) {
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0) 
+				{
+					$("#patient_id").val('');
+					$("#phone_number").val('');
+					$("#display_id").val('');
+					$("#patient_name").val('');
+					$("#ssn_id").val('');
+				}
+			}
+		});  
+		function load_bill_table(this_patient_id){
+			var billArray = [
+				<?php 
+				$total_due_amount = 0;
+				foreach($bills as $bill){
+					
+					$total_due_amount = $total_due_amount + $bill['due_amount'];	
+					$bill_due_amount = currency_format($bill['due_amount']);
+					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;	
+					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
+				}
+				?>
+				];
+			var bill_id;
+			var patient_id;
+			var due_amount;
+			var total_due_amount = 0;
+			var total_due_after_payment = 0;
+			$("#bill_detail").empty();
+			$("#bill_detail_footer").empty();
+			$.each(billArray, function(i,val) {
+				$.each(val, function(index,value) {
+					if(index == 0){	//bill id
+						bill_id = value;
+					}
+					if(index == 1){	//patient id
+						patient_id = value;
+					}
+					if(index == 2){	//due amount string
+						due_amount = value;
+					}
+					if(index == 3){	//due amount string
+						due_amount_val = value;
+					}
+					
+				});
+				if(this_patient_id == patient_id){
+					$("#bill_detail").append("<tr><td><a href='<?=site_url('bill/edit/');?>/"+bill_id+"' class='btn btn-primary btn-sm square-btn-adjust'>"+bill_id+"</a><input type='hidden' name='bill_id[]' value='"+bill_id+"'/></td><td style='text-align:right;'>"+due_amount+"</td><td style='text-align:right;' class='adjust_amount' amount='"+due_amount_val+"'></td></tr>");
+					total_due_amount = parseInt(total_due_amount) + parseInt(due_amount_val);
+				}
+				
+			});
+			$("#bill_detail").append("<tr><td>Patient Account</td><td style='text-align:right;'></td><td style='text-align:right;' id='in_account'></td><input type='hidden' id='in_account_amount' name='in_account_amount' value=''/></tr>");
+				
+			$("#bill_detail_footer").append("<tr><th>Total</th><th style='text-align:right;'>"+currency_format(total_due_amount)+"<input type='hidden' id='total_due_amount' name='total_due_amount' value='"+total_due_amount+"'/></th><th style='text-align:right;' id='total_payment_amount'></th></tr>");
+			$("#bill_detail_footer").append("<tr><th colspan='2'>Total Due After Payment</th><th style='text-align:right;' id='total_due_after_payment'>"+total_due_after_payment+"</th></tr>");
+			
+		}
 		<?php } ?>
 		$("#adjust_from_account").click(function () {
 			if ($(this).is(":checked")) {
@@ -233,7 +366,6 @@
 				$("#save_payment").val('Add Payment');
 			}
 		});
-		
 		$("#payment_amount").change(function() {
 			var due_amount;
 			var payment_amount;
@@ -328,6 +460,9 @@
 					<?php echo $this->lang->line("payment_form");?>
 				</div>
 				<div class="panel-body">
+					<?php if($payment_status == 'rejected'){ ?>
+							<div class='alert alert-danger'>This Payment is rejected</div>
+					<?php } ?>
 					<?php  if(!isset($payment)){ ?> 
 					<?php echo form_open('payment/insert/'.$patient_id.'/'.$called_from) ?>
 					<?php  }else{ ?> 
@@ -342,21 +477,34 @@
 					?>
 					<input type="hidden" name="payment_type" value="bill_payment" />
 					<div class="col-md-12">
-						<label for="patient_name"><?php echo $this->lang->line('patient') . ' ' . $this->lang->line('name');?></label>
-						<?php if(isset($payment)){ //Edit Mode ?>
+						
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<?= $this->lang->line('search')." ".$this->lang->line('patient');?>
+								</div>
+								<div class="panel-body">
+					
+									<div class="col-md-3">
+										<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
+										<input type="text" <?php if(isset($patient)){echo "readonly";}?> name="display_id" id="display_id" value="<?php if(isset($patient)){echo $patient['display_id']; } ?>" class="form-control"/>
+									</div>
+									<div class="col-md-3">
+										<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
+										<input type="text" <?php if(isset($patient)){echo "readonly";}?> name="ssn_id" id="ssn_id" value="<?php if(isset($patient)){echo $patient['ssn_id']; } ?>" class="form-control"/>
+									</div>
+									<div class="col-md-3">
+										<label for="patient"><?php echo $this->lang->line('patient_name');?></label>
+										<input type="text" <?php if(isset($patient)){echo "readonly";}?> name="patient_name" id="patient_name" value="<?php if(isset($patient)){echo $patient['first_name']." " .$patient['middle_name']." " .$patient['last_name']; } ?>" class="form-control"/>
+										<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
+									</div>
+									<div class="col-md-3">
+										<label for="phone"><?php echo $this->lang->line('mobile');?></label>
+										<input type="text" <?php if(isset($patient)){echo "readonly";}?> name="phone_number" id="phone_number" value="<?php if(isset($patient)){echo $patient['phone_number']; } ?>" class="form-control"/>
+									</div>
+								</div>
+							</div>
 							<input type="hidden" name="patient_id" id="patient_id" value="<?= $patient_id; ?>" />
-							<input name="patient_name" id="patient_name" type="text" disabled="disabled" class="form-control" value="<?= $patient_name;?>"/><br />
 							<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
-						<?php }else{ //Insert Mode  ?>
-							
-							<?php if(isset($patient)){ ?>
-							<input name="patient_name" id="patient_name" type="text" disabled="disabled" class="form-control" value="<?= $patient_name;?>"/><br />
-							<?php }else{ ?>
-							<input name="patient_name" id="patient_name" type="text" class="form-control" value=""/><br />
-							<?php } ?>
-							<input type="hidden" name="patient_id" id="patient_id" value="<?= $patient_id; ?>" />
-							<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
-						<?php } ?>
 					</div>
 					<div class="col-md-12">
 						<div class="table-responsive">
@@ -386,7 +534,7 @@
 												$total_due_amount = $total_due_amount + $due_amount;
 												$due_amount = currency_format($due_amount);
 												if($currency_postfix) 
-													$due_amount = $due_amount . $currency_postfix['currency_postfix'];	
+													$due_amount = $due_amount . $currency_postfix;	
 											}
 										}
 										?>
@@ -394,7 +542,7 @@
 										<?php 
 										$adjust_amount = currency_format($bill['adjust_amount']);
 										$total_adjust_amount = $total_adjust_amount + $bill['adjust_amount'];
-										if($currency_postfix) $adjust_amount = $adjust_amount . $currency_postfix['currency_postfix'];	
+										if($currency_postfix) $adjust_amount = $adjust_amount . $currency_postfix;	
 										
 										?>
 										<td style="text-align:right;" class="adjust_amount" amount="<?=$bill['adjust_amount'];?>" ><?=$adjust_amount;?><input type="hidden" name="adjust_amount[]" value="<?=$bill['adjust_amount'];?>" /></td>
@@ -403,13 +551,13 @@
 								<?php } 
 										$total_due_after_payment = $total_due_amount - $total_adjust_amount;
 										$total_due_after_payment = currency_format($total_due_after_payment);
-										if($currency_postfix) $total_due_after_payment = $total_due_after_payment . $currency_postfix['currency_postfix'];	
+										if($currency_postfix) $total_due_after_payment = $total_due_after_payment . $currency_postfix;	
 										$ttl_due_amount = $total_due_amount;
 										$total_due_amount = currency_format($total_due_amount);
-										if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix['currency_postfix'];	
+										if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;	
 										$in_account = $payment['pay_amount']- $total_adjust_amount;
 										$total_adjust_amount = currency_format($total_adjust_amount);
-										if($currency_postfix) $total_adjust_amount = $total_adjust_amount . $currency_postfix['currency_postfix'];	
+										if($currency_postfix) $total_adjust_amount = $total_adjust_amount . $currency_postfix;	
 								?>
 								<tr>
 									<td><?=$this->lang->line('patient_account');?></td>

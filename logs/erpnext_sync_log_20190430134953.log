@@ -1,0 +1,144 @@
+Sending Patients to ERPNext
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Error while Inserting Item :Test2
+Array
+(
+    [item_name] => Test2
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 215, in insert
+    self.set_new_name()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 375, in set_new_name
+    set_new_name(self)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/naming.py", line 38, in set_new_name
+    doc.run_method("autoname")
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 757, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 1026, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 1009, in runner
+    add_to_return_value(self, fn(self, *args, **kwargs))
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 751, in 
+    fn = lambda self, *args, **kwargs: getattr(self, method)(*args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/erpnext/erpnext/stock/doctype/item/item.py", line 49, in autoname
+    msgprint(_("Item Code is mandatory because Item is not automatically numbered"), raise_exception=1)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 309, in msgprint
+    _raise_exception()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 284, in _raise_exception
+    raise ValidationError(encode(msg))
+ValidationError: Item Code is mandatory because Item is not automatically numbered
+
+)
+
+Error while Inserting Item :Test
+Array
+(
+    [item_name] => Test
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 215, in insert
+    self.set_new_name()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 375, in set_new_name
+    set_new_name(self)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/naming.py", line 38, in set_new_name
+    doc.run_method("autoname")
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 757, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 1026, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 1009, in runner
+    add_to_return_value(self, fn(self, *args, **kwargs))
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 751, in 
+    fn = lambda self, *args, **kwargs: getattr(self, method)(*args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/erpnext/erpnext/stock/doctype/item/item.py", line 49, in autoname
+    msgprint(_("Item Code is mandatory because Item is not automatically numbered"), raise_exception=1)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 309, in msgprint
+    _raise_exception()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 284, in _raise_exception
+    raise ValidationError(encode(msg))
+ValidationError: Item Code is mandatory because Item is not automatically numbered
+
+)
+
+Error while Inserting Item :Test
+Array
+(
+    [item_name] => Test
+)
+
+Array
+(
+    [status] => error
+    [error] => Traceback (most recent call last):
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 67, in application
+    response = frappe.api.handle()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/api.py", line 119, in handle
+    "data": frappe.get_doc(data).insert().as_dict()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 215, in insert
+    self.set_new_name()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 375, in set_new_name
+    set_new_name(self)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/naming.py", line 38, in set_new_name
+    doc.run_method("autoname")
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 757, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 1026, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 1009, in runner
+    add_to_return_value(self, fn(self, *args, **kwargs))
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py", line 751, in 
+    fn = lambda self, *args, **kwargs: getattr(self, method)(*args, **kwargs)
+  File "/home/frappe/frappe-bench/apps/erpnext/erpnext/stock/doctype/item/item.py", line 49, in autoname
+    msgprint(_("Item Code is mandatory because Item is not automatically numbered"), raise_exception=1)
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 309, in msgprint
+    _raise_exception()
+  File "/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py", line 284, in _raise_exception
+    raise ValidationError(encode(msg))
+ValidationError: Item Code is mandatory because Item is not automatically numbered
+
+)
+
+Error while Updating Physician :Dhaval Mahesh Shah
+Array
+(
+    [first_name] => Dhaval
+    [middle_name] => Mahesh
+    [last_name] => Shah
+)
+
+Array
+(
+    [status] => error
+    [error] => UnCaught error occured
+)
+
+Synchronization Completed

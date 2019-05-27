@@ -300,7 +300,7 @@ class Settings extends CI_Controller {
 
 			}else{
 				$this->settings_model->insert_tax_rate();
-				redirect('settings/list_master');
+				$this->tax_rates();
 			}
 		}
 	}
@@ -330,13 +330,13 @@ class Settings extends CI_Controller {
 
 			}else{
 				$this->settings_model->edit_tax_rate($tax_id);
-				redirect('settings/list_master');
+				$this->tax_rates();
 			}
 		}
 	}
 	public function delete_tax_rate($tax_id){
 		$this->settings_model->delete_tax_rate($tax_id);
-		redirect('settings/list_master');
+		$this->tax_rates();
 	}
 	public function get_tax_rate_name(){
 		
@@ -612,7 +612,7 @@ class Settings extends CI_Controller {
 				$this->load->view('templates/footer');
 			}else{
 				$this->settings_model->add_reference();
-				redirect('settings/list_master');
+				$this->reference_by();
 			}
 		}
 	}
@@ -640,13 +640,13 @@ class Settings extends CI_Controller {
 				$this->load->view('templates/footer');
 			}else{
 				$this->settings_model->edit_reference($reference_id);
-				redirect('settings/list_master');
+				$this->reference_by();
 			}
 		}
 	}
 	public function delete_reference($reference_id){
 		$this->settings_model->delete_reference($reference_id);
-		redirect('settings/list_master');
+		$this->reference_by();
 	}
 	public function synchronize(){
 		$this->settings_model->save_synchronize();
@@ -746,75 +746,6 @@ class Settings extends CI_Controller {
 		Header('Content-type: text/xml');
 		print($xml->asXML());
 	}
-	public function payment_methods(){
-		$clinic_id = $this->session->userdata('clinic_id'); 
-		$user_id = $this->session->userdata('user_id'); 
-		
-		$header_data['clinic_id'] = $clinic_id;
-		$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-		$header_data['active_modules'] = $this->module_model->get_active_modules();
-		$header_data['user_id'] = $user_id;
-		$header_data['user'] = $this->admin_model->get_user($user_id);
-		$header_data['login_page'] = get_main_page();
-		
-		$data['payment_methods'] = $this->settings_model->get_payment_methods(); 
-		$this->load->view('templates/header',$header_data);
-		$this->load->view('templates/menu');
-		$this->load->view('settings/payment_methods',$data);
-		$this->load->view('templates/footer');
-	}
-	public function insert_payment_method(){
-		$this->form_validation->set_rules('payment_method_name', $this->lang->line('payment_method')." ".$this->lang->line('name'), 'required');
-			
-		if ($this->form_validation->run() === FALSE) {
-		
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-			
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-			
-			$this->load->view('templates/header_chikitsa',$header_data);
-			$this->load->view('templates/menu');
-			$this->load->view('settings/payment_method_form');
-			$this->load->view('templates/footer');
-		}else{
-			$this->settings_model->insert_payment_method();
-			redirect('settings/list_master');
-		}
-	}
-	public function edit_payment_method($payment_method_id){
-		$this->form_validation->set_rules('payment_method_name', $this->lang->line('payment_method')." ".$this->lang->line('name'), 'required');
-			
-		if ($this->form_validation->run() === FALSE) {
-		
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-			
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-			
-			$data['payment_method'] = $this->settings_model->get_payment_method($payment_method_id);
-			$this->load->view('templates/header_chikitsa',$header_data);
-			$this->load->view('templates/menu');
-			$this->load->view('settings/payment_method_form',$data);
-			$this->load->view('templates/footer');
-		}else{
-			$this->settings_model->edit_payment_method($payment_method_id);
-			redirect('settings/list_master');
-		}
-	}
-	public function delete_payment_method($payment_method_id){
-		$this->settings_model->delete_payment_method($payment_method_id);
-		redirect('settings/list_master');
-	}
+	
 }
 ?>

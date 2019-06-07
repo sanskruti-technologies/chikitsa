@@ -4,6 +4,7 @@ class login extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+		$this->config->load('version');
         $this->load->library('form_validation');
         
 		$this->load->helper('form');

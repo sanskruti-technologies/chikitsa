@@ -113,9 +113,9 @@ $( window ).load(function() {
 									<td><?php echo date($def_dateformate,strtotime($bill['bill_date'])); ?></td>
 									<td><?php echo $bill['first_name'] . ' ' . $bill['middle_name'] . ' ' . $bill['last_name']; ?></td>
 									<td><?php echo $bill['doctor_name']; ?></td>
-									<td style="text-align:right;"><?php echo currency_format($bill['total_amount']+$bill[$tax_type.'_tax_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
-									<td style="text-align:right;"><?php echo currency_format($bill['pay_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
-									<td style="text-align:right;"><?php echo currency_format($bill['due_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
+									<td style="text-align:right;"><?php echo currency_format($bill['total_amount']+$bill[$tax_type.'_tax_amount']); ?></td>
+									<td style="text-align:right;"><?php echo currency_format($bill['pay_amount']); ?></td>
+									<td style="text-align:right;"><?php echo currency_format($bill['due_amount']); ?></td>
 									<td><a href="<?= site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-sm btn-primary square-btn-adjust"><?php echo $this->lang->line("edit");?></a>
 										<a target="_blank" class="btn btn-primary square-btn-adjust" href="<?= site_url('bill/print_receipt') . "/" . $bill['bill_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('bill');?></a>
 										<a 	title="<?php echo $this->lang->line("payment");?>" 
@@ -135,9 +135,9 @@ $( window ).load(function() {
 							</tbody>
 							<tfoot>
 								<th colspan="4"><?php echo $this->lang->line("total");?></th>
-								<td style="text-align:right;"><?=currency_format($total_amount);?><?php if($currency_postfix) echo $currency_postfix; ?></td>
-								<td style="text-align:right;"><?=currency_format($paid_amount);?><?php if($currency_postfix) echo $currency_postfix; ?></td>
-								<td style="text-align:right;"><?=currency_format($due_amount);?><?php if($currency_postfix) echo $currency_postfix; ?></td>
+								<td style="text-align:right;"><?=currency_format($total_amount);?></td>
+								<td style="text-align:right;"><?=currency_format($paid_amount);?></td>
+								<td style="text-align:right;"><?=currency_format($due_amount);?></td>
 								<td></td>
 							</tfoot>
 						</table>

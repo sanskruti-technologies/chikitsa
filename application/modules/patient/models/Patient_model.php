@@ -17,6 +17,7 @@ class Patient_model extends CI_Model {
 		}
 		return $patient_number_data;
 	}
+		
 	public function get_patients_this_month(){	
     		$first_day_of_month=date('Y-m-01');
         	$today=date('Y-m-d');
@@ -426,6 +427,8 @@ class Patient_model extends CI_Model {
 		}
 		return $paid_amount;
 	}*/
+	
+	
     public function edit_visit_data($visit_id) {
 
         /* Get Value Of Notes Field */
@@ -613,13 +616,14 @@ class Patient_model extends CI_Model {
 		$data['bill_time'] = date('H:i:s');
         $data['patient_id'] = $patient_id;
         $data['visit_id'] = $visit_id;
+		
         if($due_amount == NULL){
             $data['due_amount'] = 0.00;
         }else{
             $data['due_amount'] = $due_amount;
         }
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
-        
+        print_r($data);
         $this->db->insert('bill', $data);
         return $this->db->insert_id();
     }
@@ -965,6 +969,7 @@ class Patient_model extends CI_Model {
         $data['pay_mode'] = $this->input->post('pay_mode');
         $data['amount'] = $this->input->post('amount');
         $data['cheque_no'] = $this->input->post('cheque_no');
+		
         $this->db->insert('payment', $data);
 
         $sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0, paid_amount = paid_amount + ? where bill_id = ?;";

@@ -37,7 +37,7 @@
 		global $latest_version;
 		global $display_message;
 		
-		$latest_version = "0.7.7";
+		$latest_version = "0.7.8";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.
@@ -638,40 +638,86 @@
 										if($index == 73){
 											delete_folder("application/modules/main");
 										}
+										
+										if($index >=  79){
+											//Read Language Data from database and update language file
+																					
+											$language_file = "./application/language/english/main_lang.php";
+											$line_array = file($language_file);	
+											
+											//select l_index and l_value from table		
+											$sql = "SELECT l_index,l_value FROM".$dbprefix."language_data;";
+											$result = mysqli_query($con, $sql);
+											$index_array=array();
+											$value_array=array();
+											if (mysqli_num_rows($result) > 0) {
+														while($row = mysqli_fetch_assoc($result)) {
+														    array_push($index_array,$row["l_index"]);
+															array_push($value_array,$row["l_value"]);
+														}
+														
+											}
+											//print_r($index_array)."<br/>";
+											//print_r($value_array);
+											
+											
+											for($j=0;$j<sizeof($index_array);$j++){
+												for ($i = 0; $i < count($line_array); $i++) {
+													if (strstr($line_array[$i], '$lang[\''.$index_array[$j].'\'] = ')) {
+														$line_array[$i] = '$lang[\''.$index.'\'] = "'.$value_array[$j].'";' . "\r\n";
+													}
+												}
+											}	
+											file_put_contents($language_file, $line_array);
+										}
 										display_information("Upgrading from ".$current_version." to ".$new_version);
 			
 										$sqls = file($sql_file_name);	
+										if($latest_version == '0.7.8'){
+											//Read and Load Language Files
+											//English
+											require_once './application/language/english/main_lang.php';
+											foreach ($lang as $key => $l) {
+												$query="INSERT INTO %dbprefix%language_data (l_name,l_index,l_value) values('english','".$key."','".$l."')";
+												$sqls[] = $query;												
+											}
+										}
+										$count = count($sqls);
 										?>
 										<script type="text/javascript">
 											var update_sqls = <?php echo json_encode($sqls); ?>;
-											var ajax_caller = function(data) {
-												return $.ajax({
-													url: data.url, 
-													method: data.method,
-													data: data.data
-												});
-											};
 											
-											var ajax_calls = [];
 											jQuery.each( update_sqls, function( i, sql) {
-												ajax_calls.push(ajax_caller({
-													url: "install_functions.php",
-													method: 'GET',
-													data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'}
-												}));
+												$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
+													if(result != ''){
+														result =  $("#install_logs").val() + result + '\n';
+														$("#install_logs").val(result);
+														var $textarea = $("#install_logs");
+														$textarea.scrollTop($textarea[0].scrollHeight);
+														
+													}
+													progress = parseInt($("#progress").val());
+													progress = progress + 1;
+													$("#progress").val(progress);
+													
+													var total_queries = <?=$count;?>;
+													$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
+													if(progress == total_queries){
+														$("#continue_form").show();
+													}
+												}});
 											});
-											$.when.apply(this, ajax_calls).done(function() {
-												result =  $("#install_logs").val() + result + '\n';
-												$("#install_logs").val(result);
-												var $textarea = $("#install_logs");
-												$textarea.scrollTop($textarea[0].scrollHeight);
-											});
+											
 										</script>
 										
 										<?php
-										
+									
 									}
 									?>
+									<div id="myProgress">
+										<input type="hidden" name="progress" id="progress" value="1" />
+										<div id="myBar"></div>
+									</div>
 									<textarea id="install_logs" class="form-control" rows=10 style="background:#eee;" readonly>
 									</textarea>
 									<?php
@@ -683,8 +729,10 @@
 								<?php 
 								$base_url = str_replace("/install.php","",currentUrl($_SERVER));
 			                    $base_url = str_replace("///","/",$base_url);
+								
+								
 								?>
-								<div class="form_style">
+								<div class="form_style" id="continue_form" style="display:none;">
 									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo $base_url."/index.php/login/cleardata";?>">Continue to Application</a>
 								</div>
 								<?php
@@ -777,12 +825,14 @@
 							</div>
 						</form>	
 						<?php
+						//Move folders to uploads
 						if ($latest_version == "0.7.0"){ //0.7.0
 							folder_move("images", "uploads/images");
 							folder_move("patient_images", "uploads/patient_images");
 							folder_move("profile_picture", "uploads/profile_picture");
 							folder_move("restore_backup", "uploads/restore_backup");
 						}
+						
 						$sql_file_name = 'sql/install.sql';
 						$sqls = file($sql_file_name);	
 						$count = count($sqls);
@@ -870,17 +920,10 @@
 						}
 						file_put_contents($database_file, $line_array);
 						
-						//Store that application is installed
+						// Edit config/config.php file 
+						$sample_config_file = "application/config/sample-config.php";
 						$config_file = "application/config/config.php";
-
-						$line_array = file($config_file);
-
-						for ($i = 0; $i < count($line_array); $i++) {
-							if (strstr($line_array[$i], "['install']")) {
-								$line_array[$i] = '$config[\'install\'] = 1;' . "\r\n";
-							}
-						}
-						file_put_contents($config_file, $line_array);
+						rename($sample_config_file,$config_file);
 						
 						// Connect to Server 
 						$conn = new Database;
@@ -901,6 +944,19 @@
 							$message = "Error : " . mysqli_error($con);
 							display_system_admin_form($message,$server,$mysql_username,$mysql_password,$dbname,$dbprefix);
 						}else{
+							
+							//Read and Load Language Files
+							//English
+							//....
+								require_once './application/language/english/main_lang.php';
+								$link = mysqli_select_db($con, $dbname );
+								foreach ($lang as $key => $l) {
+									$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('english','".$key."','".$l."')";
+									if (!mysqli_query($con,$query)) {
+										$message = "Error : " . mysqli_error($con);
+									}
+								}
+							//....
 							$sql = "UPDATE ".$dbprefix."version SET current_version='$latest_version';";
 							if (!mysqli_query($con,$sql)) {
 								$message = "Error : " . mysqli_error($con);

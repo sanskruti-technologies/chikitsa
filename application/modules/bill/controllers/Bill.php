@@ -29,7 +29,6 @@ class Bill extends CI_Controller {
          } else {
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
 		  	$data['def_dateformate'] = $this->settings_model->get_date_formate();
-			$data['currency_postfix'] = $this->settings_model->get_currency_postfix();
 			$data['bills'] = $this->bill_model->get_bills();
 		    $data['doctors']=$this->doctor_model->get_doctors();
 			if($this->input->post('from_date')){
@@ -98,8 +97,6 @@ class Bill extends CI_Controller {
 			$data['doctor_id'] = $doctor_id;
 			$data['appointment_id'] = $appointment_id;
 			$data['doctor'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
-			$data['doc'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
-			//print_r($data['doc']);
 			$data['doctors'] = $this->doctor_model->get_doctors();
 			$data['fees'] = array();
 			if (in_array("doctor", $active_modules)) {
@@ -151,15 +148,6 @@ class Bill extends CI_Controller {
 			$data['tax_type'] = $this->settings_model->get_data_value('tax_type');
 			$data['tax_rates'] = $this->settings_model->get_tax_rates();
 			$data['called_from'] = "bill_edit_".$bill_id;
-			
-			$doctor_id = NULL;
-			$data['doctor'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
-			$data['doc'] = $this->doctor_model->get_doctor_doctor_id($doctor_id);
-			if (in_array("treatment", $active_modules)) {
-				$this->load->model('treatment/treatment_model');
-				$data['treatments'] = $this->treatment_model->get_treatments();
-			}
-			
 			$this->form_validation->set_rules('patient_id', $this->lang->line("patient_id"), 'required');
 			$this->form_validation->set_rules('bill_date', $this->lang->line("bill_date"), 'required');
 			$this->form_validation->set_rules('bill_time', $this->lang->line("bill_time"), 'required');
@@ -536,7 +524,7 @@ class Bill extends CI_Controller {
 				$data['treatment_total'] = $this->bill_model->get_treatment_total($bill_id);
 			}
 			$data['item_total'] = $this->bill_model->get_item_total($bill_id);
-            
+           
             $data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
 			$data['particular_total'] = $this->bill_model->get_particular_total($bill_id);
 			if (in_array("doctor", $active_modules)) {
@@ -672,15 +660,21 @@ class Bill extends CI_Controller {
 						$particular_amount = $particular_amount + $bill_detail['amount'];
 					}elseif($bill_detail['type']=='room')
 					{
+						// for td count
+						$td_cnt=0;
 						$room_table .= "<tr>";
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount'){
 								$room_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$room_table .= currency_format($bill_detail[$col])."</td>";
+								$room_table .=currency_format($bill_detail[$col])."</td>";
 							}else{
-								$room_table .= "<td style='padding:5px;border:1px solid black;'>";
-								$room_table .= $bill_detail[$col]."</td>";
-							}
+								//increment count td 
+								$td_cnt=$td_cnt+1;
+									if($td_cnt < 3 ){
+									$room_table .= "<td style='padding:5px;border:1px solid black;'>";
+									$room_table .= $bill_detail[$col]."</td>";
+									}
+								}
 						}
 						$room_table .= "</tr>";
 						$room_amount = $room_amount + $bill_detail['amount'];
@@ -757,6 +751,7 @@ class Bill extends CI_Controller {
 						//$tax_amount = $bill_detail['tax_amount'] + $bill_detail['amount'];
 					}
 				}
+				//print_r($bill_detail);
 				if($particular_table != ""){
 					if($data['tax_type'] == "bill"){		
 						$particular_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Particular</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_amount)."</strong></td></tr>";

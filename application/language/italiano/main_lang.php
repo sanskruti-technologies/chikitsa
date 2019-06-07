@@ -406,6 +406,7 @@
 	$lang['marking'] = "Segnando";
 	$lang['max_patient'] = "Max pazienti alla volta";
 	$lang['medicine'] = "Medicina";
+	$lang['medicine_store_bill'] = "Medicine Store Bill";
 	$lang['menu_access'] = "Accesso al menu";
 	$lang['medicine_name'] = "Nome Medicina";
 	$lang['medicines'] = "Medicine";
@@ -631,7 +632,7 @@
 	$lang['state'] = "Stato";
 	$lang['status'] = "Stato";
 	$lang['static_prefix'] = "Prefisso Statico";
-	$lang['stock'] = "Stock";
+	$lang['stock'] = "azione";
 	$lang['stock_report'] = "Rapporto del Stock";
 	$lang['stock_all_sell'] = "Tutto Vendi";
 	$lang['stock_item'] = "Articolo";
@@ -666,6 +667,7 @@
 	$lang['ssn_id'] = "Civil No.";
 	$lang['save_complete'] = "Salva e completa";
 
+	$lang['to'] = "a";
 	$lang['total_appointments'] = "Appuntamenti totali";
 	$lang['take_backup'] = "Prendete il Backup";
 	$lang['tag_line'] = "Linea di cartellino";

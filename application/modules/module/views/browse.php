@@ -78,7 +78,7 @@ $(window).load(function() {
 									if($module_status['module_name'] == $module_name){
 										if($module_status['module_status'] == 'update_required'){
 											if($module_status['license_status'] == 'valid'){
-												?><a href="<?=base_url() . "index.php/module/update_extension/" . $module['module_name'];?>" class="btn btn-warning square-btn-adjust"><?=$this->lang->line('update');?></a><?php
+												?><a href="<?=base_url() . "index.php/module/change_log/" . $module['module_name'];?>" class="btn btn-warning square-btn-adjust"><?=$this->lang->line('update');?></a><?php
 											}else{
 												?><a href="http://sanskruti.net/chikitsa/" target="_blank"  class="btn btn-warning square-btn-adjust"><?=$this->lang->line('renew_license_to_update');?></a><?php
 											}

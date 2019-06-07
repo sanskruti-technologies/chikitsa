@@ -33,6 +33,7 @@
 	$lang['amount'] = "રકમ";
 	$lang['activate'] = "સક્રિય";
 	$lang['add'] = "ઉમેરો";
+	$lang['additional_css'] = "વધારાની સીએસએસ";
 	$lang['add_another_medicine'] = "બીજી દવા ઉમેરો";
 	$lang['add_appointment'] = "નિમણૂંક ઉમેરો";
 	$lang['add_alerts'] = "ચેતવણીઓ ઉમેરો";
@@ -234,6 +235,7 @@
 	$lang['delete_treatment'] = "સારવાર કાઢી નાખો";
 	$lang['delete_user'] = "વપરાશકર્તા કાઢી નાંખો";
 	$lang['department'] = "વિભાગ";
+	$lang['departments'] = "વિભાગો";
 	$lang['department_name'] = "વિભાગ નામ";
 	$lang['desired_stock'] = "ઇચ્છિત સ્ટોક";
 	$lang['detail'] = "વિગત";
@@ -371,7 +373,10 @@
 	$lang['item_number'] = "આઇટમ નંબર";
 	$lang['items'] = "વસ્તુઓ";
 	$lang['import'] = "CSV આયાત કરો";
+	$lang['image'] = "છબી";
 	$lang['images'] = "છબીઓ";
+	$lang['image_name'] = "છબી નામ";
+	$lang['image_path'] = "છબી પાથ";
 	$lang['income'] = "આવક";
 	$lang['issue_refund'] = "મુદ્દો રિફંડ";
 
@@ -396,6 +401,7 @@
 	$lang['line2'] = "લાઇન 2";
 	$lang['login'] = "પ્રવેશ";
 	$lang['liabilities'] = "જવાબદારીઓ";
+	$lang['list_master'] = "યાદી માસ્ટર";
 	
 	$lang['male'] = "પુરૂષ";
 	$lang['marking'] = "નિશાન";
@@ -715,6 +721,10 @@
 	$lang['users'] = "યુજર્સ";
 	$lang['unpacking_zip_package'] = "અનપેકિંગ  ઝિપ પેકેજ";
 	
+	$lang['vaccine'] = "રસી";
+	$lang['vaccines'] = "રસીઓ";
+	$lang['vaccine_master'] = "રસીકરણ";
+	$lang['vaccine_name'] = "રસી નામ";
 	$lang['view'] = "જુઓ";
 	$lang['viewed'] = "જોઈ";
 	$lang['visit'] = "મુલાકાત";
@@ -789,6 +799,9 @@
 	$lang['invalid_username'] = "અમાન્ય વપરાશકર્તા નામ અને / અથવા પાસવર્ડ";
 	$lang['jpg_format_not_allow'] = "JPG ફાઇલ ફોર્મેટ માન્ય છે &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ઈમેજ  સાઈજ : 800 * 800";
 	$lang['no_file_chosen'] = "કોઈ ફાઇલ પસંદ";
+	$lang['no_treatment_added_add_treatment'] = "કોઈ સારવાર ઉમેર્યા નથી. સારવાર ઉમેરો.";
+	$lang['no_vaccine_added_add_vaccine'] = "કોઈ રસીઓ ઉમેરાઈ નથી. રસી ઉમેરો.";
+	$lang['no_vaccine_schedule_added_add_vaccine'] = "કોઈ રસી શેડ્યૂલ ઉમેરાઈ નથી. રસી શેડ્યૂલ ઉમેરો.";
 	$lang['temptext'] = "ટેમ્પ્લેટ ડિરેક્ટરી નમૂનો ટેમ્પ્લેટ વાપરવા માટે લખી શકાય તેવી સુયોજિત થયેલ હોવું જ જોઈએ";
 	$lang['upload_extention_instruction'] = "જો તમારી પાસે એક્સટેન્શન ઝીપ ફોર્મેટમા હોય તો તમે તેને અહી અપલોડ કરી ઇન્સ્ટોલ કરી શકો છો .";
 	$lang['no_visits'] = "આ દર્દી માટે કોઈ મુલાકાત નથી ";

@@ -254,3 +254,72 @@ ALTER TABLE %dbprefix%bill_detail ADD tax_id INT(11) NULL;
 ALTER TABLE %dbprefix%payment_methods ADD payment_pending INT(1) NULL AFTER needs_cash_calc;
 CREATE OR REPLACE VIEW %dbprefix%view_payment  AS  select distinct payment.payment_id AS payment_id,payment.clinic_id AS clinic_id,payment.pay_date AS pay_date,payment.pay_mode AS pay_mode,payment.payment_status,payment.additional_detail AS additional_detail,payment.pay_amount AS pay_amount,patient.patient_id AS patient_id,patient.display_id AS display_id,contacts.first_name AS first_name,contacts.middle_name AS middle_name,contacts.last_name AS last_name from ((%dbprefix%payment payment join %dbprefix%patient patient on((patient.patient_id = payment.patient_id))) join %dbprefix%contacts contacts on((contacts.contact_id = patient.contact_id))) ;
 CREATE OR REPLACE VIEW %dbprefix%view_visit  AS  select visit.visit_id AS visit_id,visit.visit_date AS visit_date,visit.visit_time AS visit_time,visit.type AS type,visit.notes AS notes,visit.patient_notes AS patient_notes,visit.doctor_id AS doctor_id,doctor.name AS name,visit.patient_id AS patient_id,patient.reference_by AS reference_by,patient.reference_by_detail AS reference_by_detail,bill.bill_id AS bill_id,bill.total_amount AS total_amount,(select ifnull(sum(ifnull(bill_detail.amount,0)),0) from %dbprefix%bill_detail bill_detail where ((bill_detail.bill_id = bill.bill_id) and (bill_detail.type = 'tax'))) AS bill_tax_amount,(select sum(item_bill_detail.tax_amount) from %dbprefix%bill_detail item_bill_detail where (item_bill_detail.bill_id = bill.bill_id)) AS item_tax_amount,bill.due_amount AS due_amount from %dbprefix%visit visit join %dbprefix%view_doctor doctor on doctor.doctor_id = visit.doctor_id join %dbprefix%patient patient on patient.patient_id = visit.patient_id join %dbprefix%bill bill on bill.visit_id = visit.visit_id order by visit.patient_id,visit.visit_date,visit.visit_time ;
+CREATE TABLE %dbprefix%language_data ( id INT(11) NOT NULL AUTO_INCREMENT , l_name VARCHAR(25) NOT NULL , l_index VARCHAR(150) NOT NULL , l_value VARCHAR(250) NOT NULL , PRIMARY KEY (id));
+CREATE TABLE %dbprefix%nurse ( nurse_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY , contact_id INT(11) NOT NULL , joining_date DATE NOT NULL , department_id VARCHAR(25) NOT NULL , userid VARCHAR(16) NOT NULL , is_deleted INT(11) NOT NULL , sync_status INT(11) NOT NULL , gender VARCHAR(10) NOT NULL );
+
+INSERT INTO %dbprefix%menu_access (menu_name, category_name, allow) VALUES ('pending_payments', 'System Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'patient_report', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'appointment_report', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill_report', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'tax_report', 'Doctor', '1');
+INSERT INTO %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'new_patient', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payment', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payments', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill', 'Doctor', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'issue_refund', 'Doctor', '1');
+
+
+
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'patient_report', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'appointment_report', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill_report', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'tax_report', 'Nurse', '1');
+INSERT INTO %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'new_patient', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payment', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payments', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill', 'Nurse', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'issue_refund', 'Nurse', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'patients','Nurse',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'all_patients','Nurse',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'new_inquiry','Nurse',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointments','Nurse',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointment report','Nurse',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'reports','Nurse',1);
+
+
+
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'patient_report', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'appointment_report', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill_report', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'tax_report', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'new_patient', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payment', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payments', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill', 'Administrator', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'issue_refund', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'patients','Administrator',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'all_patients','Administrator',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'new_inquiry','Administrator',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointments','Administrator',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'appointment report','Administrator',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES ( 'reports','Administrator',1);
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'administration', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'clinic detail', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'working_days', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'all_users', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'users', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'setting', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'backup', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'payment_methods', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'tax_rates', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'reference_by', 'Administrator', '1');
+INSERT INTO %dbprefix%menu_access(menu_name,category_name,allow) VALUES (NULL, 'modules', 'Administrator', '1');
+
+INSERT INTO %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'new_patient', 'Receptionist', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payment', ' Receptionist', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'payments', 'Receptionist', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'bill', 'Receptionist', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'issue_refund', 'Receptionist', '1');
+INSERT INTO  %dbprefix%menu_access (id, menu_name, category_name, allow) VALUES (NULL, 'pending_payments', 'Receptionist', '1');
+
+INSERT INTO %dbprefix%menu_access (menu_name, category_name, allow) VALUES ('pending_payments', 'System Administrator', '1');

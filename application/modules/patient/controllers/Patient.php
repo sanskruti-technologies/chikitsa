@@ -443,13 +443,13 @@ class Patient extends CI_Controller {
 				$this->load->model('history/history_model');
 				$data['section_master'] = $this->history_model->get_section_by_display_in("visits");
 				$data['section_fields'] = $this->history_model->get_fields_by_display_in("visits");
-				if ( method_exists($this->history_model,'access_granted')){
+				if ( method_exists($this->history_model,'get_conditions_by_display_in')){
 				$data['section_conditions'] = $this->history_model->get_conditions_by_display_in("visits");
 				}else{
 				    $data['section_conditions'] = array();
 				}
 				$data['field_options'] = $this->history_model->get_field_options_by_display_in("visits");
-				if ( method_exists($this->history_model,'access_granted')){
+				if ( method_exists($this->history_model,'get_field_names')){
 				$data['field_name'] = $this->history_model->get_field_names();
 				}else{
 				    $data['field_name'] = array();
@@ -470,14 +470,16 @@ class Patient extends CI_Controller {
             } else {
 				
                 $visit_id = $this->patient_model->insert_visit();
+				$data['bill_id'] = $this->bill_model->get_bill_id($visit_id);
 				$appointment_id=$this->input->post('appointment_id');
 				$this->appointment_model->add_visit_id_to_appointment($appointment_id,$visit_id);
 				$patient_id = $this->input->post('patient_id');
-				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id);
+				$doctor_id = $this->input->post('doctor');
+				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id,0,$doctor_id);
 				
 				if (in_array("treatment", $active_modules)) {
 					$this->load->model('treatment/treatment_model');
-					if ( method_exists($this->treatment_model,'access_granted')){
+					if ( method_exists($this->treatment_model,'add_visit_treatment')){
 						$this->treatment_model->add_visit_treatment($visit_id);
 					}
 					if($this->input->post('treatment')){
@@ -774,7 +776,7 @@ class Patient extends CI_Controller {
 			}
 			//echo "Bill Id ".$bill_id."<br/>";
 		    if ($bill_id == NULL){
-				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id);
+				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id,0,$doctor_id);
 			}
 			//echo "Bill Id ".$bill_id."<br/>";
 			$data['visit_id'] = $visit_id;

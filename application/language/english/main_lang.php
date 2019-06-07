@@ -1,7 +1,7 @@
 <?php
 	//Application Details
 	$lang['app_name'] = "Chikitsa";
-	$lang['title'] = "Patient Management System";
+$lang['title'] = "Chikitsa";
 	$lang['main_title'] = "Chikitsa - Patient Management System";
 	$lang['cmp_version'] = "Chikitsa Version";
 	$lang['cmp_name'] = "Sanskruti Technologies";
@@ -346,7 +346,6 @@
 	$lang['go'] = "Go";
 	$lang['google_plus'] = "Google Plus";
 	$lang['general_settings'] = "General Settings";
-	
 	$lang['header'] = "Header";
 	$lang['home'] = "Home";
 	$lang['hour'] = "hour";
@@ -613,6 +612,7 @@
 	$lang['services'] = "Services";
 	$lang['service'] = "Service";
 	$lang['services_type'] = "Services Types";
+
 	$lang['session'] = "Session";
 	$lang['sessions'] = "Sessions";
 	$lang['session_report'] = "Session Report";
@@ -667,6 +667,7 @@
 	$lang['ssn_id'] = "Adhar Number";
 	$lang['save_complete'] = "Save and Complete";
 
+	$lang['to'] = "To";
 	$lang['total_appointments'] = "Total Appointments";
 	$lang['take_backup'] = "Take Backup";
 	$lang['tag_line'] = "Tag Line";
@@ -690,7 +691,7 @@
 	$lang['time_format'] = "Time Format";
 	$lang['time_zone'] = "Time Zone";
 	$lang['time_interval'] = "Time Interval";
-	$lang['title'] = "Title";
+	$lang['title'] = "Chikitsa";
 	$lang['to_admin_panel'] = " To Admin Pannel";
 	$lang['to_date'] = "To Date";
 	$lang['to_be_paid'] = "To Be Paid";
@@ -720,7 +721,6 @@
 	$lang['url'] = "URL";
 	$lang['users'] = "Users";
 	$lang['unpacking_zip_package'] = "Unpacking Zip Package";
-
 	$lang['vaccine'] = "Vaccine";
 	$lang['vaccines'] = "Vaccines";
 	$lang['vaccine_master'] = "Vaccination";
@@ -775,7 +775,6 @@
 	$lang['per_hour'] = "Per Hour";
 	$lang['allot'] = "Allot";
 	$lang['beds'] = "Beds";
-
 
 
 	

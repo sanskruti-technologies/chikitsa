@@ -426,7 +426,45 @@ class Module extends CI_Controller {
 		copy($download_link, $destination);
 		//echo "Module Downloaded";
 		$this->unzip_module($module_name);
-		$this->activate_module($module_name);	
+		$this->change_log($module_name);	
+	}
+	public function change_log($module_name){
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+        } else {
+			//Execute SQL file
+			$sql_file_name = "./application/modules/".$module_name."/". $module_name.".sql";
+			//Read Files details
+			$sqls = file($sql_file_name);	
+			foreach($sqls as $statement){
+				$dbprefix =  $this->db->dbprefix;
+				$statement = str_replace("%db_prefix%",$dbprefix,$statement);
+				$this->db->query($statement);
+			}
+			//Check for required modules
+			$data['module_name'] = $module_name;
+			if($this->module_model->check_required_modules($module_name)){
+				$this->module_model->activate_module($module_name);
+				$activation_hook = $this->module_model->get_activation_hook($module_name);
+				if($activation_hook != NULL){
+					redirect($module_name."/".$activation_hook);
+				}else{
+					$this->load->view('templates/header');
+					$this->load->view('templates/menu');
+					$this->load->view('change_log',$data);
+					$this->load->view('templates/footer');
+				}
+				
+			}else{
+				$required_modules = $this->module_model->get_required_modules($module_name);
+				$data['error'] = "This Module requires Modules (".$required_modules.") to be active. Please activate them first.";
+				$this->load->view('templates/header');
+				$this->load->view('templates/menu');
+				$this->load->view('change_log',$data);
+				$this->load->view('templates/footer');
+			}
+			
+        }
 	}
 	public function unzip_module($module_name){
 		$file_name = "./uploads/".$module_name.".zip";

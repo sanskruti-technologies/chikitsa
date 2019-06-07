@@ -235,6 +235,7 @@
 	$lang['delete_treatment'] = "حذف العلاج";
 	$lang['delete_user'] = "مسح المستخدم";
 	$lang['department'] = " قسم، أقسام";
+	$lang['departments'] = "الإدارات";
 	$lang['department_name'] = "اسم القسم";
 	$lang['desired_stock'] = "الأسهم المطلوبة";
 	$lang['detail'] = "التفاصيل";
@@ -372,7 +373,10 @@
 	$lang['item_number'] = "رقم الشيء";
 	$lang['items'] = "العناصر";
 	$lang['import'] = "استيراد ملف CSV";
+	$lang['image'] = "صورة";
 	$lang['images'] = "صور";
+	$lang['image_name'] = "اسم الصورة";
+	$lang['image_path'] = "مسار الصورة";
 	$lang['income'] = "الإيرادات";
 	$lang['issue_refund'] = "استرداد القضية";
 
@@ -402,6 +406,7 @@
 	$lang['marking'] = "العلامات";
 	$lang['max_patient'] = "ماكس المرضى في وقت واحد";
 	$lang['medicine'] = "دواء";
+	$lang['medicine_store_bill'] = "فاتورة متجر الأدوية";
     $lang['menu_access'] = "الوصول إلى القائمة";
 	$lang['medicine_name'] = "اسم الدواء";
 	$lang['medicines'] = "أدوية";
@@ -511,8 +516,7 @@
 	$lang['planned_appointment'] = "هذا موعد هو جلسة مخططة";
 	$lang['planned_visit'] = "هذه الزيارة هي جلسة مخططة";
 	$lang['planned_sessions'] = "الجلسات المخطط لها";
-	$lang['payment_pending'] = "حافظ على الدفع معلقًا حتى تتم الموافقة عليه
-";
+	$lang['payment_pending'] = "حافظ على الدفع معلقًا حتى تتم الموافقة عليه";
 	
 	$lang['quantity'] = "كمية";
 
@@ -717,6 +721,10 @@
 	$lang['users'] = "المستخدمين";
 	$lang['unpacking_zip_package'] = "تفريغ حزمة البريدي";
 	
+	$lang['vaccine'] = "لقاح";
+	$lang['vaccines'] = "لقاحات";
+	$lang['vaccine_master'] = "تلقيح";
+	$lang['vaccine_name'] = "اسم اللقاح";
 	$lang['view'] = "رأي";
 	$lang['viewed'] = "شوهد";
 	$lang['visit'] = "يزور";
@@ -741,6 +749,7 @@
 	$lang['working'] = "العمل";
 	$lang['working_days'] = "أيام العمل";
 	$lang['non_working'] = "غير العاملين";
+
 	$lang['sunday'] = "الأحد";
 	$lang['monday'] = "الإثنين";
 	$lang['tuesday'] = "الثلاثاء";
@@ -790,6 +799,9 @@
 	$lang['invalid_username'] = "اسم المستخدم و / أو كلمة المرور غير صالحة";
 	$lang['jpg_format_not_allow'] = "صيغة ملف jpg مسموح بها &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; حجم الصورة: 800 * 800";
 	$lang['no_file_chosen'] = "لم تقم باختيار ملف";
+	$lang['no_treatment_added_add_treatment'] = "لا توجد علاجات مضافة. إضافة علاج.";
+	$lang['no_vaccine_added_add_vaccine'] = "لا لقاحات المضافة. أضف لقاح.";
+	$lang['no_vaccine_schedule_added_add_vaccine'] = "لا جدول لقاحات المضافة. أضف جدول اللقاحات.";
 	$lang['temptext'] = "يجب تعيين دليل القالب للكتابة لاستخدام محرر القالب.";
 	$lang['upload_extention_instruction'] = "إذا كان لديك امتداد في تنسيق. zip ، فيمكنك تثبيته عن طريق تحميله هنا.";
 	$lang['no_visits'] = "إذا كان لديك امتداد في تنسيق. zip ، فيمكنك تثبيته عن طريق تحميله هنا.";

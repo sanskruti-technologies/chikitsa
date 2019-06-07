@@ -11,6 +11,24 @@ class Bill_model extends CI_Model {
         if ($row)
             return $row->bill_id;
     }
+	public function get_bill_id_allocate($allocate_id) {
+        $query = $this->db->get_where('room_allocate', array('allocate_id' => $allocate_id));
+        //echo $this->db->last_query()."<br/>";
+		$row = $query->row();
+        if ($row)
+            return $row->bill_id;
+		else
+			return 0;
+    }
+	public function get_bill_detail_id_allocate($bill_id) {
+        $query = $this->db->get_where('bill_detail', array('bill_id' => $bill_id));
+        //echo $this->db->last_query()."<br/>";
+		$row = $query->row();
+        if ($row)
+            return $row->bill_detail_id;
+		else
+			return 0;
+    }
 	public function get_bill_amount($bill_id) {
         $query = $this->db->get_where('bill', array('bill_id' => $bill_id));
 		//echo $this->db->last_query()."<br/>";
@@ -389,7 +407,7 @@ class Bill_model extends CI_Model {
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
 		$data['tax_amount'] = $tax_amount;
 		$data['tax_id'] = $tax_id;
-		
+		//print_r($data);
 		if ($item_id != NULL){
 			$query = $this->db->get_where('bill_detail', array('bill_id ' => $bill_id, 'item_id ' => $item_id));
 			if ($query->num_rows() > 0){
@@ -444,6 +462,23 @@ class Bill_model extends CI_Model {
 		$this->db->update('bill_detail', $data,array('bill_id' =>  $bill_id,'type'=>$type));
 		//echo $this->db->last_query();
 	}
+	public function update_bill_bill_detail($bill_id,$type,$particular,$quantity,$amount,$mrp,$bill_detail_id){
+
+				echo $particular;
+				//$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount - ?,due_amount = due_amount - ? where bill_id = ?;";
+				$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount =".$amount.",due_amount =".$amount." where bill_id = ".$bill_id.";";
+				$this->db->query($sql, array($total_amount,$due_amount, $bill_id));
+				
+				//update bill_detail
+				$sql1 = "update " . $this->db->dbprefix('bill_detail') . " set particular ='".$particular."',quantity =".$quantity.",amount=".$amount.",mrp=".$mrp." where bill_id = ".$bill_id.";";
+				$this->db->query($sql1, array($particular,$quantity,$amount,$mrp,$item_id, $bill_id));
+				
+				//Adjust Payment
+				$this->update_payment($bill_id,$due_amount);
+	
+	}
+	
+	
 	public function edit_bill_item($bill_detail_id,$particular,	$amount,$quantity){
 		$data['particular'] = $particular;
 		$data['quantity'] = $quantity;

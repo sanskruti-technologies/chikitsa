@@ -628,10 +628,16 @@
 							</div>
 						</div>
 						<div class="col-md-4" >
-							<div class="form-group" >
+								<div class="form-group" >
 								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
 							</div> 
 						</div>
+						<div class="col-md-8" >
+							<div class="form-group" >
+								<a href="settings/edit_language" class="btn btn-primary" >Change Language File</a>
+							</div>
+						</div>
+						
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_timezone'); ?>

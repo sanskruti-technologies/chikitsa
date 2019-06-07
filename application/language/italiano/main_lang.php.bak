@@ -33,6 +33,7 @@
 	$lang['amount'] = "Quantità";
 	$lang['activate'] = "Attivare";
 	$lang['add'] = "Agguingi";
+	$lang['additional_css'] = "CSS aggiuntivo";
 	$lang['add_another_medicine'] = "Aggiungi un'altra medicina";
 	$lang['add_appointment'] = "Aggiungi appuntamento";
 	$lang['add_alerts'] = "Aggiungi avvisi";
@@ -234,6 +235,7 @@
 	$lang['delete_treatment'] = "Cancellare Trattamento";
 	$lang['delete_user'] = "Elimina utente";
 	$lang['department'] = "Dipartimento";
+	$lang['departments'] = "dipartimenti";
 	$lang['department_name'] = "Nome Dipartimento";
 	$lang['desired_stock'] = "Archivio desiderata";
 	$lang['detail'] = "Dettaglio";
@@ -371,7 +373,10 @@
 	$lang['item_number'] = "Codice articolo";
 	$lang['items'] = "Elementi";
 	$lang['import'] = "Importa CSV";
+	$lang['image'] = "Immagine";
 	$lang['images'] = "immagini";
+	$lang['image_name'] = "Nome immagine";
+	$lang['image_path'] = "Percorso dell'immagine";
 	$lang['income'] = "Reddito";
 	$lang['issue_refund'] = "Problema di rimborso";
 
@@ -401,6 +406,7 @@
 	$lang['marking'] = "Segnando";
 	$lang['max_patient'] = "Max pazienti alla volta";
 	$lang['medicine'] = "Medicina";
+	$lang['medicine_store_bill'] = "Medicine Store Bill";
 	$lang['menu_access'] = "Accesso al menu";
 	$lang['medicine_name'] = "Nome Medicina";
 	$lang['medicines'] = "Medicine";
@@ -626,7 +632,7 @@
 	$lang['state'] = "Stato";
 	$lang['status'] = "Stato";
 	$lang['static_prefix'] = "Prefisso Statico";
-	$lang['stock'] = "Stock";
+	$lang['stock'] = "azione";
 	$lang['stock_report'] = "Rapporto del Stock";
 	$lang['stock_all_sell'] = "Tutto Vendi";
 	$lang['stock_item'] = "Articolo";
@@ -661,6 +667,7 @@
 	$lang['ssn_id'] = "Civil No.";
 	$lang['save_complete'] = "Salva e completa";
 
+	$lang['to'] = "a";
 	$lang['total_appointments'] = "Appuntamenti totali";
 	$lang['take_backup'] = "Prendete il Backup";
 	$lang['tag_line'] = "Linea di cartellino";
@@ -715,6 +722,10 @@
 	$lang['users'] = "Utenti";
 	$lang['unpacking_zip_package'] = "Apertura della confezione Zip pacchetto";
 	
+	$lang['vaccine'] = "Vaccino";
+	$lang['vaccines'] = "vaccini";
+	$lang['vaccine_master'] = "Vaccinazione";
+	$lang['vaccine_name'] = "Nome del vaccino";
 	$lang['view'] = "Vista";
 	$lang['viewed'] = "Visto";
 	$lang['visit'] = "Visita";
@@ -789,6 +800,9 @@
 	$lang['invalid_username'] = "Utente e / o password non valido";
 	$lang['jpg_format_not_allow'] = "Formato di file JPG è consentita & nbsp; & nbsp; & nbsp; & nbsp; & nbsp; & nbsp; & nbsp; & nbsp; Dimensione immagine: 800 * 800";
 	$lang['no_file_chosen'] = "Nessun file scelto";
+	$lang['no_treatment_added_add_treatment'] = "Nessun trattamento aggiunto. Aggiungi un trattamento.";
+	$lang['no_vaccine_added_add_vaccine'] = "Nessun vaccino aggiunto. Aggiungi un vaccino.";
+	$lang['no_vaccine_schedule_added_add_vaccine'] = "Nessun programma di vaccini aggiunto. Aggiungi un programma vaccino.";
 	$lang['temptext'] = "La directory modello deve giurare insieme ad scrivibile per utilizzare l'editor del modello.";
 	$lang['upload_extention_instruction'] = "Se si dispone di un interno in un formato .zip, è possibile installarlo caricandolo qui.";
 	$lang['no_visits'] = "Nessuna visita per questo paziente";

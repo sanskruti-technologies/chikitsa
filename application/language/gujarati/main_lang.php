@@ -667,6 +667,7 @@
 	$lang['ssn_id'] = "આધાર નંબર";
 	$lang['save_complete'] = "સાચવો અને પૂર્ણ કરો";
 
+	$lang['to']="માટે";
 	$lang['total_appointments'] = "કુલ નિમણૂંક";
 	$lang['take_backup'] = "બેકઅપ લો";
 	$lang['tag_line'] = "ટેગ લાઇન";

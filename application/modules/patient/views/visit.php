@@ -753,7 +753,7 @@ $(document).ready(function(){
 								<td>
 									Total : <?php echo currency_format($visit['total_amount']+ $visit[$tax_type.'_tax_amount']);if($currency_postfix) echo $currency_postfix; ?><br/>
 									Balance : <?php echo currency_format($visit['due_amount']);if($currency_postfix) {echo $currency_postfix;} ?><br/>
-									<a class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('patient/bill') . "/" . $visit['visit_id'] . "/" . $visit['patient_id']; ?>"><?php echo $this->lang->line('bill');?></a>
+									<a class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('bill') . "/edit/" . $visit['bill_id']; ?>"><?php echo $this->lang->line('bill');?></a>
 									<a target="_blank" class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('patient/print_receipt') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('bill');?></a>
 								</td>
 								<?php @$total_amount=$total_amount+$visit['total_amount']+ $visit[$tax_type.'_tax_amount']; ?>

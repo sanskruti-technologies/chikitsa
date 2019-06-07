@@ -12,7 +12,7 @@
 		$phone_number = $patient['phone_number'];
 	}
 	if(isset($doctor)){
-		$doctor_name = $doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
+		$doctor_name = $doctor['title']." ".$doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
 	}
 ?>
 <script type="text/javascript" charset="utf-8">
@@ -76,7 +76,7 @@ $(window).load(function(){
 	<?php } ?>
 	var list_fees=[];
 	<?php if(isset($fees)){ ?>
-	list_fees = {	
+	list_fees = [
 	<?php 
 		$fees_doctor = 0;
 		$fees_string = "";
@@ -114,7 +114,7 @@ $(window).load(function(){
 		}*/
 		echo $fees_string;
 	?>
-	};
+	];
 	
 	
 	$("#fees_detail").autocomplete({
@@ -148,33 +148,8 @@ $(window).load(function(){
 	if (in_array("treatment",$active_modules)) {?>
 		var list_treatment=[<?php $i = 0;
 			foreach ($treatments as $treatment) {
-				$flag=FALSE;
-				$doctor_department = explode(",",$doc['department_id']);
-				if(in_array("departments",$treatment)){
-					$treatment_departments = explode(",",$treatment['departments']);
-				}else{
-					$treatment_departments = NULL;
-				}
-				//$treatment_department = explode(",",$treatment['departments']);
-				foreach ($doctor_department as $doc_dept){
-					foreach ($treatment_department as $treatment_dept){
-						if ($treatment_dept==""){
-							$flag=TRUE;
-						}
-						if ($doc_dept == 0){
-							$flag=TRUE;
-						}
-						else if(in_array($doc_dept,$treatment_department)) {  
-							$flag=TRUE;
-						}					
-					}
-				}
-				if($flag == TRUE){
-					if ($i > 0) { echo ",";}
-					if(isset($tax_rate_name[$treatment['tax_id']])){
-						echo '{value:"' . $treatment['treatment'] . '",amount:"' . $treatment['price'] .'",tax_rate_name:"' . $tax_rate_name[$treatment['tax_id']] .'",treatment_rate:"' . ($treatment['price']*$tax_rate_array[$treatment['tax_id']]/100) . '"}';
-					}
-				}
+				if ($i > 0) { echo ",";}
+				echo '{value:"' . $treatment['treatment'] . '",amount:"' . $treatment['price'] .'",tax_rate_name:"' . $tax_rate_name[$treatment['tax_id']] .'",treatment_rate:"' . ($treatment['price']*$tax_rate_array[$treatment['tax_id']]/100) . '"}';
 				$i++;
 			}?>];
 		$("#treatment").autocomplete({
@@ -378,10 +353,14 @@ $(window).load(function(){
 			select: function(event,ui){
 				//do something
 				$("#doctor_id").val(ui.item ? ui.item.id : '');
+				<?php if(isset($fees)){ ?>
 				$("#fees_section").show();
 				var doctor_id = $('#doctor_id').val();
 				console.log(doctor_id);
 				$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
+				<?php }else{ ?>
+				$("#fees_section").hide();
+				<?php } ?>
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
@@ -403,7 +382,7 @@ $(window).load(function(){
 	<?php }else{ ?>
 		var doctor_id = $('#doctor_id').val();
 		$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
-	<?php }?>
+	<?php } ?>
 	$('#bill_date').datetimepicker({
 		timepicker:false,
 		format: '<?=$def_dateformate; ?>',

@@ -3,6 +3,26 @@ class Settings_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
+	
+	public function get_language_name_array(){
+		$result = $this->db->get('language_data');
+        $languages = $result->result_array();
+		return $languages;
+	}
+	
+	public function edit_language_data()
+	{
+		$language = $this->input->post('language');
+		$index = $this->input->post('index');
+		
+		$this->db->set('l_value', $language);
+		$this->db->where("l_index", $index);
+		$this->db->update('language_data');
+		//change mail_lang.php file
+		
+		//redirect("settings/edit_language/");
+		//redirect("settings/save_language/");
+	}
 	//Clinic
     public function get_clinic_settings($clinic_id=1) {
 		$query=$this->db->get_where('clinic',array('clinic_id'=>$clinic_id));

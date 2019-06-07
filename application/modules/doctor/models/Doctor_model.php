@@ -32,6 +32,7 @@ class Doctor_model extends CI_Model {
 		}
 		return $doctor;
     }
+	
 	public function get_doctor_for_online_appointment(){
 		$query = $this->db->query('SELECT doctor.* , doctor_preferences.enable_online_appointment FROM '.$this->db->dbprefix('doctor').' AS doctor LEFT OUTER JOIN '.$this->db->dbprefix('doctor_preferences').' AS doctor_preferences ON doctor.doctor_id = doctor_preferences.doctor_id WHERE IFNULL(doctor_preferences.enable_online_appointment,1) = 1 AND IFNULL(doctor.is_deleted,0) != 1 AND  IFNULL(doctor_preferences.is_deleted,0) != 1');
 		//echo $this->db->last_query()."<br/>";
@@ -64,6 +65,7 @@ class Doctor_model extends CI_Model {
 	}
 	public function get_nurse_user_id($user_id) {	
 		$query = $this->db->get_where('nurse', array('userid' => $user_id,"IFNULL(is_deleted,0) !=" => 1));
+		//echo $this->db->last_query();
 		return $query->row_array();
 	}
 	public function get_doctor_doctor_id($doctor_id) {	

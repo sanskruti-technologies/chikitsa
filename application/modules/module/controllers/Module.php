@@ -2,7 +2,7 @@
 class Module extends CI_Controller {
     function __construct() {
         parent::__construct();
-        
+        $this->config->load('version');
 		$this->load->model('menu_model');
 		$this->load->model('module_model');
 		$this->load->model('settings/settings_model');
@@ -31,12 +31,12 @@ class Module extends CI_Controller {
 			$data['connection_message'] = NULL;
 			
 			if($this->check_for_updates()=== FALSE){
-				$data['connection_message'] ="Cannot connect to Chikitsa Server.Please check your internet connection.";
-			
+				$data['connection_message'] = "Cannot connect to Chikitsa Server.Please check your internet connection.";
 			}else{
 				$data['module_license_status'] = $this->check_for_updates();
 			
 			}
+			$data['software_name'] = $this->menu_model->get_data_value('software_name');  
 			$clinic_id = $this->session->userdata('clinic_id'); 
 			$user_id = $this->session->userdata('user_id'); 	
 			$header_data['clinic_id'] = $clinic_id;
@@ -182,34 +182,52 @@ class Module extends CI_Controller {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			//Execute SQL file
-			$sql_file_name = "./application/modules/".$module_name."/". $module_name.".sql";
-			//Read Files details
-			$sqls = file($sql_file_name);	
-			foreach($sqls as $statement){
-				$dbprefix =  $this->db->dbprefix;
-				$statement = str_replace("%db_prefix%",$dbprefix,$statement);
-				$this->db->query($statement);
-			}
-			//Check for required modules
-			if($this->module_model->check_required_modules($module_name)){
-				$this->module_model->activate_module($module_name);
-				$activation_hook = $this->module_model->get_activation_hook($module_name);
-				if($activation_hook != NULL){
-					redirect($module_name."/".$activation_hook);
-				}else{
-					$this->index();
-				}
-				
-			}else{
-				$required_modules = $this->module_model->get_required_modules($module_name);
-				$data['error'] = "This Module requires Modules (".$required_modules.") to be active. Please activate them first.";
+			//Read required Chikitsa
+			$readme_file = "./application/modules/".$module_name."/readme.txt";
+			$lines = file($readme_file);	
+			$required_version = $lines[1]; 
+			$required_version = str_replace("Requires","",$required_version);
+			$required_version = str_replace("Chikitsa","",$required_version);
+			$required_version = trim($required_version);
+			$current_version = $this->config->item('current_version'); 
+			$current_version_int = (int)str_replace(".","",$current_version);
+			$required_version_int =  (int)str_replace(".","",$required_version);
+			if($current_version_int < $required_version_int){ 
+				$data['error'] = "This Module requires Chikitsa Version (".$required_version.") to be active. Please upgrade Chikitsa first.";
 				$this->load->view('templates/header');
 				$this->load->view('templates/menu');
 				$this->load->view('extract_module',$data);
 				$this->load->view('templates/footer');
+			}else{
+						
+				//Execute SQL file
+				$sql_file_name = "./application/modules/".$module_name."/". $module_name.".sql";
+				//Read Files details
+				$sqls = file($sql_file_name);	
+				foreach($sqls as $statement){
+					$dbprefix =  $this->db->dbprefix;
+					$statement = str_replace("%db_prefix%",$dbprefix,$statement);
+					$this->db->query($statement);
+				}
+				//Check for required modules
+				if($this->module_model->check_required_modules($module_name)){
+					$this->module_model->activate_module($module_name);
+					$activation_hook = $this->module_model->get_activation_hook($module_name);
+					if($activation_hook != NULL){
+						redirect($module_name."/".$activation_hook);
+					}else{
+						$this->index();
+					}
+					
+				}else{
+					$required_modules = $this->module_model->get_required_modules($module_name);
+					$data['error'] = "This Module requires Modules (".$required_modules.") to be active. Please activate them first.";
+					$this->load->view('templates/header');
+					$this->load->view('templates/menu');
+					$this->load->view('extract_module',$data);
+					$this->load->view('templates/footer');
+				}
 			}
-			
         }
 	}
 	//File Upload 
@@ -368,7 +386,51 @@ class Module extends CI_Controller {
 			$this->index($message_type,$message);
 		}
 	}
+	public function take_backup(){
+		$db_prefix =  $this->db->dbprefix;
+		// Load the DB utility class
+		$this->load->dbutil();
+				
+		$tables = $this->db->list_tables();
+		$tables_array = array();
+		
+		$dbprefix =  $this->db->dbprefix;
+		$prefix_length = strlen($dbprefix);
+		foreach($tables as $table){
+			if(substr($table,0,$prefix_length) == $dbprefix){
+				$tables_array[] = $table;
+			}
+		}
+					
+		$prefs = array(
+			'tables'        => $tables_array,			    // Array of tables to backup.
+			'ignore'        => array(),                     // List of tables to omit from the backup
+			'format'        => 'zip',                       // gzip, zip, txt
+			'filename'      => 'chikitsa-backup.sql',              // File name - NEEDED ONLY WITH ZIP FILES
+			'add_drop'      => TRUE,                        // Whether to add DROP TABLE statements to backup file
+			'add_insert'    => TRUE,                        // Whether to add INSERT data to backup file
+			'newline'       => "\n"                         // Newline character used in backup file
+		);
+		// Backup your entire database and assign it to a variable
+		$backup = $this->dbutil->backup($prefs);
+		// Load the file helper and write the file to your server
+		$this->load->helper('file');
+		write_file('chikitsa-backup.zip', $backup);
+		//Take Backup of Profile Pictures
+		$this->load->library('zip');
+		$this->zip->read_dir('uploads');
+		
+		$data = $db_prefix;
+		$db_prefix_file = "prefix.txt";
+		write_file($db_prefix_file, $data);
+		$this->zip->read_file($db_prefix_file);
+		
+		$this->zip->download('chikitsa-backup.zip');
+		
+		
+	}
 	public function dowload_chikitsa($file,$latest_version){
+		$this->take_backup();
 		$data['file'] = $file;
 		$data['latest_version'] = $latest_version;
 		$this->load->view('templates/header');

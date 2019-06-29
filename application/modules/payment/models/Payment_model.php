@@ -23,17 +23,16 @@ class Payment_model extends CI_Model {
     }
 	public function get_payments_by_email($user_email) {
 		$query = $this->db->get_where('view_patient', array('email' => $user_email));
-		
         $patients = $query->result_array();
-		
 		$patient_ids ="";
 		foreach($patients as $patient){
 			$patient_ids .= $patient['patient_id'];
 		}
-		
-		$query = $this->db->get_where('payment', array('patient_id IN ('.$patient_ids.')'));
-		
-        return $query->result_array();
+		$where='patient_id in ('.$patient_ids.')';
+		$this->db->where($where);
+        $query = $this->db->get('payment');
+		//$query = $this->db->get_where('payment', array('patient_id IN ('.$patient_ids.')'));
+		return $query->result_array();
     }
 	public function get_bill_payment_r() {
         $query = $this->db->get('bill_payment_r');

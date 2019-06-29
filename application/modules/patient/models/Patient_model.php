@@ -5,6 +5,15 @@ class Patient_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
+		//get patient_id from user_id
+	function get_patient_id_from_user_id($user_id){
+		$query = $this->db->get_where('patient', array('user_id' => $user_id));
+		//echo $this->db->last_query()."<br/>";
+        $row = $query->row();
+        $patient_id=$row->patient_id;
+		return $patient_id;
+	
+	}
 	function get_patients_count(){
     	$query = $this->db->query('SELECT visit_date,doctor_id,count(*) as count FROM '. $this->db->dbprefix('visit').' GROUP BY visit_date,doctor_id');
 		
@@ -17,7 +26,6 @@ class Patient_model extends CI_Model {
 		}
 		return $patient_number_data;
 	}
-		
 	public function get_patients_this_month(){	
     		$first_day_of_month=date('Y-m-01');
         	$today=date('Y-m-d');
@@ -101,6 +109,22 @@ class Patient_model extends CI_Model {
             return $row->patient_id;
         else
             return 0;
+	}
+	function insert_new_register_patient($contact_id,$user_id,$first_name,$middle_name,$last_name){
+		$display_id="";
+		$data['contact_id'] = $contact_id;
+		$data['user_id']=$user_id;
+        $data['patient_since'] = date("Y-m-d");
+		if($this->session->userdata('clinic_code')){
+			$data['clinic_code'] = $this->session->userdata('clinic_code');
+		}
+		
+		$this->db->insert('patient', $data);
+		$patient_id = $this->db->insert_id();
+		if($display_id == ""){
+			$this->display_id($patient_id);
+		}
+        return $patient_id;
 	}
 	function insert_new_patient($contact_id){
 		if($this->session->userdata('clinic_code')){
@@ -427,8 +451,6 @@ class Patient_model extends CI_Model {
 		}
 		return $paid_amount;
 	}*/
-	
-	
     public function edit_visit_data($visit_id) {
 
         /* Get Value Of Notes Field */
@@ -616,14 +638,13 @@ class Patient_model extends CI_Model {
 		$data['bill_time'] = date('H:i:s');
         $data['patient_id'] = $patient_id;
         $data['visit_id'] = $visit_id;
-		
         if($due_amount == NULL){
             $data['due_amount'] = 0.00;
         }else{
             $data['due_amount'] = $due_amount;
         }
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
-        print_r($data);
+        
         $this->db->insert('bill', $data);
         return $this->db->insert_id();
     }
@@ -682,6 +703,8 @@ class Patient_model extends CI_Model {
 			$query = $this->db->get_where('bill_detail', array('bill_id ' => $bill_id, 'item_id ' => $item_id));
 			if ($query->num_rows() > 0){
 				$bill_detail = $query->row_array();
+				$bill_detail_id = $bill_detail['bill_detail_id'];
+				//print_r($bill_detail);
 				$data['quantity'] = $qnt + $bill_detail['quantity'];
 				$data['amount'] = $amt + $bill_detail['amount'];
 				$data['sync_status'] = 0;
@@ -969,7 +992,6 @@ class Patient_model extends CI_Model {
         $data['pay_mode'] = $this->input->post('pay_mode');
         $data['amount'] = $this->input->post('amount');
         $data['cheque_no'] = $this->input->post('cheque_no');
-		
         $this->db->insert('payment', $data);
 
         $sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0, paid_amount = paid_amount + ? where bill_id = ?;";
@@ -1019,7 +1041,7 @@ class Patient_model extends CI_Model {
         $this->db->select_sum('amount', 'item_total');
         $query = $this->db->get_where('view_bill_detail_report', array('visit_id' => $visit_id, 'type' => 'item'));
         $row = $query->row();
-        return $row->item_total;
+		return $row->item_total;
     }
 	function get_particular_total($visit_id) {
         $this->db->select_sum('amount', 'particular_total');

@@ -11,6 +11,7 @@ class Bill_model extends CI_Model {
         if ($row)
             return $row->bill_id;
     }
+	
 	public function get_bill_id_allocate($allocate_id) {
         $query = $this->db->get_where('room_allocate', array('allocate_id' => $allocate_id));
         //echo $this->db->last_query()."<br/>";
@@ -256,7 +257,7 @@ class Bill_model extends CI_Model {
     	$result=$qry->result_array();
     	return $result;
     }
-	public function create_bill($visit_id, $patient_id, $due_amount = NULL) {
+	public function create_bill($visit_id, $patient_id, $due_amount = 0,$doctor_id = NULL) {
 		$data['clinic_id'] = $this->session->userdata('clinic_id');
 		if($this->session->userdata('clinic_code')){
 			$data['clinic_code'] = $this->session->userdata('clinic_code');
@@ -265,7 +266,8 @@ class Bill_model extends CI_Model {
 		$data['bill_time'] = date('H:i:s');
         $data['patient_id'] = $patient_id;
         $data['visit_id'] = $visit_id;
-        if($due_amount == NULL){
+		$data['doctor_id']=$doctor_id;
+        if($due_amount == 0){
             $data['due_amount'] = 0.00;
         }else{
             $data['due_amount'] = $due_amount;
@@ -366,10 +368,10 @@ class Bill_model extends CI_Model {
         return $row->treatment_total;
     }
 	public function get_item_total($bill_id) {
-        $this->db->select_sum('amount', 'item_total');
+		$this->db->select_sum('amount', 'item_total');
         $query = $this->db->get_where('view_bill_detail_report', array('bill_id' => $bill_id, 'type' => 'item'));
         $row = $query->row();
-        return $row->item_total;
+		return $row->item_total;
     }
 	public function get_fee_total($bill_id) {
         $this->db->select_sum('amount', 'fees_total');
@@ -381,6 +383,7 @@ class Bill_model extends CI_Model {
 		$this->db->select_sum('amount', 'total');
         $query = $this->db->get_where('view_bill_detail_report', array('bill_id' => $bill_id,'type'=>$type));
         $row = $query->row();
+		//echo $this->db->last_query()."<br/>";
         return $row->total;
 	}
 	public function get_balance_amount($bill_id) {
@@ -407,7 +410,7 @@ class Bill_model extends CI_Model {
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
 		$data['tax_amount'] = $tax_amount;
 		$data['tax_id'] = $tax_id;
-		//print_r($data);
+		
 		if ($item_id != NULL){
 			$query = $this->db->get_where('bill_detail', array('bill_id ' => $bill_id, 'item_id ' => $item_id));
 			if ($query->num_rows() > 0){
@@ -463,19 +466,21 @@ class Bill_model extends CI_Model {
 		//echo $this->db->last_query();
 	}
 	public function update_bill_bill_detail($bill_id,$type,$particular,$quantity,$amount,$mrp,$bill_detail_id){
-
-				echo $particular;
-				//$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount - ?,due_amount = due_amount - ? where bill_id = ?;";
-				$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount =".$amount.",due_amount =".$amount." where bill_id = ".$bill_id.";";
-				$this->db->query($sql, array($total_amount,$due_amount, $bill_id));
+		$bill_detail = $this->get_bill_detail_by_id($bill_detail_id);
+		$previous_amount = $bill_detail['amount'];
+		$difference = $amount - $previous_amount;
 				
-				//update bill_detail
-				$sql1 = "update " . $this->db->dbprefix('bill_detail') . " set particular ='".$particular."',quantity =".$quantity.",amount=".$amount.",mrp=".$mrp." where bill_id = ".$bill_id.";";
-				$this->db->query($sql1, array($particular,$quantity,$amount,$mrp,$item_id, $bill_id));
+		//update bill
+		$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount =total_amount+".$difference.",due_amount =due_amount+".$difference." where bill_id = ".$bill_id.";";
+		$this->db->query($sql);
+					
+		//update bill_detail
+		$sql = "update " . $this->db->dbprefix('bill_detail') . " set particular ='".$particular."',quantity =".$quantity.",amount=".$amount.",mrp=".$mrp." where bill_detail_id = ".$bill_detail_id.";";
+		$this->db->query($sql);
 				
-				//Adjust Payment
-				$this->update_payment($bill_id,$due_amount);
-	
+		//Adjust Payment
+		$this->update_payment($bill_id,$difference);
+				
 	}
 	
 	

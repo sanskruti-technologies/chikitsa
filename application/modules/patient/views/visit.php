@@ -67,7 +67,6 @@
 			$('#reference_details').parent().hide();
 		}
 	});	
-	
     });
 	
 $(document).ready(function(){
@@ -206,7 +205,7 @@ $(document).ready(function(){
 					<?php echo $this->lang->line('new')." ".$this->lang->line('visit'). " " . $this->lang->line('toggle_display');?>
 				</div>
 				<div class="panel-body expand-collapse-content">
-					<?php echo form_open('patient/visit/' . $patient_id); ?>
+					<?php echo form_open('patient/visit/' . $patient_id,$appointment_id); ?>
 					<div class="col-md-12">	
 						<input type="hidden" name="patient_id" value="<?= $patient_id; ?>"/>
 						<input type="hidden" name="session_date_id" value="<?=$session_date_id; ?>"/>
@@ -355,14 +354,8 @@ $(document).ready(function(){
 							<div class="col-md-4">	
 								<label for="visit_treatment" style="display:block;text-align:left;"><?php echo $this->lang->line('treatment');?></label>
 								<select id="treatment" class="form-control" multiple="multiple" style="width:350px;" tabindex="4" name="treatment[]">
-									<?php foreach ($treatments as $treatment) { 
-										if(in_array("departments",$treatment)){
-											$treatment_departments = $treatment['departments'];
-										}else{
-											$treatment_departments = NULL;
-										}
-									?>
-										<option data-departments="<?=$treatment_departments;?>" value="<?=$treatment['id'];?>"><?= $treatment['treatment']; ?></option>
+									<?php foreach ($treatments as $treatment) { ?>
+										<option data-departments="<?=$treatment['departments'];?>" value="<?=$treatment['id'];?>"><?= $treatment['treatment']; ?></option>
 									<?php } ?>
 								</select>
 								<script>
@@ -629,9 +622,9 @@ $(document).ready(function(){
 								<input type="hidden" name="appointment_id" value="<?=$appointment_id;?>"/>
 								<?php if ($appointment_id != NULL) { 
 									$time = explode(":", $start_time); ?>
-									<div class="form-group">
-										<a class="btn btn-primary btn-sm square-btn-adjust" href='<?=base_url() . "index.php/appointment/change_status/" . $appointment_id . "/Complete";?>'><?php echo $this->lang->line('complete');?></a>
-									</div>
+									<!--<div class="form-group">
+										<a class="btn btn-primary btn-sm square-btn-adjust" href='<?//=base_url() . "index.php/appointment/change_status/" . $appointment_id . "/Complete";?>'><?php //echo $this->lang->line('complete');?></a>
+									</div>-->
 								<?php } ?>
 							</div>
 						</div>
@@ -640,15 +633,6 @@ $(document).ready(function(){
 					<?php echo form_close(); ?>
 				</div>
 			</div>
-			<!--div class="panel panel-primary">
-				<div class="panel-heading expand-collapse-header">
-					<i class="fa fa-arrow-circle-up"></i>
-					More Details <?php echo $this->lang->line('toggle_display');?>
-				</div>	
-				<div class="panel-body expand-collapse-content">
-				
-				</div>	
-			</div-->	
 			<div class="panel panel-primary">
 				<div class="panel-heading expand-collapse-header">
 					<i class="fa fa-arrow-circle-up"></i>
@@ -666,9 +650,6 @@ $(document).ready(function(){
 								<th><?php echo $this->lang->line('doctor');?></th>
 								<?php if (in_array("gallery",$active_modules)) {?>
 								<th><?php echo $this->lang->line('progress');?></th>
-								<?php }?>
-								<?php if (in_array("marking",$active_modules)) {?>
-								<th><?php echo $this->lang->line('marking');?></th>
 								<?php }?>
 								<th><?php echo $this->lang->line('bill');?></th>
 								<th><?php echo $this->lang->line('edit');?></th>
@@ -745,20 +726,20 @@ $(document).ready(function(){
 								<?php if (in_array("gallery",$active_modules)) {?>
 								<td><a class="btn btn-primary square-btn-adjust" href="<?= site_url('gallery/index') ."/". $visit['patient_id'] ."/". $visit['visit_id']; ?>"><?php echo $this->lang->line('gallery');?></a></td>
 								<?php }?>
-								<?php if (in_array("marking",$active_modules)) {?>
 								<td>
-									<a class="btn btn-primary square-btn-adjust" href="<?= site_url('marking/index') ."/". $visit['patient_id'] ."/". $visit['visit_id']; ?>"><?php echo $this->lang->line('marking');?></a>
-								</td>
-								<?php }?>
-								<td>
-									Total : <?php echo currency_format($visit['total_amount']+ $visit[$tax_type.'_tax_amount']);if($currency_postfix) echo $currency_postfix; ?><br/>
-									Balance : <?php echo currency_format($visit['due_amount']);if($currency_postfix) {echo $currency_postfix;} ?><br/>
+									<?php echo $this->lang->line('total');?> : <?php echo currency_format($visit['total_amount']+ $visit[$tax_type.'_tax_amount']);if($currency_postfix) echo $currency_postfix; ?><br/>
+									<?php echo $this->lang->line('balance');?> : <?php echo currency_format($visit['due_amount']);if($currency_postfix) {echo $currency_postfix;} ?><br/>
 									<a class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('bill') . "/edit/" . $visit['bill_id']; ?>"><?php echo $this->lang->line('bill');?></a>
 									<a target="_blank" class="btn btn-primary btn-sm square-btn-adjust" href="<?= site_url('patient/print_receipt') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('bill');?></a>
 								</td>
 								<?php @$total_amount=$total_amount+$visit['total_amount']+ $visit[$tax_type.'_tax_amount']; ?>
 								<?php $bal_amount=$bal_amount+$visit['due_amount']; ?>
-								<td><center><a class="btn btn-primary square-btn-adjust" href="<?= site_url('patient/edit_visit') . "/" . $visit['visit_id'] . "/" . $visit['patient_id']; ?>"><?php echo $this->lang->line('edit');?></a></center></td>
+								<td>
+									<center>
+										<a class="btn btn-sm btn-primary square-btn-adjust" href="<?= site_url('patient/edit_visit') . "/" . $visit['visit_id'] . "/" . $visit['patient_id']; ?>"><?php echo $this->lang->line('edit');?></a>
+										<a class="btn btn-sm btn-primary square-btn-adjust" href="<?= site_url('history/print_visit_history') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print').' '.$this->lang->line('history');?></a>
+									</center>
+								</td>
 							</tr>
 							<?php $i++; ?>
 							<?php } ?>
@@ -773,15 +754,11 @@ $(document).ready(function(){
 								<th></th>
 								<th></th>
 								<th></th>
-								
 								<?php if (in_array("gallery",$active_modules)) {?>
 								<th></th>
 								<?php }?>
-								<?php if (in_array("marking",$active_modules)) {?>
-								<th></th>
-								<?php }?>
-								<th style="text-align:right;">Total : <?php echo currency_format($total_amount)?><br/>
-								Balance : <?php echo currency_format($bal_amount)?></th>
+								<th style="text-align:right;"><?php echo $this->lang->line('total');?> :<?php echo currency_format($total_amount)?><br/>
+								<?php echo $this->lang->line('balance');?> :  <?php echo currency_format($bal_amount)?></th>
 								<th></th>
 								
 							</tr>

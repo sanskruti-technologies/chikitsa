@@ -628,13 +628,13 @@
 							</div>
 						</div>
 						<div class="col-md-4" >
-								<div class="form-group" >
+							<div class="form-group" >
 								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
 							</div> 
 						</div>
 						<div class="col-md-8" >
 							<div class="form-group" >
-								<a href="settings/edit_language" class="btn btn-primary" >Change Language File</a>
+								<a href="settings/edit_language" class="btn btn-primary" ><?php echo $this->lang->line('change')." ".$this->lang->line('language')." ".$this->lang->line('file');?></a>
 							</div>
 						</div>
 						
@@ -709,12 +709,12 @@
 							<div class="form-group">
 								<div class="radio">
 									<label>
-										<input type="radio" name="tax_type" id="item" value="item" <?=$item;?>>Tax on Individual Item
+										<input type="radio" name="tax_type" id="item" value="item" <?=$item;?>><?php echo $this->lang->line('tax')." ".$this->lang->line('on')." ".$this->lang->line('individual')." ".$this->lang->line('item');?>
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" name="tax_type" id="bill" value="bill" <?=$bill;?>>Tax on Bill
+										<input type="radio" name="tax_type" id="bill" value="bill" <?=$bill;?>><?php echo $this->lang->line('tax')." ".$this->lang->line('on')." ".$this->lang->line('bill');?>
 									</label>
 								</div>
 							</div>

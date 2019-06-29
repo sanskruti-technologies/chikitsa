@@ -60,7 +60,6 @@ class Settings extends CI_Controller {
 		$main_lang_file = "./application/language/english/main_lang.php";
 		rename($language_file,$main_lang_file);
 	}
-	
 	/** File Upload for Clinic Logo Image */
 	public function do_logo_upload() {
         $config['upload_path'] = './uploads/images/';

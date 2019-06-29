@@ -26,8 +26,8 @@
 										<td><?=$tax_rate['tax_rate_name'];?></td>
 										<td><?=$tax_rate['tax_rate'];?></td>
 										<td>
-											<a class="btn btn-primary square-btn-adjust" href="<?=site_url('settings/edit_tax_rate/'.$tax_rate['tax_id']);?>">Edit</a>
-											<a class="btn btn-danger square-btn-adjust confirmDelete" href="<?=site_url('settings/delete_tax_rate/'.$tax_rate['tax_id']);?>">Delete</a>
+											<a class="btn btn-primary square-btn-adjust" href="<?=site_url('settings/edit_tax_rate/'.$tax_rate['tax_id']);?>"><?php echo $this->lang->line('edit');?></a>
+											<a class="btn btn-danger square-btn-adjust confirmDelete" href="<?=site_url('settings/delete_tax_rate/'.$tax_rate['tax_id']);?>"><?php echo $this->lang->line('delete');?></a>
 										</td>
 									</tr>
 									<?php $i++; ?>

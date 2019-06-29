@@ -3,6 +3,28 @@ class Appointment_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
+	
+	//get appointment_details from patient_id
+	function get_upcoming_appointments_by_patient_id($patient_id){
+		$this->db->where('patient_id', $patient_id);
+		$where = '(status="Consultation" or status = "Waiting" or status = "Appointments" or status = "Pending")';
+		$this->db->where($where);
+		$query=$this->db->get('appointments');
+		//echo $this->db->last_query();
+		$upcoming_appointments= $query->result_array();
+		//print_r($upcoming_appointments);
+		return $upcoming_appointments;
+	}
+	
+	function get_completed_appointments_by_patient_id($patient_id){
+		$this->db->where('patient_id', $patient_id);
+		$this->db->where('status','Complete');
+		$query=$this->db->get('appointments');
+		//echo $this->db->last_query();
+		$completed_appointments= $query->result_array();
+		//print_r($upcoming_appointments);
+		return $completed_appointments;
+	}
 	function get_dr_inavailability($appointment_id = NULL, $doctor_id = NULL) {
         $level = $this->session->userdata('category');
 		
@@ -110,8 +132,7 @@ class Appointment_model extends CI_Model {
 		return $appointment_id;
 	}
 	//Add New Appointment
-    function add_appointment($status) {
-
+    function add_appointment($status,$patient_name = NULL,$patient_id = NULL) {
 		// Set Local TimeZone as Default TimeZone 
 		$timezone = $this->settings_model->get_time_zone();
         if (function_exists('date_default_timezone_set'))
@@ -135,6 +156,7 @@ class Appointment_model extends CI_Model {
 				$data['title'] = $this->input->post('patient_name');
 			}else{
 				$patient_id = $this->input->post('patient_id');
+				
 				$this->db->where('patient_id', $patient_id);
 				$query=$this->db->get('view_patient');
 				$patient =  $query->row_array();
@@ -142,11 +164,19 @@ class Appointment_model extends CI_Model {
 			}
             
         }else{
-            $data['title'] = $this->input->post('title');
+			if($this->input->post('title')){
+				$data['title'] = $this->input->post('title');
+			}else{
+				$data['title'] = $patient_name;
+			}	
         }
-        $data['patient_id'] = $this->input->post('patient_id');
-        $patient_id = $this->input->post('patient_id');
-
+		if($this->input->post('patient_id')){
+			$data['patient_id'] = $this->input->post('patient_id');
+			$patient_id = $this->input->post('patient_id');
+		}else{
+			$data['patient_id'] = $patient_id;
+		}
+        
 		
 		//Adding Appintment, so reset the followup date
         if ($patient_id <> NULL) {
@@ -163,7 +193,7 @@ class Appointment_model extends CI_Model {
 		$userid = $this->get_doctor_user_id($doctor_id);
 		$data['userid'] = $userid;
 		$this->db->insert('appointments', $data);
-		echo $this->db->last_query();
+		//echo $this->db->last_query();
 		$appointment_id = $this->db->insert_id();
 					
 		//Creating a Log of Appintment
@@ -205,6 +235,7 @@ class Appointment_model extends CI_Model {
 
 		return $appointments;
 	}
+	
     function get_appointments($appointment_date,$doctor_id = NULL) {
 		$qry = "appointment_date ='$appointment_date' AND status !='NotAvailable' ";
 		//print_r($this->session->userdata());

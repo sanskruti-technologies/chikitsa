@@ -24,8 +24,8 @@
 									<td><?=$i;?></td>
 									<td><?=$payment_method['payment_method_name'];?></td>
 									<td>
-										<a class="btn btn-primary btn-sm square-btn-adjust" href="<?=site_url('settings/edit_payment_method/'.$payment_method['payment_method_id']);?>">Edit</a>
-										<a class="btn btn-danger btn-sm square-btn-adjust confirmDelete" href="<?=site_url('settings/delete_payment_method/'.$payment_method['payment_method_id']);?>">Delete</a>
+										<a class="btn btn-primary btn-sm square-btn-adjust" href="<?=site_url('settings/edit_payment_method/'.$payment_method['payment_method_id']);?>"><?php echo $this->lang->line("edit");?></a>
+										<a class="btn btn-danger btn-sm square-btn-adjust confirmDelete" href="<?=site_url('settings/delete_payment_method/'.$payment_method['payment_method_id']);?>"><?php echo $this->lang->line("delete");?></a>
 									</td>
 								</tr>
 								<?php $i++; ?>

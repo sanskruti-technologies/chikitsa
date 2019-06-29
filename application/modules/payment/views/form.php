@@ -461,7 +461,7 @@
 				</div>
 				<div class="panel-body">
 					<?php if($payment_status == 'rejected'){ ?>
-							<div class='alert alert-danger'>This Payment is rejected</div>
+							<div class='alert alert-danger'><?php echo $this->lang->line('this_payment_is_rejected');?></div>
 					<?php } ?>
 					<?php  if(!isset($payment)){ ?> 
 					<?php echo form_open('payment/insert/'.$patient_id.'/'.$called_from) ?>

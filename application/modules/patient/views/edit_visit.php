@@ -376,7 +376,7 @@ if(isset($visit)){
 			<div class="col-md-12">
 			<div class="form-group">
 				<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" /><?php echo $this->lang->line("save");?></button>
-				<a class="btn btn-primary square-btn-adjust" href="<?php echo base_url()."index.php/appointment/change_status_visit/".$visit['visit_id']?>"><?php echo $this->lang->line("complete");?></a>
+				<!--a class="btn btn-primary square-btn-adjust" href="<?php echo base_url()."index.php/appointment/change_status_visit/".$visit['visit_id']?>"><?php echo $this->lang->line("complete");?></a-->
 				<a class="btn btn-primary square-btn-adjust" href="<?php echo base_url() . "/index.php/patient/visit/" . $patient_id . "/" . $appointment_id; ?>"><?php echo $this->lang->line("cancel");?></a>
 			</div>
 			</div>

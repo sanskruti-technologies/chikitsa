@@ -222,8 +222,8 @@ $(window).load(function(){
 							</div>
 							<div class="form-group">
 								<label for="gender"><?php echo "Gender";?></label> 
-								<input type="radio" name="gender" value="male" <?php if($gender == 'male'){echo "checked='checked'";}?>/>Male
-								<input type="radio" name="gender" value="female" <?php if($gender == 'female'){echo "checked='checked'";}?>/>Female
+								<input type="radio" name="gender" value="male" <?php if($gender == 'male'){echo "checked='checked'";}?>/><?php echo $this->lang->line('male');?>
+								<input type="radio" name="gender" value="female" <?php if($gender == 'female'){echo "checked='checked'";}?>/><?php echo $this->lang->line('female');?>
 								<?php echo form_error('gender','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
@@ -237,7 +237,7 @@ $(window).load(function(){
 								<?php echo form_error('age','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="reference_by">Reference By</label>
+								<label for="reference_by"><?php echo $this->lang->line('reference_by');?></label>
 								<input type="input" name="reference_by" class="form-control" value="<?php echo $reference_by; ?>"/>
 								<?php echo form_error('reference_by','<div class="alert alert-danger">','</div>'); ?>
 							</div>
@@ -280,12 +280,12 @@ $(window).load(function(){
 								<?php echo form_error('type','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="type">Address Line 1</label> 
+								<label for="type"><?php echo $this->lang->line('address_line_1');?></label> 
 								<input type="input"  class="form-control" name="address_line_1" value="<?php echo $contact_address_line_1; ?>"/>
 								<?php echo form_error('address_line_1','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="type">Address Line 2</label> 
+								<label for="type"><?php echo $this->lang->line('address_line_2');?></label> 
 								<input type="input" class="form-control" name="address_line_2" value="<?php echo $contact_address_line_2; ?>"/>
 								<?php echo form_error('address_line_2','<div class="alert alert-danger">','</div>'); ?>
 							</div>

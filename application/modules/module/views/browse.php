@@ -43,7 +43,7 @@ $(window).load(function() {
 					$current_version_int = (int)str_replace(".","",$current_version);
 					$latest_version_int =  (int)str_replace(".","",$latest_version);
 					if($current_version_int < $latest_version_int){ ?>
-						<a href="<?=site_url("module/dowload_chikitsa/".$download_link."/".$latest_version);?>" class="btn btn-success square-btn-adjust"><?=$this->lang->line('chikitsa_new_version_available');?></a>
+						<a href="<?=site_url("module/dowload_chikitsa/".$download_link."/".$latest_version);?>" class="btn btn-success square-btn-adjust"><?=$software_name;?> <?=$latest_version;?> <?=$this->lang->line('chikitsa_new_version_available');?></a>
 				<?php } ?>
 				
 			</div>

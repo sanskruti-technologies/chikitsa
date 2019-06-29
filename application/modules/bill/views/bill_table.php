@@ -1,6 +1,7 @@
 <?php
-	$total = ($particular_total + $fees_total + $treatment_total +  $lab_test_total +$item_total + $session_total);
-?>
+	$total = ($particular_total + $fees_total + $treatment_total +  $lab_test_total +$item_total + $session_total+$room_total);
+
+	?>
 <div class="table-responsive">
 	<table class="table table-striped table-bordered table-hover" id="bill_table">
 		<thead>
@@ -49,6 +50,17 @@
 									<th style="text-align:right;"><?=currency_format($particular_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
 									<?php if($tax_type == "item"){?>
 									<th style="text-align:right;"><?=currency_format($particular_tax_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
+									<?php } ?>
+									<?php if($edit_bill){ ?>
+									<td>&nbsp;</td>
+									<?php } ?>
+									</tr>
+									<?php }elseif($current_type == "room"){ ?>
+									<tr>
+									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
+									<th style="text-align:right;"><?=currency_format($room_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
+									<?php if($tax_type == "item"){?>
+									<th style="text-align:right;"><?=currency_format($room_tax_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
 									<?php } ?>
 									<?php if($edit_bill){ ?>
 									<td>&nbsp;</td>

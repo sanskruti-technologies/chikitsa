@@ -135,6 +135,20 @@ class Bill extends CI_Controller {
 			$this->load->view('templates/footer');
         }
     }	
+	
+	public function check_available_stock($required_stock, $item_id) {
+		$this->load->model('stock/stock_model');
+		$item_detail = $this->stock_model->get_item($item_id);	
+		
+		$available_quantity = $item_detail['available_quantity'];
+		if ($available_quantity < $required_stock) {
+			$this->form_validation->set_message('check_available_stock', 'Required Quantity ' . $required_stock . ' exceeds Available Stock (' . $available_quantity . ') for Item ' . $item_detail['item_name']);
+			return FALSE;
+		} else {
+			return TRUE;
+		}	
+	}
+	
 	public function edit($bill_id){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
@@ -166,8 +180,7 @@ class Bill extends CI_Controller {
 					$this->form_validation->set_rules('item_amount', $this->lang->line("item_amount"), 'required|numeric');
 					$this->form_validation->set_rules('item_quantity', $this->lang->line("item_quantity"), 'required|callback_check_available_stock['.$item_id.']');
 					if ($this->form_validation->run() === FALSE) {
-					   
-					} else {
+					}else {
 						$item = $this->input->post('item_name');
 						
 						$amount = $this->input->post('item_amount');
@@ -286,7 +299,8 @@ class Bill extends CI_Controller {
 			if (in_array("stock", $active_modules)) {
 				$this->load->model('stock/stock_model');
 				$data['items'] = $this->stock_model->get_items();
-				$data['item_total'] = $this->patient_model->get_item_total($bill_id);
+				$data['item_total'] = $this->bill_model->get_item_total($bill_id);
+				
 			}else{
 				$data['item_total'] = 0;
 			}
@@ -310,6 +324,7 @@ class Bill extends CI_Controller {
 			}else{
 				$data['visit_id'] = 0;
 			}
+			
 			$data['bill'] = $this->bill_model->get_bill($bill_id);
 			$data['bill_details'] = $this->bill_model->get_bill_detail($bill_id);
 			$patient_id = $data['bill']['patient_id'];
@@ -322,6 +337,11 @@ class Bill extends CI_Controller {
 			if (in_array("treatment", $active_modules)) {
 				$data['treatment_total'] = $this->bill_model->get_total("treatment",$bill_id);
 			}
+			$data['room_total'] = 0;
+			if (in_array("rooms", $active_modules)) {
+				$data['room_total'] = $this->bill_model->get_total("room",$bill_id);
+			}
+			
 			$data['package_total'] = 0;
 			if (in_array("package", $active_modules)) {
 				$data['package_total'] = $this->bill_model->get_package_total($bill_id);
@@ -344,7 +364,10 @@ class Bill extends CI_Controller {
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-				
+			
+			$doctor_id=$data['bill']['doctor_id'];
+			$data['doctor']=$this->doctor_model->get_doctor_doctor_id($doctor_id);
+
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('bill_form', $data);
@@ -524,7 +547,7 @@ class Bill extends CI_Controller {
 				$data['treatment_total'] = $this->bill_model->get_treatment_total($bill_id);
 			}
 			$data['item_total'] = $this->bill_model->get_item_total($bill_id);
-           
+            
             $data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
 			$data['particular_total'] = $this->bill_model->get_particular_total($bill_id);
 			if (in_array("doctor", $active_modules)) {
@@ -658,23 +681,16 @@ class Bill extends CI_Controller {
 						$particular_table .= "</tr>";
 						$particular_tax_amount=$bill_detail['tax_amount'];
 						$particular_amount = $particular_amount + $bill_detail['amount'];
-					}elseif($bill_detail['type']=='room')
-					{
-						// for td count
-						$td_cnt=0;
+					}elseif($bill_detail['type']=='room'){
 						$room_table .= "<tr>";
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount'){
 								$room_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$room_table .=currency_format($bill_detail[$col])."</td>";
+								$room_table .= currency_format($bill_detail[$col])."</td>";
 							}else{
-								//increment count td 
-								$td_cnt=$td_cnt+1;
-									if($td_cnt < 3 ){
-									$room_table .= "<td style='padding:5px;border:1px solid black;'>";
-									$room_table .= $bill_detail[$col]."</td>";
-									}
-								}
+								$room_table .= "<td style='padding:5px;border:1px solid black;'>";
+								$room_table .= $bill_detail[$col]."</td>";
+							}
 						}
 						$room_table .= "</tr>";
 						$room_amount = $room_amount + $bill_detail['amount'];
@@ -751,7 +767,6 @@ class Bill extends CI_Controller {
 						//$tax_amount = $bill_detail['tax_amount'] + $bill_detail['amount'];
 					}
 				}
-				//print_r($bill_detail);
 				if($particular_table != ""){
 					if($data['tax_type'] == "bill"){		
 						$particular_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Particular</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_amount)."</strong></td></tr>";
@@ -767,7 +782,11 @@ class Bill extends CI_Controller {
 					}
 				}
 				if($item_table != ""){
-					$item_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount)."</strong></td></tr>";
+					if($data['tax_type'] == "bill"){		
+						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount)."</strong></td></tr>";
+					}else{
+						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount)."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount)."</strong></td></tr>";
+					}
 				}
 				if($treatment_table != ""){	
 					if($data['tax_type'] == "bill"){		

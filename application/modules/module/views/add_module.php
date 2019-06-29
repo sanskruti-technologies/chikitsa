@@ -56,9 +56,9 @@ $(window).load(function() {
 							<span class='extension_name'><?=$title;?></span>
 							<span class='extension_description'><?=$description;?></span>
 							<span class='extension_price'>$<?=$usd_price;?></span>
-							<span class='extension_last_updated'>Last Update : <?=date($def_dateformate,strtotime($last_updated));?></span>
+							<span class='extension_last_updated'><?=$this->lang->line('last')." ".$this->lang->line('update').":";?><?=date($def_dateformate,strtotime($last_updated));?></span>
 							<div class='extension_is_compatible alert <?=$compatible_class;?>'><?=$is_compatible;?></div>
-							<a class="btn btn-primary square-btn-adjust" href='<?=$link;?>'>Purchase</a>
+							<a class="btn btn-primary square-btn-adjust" href='<?=$link;?>'><?=$this->lang->line('stock_purchase');?></a>
 						</div>
 						<?php 
 					}

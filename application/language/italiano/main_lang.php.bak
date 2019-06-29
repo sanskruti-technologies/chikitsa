@@ -18,8 +18,10 @@
 	$lang['1hr'] = "1 Ora";
 
 	$lang['about'] = "Di";
+	$lang['about_settings'] = "Informazioni su Impostazioni";
 	$lang['about_page_settings'] = "Informazioni sulle impostazioni della pagina";
 	$lang['access_on_menu'] = "Accesso nel menu";
+	$lang['access_code'] = "Codice d'accesso";
 	$lang['account_group_master'] = "Account Group Master";
 	$lang['account_details_meta'] = "Dettagli account Meta";
 	$lang['account_group'] = "Gruppo di conti";
@@ -37,6 +39,14 @@
 	$lang['add_another_medicine'] = "Aggiungi un'altra medicina";
 	$lang['add_appointment'] = "Aggiungi appuntamento";
 	$lang['add_alerts'] = "Aggiungi avvisi";
+
+	$lang['add_slider'] = "Aggiungi cursore";
+	$lang['add_about_page_post'] = "Aggiungi informazioni sul post della pagina";
+	$lang['add_footer_section'] = "Aggiungi sezione piè di pagina";
+	$lang['add_footer_credit'] = "Aggiungi sezione credito";
+	$lang['add_top_section'] = "Aggiungi la sezione superiore";
+	$lang['add_image'] = "Aggiungi nuova immagine";
+
 	$lang['add_category'] = "Aggiungi categoria";
 	$lang['add_detail'] = "Permetti di aggiungere dettagli";
 	$lang['add_department'] = "Aggiungi dipartimento";
@@ -45,6 +55,7 @@
 	$lang['add_new_user'] = "Aggiungi nuovo utente";
 	$lang['add_news'] = "Aggiungi notizie";
 	$lang['add_test'] = "Aggiungi test";
+	$lang['add_as_medicine'] = "Aggiungi come medicina";
 	$lang['add_inquiry'] = "Aggiungi richiesta";
 	$lang['add_service'] = "Aggiungi servizio";	
 	$lang['add_treatment'] = "Aggiungere Trattamento";
@@ -75,6 +86,7 @@
 	$lang['alert_sms_log'] = "Registro di Alert Sms";
 	$lang['alert_email_log'] = "Registro di posta elettronica di avviso";
 	$lang['alert_time'] = "Tempo di avviso";
+	$lang['alerts'] = "avvisi";
 	$lang['alert_name'] = "Nome dell'avviso";
 	$lang['all'] = "Tutto";
 	$lang['allot'] = "Assegnare";
@@ -94,6 +106,7 @@
 	$lang['appointments'] = "Appuntamenti";
 	$lang['appointment_report'] = "Appuntamenti Rapporti";
 	$lang['appointment_reason'] = "Motivo dell'appuntamento";
+	$lang['appointment_date'] = "Data dell'appuntamento";
 	$lang['appointment_time_interval'] = "Intervallo di tempo dell'appuntamento";
 	$lang['assets'] = "Risorse";
 	$lang['availability'] = "Disponibilità";
@@ -112,6 +125,7 @@
 	$lang['backup_restore'] = "Ripristinare il backup";
 	$lang['back_to'] = "Di nuovo a";
 	$lang['back_to_app'] = "Torna al appuntamento";
+	$lang['book_an_appoinment'] = "Prenotare un appuntamento";
 	$lang['back_to_visit'] = "Torna alla Visita";
 	$lang['balance'] = "Bilancio";
 	$lang['balance_amount'] = "Importo del saldo";
@@ -122,8 +136,8 @@
 	$lang['bed'] = "Letto";
 	$lang['before'] = "Prima";
 	$lang['beds'] = "Letti";
-	$lang['bills'] = "Fatture";
 	$lang['bill'] = "Conto";
+	$lang['bills'] = "Fatture";
 	$lang['bill_amount'] = "Importo fatturato";
 	$lang['bill_no'] = "Conto No.";	
 	$lang['bill_details'] = "Dettagli Bill";
@@ -140,6 +154,10 @@
 	$lang['bought_quantity'] = "Acquistato Quantità";
 	$lang['browse'] = "Sfogliare";
 	$lang['blood_group'] = "Gruppo sanguigno";
+	$lang['bottom_section_1'] = "Sezione inferiore 1";
+	$lang['bottom_section_2'] = "Sezione inferiore 2";
+	$lang['bottom_section_3'] = "Sezione inferiore 3";
+	$lang['button'] = "Pulsante";
 	
 	$lang['calendar'] = "Calendario";
 	$lang['cancel'] = "Annulla";
@@ -155,6 +173,7 @@
 	$lang['case_date'] = "Data del caso";	
 	$lang['category'] = "Categoria";
 	$lang['categories'] = "Categorie";
+	$lang['cases'] = "casi";
 	$lang['center'] = "Centro";
 	$lang['centers'] = "Centri";
 	$lang['center_details'] = "Dettagli del centro";
@@ -188,6 +207,7 @@
 	$lang['clinic_phone_2'] = "Clinic Tel 2";
 	$lang['clinic_start_time'] = "Clinica Apertura";
 	$lang['clinic_runs_full_day'] = "La clinica corre tutto il giorno";	
+	$lang['cost'] = "Costo";
 	$lang['column_1'] = "Colonna 1";
 	$lang['column_2'] = "Colonna 2";
 	$lang['complete'] = "Completo";
@@ -195,6 +215,7 @@
 	$lang['company'] = "Compania";
 	$lang['compare'] = "Confrontare";
 	$lang['content'] = "Soddisfare";
+	$lang['contact'] = "Contatto";
 	$lang['conditions'] = "condizioni";
 	$lang['contact_details'] = "Dettagli del contatto";
 	$lang['country_code'] = "Prefisso internazionale";
@@ -215,8 +236,14 @@
 	$lang['created_by'] = "Creato da";
 	$lang['currency'] = "Moneta";
 	$lang['custom_details'] = "Dettagli personalizzati";
-
+	$lang['column_1_header'] = "Colonna 1 - Intestazione";
+	$lang['column_1_content'] = "Colonna 1 - Contenuto";
+	$lang['contact_us'] = "Contattaci";
+	$lang['ccavenue'] = "CCAvenue";
+	$lang['cancelled_appoinment_by_patient'] = "In caso di cancellazione dell'appuntamento da parte del paziente, il rimborso dovrà essere effettuato manualmente";
+		
 	$lang['dr_ac_name'] = "Dr. A / c Nome";
+	$lang['dose'] = "Dose";
 	$lang['day'] = "Giorno";
 	$lang['days'] = "giorni";
 	$lang['daily'] = "Giornaliero";
@@ -225,7 +252,6 @@
 	$lang['date'] = "Data";
 	$lang['dashboard'] = "Cruscotto";
 	$lang['date_format'] = "Formato data";
-	$lang['days'] = "Giorni";
 	$lang['deactivate'] = "Disattivare";
 	$lang['deallocate'] = "Dealloca";
 	$lang['degrees'] = "Gradi";
@@ -279,6 +305,7 @@
 	$lang['edit_Contact'] = "Modifica contatto";
 	$lang['edit_treatment'] = "Modifica Trattamento";
 	$lang['edit_user'] = "Modifica utente";
+	$lang['edit_medicine_too'] = "Modifica anche la medicina";
 	$lang['edit_test'] = "Modifica test";
 	$lang['email'] = "E-mail";
 	$lang['email_log'] = "Email Log";
@@ -307,22 +334,25 @@
 	$lang['enable_service_page'] = "Abilita pagina di servizio";
 	$lang['email_alert_time'] = "Email Alert Time";
 	$lang['email_format'] = "Formato email";
-
+	$lang['edit_format'] = "Modifica formato";
 	$lang['face'] = "Faccia";
 	$lang['facebook'] = "Facebook";
 	$lang['fees'] = "Commissioni";
 	$lang['fees_detail'] = "tasse";
 	$lang['female'] = "Femmina";
+	$lang['file'] = "File";
 	$lang['file_content'] = "Contenuto del file";
 	$lang['filter'] = "Filtro";
 	$lang['first'] = "Primo";
 	$lang['first_name'] = "Nome di battesimo";
 	$lang['fields'] = "campi";
 	$lang['foc'] = "F.O.C.";
+		$lang['follow'] = "Seguire";
 	$lang['follow_up'] = "Seguito";
 	$lang['follow_ups'] = "Seguiti";
 	$lang['footer_credits'] = "Crediti a piè di pagina";
 	$lang['footer_settings'] = "Impostazioni del piè di pagina";
+	$lang['footer_credit_settings'] = "Impostazioni credito a piè di pagina";
 	$lang['for'] = "Per";
 	$lang['forgot_password'] = "Ha dimenticato la password?";
 	$lang['form'] = "Forma";
@@ -336,18 +366,24 @@
 	$lang['frontend'] = "Fine frontale";
 	$lang['framework'] = "Struttura";
 	$lang['full_day'] = "Giornata intera";
-	$lang['footer_settings'] = "Impostazioni del piè di pagina";
 	$lang['fixed_amount'] = "Importo fisso";
 	$lang['from_email'] = "Dall'email";
-
+	$lang['featured'] = "In primo piano";
+	$lang['footer_section_1'] = "Sezione di piè di pagina 1";
+	$lang['footer_section_2'] = "Piè di pagina Sezione 2";
+	$lang['footer_section_3'] = "Piè di pagina Sezione 3";
+	$lang['footer_section_4'] = "Sezione di piè di pagina 4";
+	
 	$lang['gender'] = "Genere";
 	$lang['gain'] = "Guadagno";
 	$lang['gallery'] = "Galleria";
 	$lang['go'] = "Vai";
 	$lang['google_plus'] = "Google Plus";
 	$lang['general_settings'] = "impostazioni generali";
+	$lang['group_by'] = "Raggruppa per";
 
 	$lang['header'] = "Intestazione";
+		$lang['hidden'] = "Nascosto";
 	$lang['home'] = "Home";
 	$lang['hour'] = "ora";
 	$lang['hourly'] = "Ogni ora";
@@ -356,9 +392,16 @@
 	$lang['header_settings'] = "Impostazioni intestazione";
 	$lang['home_settings'] = "Impostazioni della pagina iniziale";
 	$lang['has_additional_details'] = "Ha dettagli aggiuntivi";
+	$lang['heading'] = "Intestazione";
+	$lang['history'] = "Storia";
+	$lang['home_page_settings'] = "Impostazioni della pagina iniziale";
+	$lang['home_page_slider'] = "Cursore della pagina iniziale";
+	$lang['home_page_top_section'] = "Home Page Sezione superiore";
+	$lang['home_page_bottom_section'] = "Home Page Sezione inferiore";
 	
 	$lang['invoice'] = "Fattura";
 	$lang['id'] = "Id";
+	$lang['icon'] = "Icona";
 	$lang['inavailablity'] = "Non disponibilità";
 	$lang['install'] = "Installa";
 	$lang['installing'] = "Installando";
@@ -379,12 +422,16 @@
 	$lang['image_path'] = "Percorso dell'immagine";
 	$lang['income'] = "Reddito";
 	$lang['issue_refund'] = "Problema di rimborso";
-
+	$lang['individual'] = "Individuale";
+	$lang['information'] = "Informazione";
+	
 	$lang['joining_date'] = "Data di adesione";
 	$lang['jurisdiction'] = "Con riserva di giurisdizione";
 	$lang['journal_voucher'] = "Voucher del giornale";
 	$lang['journal_vouchers'] = "Voucher della rivista";
 	
+	$lang['key'] = "Chiave";
+
 	$lang['landline'] = "Linea telefonica fissa";
 	$lang['last_name'] = "Cognome";
 	$lang['last'] = "Ultimo";
@@ -401,6 +448,9 @@
 	$lang['line2'] = "Linea 2";
 	$lang['liabilities'] = "passivo";
 	$lang['list_master'] = "List Master";
+	$lang['language'] = "linguaggio";
+	$lang['latest'] = "Più recente";
+	$lang['link'] = "collegamento";
 	
 	$lang['male'] = "Maschio";
 	$lang['marking'] = "Segnando";
@@ -422,10 +472,23 @@
 	$lang['minutes'] = "minuti";
 	$lang['morning_time'] = "Mattinata";
 	$lang['message'] = "Messaggio";
+	$lang['make']="Rendere";
+	$lang['media']="Media";
+	$lang['merchant_id']="ID Commerciante";
+	$lang['my_account']="Il mio account";
+	$lang['minimum_stock']="Stock minimo richiesto";
+	$lang['make_an_appointment'] = "Fai un appuntamento";
+	$lang['maximum_about_posts'] = "(Hai raggiunto il numero massimo di post che possono essere aggiunti)";
+	$lang['maximum_footer_posts'] = "(Hai raggiunto i messaggi delle sezioni piè di pagina massime che possono essere aggiunti)";
+	$lang['maximum_top_posts'] = "(Hai raggiunto i messaggi delle sezioni principali massime che possono essere aggiunti)";
+	$lang['maximum_bottom_posts'] = "(Hai raggiunto i post delle sezioni inferiori massime che puoi aggiungere)";
+	$lang['maximum_footer_credits'] = "(You have reached the Maximum Footer credit Posts that can be added) ";
 
 	$lang['name'] = "Nome";
+	$lang['none'] = "None";
 	$lang['next_follow_up'] = "Dopo follow Successivo";
 	$lang['next_follow_date'] = "Successivo follow-Data";
+	$lang['news_title'] = "Titolo";
 	$lang['new'] = "Nuovo";
 	$lang['news'] = "notizia";
 	$lang['new_appointment'] = "Nuovo appuntamento";
@@ -448,7 +511,10 @@
 	$lang['night_time'] = "Notte";
 	$lang['needs_cash_calc'] = "Richiede il calcolatore di cassa";
 	$lang['nurse'] = "Infermiera";
-
+	$lang['no_prescription']="No Prescription Found";
+	
+	$lang['on'] = "Sopra";
+	$lang['our'] = "Nostro";
 	$lang['office'] = "Ufficio";
 	$lang['office_branch'] = "Branch Office";
 	$lang['old_password'] = "Vecchia Password";
@@ -459,6 +525,7 @@
 	$lang['of_appoinment_time'] = "del tempo dell'appuntamento";
 	
 	$lang['paid'] = "Pagato";
+	$lang['page_title'] = "Titolo della pagina";
 	$lang['paid_cash'] = "Contanti pagati";
 	$lang['paid_amount'] = "Importo pagato";
 	$lang['parent'] = "Genitore";
@@ -492,7 +559,10 @@
 	$lang['per_hour'] = "Al ora";
 	$lang['phone_number'] = "No. Telefono";
 	$lang['placeholder'] = "segnaposto";
+	$lang['post'] = "Inviare";
+	$lang['posts'] = "messaggi";
 	$lang['postal_code'] = "Codice Postale";
+	$lang['post_content'] = "Pubblica contenuto";
 	$lang['print'] = "Stampa";
 	$lang['print_receipt'] = "Stampa Ricevuta";
 	$lang['profile'] = "Profilo";
@@ -517,6 +587,10 @@
 	$lang['planned_visit'] = "Questa è Visita è una sessione pianificata";
 	$lang['planned_sessions'] = "Sessioni pianificate";
 	$lang['payment_pending'] = "Mantieni il pagamento in sospeso fino all'approvazione";
+	$lang['phone'] = "Telefono";
+	$lang['pay'] = "pagare";
+	$lang['paypal'] = "PayPal";
+	$lang['prescribed_medicine'] = "Medicina prescritta";
 
 	$lang['quantity'] = "Quantita";
 
@@ -534,10 +608,12 @@
 	$lang['reset_password'] = "Resetta la password";
 	$lang['remark'] = "osservazione";
 	$lang['remove_logo'] = "Rimuovi logo";
+	$lang['remove_patient_image'] = "Rimuovi immagine paziente";
 	$lang['renew_license'] = "Rinnova la licenza";
 	$lang['renew_license_to_update'] = "Rinnova la licenza per l'aggiornamento";
 	$lang['receive_fee'] = "Ricevuto per le tasse di servizi professionali e altri oneri di Nostra";
-    $lang['rooms'] = "Camere";
+   	$lang['room'] = "Camera";
+	$lang['rooms'] = "Camere";
 	$lang['rooms_categories'] = "Categorie di camere";
 	$lang['rooms_allocate'] = "Camere Allocate";
 	$lang['rooms_calendar'] = "Calendario delle camere";
@@ -559,7 +635,14 @@
 	$lang['refund_note'] = "Nota di rimborso"; 
 	$lang['refresh'] = "Ricaricare"; 
 	$lang['reject'] = "Rifiutare"; 
+	$lang['reason_for_appointment'] = "Motivo per l'appuntamento";
+	$lang['required_quantity'] = "Quantità richiesta";
 	
+	$lang['sign_up'] = "Iscriviti";
+	$lang['slider_1'] = "Slider 1";
+	$lang['slider_2'] = "Slider 2";
+	$lang['slider_3'] = "Slider 3";
+	$lang['slider'] = "Slider";
 	$lang['section_1'] = "Sezione 1";
 	$lang['section_2'] = "Sezione 2";
 	$lang['section_3'] = "Sezione 3";
@@ -605,6 +688,7 @@
 	$lang['services_settings'] = "Impostazioni servizi";
 	$lang['stock_sell'] = "Vendere";
 	$lang['sell_id'] = "Id Vendita";
+	$lang['set'] = "Impostato";
 	$lang['sell_amount'] = "Vendita Importo";
 	$lang['sell_date'] = "Vendita Data";
 	$lang['sell_price'] = "Vendita Prezzo";
@@ -654,6 +738,7 @@
 	$lang['select_tax_rate'] = "Seleziona l'aliquota fiscale";
 	$lang['sell_return'] = "Vendi il ritorno";
 	$lang['stock_sell_report'] = "Tutti i rapporti di vendita";
+	$lang['total_sell_report'] = "Rapporto di vendita totale";
 	$lang['synchronize'] = "Sincronizzare";
 	$lang['sms_url'] = "URL per inviare SMS";
 	$lang['smtp_host'] = "SMTP Host";
@@ -666,6 +751,8 @@
 	$lang['save_and_bill'] = "Salva e crea fattura";
 	$lang['ssn_id'] = "Civil No.";
 	$lang['save_complete'] = "Salva e completa";
+	$lang['set_alert_time'] = "Imposta il tempo di avviso";
+	$lang['slot'] = "Slot";	
 
 	$lang['to'] = "a";
 	$lang['total_appointments'] = "Appuntamenti totali";
@@ -711,6 +798,11 @@
 	$lang['test_name'] = "Nome del test";
 	$lang['test'] = "Test";
 	$lang['tests'] = "Test";
+	$lang['text'] = "Testo";
+	$lang['top_section_1'] = "Sezione superiore 1";
+	$lang['top_section_2'] = "Sezione superiore 2";
+	$lang['top_section_3'] = "Sezione superiore 3";
+	$lang['this_payment_is_rejected'] = "Questo pagamento è respinto";
 
 	$lang['upload_extension'] = "Caricare Estensioni";
 	$lang['update'] = "Aggiornare";
@@ -720,7 +812,9 @@
 	$lang['user'] = "Utente";
 	$lang['url'] = "URL";
 	$lang['users'] = "Utenti";
-	$lang['unpacking_zip_package'] = "Apertura della confezione Zip pacchetto";
+	$lang['using'] = "utilizzando";
+	$lang['upcoming_appointments'] = "Prossimi appuntamenti";
+	$lang['unpacking_zip_package'] = "Disimballaggio del pacchetto Zip";
 	
 	$lang['vaccine'] = "Vaccino";
 	$lang['vaccines'] = "vaccini";
@@ -739,6 +833,7 @@
 	$lang['voucher_no'] = "Buono n.";
 	$lang['voucher_date'] = "Data del buono";
 	$lang['view_prescription'] = "Visualizza la prescrizione";
+	$lang['value'] = "Valore";
 	
 	$lang['waiting'] = "In attesa";
 	$lang['waiting_in'] = "In attesa";
@@ -750,6 +845,7 @@
 	$lang['working'] = "Lavoro";
 	$lang['working_days'] = "Giorni lavorativi";
 	$lang['non_working'] = "Non funzionante";
+	$lang['we_provide'] = "Noi forniamo";
 	
 	$lang['sunday'] = "Domenica";
 	$lang['monday'] = "Lunedi";
@@ -777,10 +873,8 @@
 	$lang['allot'] = "Aggiudicare";
 	$lang['beds'] = "Letti";
 
-
-
-	
 	//Warnings / Errors / Alerts
+	$lang['aplha_space'] = "Il campo% s può contenere solo caratteri alfa e spazi bianchi";
 	$lang['first_or_last']="Inserisci il nome o il cognome";
 	$lang['password_not_match']="Vecchia password non corrispondente";
 	$lang['irreversible_process']="Questo è un processo irreversibile. Può causare la perdita di dati. Sii veramente sicuro prima di ripristinare i dati.";

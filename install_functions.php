@@ -17,7 +17,10 @@
 			$dbprefix = $_REQUEST['dbprefix'];
 			$statement = str_replace("%dbprefix%",$dbprefix,$sql);
 			if (!mysqli_query($con,$statement)){
-				echo "Error : ". mysqli_error($con) . " occurred while executing ".$statement;
+				$error = mysqli_error($con);
+				if (strpos($error, "Duplicate entry") === false) {
+					echo "Error : ". $error . " occurred while executing ".$statement;
+				}
 			}
 		}
 		

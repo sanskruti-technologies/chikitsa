@@ -106,7 +106,8 @@ $( window ).load(function() {
 								<?php $i=1; 
 								$total_amount = 0;
 								$paid_amount = 0;
-								$due_amount = 0;?>
+								$due_amount = 0;
+								?>
 								<?php foreach ($bills as $bill){  ?>
 								<tr>
 									<td><?php echo $i; ?></td>

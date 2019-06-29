@@ -26,11 +26,15 @@ class FrappeClient {
 	private $_limit_page_length = 20;
 	
 	function get_data($key){
+		$value = "";
 		$dbprefix = $this->CI->db->dbprefix;
 		$sql = "SELECT * FROM ".$dbprefix."data WHERE ck_key = ?"; 
 		$results = $this->CI->db->query($sql, array($key));
 		$data = $results->row(); 
-		$value = $data->ck_value;
+		if($data){
+			
+			$value = $data->ck_value;
+		}
 		return $value;
 	}
 	
@@ -38,7 +42,7 @@ class FrappeClient {
 				$usr=""
 				,$pwd=""
 		){
-			$this->CI =& get_instance();
+			$this->CI =&get_instance();
 			$this->CI->load->database();
 			
 			$erpnext_url = $this->get_data('erpnext_url');

@@ -13,6 +13,8 @@
 	}
 	if(isset($doctor)){
 		$doctor_name = $doctor['title']." ".$doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
+	}else{
+		$doctor_name="";
 	}
 ?>
 <script type="text/javascript" charset="utf-8">
@@ -76,7 +78,7 @@ $(window).load(function(){
 	<?php } ?>
 	var list_fees=[];
 	<?php if(isset($fees)){ ?>
-	list_fees = [
+		list_fees = {	
 	<?php 
 		$fees_doctor = 0;
 		$fees_string = "";
@@ -114,7 +116,7 @@ $(window).load(function(){
 		}*/
 		echo $fees_string;
 	?>
-	];
+	};
 	
 	
 	$("#fees_detail").autocomplete({
@@ -353,14 +355,10 @@ $(window).load(function(){
 			select: function(event,ui){
 				//do something
 				$("#doctor_id").val(ui.item ? ui.item.id : '');
-				<?php if(isset($fees)){ ?>
 				$("#fees_section").show();
 				var doctor_id = $('#doctor_id').val();
 				console.log(doctor_id);
 				$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
-				<?php }else{ ?>
-				$("#fees_section").hide();
-				<?php } ?>
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
@@ -382,7 +380,7 @@ $(window).load(function(){
 	<?php }else{ ?>
 		var doctor_id = $('#doctor_id').val();
 		$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
-	<?php } ?>
+	<?php }?>
 	$('#bill_date').datetimepicker({
 		timepicker:false,
 		format: '<?=$def_dateformate; ?>',
@@ -476,28 +474,54 @@ $(window).load(function(){
 								<div class="panel-body">
 					
 									<div class="col-md-3">
-										<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
-										<input type="hidden" name="patient_id" id="patient_id" value="<?=$patient_id; ?>">
-										<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control"/>
+									<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
+									<input type="hidden" name="patient_id" id="patient_id" value="<?=$patient_id; ?>">
+										<?php if(isset($visit_id))
+												{ ?>
+												<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control" readonly/>	
+											<?php	}else { ?>
+												<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control"/>
+											<?php } ?>
 									</div>
 									<div class="col-md-3">
 										<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
-										<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control"/>
+										<?php if(isset($visit_id))
+												{ ?>
+												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control" readonly/>	
+											<?php	}else { ?>
+												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control"/>
+											<?php } ?>
+										
 									</div>
 									<div class="col-md-3">
 										<label for="patient"><?php echo $this->lang->line('patient_name');?></label>
-										<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name;?>" class="form-control"/>
+										<?php if(isset($visit_id))
+												{ ?>
+												<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name; ?>" class="form-control" readonly/>	
+											<?php	}else { ?>
+												<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name; ?>" class="form-control"/>
+											<?php } ?>
 										<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
 									</div>
 									<div class="col-md-3">
 										<label for="phone"><?php echo $this->lang->line('mobile');?></label>
-										<input type="text" name="phone_number" id="phone_number" value="<?php if(isset($curr_patient)){echo $curr_patient['phone_number']; } ?>" class="form-control"/>
+										<?php if(isset($visit_id))
+												{ ?>
+												<input type="text" name="phone_number" id="phone_number" value="<?=$phone_number; ?>" class="form-control" readonly/>	
+											<?php	}else { ?>
+												<input type="text" name="phone_number" id="phone_number" value="<?=$phone_number; ?>" class="form-control"/>
+											<?php } ?>
 									</div>
 								</div>
 							</div>
 						<div class="form-group col-md-6">
 							<label for="patient_name"><?php echo $this->lang->line("doctor");?></label>
-							<input type="text" name="doctor_name" class="form-control" id="doctor_name" value="<?=@$doctor_name;?>">
+							<?php if(isset($visit_id))
+									{ ?>
+									<input type="text" name="doctor_name" id="doctor_name" value="<?=$doctor_name; ?>" class="form-control" readonly/>	
+								<?php	}else { ?>
+									<input type="text" name="doctor_name" id="doctor_name" value="<?=$doctor_name; ?>" class="form-control"/>
+								<?php } ?>
 							<input type="hidden" name="appointment_id" id="appointment_id" value="<?=@$appointment_id ?>"/>
 							<input type="hidden" name="doctor_id" id="doctor_id" value="<?= @$doctor_id ?>"/>
 							<?php echo form_error('doctor_id','<div class="alert alert-danger">','</div>'); ?>
@@ -506,12 +530,24 @@ $(window).load(function(){
 					<div class="col-md-12">
 						<div class="form-group col-md-6">
 							<label for="bill_date"><?php echo $this->lang->line("date");?></label>
-							<input type="text" name="bill_date" id="bill_date" class="form-control" value="<?=$bill_date;?>">
+							<?php if(isset($visit_id))
+									{ ?>
+									<input type="text" name="bill_date" id="" value="<?=$bill_date; ?>" class="form-control" readonly/>	
+								<?php	}else { ?>
+									<input type="text" name="bill_date" id="bill_date" value="<?=$bill_date; ?>" class="form-control"/>
+								<?php } ?>
+									
 							<?php echo form_error('bill_date','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="form-group col-md-6">
 							<label for="bill_time"><?php echo $this->lang->line("time");?></label>
-							<input type="text" name="bill_time" id="bill_time" class="form-control" value="<?=$bill_time;?>">
+							<?php if(isset($visit_id))
+									{ ?>
+									<input type="text" name="bill_time" id="" value="<?=$bill_time; ?>" class="form-control" readonly/>	
+								<?php	}else { ?>
+									<input type="text" name="bill_time" id="bill_time" value="<?=$bill_time; ?>" class="form-control"/>
+								<?php } ?>
+							
 							<?php echo form_error('bill_time','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 					</div>

@@ -14,7 +14,7 @@ class Doctor_model extends CI_Model {
 			$this->db->where('last_name' , $last_name);
 		}
 		$query = $this->db->get('view_doctor');
-		echo $this->db->last_query()."<br/>";
+		//echo $this->db->last_query()."<br/>";
         $row = $query->row_array();
 		if ($row){
 			return $row['doctor_id'];	
@@ -32,7 +32,6 @@ class Doctor_model extends CI_Model {
 		}
 		return $doctor;
     }
-	
 	public function get_doctor_for_online_appointment(){
 		$query = $this->db->query('SELECT doctor.* , doctor_preferences.enable_online_appointment FROM '.$this->db->dbprefix('doctor').' AS doctor LEFT OUTER JOIN '.$this->db->dbprefix('doctor_preferences').' AS doctor_preferences ON doctor.doctor_id = doctor_preferences.doctor_id WHERE IFNULL(doctor_preferences.enable_online_appointment,1) = 1 AND IFNULL(doctor.is_deleted,0) != 1 AND  IFNULL(doctor_preferences.is_deleted,0) != 1');
 		//echo $this->db->last_query()."<br/>";
@@ -334,8 +333,9 @@ class Doctor_model extends CI_Model {
 	}
 	/*department ---------------------------------------------------------------------------------------*/
 	public function get_all_departments() {	
-		$this->db->where("IFNULL(is_deleted,0) !=", 1);
+		//$this->db->where("IFNULL(is_deleted,0) !=", 1);
 		$query = $this->db->get("department");
+		//echo $this->db->last_query();
 		return $query->result_array();
 	}
 	public function get_department($department_id) {

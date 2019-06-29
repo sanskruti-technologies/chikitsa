@@ -36,8 +36,10 @@
 		
 		global $latest_version;
 		global $display_message;
+		global $flag;
+		$flag="false";
 		
-		$latest_version = "0.7.8";
+		$latest_version = "0.7.9";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.
@@ -61,12 +63,14 @@
 			$config_file = "./application/config/config.php";
 			
 			$line_array = file($config_file);
-
+			//print_r($line_array);
 			for ($i = 0; $i < count($line_array); $i++) {
 				if (strstr($line_array[$i], "'base_url'")) {
 					$line_array[$i] = '$config[\'base_url\'] = "'.$base_url.'/";'."\r\n";
 				}
 			}
+			//print_r($line_array);
+			
 			file_put_contents($config_file, $line_array);
 		}
 		function folder_move($source, $target ){
@@ -242,7 +246,12 @@
 		}
 		function display_information($message) {
 			global $display_message;
-			$display_message = $display_message . $message . "<br/>";     
+			global $flag;
+			$display_message = $display_message . $message . "<br/>";   
+			if($message=="You have latest version of application installed."){
+				$flag=true;
+			}
+				
 		}
 		function application_url(){
             /* Get Page Url */
@@ -541,7 +550,8 @@
 					if (!isset($_REQUEST["step"])) {
 						// Check if application is installled or not      
 						if (is_installed()) {
-							set_base_url();
+							
+							
 							/************************************************************
 							** Check the database file
 							*************************************************************/
@@ -638,41 +648,46 @@
 										if($index == 73){
 											delete_folder("application/modules/main");
 										}
-										
+										$sqls = file($sql_file_name);	
 										if($index >=  79){
-											//Read Language Data from database and update language file
-																					
-											$language_file = "./application/language/english/main_lang.php";
-											$line_array = file($language_file);	
-											
-											//select l_index and l_value from table		
+											//put language_data in to table which are not inserted
+											include_once("./application/language/english/main_lang.php");
 											$sql = "SELECT l_index,l_value FROM".$dbprefix."language_data;";
 											$result = mysqli_query($con, $sql);
-											$index_array=array();
-											$value_array=array();
+											$new_array=array();
 											if (mysqli_num_rows($result) > 0) {
-														while($row = mysqli_fetch_assoc($result)) {
-														    array_push($index_array,$row["l_index"]);
-															array_push($value_array,$row["l_value"]);
-														}
-														
-											}
-											//print_r($index_array)."<br/>";
-											//print_r($value_array);
-											
-											
-											for($j=0;$j<sizeof($index_array);$j++){
-												for ($i = 0; $i < count($line_array); $i++) {
-													if (strstr($line_array[$i], '$lang[\''.$index_array[$j].'\'] = ')) {
-														$line_array[$i] = '$lang[\''.$index.'\'] = "'.$value_array[$j].'";' . "\r\n";
-													}
+												while($row = mysqli_fetch_assoc($result)) {
+													 $new_array[$row['l_index']] = $row['l_value'];
 												}
-											}	
+											}
+											foreach($lang as $key =>$l){
+												if($lang[$key]==$new_array[$key]){
+													//Nothing
+												}else{
+													$query="INSERT INTO %dbprefix%language_data (l_name,l_index,l_value) values('english','".$key."','".$l."')";
+													$sqls[] = $query;	
+												}
+											}
+											
+											//Read Language Data from database and update language file
+											$language_file = "./application/language/english/main_lang.php";
+											
+											//select l_index and l_value from table		
+											$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data;";
+											$result = mysqli_query($con, $sql);
+											
+											$i=1;
+											$line_array=array();
+											$line_array[0] = "<?php ". "\r\n";
+											while($row = mysqli_fetch_assoc($result)) {
+												$line_array[$i] = '$lang[\''.$row["l_index"].'\'] = "'.$row["l_value"].'";' . "\r\n";
+												$i++;
+											}
+											$line_array[$i] = "?> ". "\r\n";
+											
 											file_put_contents($language_file, $line_array);
 										}
-										display_information("Upgrading from ".$current_version." to ".$new_version);
-			
-										$sqls = file($sql_file_name);	
+										
 										if($latest_version == '0.7.8'){
 											//Read and Load Language Files
 											//English
@@ -682,6 +697,7 @@
 												$sqls[] = $query;												
 											}
 										}
+										display_information("Upgrading from ".$current_version." to ".$new_version);
 										$count = count($sqls);
 										?>
 										<script type="text/javascript">
@@ -732,7 +748,7 @@
 								
 								
 								?>
-								<div class="form_style" id="continue_form" style="display:none;">
+								<div class="form_style" id="continue_form" style="display:none">
 									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo $base_url."/index.php/login/cleardata";?>">Continue to Application</a>
 								</div>
 								<?php
@@ -745,7 +761,7 @@
 							** Step 1 - Ask for MySQL Credentials
 							*************************************************************/
 							$message="";
-							set_base_url();
+							
 							display_form($message);
 						}
 					}elseif ($_REQUEST["step"] == 2) {
@@ -924,7 +940,7 @@
 						$sample_config_file = "application/config/sample-config.php";
 						$config_file = "application/config/config.php";
 						rename($sample_config_file,$config_file);
-						
+						set_base_url();
 						// Connect to Server 
 						$conn = new Database;
 						$error_message = $conn->Connection($server, $mysql_username, $mysql_password);
@@ -958,6 +974,7 @@
 								}
 							//....
 							$sql = "UPDATE ".$dbprefix."version SET current_version='$latest_version';";
+							//echo $sql;
 							if (!mysqli_query($con,$sql)) {
 								$message = "Error : " . mysqli_error($con);
 							}else{

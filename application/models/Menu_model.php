@@ -134,10 +134,10 @@ class Menu_model extends CI_Model {
 		//Chikitsa Core Update
 		$current_version = $this->config->item('current_version'); 
 		$latest_version = $current_version;
+		$today = date('Y-m-d');
 		$doc = new DOMDocument();
-		//xml file loading here
-		if (@$doc->load( "http://sanskruti.net/chikitsa/modules/chikitsa.xml" ) !== false){
-		
+		//echo base_url("about_chikitsa/$today.xml");
+		if (@$doc->load( base_url("about_chikitsa/$today.xml") ) !== false){
 			$chikitsa = $doc->getElementsByTagName( "chikitsa" );
 			foreach( $chikitsa as $c ){
 				$versions = $c->getElementsByTagName( "version" );
@@ -146,17 +146,15 @@ class Menu_model extends CI_Model {
 				$links = $c->getElementsByTagName( "link" );
 				$download_link = $links->item(0)->nodeValue;
 			}
+			
 			//Chikitsa Upgrade required
 			$current_version_int = (int)str_replace(".","",$current_version);
 			$latest_version_int =  (int)str_replace(".","",$latest_version);
 			if($current_version_int < $latest_version_int){ 
 				$updates_available++;
 			}
+			
 			//Check all extensions
-			$doc = new DOMDocument();
-			$doc->load( "http://sanskruti.net/chikitsa/modules/chikitsa.xml" );//xml file loading here
-				
-				
 			$module_status = array();
 			$modules = $this->get_modules();
 			$i = 0;
@@ -178,7 +176,14 @@ class Menu_model extends CI_Model {
 					}				
 				}
 			}
-		}	
+		}else{
+			//Dowload the xml
+			$this->load->helper('download');
+			// read file contents
+			$data = file_get_contents("http://sanskruti.net/chikitsa/modules/chikitsa.xml");
+			write_file('./about_chikitsa/'.$today.'.xml', $data);
+		}
+		
 		if($updates_available != 0){
 			return $updates_available;
 		}else{

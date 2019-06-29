@@ -467,9 +467,8 @@ class Patient extends CI_Controller {
 			
             if ($this->form_validation->run() === FALSE) {
                 
-            } else {
-				
-                $visit_id = $this->patient_model->insert_visit();
+            }else {
+		        $visit_id = $this->patient_model->insert_visit();
 				$data['bill_id'] = $this->bill_model->get_bill_id($visit_id);
 				$appointment_id=$this->input->post('appointment_id');
 				$this->appointment_model->add_visit_id_to_appointment($appointment_id,$visit_id);
@@ -517,6 +516,7 @@ class Patient extends CI_Controller {
 					$this->load->model('history/history_model');
 					$this->history_model->update_visit_history_details($visit_id);
 				}
+				$this->appointment_model->change_status($appointment_id,"Complete");
             }
 			
 			$data['patient_id'] = $patient_id;
@@ -669,7 +669,11 @@ class Patient extends CI_Controller {
 					$data['section_master'] = $this->history_model->get_section_by_display_in("visits");
 					$data['section_fields'] = $this->history_model->get_fields_by_display_in("visits");
 					//print_r($data['section_fields']);
-					$data['section_conditions'] = $this->history_model->get_conditions_by_display_in("visits");
+					if ( method_exists($this->history_model,'get_conditions_by_display_in')){
+						$data['section_conditions'] = $this->history_model->get_conditions_by_display_in("visits");
+					}else{
+						$data['section_conditions'] = array();
+					}
 					$data['field_options'] = $this->history_model->get_field_options_by_display_in("visits");
 					$data['field_name'] = $this->history_model->get_field_names();
 					$data['visit_history_details'] = $this->history_model->get_visit_history_details($visit_id);

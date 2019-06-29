@@ -19,14 +19,14 @@ $(window).load(function(){
 		<div class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				Language
+				<?php echo $this->lang->line('language');?>
 			</div>
 			<div class="panel-body">
 				<table class="table table-striped table-bordered table-hover" id="bill_table">
 					<thead>
 						<tr>
-							<th>Language Key</th>
-							<th>Language Value</th>
+							<th><?php echo $this->lang->line('language')." ".$this->lang->line('key');?></th>
+							<th><?php echo $this->lang->line('language')." ".$this->lang->line('value');?></th>
 						</tr>
 					</thead>
 					<tbody>

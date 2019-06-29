@@ -373,7 +373,7 @@ $(document).ready(function(){
 										//echo $reference['reference_option'];
 										//echo $patient['reference_by'];
 										?>
-										<option reference_placeholder="<?php echo $reference['placeholder']; ?>" reference_add_option="<?php echo $reference['reference_add_option']; ?>" value="<?php echo $reference['reference_option']; ?>">
+										<option reference_placeholder="<?php echo $reference['placeholder']; ?>" reference_add_option="<?php echo $reference['reference_add_option']; ?>" value="<?php echo $reference['reference_option']; ?>" <?=$selected?>>
 										<?php echo $reference['reference_option']; ?>
 										</option>
 									<?php }?>
@@ -459,7 +459,7 @@ $(document).ready(function(){
 								<img id="PreviewImage" src="<?php echo base_url()."uploads/images/Profile.png"; ?>" alt="Profile Image"  height="100" width="100" />
 								<?php } ?>
 								<?php if(isset($patient_id)) {?>
-								<a class="btn btn-danger btn-sm square-btn-adjust" href="<?=site_url('patient/remove_profile_image/'.$patient_id.'/'.$called_from);?>">Remove Patient Image</a>
+								<a class="btn btn-danger btn-sm square-btn-adjust" href="<?=site_url('patient/remove_profile_image/'.$patient_id.'/'.$called_from);?>"><?php echo $this->lang->line('remove_patient_image');?></a>
 								<?php }?>
 								<input type="file" id="userfile" name="userfile" class="form-control" size="20" onchange="readURL(this);" />
 								<input type="hidden" id="src" name="src" value="<?php echo $contact_contact_image; ?>" />

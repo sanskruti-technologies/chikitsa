@@ -66,32 +66,10 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading"><?php echo $this->lang->line('exceptional_days');?></div>
 				<div class="panel-body">
-					<?php echo form_open('settings/save_exceptional_days'); ?>
-					<div class="col-md-12">
-						<div class="col-md-3">
-							<label><?php echo $this->lang->line('date');?></label>
-							<input type="text" id="working_date" name="working_date" class="form-control">
-							<?php echo form_error('working_date','<div class="alert alert-danger">','</div>'); ?>
-						</div>
-						<div class="col-md-3">
-							<label><?php echo $this->lang->line('status');?></label>
-							<select name="working_status" id="working" class="form-control">
-								<option value="Working"><?php echo $this->lang->line('working');?></option>
-								<option value="Non Working"><?php echo $this->lang->line('non_working');?></option>
-							</select>
-							<?php echo form_error('working_status','<div class="alert alert-danger">','</div>'); ?>
-						</div>
-						<div class="col-md-3">
-							<label><?php echo $this->lang->line('reason');?></label>
-							<input type="text" id="working_reason" name="working_reason" class="form-control">
-							<?php echo form_error('working_reason','<div class="alert alert-danger">','</div>'); ?>
-						</div>
-						<div class="col-md-3">
-							<p></p>
-							<input type="submit" name="submit" class="btn btn-primary">
-						</div>
+					
+					<div class="col-md-3">
+							<a href="<?=site_url('settings/edit_exceptional_days/');?>" class="btn btn-primary" ><?php echo $this->lang->line('add');?></a>
 					</div>
-					<?php echo form_close(); ?>
 					<div class="col-md-12">
 						<p></p>
 					</div>

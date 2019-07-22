@@ -251,7 +251,22 @@ $(document).ready(function(){
 		$contact_country = set_value('country','');
 	}
 	function is_enabled($patient_alerts,$alert_name,$is_enabled){
-		
+		if($is_enabled == 1 && (count($patient_alerts)>0)){
+			foreach($patient_alerts as $patient_alert){
+				if($patient_alert['alert_name'] == $alert_name){
+					if($patient_alert['is_enabled'] == 1){
+						return "checked='checked'";
+					}
+				}
+			}
+		}elseif($is_enabled !=1){
+			return "disabled ='disabled'";
+		}else{
+			return "checked='checked'";
+		}
+	}
+	/*
+	function is_enabled($patient_alerts,$alert_name,$is_enabled){
 		if($is_enabled == 1){
 			foreach($patient_alerts as $patient_alert){
 				if($patient_alert['alert_name'] == $alert_name){
@@ -259,11 +274,11 @@ $(document).ready(function(){
 						return "checked='checked'";
 					}
 				}
-			}	
+			}
 		}else{
 			return "disabled ='disabled'";
 		}
-	}
+	}*/
 ?>
 <div id="page-inner">
 	<div class="row">
@@ -582,29 +597,36 @@ $(document).ready(function(){
 								?>
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="<?=$alert_level1['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alert_level1['alert_name'];?>" <?=is_enabled($patient_alerts,$alert_level1['alert_name'],$alert_level1['is_enabled']);?>> <?=$alert_level1['alert_label'];?> 
+											<input type="checkbox"  name="<?=$alert_level1['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alert_level1['alert_name'];?>" <?=is_enabled($patient_alerts,$alert_level1['alert_name'],$alert_level1['is_enabled']);?>> <?=$alert_level1['alert_label'];?> 
 											<?php //Level 2
+												$i=0;
+												$alerts_names=array();
 												foreach($alerts as $alert_level2){
+													$flag=false;
 													if($alert_level2['parent_alert'] == $alert_level1['alert_name']){
-														?><div class="checkbox">
-															<label>
-																<input type="checkbox" name="<?=$alert_level2['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alert_level2['alert_name'];?>" <?=is_enabled($patient_alerts,$alert_level2['alert_name'],$alert_level2['is_enabled']);?>> <?=$alert_level2['alert_label'];?> 
-																<?php //Level 3
-																	foreach($alerts as $alert_level3){
-																		if($alert_level3['parent_alert'] == $alert_level2['alert_name']){
-																			$required_module = $alert_level3['required_module'];
-																			if(in_array($required_module, $active_modules) || $required_module == '') { 
-																			?><div class="checkbox">
-																				<label>
-																					<input type="checkbox" name="<?=$alert_level3['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alert_level3['alert_name'];?>" <?=is_enabled($patient_alerts,$alert_level3['alert_name'],$alert_level3['is_enabled']);?>> <?=$alert_level3['alert_label'];?>
-																				</label>
-																			  </div><?php
-																			}
-																		}
-																	}?>
-															</label>
-														</div><?php	
+														//Level 3
+														foreach($alerts as $alert_level3){
+															if($alert_level3['parent_alert'] == $alert_level2['alert_name']){
+																$required_module = $alert_level3['required_module'];
+																if(in_array($required_module, $active_modules) || $required_module == '') { 
+																	if($alert_level3['alert_label']=="To Patient"){
+																		$alerts_names[$i]=$alert_level3['alert_name'];
+																		$flag=true;
+																	}
+																}
+															}
+														}
+														if($flag==true){
+															//display 2nd level
+															?>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox"  name="<?=$alert_level2['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alerts_names[$i];?>" <?=	is_enabled($patient_alerts,$alerts_names[$i],$alert_level2['is_enabled']); ?>> <?=$alert_level2['alert_label'];?> 
+																</label>
+															</div>
+														<?php } 
 													}
+													$i++;
 												}
 											?>
 										</label>

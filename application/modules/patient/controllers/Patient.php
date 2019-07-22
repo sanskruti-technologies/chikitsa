@@ -131,7 +131,7 @@ class Patient extends CI_Controller {
 		$this->edit($patient_id,$called_from);
 	}
 	/** Edit Patient Details */
-	public function edit($patient_id,$called_from) {
+	public function edit($patient_id=NULL,$called_from) {
 		//Check if user has logged in 
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {				
             redirect('login/index');

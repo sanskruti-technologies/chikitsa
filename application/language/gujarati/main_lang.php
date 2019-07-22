@@ -1,6 +1,6 @@
 <?php
 	//Application Details
-	$lang['app_name'] = "ચિકિત્સા";
+	$lang['app_name'] = " ચિકિત્સા ";
 	$lang['title'] = "પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['main_title'] = "ચિકિત્સા - પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['cmp_version'] = "ચિકિત્સા આવૃત્તિ";
@@ -13,7 +13,7 @@
 	//Labels
 	$lang['5min'] = "5 મીન";
 	$lang['7min'] = "7 મીન";
-	$lang['15min'] = "15 મીન";
+	$lang['15min'] = "15 મિનિટ";
 	$lang['30min'] = "30 મીન";
 	$lang['1hr'] = "1 કલાક";
 
@@ -158,6 +158,9 @@
 	$lang['bottom_section_2'] = "નીચે ભાગ 2";
 	$lang['bottom_section_3'] = "નીચે ભાગ 3";
 	$lang['button'] = "બટન";
+	$lang['bonus'] = "બોનસ";
+	$lang['billed'] = "બિલ";
+	
 
 	$lang['calendar'] = "કેલેન્ડર";
 	$lang['cancel'] = "રદ કરો";
@@ -335,6 +338,7 @@
 	$lang['email_alert_time'] = "ઇમેઇલ ચેતવણી સમય";
 	$lang['email_format'] = "ઇમેઇલ ફોર્મેટ";
 	$lang['edit_format'] = "ફોર્મેટ સંપાદિત કરો";
+	
 	$lang['face'] = "ફેસ";
 	$lang['facebook'] = "ફેસબુક";
 	$lang['fees'] = "ફી";
@@ -381,6 +385,8 @@
 	$lang['general_settings'] = "સામાન્ય સુયોજનો";
 	$lang['gender'] = "જાતિ";
 	$lang['group_by'] = "ગ્રુપ દ્વારા";
+	$lang['group'] = "ગ્રુપ";
+	
 	
 	$lang['header'] = "હેડર";
 	$lang['hidden'] = "છુપાયેલ";
@@ -483,7 +489,9 @@
 	$lang['maximum_top_posts'] = "(તમે મહત્તમ ટોપ સેક્શન પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે) ";
 	$lang['maximum_bottom_posts'] = "(તમે મહત્તમ બોટમ સેક્શન પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે) ";
 	$lang['maximum_footer_credits'] = "(તમે મહત્તમ ફૂટર ક્રેડિટ પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે";
-	
+	$lang['month'] = "માસ";
+	$lang['minimum_income'] = "ન્યૂનતમ આવક";
+
 	$lang['name'] = "નામ";
 	$lang['none'] = "કોઈ નહીં";
 	$lang['next_follow_up'] = "આગળ ફોલોઅપ પછી";
@@ -608,6 +616,7 @@
 	$lang['reset_password'] = "પાસવર્ડ ફરીથી સેટ કરો";
 	$lang['remark'] = "રીમાર્ક";
 	$lang['remove_logo'] = "લોગો દૂર કરો";
+	$lang['remove'] = "દૂર કરો";
 	$lang['remove_patient_image'] = "પેશન્ટ છબી દૂર કરો";
 	$lang['renew_license'] = "લાયસન્સનું નવીકરણ કરો";
 	$lang['renew_license_to_update'] = "અપડેટ કરવા માટે લાઇસેંસનું નવીકરણ કરો";
@@ -726,7 +735,6 @@
 	$lang['supplier'] = "સપ્લાયર ";
 	$lang['suppliers'] = "સપ્લાયરો ";
 	$lang['stock_suppliers'] = "સપ્લાયર્સ";
-	$lang['stock_report'] = "અહેવાલ";
 	$lang['stock_purchase_report'] = "ખરીદી રિપોર્ટ";
 	$lang['stock_purchase'] = "ખરીદી";
 	$lang['supplier_name'] = "સપ્લાયરનું નામ";
@@ -751,7 +759,7 @@
 	$lang['save_and_bill'] = "સેવ અને બિલ બનાવો";
 	$lang['ssn_id'] = "આધાર નંબર";
 	$lang['save_complete'] = "સાચવો અને પૂર્ણ કરો";
-	$lang['set_alert_time'] = "ચેતવણી ચેતવણી સેટ કરો;
+	$lang['set_alert_time'] = "ચેતવણી ચેતવણી સેટ કરો";
 	$lang['slot'] = "સ્લોટ";
 
 	$lang['to'] = "માટે";
@@ -803,6 +811,7 @@
 	$lang['top_section_2'] = "ટોચ વિભાગ 2";
 	$lang['top_section_3'] = "ટોચ વિભાગ 3";
 	$lang['this_payment_is_rejected'] = "આ ચુકવણી નકારવામાં આવે છે";
+	$lang['types'] = "પ્રકારો";
 
 	$lang['upload_extension'] = "અપલોડ એક્સ્ટેન્શન્સ";
 	$lang['update'] = "અપડેટ";
@@ -846,6 +855,8 @@
 	$lang['working_days'] = "કાર્યકારી દિવસો";
 	$lang['non_working'] = "નોન વર્કીંગ";
 	$lang['we_provide'] = "અમે આપીશું";
+
+	$lang['year'] = "વર્ષ";
 	
 	$lang['sunday'] = "રવિવાર";
 	$lang['monday'] = "સોમવાર";
@@ -903,6 +914,7 @@
 	$lang['toggle_display'] = "(ડિસ્પ્લે  ટૉગલ કરવા માટે ક્લિક કરો)";
 	$lang['initial_password_message'] = "પ્રારંભિક પાસવર્ડ વપરાશકર્તાનામ તરીકે સમાન છે";
 	$lang['thanks_to_amazing_works'] = "ચિકિત્સા નીચેની અમેઝિંગ કામો વગર શક્ય બન્યું ન હોત.";
+	$lang['no_disease'] = "કોઈ રોગ ઉમેર્યા નથી. એક રોગ ઉમેરો.";
 	
 	$lang['reset_password_instructions'] = "કૃપા કરીને તમારું વપરાશકર્તાનામ અથવા ઇમેઇલ સરનામું દાખલ કરો.તમને ઇમેઇલ દ્વારા એક નવો પાસવર્ડ બનાવવા માટે એક લિંક પ્રાપ્ત થશે.";
 	$lang['no_email_registered'] = "તે વપરાશકર્તાનામ અથવા ઇમેઇલ સાથે કોઈ વપરાશકર્તા રજીસ્ટર નથી.";

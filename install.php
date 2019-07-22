@@ -1,7 +1,9 @@
 <html>
     <head>
         <title>Chikitsa - Patient Management System</title>
-		
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+
+
         <!-- BOOTSTRAP STYLES-->
 		<link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
 		<!-- FONTAWESOME STYLES-->
@@ -32,6 +34,7 @@
 		</style>
     </head>
 	<?php 
+	$lan_file_array = array('arabic','english','french','gujarati','italiano');
 		error_reporting(E_ERROR);
 		
 		global $latest_version;
@@ -39,7 +42,7 @@
 		global $flag;
 		$flag="false";
 		
-		$latest_version = "0.7.9";
+		$latest_version = "0.8.1";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.
@@ -63,14 +66,11 @@
 			$config_file = "./application/config/config.php";
 			
 			$line_array = file($config_file);
-			//print_r($line_array);
 			for ($i = 0; $i < count($line_array); $i++) {
 				if (strstr($line_array[$i], "'base_url'")) {
 					$line_array[$i] = '$config[\'base_url\'] = "'.$base_url.'/";'."\r\n";
 				}
 			}
-			//print_r($line_array);
-			
 			file_put_contents($config_file, $line_array);
 		}
 		function folder_move($source, $target ){
@@ -452,6 +452,7 @@
 				return TRUE;
 			}
 		}
+		
 		function display_form($message){
 			if($message != ""){
 				display_error($message);
@@ -564,18 +565,19 @@
 							$server = get_server();
 							$username = get_username();
 							$password = get_password();
-							$database = get_database();
+							$dbname = get_database();
 							$dbprefix = get_dbprefix();
 							
 							// Connect to Server 
 							$conn = new Database;
 							echo $conn->Connection($server, $username, $password);
 							$con = $conn->get_Connection();
-							
+							$con->set_charset("UTF8");	
 							// Select Database 
-							mysqli_select_db($con , $database);
+							mysqli_select_db($con , $dbname);
 							if(mysqli_num_rows(mysqli_query($con , "SHOW TABLES LIKE '".$dbprefix."version'"))==1) {
 								$sql = "Select current_version from " . $dbprefix . "version;";
+								
 								$result = mysqli_query($con,$sql);
 								if (!$result) {
 									$current_version = '0.0.1';
@@ -589,6 +591,7 @@
 									
 								} else {
 									$current_version_int = (int)str_replace(".","",$current_version);
+									
 									$latest_version_int = (int)str_replace(".","",$latest_version);
 									
 									for($index = $current_version_int+1;$index <= $latest_version_int; $index++){
@@ -599,7 +602,7 @@
 										
 										$new_version = str_pad($index,3,"0",STR_PAD_LEFT);
 										$new_version = implode('.',str_split($new_version)); 
-										//echo $sql_file_name."<br/>";
+										
 										if ($index == 12){ // 0.1.2
 											//Delete not required files
 											delete_file("application/language/english/ck_lang.php");
@@ -648,92 +651,145 @@
 										if($index == 73){
 											delete_folder("application/modules/main");
 										}
-										$sqls = file($sql_file_name);	
-										if($index >=  79){
-											//put language_data in to table which are not inserted
-											include_once("./application/language/english/main_lang.php");
-											$sql = "SELECT l_index,l_value FROM".$dbprefix."language_data;";
-											$result = mysqli_query($con, $sql);
-											$new_array=array();
-											if (mysqli_num_rows($result) > 0) {
-												while($row = mysqli_fetch_assoc($result)) {
-													 $new_array[$row['l_index']] = $row['l_value'];
-												}
-											}
-											foreach($lang as $key =>$l){
-												if($lang[$key]==$new_array[$key]){
-													//Nothing
-												}else{
-													$query="INSERT INTO %dbprefix%language_data (l_name,l_index,l_value) values('english','".$key."','".$l."')";
-													$sqls[] = $query;	
-												}
-											}
-											
-											//Read Language Data from database and update language file
-											$language_file = "./application/language/english/main_lang.php";
-											
-											//select l_index and l_value from table		
-											$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data;";
-											$result = mysqli_query($con, $sql);
-											
-											$i=1;
-											$line_array=array();
-											$line_array[0] = "<?php ". "\r\n";
-											while($row = mysqli_fetch_assoc($result)) {
-												$line_array[$i] = '$lang[\''.$row["l_index"].'\'] = "'.$row["l_value"].'";' . "\r\n";
-												$i++;
-											}
-											$line_array[$i] = "?> ". "\r\n";
-											
-											file_put_contents($language_file, $line_array);
-										}
 										
-										if($latest_version == '0.7.8'){
-											//Read and Load Language Files
-											//English
-											require_once './application/language/english/main_lang.php';
-											foreach ($lang as $key => $l) {
-												$query="INSERT INTO %dbprefix%language_data (l_name,l_index,l_value) values('english','".$key."','".$l."')";
-												$sqls[] = $query;												
-											}
-										}
 										display_information("Upgrading from ".$current_version." to ".$new_version);
+										$sqls = file($sql_file_name);	
 										$count = count($sqls);
+										
+										if($index >=  79){
+											
+											$language_sqls = array();
+											//Language Files
+											foreach($lan_file_array as $language){
+												$language_sqls[$lf] = array();	
+												$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data WHERE l_name='".$language."';";
+												$language_sqls[$language][]= $sql;
+												$database_array=array();
+												if ($result = mysqli_query($con,$sql)){
+													while($row = mysqli_fetch_assoc($result)) {
+														 $database_array[$row['l_index']] = $row['l_value'];
+													}
+												}
+												
+												$lang = array();
+												include_once("./application/language/$language/main_lang.php");
+												foreach($lang as $key =>$l){
+													if(!array_key_exists($key,$database_array)){
+														$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
+														if(mb_detect_encoding($query, "UTF-8", "UTF-8, ISO-8859-9") != "UTF-8"){
+															$query = utf8_encode($query);
+														}
+														$language_sqls[$language][]=$query;
+														//echo $query."<br/>";
+													}
+												}
+											}
+										}	
+										
 										?>
 										<script type="text/javascript">
-											var update_sqls = <?php echo json_encode($sqls); ?>;
-											
-											jQuery.each( update_sqls, function( i, sql) {
-												$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
-													if(result != ''){
-														result =  $("#install_logs").val() + result + '\n';
-														$("#install_logs").val(result);
-														var $textarea = $("#install_logs");
-														$textarea.scrollTop($textarea[0].scrollHeight);
-														
-													}
-													progress = parseInt($("#progress").val());
-													progress = progress + 1;
-													$("#progress").val(progress);
+											$(document).ready(function () {
+												$("#continue_form").hide();
+												$("#step").html("Creating Tables");
+												$("#progress").val(0);
+												var install_sqls = <?php echo json_encode($sqls); ?>;
+												var language_sqls = [];
+												<?php foreach($lan_file_array as $language){?>
+													language_sqls['<?=$language;?>'] =  <?php echo json_encode($language_sqls[$language]); ?>;
+												<?php } ?>
+												jQuery.each( install_sqls, function( i, sql) {
+													$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$dbname;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
+														if(result != ''){
+															result =  $("#install_logs").val() + result + '\n';
+															$("#install_logs").val(result);
+															var $textarea = $("#install_logs");
+															$textarea.scrollTop($textarea[0].scrollHeight);
+															
+														}
+														progress = parseInt($("#progress").val());
+														progress = progress + 1;
+														$("#progress").val(progress);
+														var total_queries = <?=$count;?>;
+														$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
+														if(progress == total_queries){
+															$("#step").html("Loading Language File");
+															var index = $("#index").val();
+															var languages = <?php echo json_encode($lan_file_array); ?>;
+															language = languages[index];
+															
+															read_language_files(language);
+															
+														}
+													}});
+												});
+												
+												function read_language_files(language){
+													$("#step").html("Loading Language File : "+language);
+													$("#progress").val(0);
+													var install_sqls = language_sqls[language];
 													
-													var total_queries = <?=$count;?>;
-													$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
-													if(progress == total_queries){
-														$("#continue_form").show();
-													}
-												}});
+													jQuery.each( install_sqls, function( i, sql) {
+														
+														$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$dbname;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
+															if(result != ''){
+																result =  $("#install_logs").val() + result + '\n';
+																$("#install_logs").val(result);
+																var $textarea = $("#install_logs");
+																$textarea.scrollTop($textarea[0].scrollHeight);
+																
+															}
+															progress = parseInt($("#progress").val());
+															progress = progress + 1;
+															$("#progress").val(progress);
+															
+															var total_queries = language_sqls[language].length;
+															console.log(language);
+															console.log(total_queries);
+															$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
+															if(progress == total_queries){
+																var index = parseInt($("#index").val());
+																index++; 
+																$("#index").val(index);
+																var languages = <?php echo json_encode($lan_file_array); ?>;
+																										
+																if(index < languages.length){
+																	language = languages[index];
+																	read_language_files(language)
+																}else{
+																	$("#step").html("Updating Language Files");
+																	update_language_file();
+																}
+																
+															}
+														}});
+													});
+													
+													
+												}
+												
+												
+												function update_language_file(){
+													$.ajax({url: "update_language_file.php", data: { server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'},success: function(){
+															console.log("done");
+															$("#step").html("Installation Complete");
+															$("#continue_form").show();													
+														}
+													});
+												}
+												
 											});
-											
 										</script>
+									
 										
 										<?php
 									
 									}
 									?>
 									<div id="myProgress">
-										<input type="hidden" name="progress" id="progress" value="1" />
+										<input type="hidden" name="progress" id="progress" value="0"/>
 										<div id="myBar"></div>
 									</div>
+									<span id="step">Installation Logs</span>
 									<textarea id="install_logs" class="form-control" rows=10 style="background:#eee;" readonly>
 									</textarea>
 									<?php
@@ -749,6 +805,7 @@
 								
 								?>
 								<div class="form_style" id="continue_form" style="display:none">
+									<input type="hidden" id="index" value="0" />
 									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo $base_url."/index.php/login/cleardata";?>">Continue to Application</a>
 								</div>
 								<?php
@@ -825,12 +882,15 @@
 						  <div id="myBar"></div>
 						</div>
 						<br/>
-						Installation Logs
+						
+						<span id="step">Installation Logs</span>
 						<textarea id="install_logs" class="form-control" rows=10 style="background:#eee;" readonly>
 						</textarea>
 						
 						<form id='continue_form' method='post' action='install.php' >
 							<input type="hidden" name="step" value="3" />
+							<input type="hidden" id="index" value="0" />
+							
 							<div class="form_style">
 								<input type="hidden" name="server" value="<?=$server;?>" />
 								<input type="hidden" name="username" value="<?=$username;?>" />
@@ -852,12 +912,43 @@
 						$sql_file_name = 'sql/install.sql';
 						$sqls = file($sql_file_name);	
 						$count = count($sqls);
-						$sqls[] = "done";
+						$language_sqls = array();
+						//Language Files
+						foreach($lan_file_array as $language){
+							$language_sqls[$language] = array();
+							$lang = array();
+							include_once("./application/language/$language/main_lang.php");
+							$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data WHERE l_name='".$language."';";
+							$database_array=array();
+							if (mysqli_query($con,$sql)){
+								while($row = mysqli_fetch_assoc($result)) {
+									 $database_array[$row['l_index']] = $row['l_value'];
+								}
+							}
+							foreach($lang as $key =>$l){
+								if(!array_key_exists($key,$database_array)){
+									$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
+									if(mb_detect_encoding($query, "UTF-8", "UTF-8, ISO-8859-9") != "UTF-8"){
+										$query = utf8_encode($query);
+									}
+									$language_sqls[$language][]=$query;
+								}
+							}
+						}
+						
+						
+						
 						
 						?>
 						<script type="text/javascript">
 						$("#continue_form").hide();
+						$("#step").html("Creating Tables");
+						$("#progress").val(0);
 						var install_sqls = <?php echo json_encode($sqls); ?>;
+						var language_sqls = [];
+						<?php foreach($lan_file_array as $language){?>
+							language_sqls['<?=$language;?>'] =  <?php echo json_encode($language_sqls[$language]); ?>;
+						<?php } ?>
 						jQuery.each( install_sqls, function( i, sql) {
 							$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$dbname;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
 								if(result != ''){
@@ -870,14 +961,63 @@
 								progress = parseInt($("#progress").val());
 								progress = progress + 1;
 								$("#progress").val(progress);
-								
 								var total_queries = <?=$count;?>;
 								$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
 								if(progress == total_queries){
-									$("#continue_form").show();
+									$("#step").html("Loading Language File");
+									var index = $("#index").val();
+									var languages = <?php echo json_encode($lan_file_array); ?>;
+									language = languages[index];
+									read_language_files(language);
+									
+									//$("#continue_form").show();
 								}
 							}});
 						});
+						
+						
+						function read_language_files(language){
+							$("#step").html("Loading Language File : "+language);
+							$("#progress").val(0);
+							var install_sqls = language_sqls[language];
+							
+							jQuery.each( install_sqls, function( i, sql) {
+								
+								$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$dbname;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
+									if(result != ''){
+										result =  $("#install_logs").val() + result + '\n';
+										$("#install_logs").val(result);
+										var $textarea = $("#install_logs");
+										$textarea.scrollTop($textarea[0].scrollHeight);
+										
+									}
+									progress = parseInt($("#progress").val());
+									progress = progress + 1;
+									$("#progress").val(progress);
+									
+									var total_queries = language_sqls[language].length;
+									$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
+									if(progress == total_queries){
+										var index = parseInt($("#index").val());
+										index++; 
+										$("#index").val(index);
+										var languages = <?php echo json_encode($lan_file_array); ?>;
+										console.log(index);
+										console.log(languages.length);
+										
+										if(index < languages.length){
+											language = languages[index];
+											read_language_files(language)
+										}else{
+											$("#step").html("Installation Complete");
+											$("#continue_form").show();
+										}
+										
+									}
+								}});
+							});
+							
+						}
 						</script>
 						<?php 
 					}elseif ($_REQUEST["step"] == 3) {
@@ -948,10 +1088,10 @@
 							display_error($error_message);
 						}
 						$con = $conn->get_Connection();
-						
+											
 						$link = mysqli_select_db($con, $dbname );
 						if (!$link) {
-							$error_message = 'Not connected : ' . mysql_error();
+							$error_message = 'Not connected : ' . mysql_error($con);
 							display_form($error_message);
 							exit;
 						}
@@ -960,19 +1100,7 @@
 							$message = "Error : " . mysqli_error($con);
 							display_system_admin_form($message,$server,$mysql_username,$mysql_password,$dbname,$dbprefix);
 						}else{
-							
-							//Read and Load Language Files
-							//English
-							//....
-								require_once './application/language/english/main_lang.php';
-								$link = mysqli_select_db($con, $dbname );
-								foreach ($lang as $key => $l) {
-									$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('english','".$key."','".$l."')";
-									if (!mysqli_query($con,$query)) {
-										$message = "Error : " . mysqli_error($con);
-									}
-								}
-							//....
+									
 							$sql = "UPDATE ".$dbprefix."version SET current_version='$latest_version';";
 							//echo $sql;
 							if (!mysqli_query($con,$sql)) {

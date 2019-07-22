@@ -1,6 +1,6 @@
 <?php
 	//Application Details
-	$lang['app_name'] = "Pazienti Database";
+$lang['app_name'] = "Chikitsa ";
 	$lang['title'] = "Chirurgia Plastica Ricostruttiva Estetica";
 	$lang['main_title'] = "Chirurgia Plastica Ricostruttiva Estetica";
 	$lang['cmp_version'] = "Versione";
@@ -13,7 +13,7 @@
 	//Labels
 	$lang['5min'] = "5 Min";
 	$lang['7min'] = "7 Min";
-	$lang['15min'] = "15 Min";
+$lang['15min'] = "15 min";
 	$lang['30min'] = "30 Min";
 	$lang['1hr'] = "1 Ora";
 
@@ -158,7 +158,10 @@
 	$lang['bottom_section_2'] = "Sezione inferiore 2";
 	$lang['bottom_section_3'] = "Sezione inferiore 3";
 	$lang['button'] = "Pulsante";
-	
+	$lang['bonus_percentage'] = "Percentuale bonus";
+	$lang['bonus'] = "indennità";
+	$lang['billed'] = "Fatturati";
+
 	$lang['calendar'] = "Calendario";
 	$lang['cancel'] = "Annulla";
 	$lang['cancelled'] = "Annullato";
@@ -335,6 +338,7 @@
 	$lang['email_alert_time'] = "Email Alert Time";
 	$lang['email_format'] = "Formato email";
 	$lang['edit_format'] = "Modifica formato";
+
 	$lang['face'] = "Faccia";
 	$lang['facebook'] = "Facebook";
 	$lang['fees'] = "Commissioni";
@@ -381,9 +385,11 @@
 	$lang['google_plus'] = "Google Plus";
 	$lang['general_settings'] = "impostazioni generali";
 	$lang['group_by'] = "Raggruppa per";
+	$lang['group'] = "Gruppo";
+
 
 	$lang['header'] = "Intestazione";
-		$lang['hidden'] = "Nascosto";
+	$lang['hidden'] = "Nascosto";
 	$lang['home'] = "Home";
 	$lang['hour'] = "ora";
 	$lang['hourly'] = "Ogni ora";
@@ -483,7 +489,9 @@
 	$lang['maximum_top_posts'] = "(Hai raggiunto i messaggi delle sezioni principali massime che possono essere aggiunti)";
 	$lang['maximum_bottom_posts'] = "(Hai raggiunto i post delle sezioni inferiori massime che puoi aggiungere)";
 	$lang['maximum_footer_credits'] = "(You have reached the Maximum Footer credit Posts that can be added) ";
-
+	$lang['month'] = "Mese";
+	$lang['minimum_income'] = "Reddito minimo";
+	
 	$lang['name'] = "Nome";
 	$lang['none'] = "None";
 	$lang['next_follow_up'] = "Dopo follow Successivo";
@@ -608,6 +616,7 @@
 	$lang['reset_password'] = "Resetta la password";
 	$lang['remark'] = "osservazione";
 	$lang['remove_logo'] = "Rimuovi logo";
+	$lang['remove'] = "Rimuovere";
 	$lang['remove_patient_image'] = "Rimuovi immagine paziente";
 	$lang['renew_license'] = "Rinnova la licenza";
 	$lang['renew_license_to_update'] = "Rinnova la licenza per l'aggiornamento";
@@ -803,7 +812,8 @@
 	$lang['top_section_2'] = "Sezione superiore 2";
 	$lang['top_section_3'] = "Sezione superiore 3";
 	$lang['this_payment_is_rejected'] = "Questo pagamento è respinto";
-
+	$lang['types'] = "tipi";
+	
 	$lang['upload_extension'] = "Caricare Estensioni";
 	$lang['update'] = "Aggiornare";
 	$lang['updates'] = "aggiornamenti";
@@ -847,6 +857,8 @@
 	$lang['non_working'] = "Non funzionante";
 	$lang['we_provide'] = "Noi forniamo";
 	
+	$lang['year'] = "Anno";
+
 	$lang['sunday'] = "Domenica";
 	$lang['monday'] = "Lunedi";
 	$lang['tuesday'] = "Martedi";
@@ -903,7 +915,7 @@
 	$lang['toggle_display'] = "(Clicca per attivare o disattivare il display)";
 	$lang['initial_password_message'] = "Come username password iniziale è";
 	$lang['thanks_to_amazing_works'] = "Chikitsa sarebbe impissibile senza le opere sorprendenti elencati di seguito";
-
+	$lang['no_disease'] = "Nessuna malattia aggiunta. Aggiungi una malattia.";
 	$lang['reset_password_instructions'] = "Per favore inserisci il tuo nome utente o l'indirizzo email. Riceverai un link per creare una nuova password via email.";
 	$lang['no_email_registered'] = "Non c'è nessun utente registrato con quel Nome utente o Email.";
 	$lang['check_confirmation_link'] = "Controlla la tua e-mail per il link di conferma.";

@@ -135,7 +135,6 @@ class Bill extends CI_Controller {
 			$this->load->view('templates/footer');
         }
     }	
-	
 	public function check_available_stock($required_stock, $item_id) {
 		$this->load->model('stock/stock_model');
 		$item_detail = $this->stock_model->get_item($item_id);	
@@ -148,7 +147,6 @@ class Bill extends CI_Controller {
 			return TRUE;
 		}	
 	}
-	
 	public function edit($bill_id){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
@@ -237,6 +235,16 @@ class Bill extends CI_Controller {
 						
 						$this->bill_model->add_bill_item($action, $bill_id, $treatment, 1,$treatment_price,$treatment_price,NULL,$tax_amount);
 					}
+				}elseif ($action == 'fees') {
+					$this->form_validation->set_rules('fees_detail','fees detail' , 'required');
+					$this->form_validation->set_rules('fees_amount','fees amount', 'required|numeric');
+					if ($this->form_validation->run() === FALSE) {
+						
+					} else {
+						$fees = $this->input->post('fees_detail');
+						$fees_amount = $this->input->post('fees_amount');
+						$this->bill_model->add_bill_item($action, $bill_id,$fees ,1, $fees_amount,$fees_amount);
+					}
 				}elseif ($action == 'particular') {
 					
 					$this->form_validation->set_rules('particular', $this->lang->line("particular"), 'required');
@@ -246,7 +254,9 @@ class Bill extends CI_Controller {
 					} else {
 						$particular = $this->input->post('particular');
 						$particular_amount = $this->input->post('particular_amount');
-						$this->bill_model->add_bill_item($action, $bill_id, $particular, 1, $particular_amount,$particular_amount);
+						$tax_amount = $this->input->post('tax_amount');
+						$tax_id = $this->input->post('tax_id');
+						$this->bill_model->add_bill_item($action, $bill_id, $particular, 1, $particular_amount,$particular_amount,NULL,	$tax_amount,$tax_id);
 					}
 				}elseif ($action == 'tax') {
 					$bill_amount = $this->bill_model->get_bill_amount($bill_id);
@@ -333,6 +343,7 @@ class Bill extends CI_Controller {
 			$data['balance'] = $this->patient_model->get_balance_amount($bill_id);
 			
 			$data['particular_total'] = $this->bill_model->get_particular_total($bill_id);
+			$data['fees_total'] = $this->bill_model->get_total("fees",$bill_id);
 			$data['treatment_total'] = 0;
 			if (in_array("treatment", $active_modules)) {
 				$data['treatment_total'] = $this->bill_model->get_total("treatment",$bill_id);
@@ -353,7 +364,7 @@ class Bill extends CI_Controller {
 			
 			$data['session_total'] = $this->bill_model->get_total("session",$bill_id);
 			$data['edit_bill'] = TRUE;
-			$data['fees_total'] = 0;
+			
 			$data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
 			$data['discount'] = $this->bill_model->get_discount_amount($bill_id);
 			$user_id = $this->session->userdata('user_id'); 
@@ -367,6 +378,11 @@ class Bill extends CI_Controller {
 			
 			$doctor_id=$data['bill']['doctor_id'];
 			$data['doctor']=$this->doctor_model->get_doctor_doctor_id($doctor_id);
+			
+			$data['fees'] = array();
+			if (in_array("doctor", $active_modules)) {
+				$data['fees'] = $this->doctor_model->get_doctor_fees($doctor_id);
+			}
 
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');

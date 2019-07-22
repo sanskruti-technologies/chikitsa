@@ -48,13 +48,15 @@
 							</div>
 							
 							<button type="submit" name="submit" class="btn btn-primary"><?php echo $this->lang->line('sign_in');?></button>
-							<!--a class="btn btn-primary" href="<?=site_url('login/forgot_password');?>"><?php echo $this->lang->line('forgot_password');?></a-->
+
 							<?php echo form_close(); ?>
 						</div>
 						
 					</div>
 					<?php if($frontend_active){?>
 					<a href="<?=site_url();?>" class="btn btn-primary"><?php echo $this->lang->line('back_to'); ?><?= $clinic['clinic_name'];?></a>
+					<a class="btn btn-primary" href="<?=site_url('login/forgot_password');?>"><?php echo $this->lang->line('forgot_password');?></a>
+
 					<?php } ?>
 				</div>
 			</div>				

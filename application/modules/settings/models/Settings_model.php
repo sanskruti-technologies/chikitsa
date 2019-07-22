@@ -4,9 +4,10 @@ class Settings_model extends CI_Model {
         $this->load->database();
     }
 	
-	public function get_language_name_array(){
-		$result = $this->db->get('language_data');
-        $languages = $result->result_array();
+	public function get_language_name_array($language){
+		$result=$this->db->get_where('language_data',array('l_name'=>$language));
+		$languages = $result->result_array();
+		//echo $this->db->last_query();
 		return $languages;
 	}
 	
@@ -14,10 +15,13 @@ class Settings_model extends CI_Model {
 	{
 		$language = $this->input->post('language');
 		$index = $this->input->post('index');
+		$l_name = $this->input->post('l_name');
 		
 		$this->db->set('l_value', $language);
 		$this->db->where("l_index", $index);
+		$this->db->where('l_name',$l_name);
 		$this->db->update('language_data');
+		//echo $this->db->last_query();
 		//change mail_lang.php file
 		
 		//redirect("settings/edit_language/");

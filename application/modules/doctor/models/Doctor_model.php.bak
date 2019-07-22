@@ -371,7 +371,7 @@ class Doctor_model extends CI_Model {
 		$data['is_deleted'] = 1;
 		$data['sync_status'] = 0;	
 		$this->db->update('department', $data, array('department_id' =>  $id));
-		//echo $this->db->last_query();
+		echo $this->db->last_query();
 	}
 	// fees master 
 	public function find_fees() {	

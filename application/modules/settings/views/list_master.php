@@ -176,7 +176,7 @@
 					</tbody>
 					<?php }else{ ?>
 					<tbody>
-						<tr><td colspan='4'>No Diseases added. Add a disease.</td></tr>
+						<tr><td colspan='4'><?php echo $this->lang->line('no_disease');?></td></tr>
 					</tbody>
 					<?php } ?>			
 				</table>

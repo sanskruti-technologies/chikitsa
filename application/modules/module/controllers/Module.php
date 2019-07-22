@@ -430,7 +430,7 @@ class Module extends CI_Controller {
 		
 	}
 	public function dowload_chikitsa($file,$latest_version){
-		$this->take_backup();
+		//$this->take_backup();
 		$data['file'] = $file;
 		$data['latest_version'] = $latest_version;
 		$this->load->view('templates/header');

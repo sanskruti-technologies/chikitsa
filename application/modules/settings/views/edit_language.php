@@ -1,12 +1,13 @@
 <script type="text/javascript">
 $(window).load(function(){
-	$("input").change(function(){
+	$(".language").change(function(){
 		var language=$( this ) .val();
 		var index=$(this).attr('id');
+		var l_name= $('#l_name').val();
 		$.ajax({
 			type: "POST",
 			url: "<?=site_url('settings/save_language/');?>",
-			data: {language:language,index:index},
+			data: {language:language,index:index,l_name:l_name},
 			success: function (result) {
 				console.log(result);
 			}
@@ -33,7 +34,9 @@ $(window).load(function(){
 						<?php foreach($language_array as $language) { ?>
 							<tr>
 								<td><?php echo $language['l_index']; ?></td>
-								<td><input type="text" id="<?=  $language['l_index']?>" value="<?=  $language['l_value']?> " maxlength="66" size="66" class="form-control my_class" /></td>
+								<td><input type="text" id="<?=  $language['l_index']?>" value="<?=  $language['l_value']?> " maxlength="66" size="66" class="form-control my_class language" />
+									<input type="hidden" id="l_name" value="<?=$l_name?> "  class="form-control my_class language" />
+								</td>
 							</tr>
 						<?php } ?>
 					</tbody>

@@ -1,11 +1,11 @@
 <?php
 	//Application Details
-	$lang['app_name'] = "Chikitsa";
+$lang['app_name'] = "Chikitsa ";
 	$lang['title'] = "Patient Management System";
 	$lang['main_title'] = "Chikitsa - Patient Management System";
 	$lang['cmp_version'] = "Chikitsa Version";
 	$lang['cmp_name'] = "Sanskruti Technologies";
-	$lang['about_chikitsa'] = "About Chikitsa";
+$lang['about_chikitsa'] = "À propos de Chikanga ";
 
 	//Form Headers
 	$lang['sign_in'] = "Se connecter";
@@ -13,7 +13,7 @@
 	//Labels
 	$lang['5min'] = "5 Min";
 	$lang['7min'] = "7 Min";
-	$lang['15min'] = "15 Min";
+$lang['15min'] = " 15 Min";
 	$lang['30min'] = "30 Min";
 	$lang['1hr'] = "1 Heure";
 
@@ -158,6 +158,9 @@
 	$lang['bottom_section_2'] = "Section inférieure 2";
 	$lang['bottom_section_3'] = "Section inférieure 3";
 	$lang['button'] = "Bouton";
+	$lang['bonus_percentage'] = "Bonus Pourcentage";
+	$lang['bonus'] = "Prime";
+	$lang['billed'] = "Facturé";
 	
 	$lang['calendar'] = "Calendrier";
 	$lang['cancel'] = "Annuler";
@@ -335,6 +338,7 @@
 	$lang['email_alert_time'] = "Heure d'alerte par courriel";
 	$lang['email_format'] = "Format Email";
 	$lang['edit_format'] = "Modifier le format";
+
 	$lang['face'] = "Visage";
 	$lang['facebook'] = "Facebook";
 	$lang['fees'] = "Honoraires";
@@ -381,7 +385,9 @@
 	$lang['google_plus'] = "Google Plus";
 	$lang['general_settings'] = "réglages généraux";
 	$lang['group_by'] = "Par groupe";
+	$lang['group'] = "Groupe";
 	
+
 	$lang['header'] = "Entête";
 	$lang['hidden'] = "Caché";
 	$lang['home'] = "Accueil";
@@ -431,7 +437,7 @@
 	$lang['journal_vouchers'] = "Bons de journal";
 	
 	$lang['key'] = "Clé";
-	
+
 	$lang['landline'] = "Landline";
 	$lang['last_name'] = "Nom de famille";
 	$lang['last'] = "Dernier";
@@ -456,6 +462,7 @@
 	$lang['marking'] = "Marquage";
 	$lang['max_patient'] = "Max patients à la fois";
 	$lang['medicine'] = "Médicament";
+	$lang['medicine_store_bill'] = "Bill magasin de médecine";
 	$lang['menu_access'] = "Accès au menu";
 	$lang['medicine_name'] = "Nom du médicament";
 	$lang['medicines'] = "Médicaments";
@@ -482,7 +489,8 @@
 	$lang['maximum_top_posts'] = "(Vous avez atteint le nombre maximal de messages des sections supérieures que vous pouvez ajouter)";
 	$lang['maximum_bottom_posts'] = "(Vous avez atteint le nombre maximum de messages des sections inférieures pouvant être ajoutés) ";
 	$lang['maximum_footer_credits'] = "(Vous avez atteint le nombre maximal de crédits de pied de page pouvant être ajoutés)";
-		
+	$lang['month'] = "Mois";
+	$lang['minimum_income'] = "Revenu minimum";	
 	
 	$lang['name'] = "prénom";
 	$lang['none'] = "Aucun";
@@ -608,6 +616,7 @@
 	$lang['reset_password'] = "réinitialiser le mot de passe";
 	$lang['remark'] = "Remarque";
 	$lang['remove_logo'] = "Supprimer le logo";
+	$lang['remove'] = "Retirer";
 	$lang['remove_patient_image'] = "Supprimer l'image du patient";
 	$lang['renew_license'] = "Renouveler la licence";
 	$lang['renew_license_to_update'] = "Renouveler la licence pour mettre à jour";
@@ -803,6 +812,7 @@
 	$lang['top_section_2'] = "Section supérieure 2";
 	$lang['top_section_3'] = "Section supérieure 3";
 	$lang['this_payment_is_rejected'] = "Ce paiement est rejeté";
+	$lang['types'] = "Les types";
 	
 	$lang['upload_extension'] = "Télécharger des extensions";
 	$lang['update'] = "Mettre à jour";
@@ -846,6 +856,8 @@
 	$lang['working_days'] = "Jours de travail";
 	$lang['non_working'] = "Ne fonctionne pas";
 	$lang['we_provide'] = "Nous fournissons";
+
+	$lang['year'] = "Year";
 	
 	$lang['sunday'] = "dimanche";
 	$lang['monday'] = "Lundi";
@@ -874,6 +886,7 @@
 	$lang['beds'] = "Des lits";
 	
 	//Warnings / Errors / Alerts
+	$lang['aplha_space'] = "Le champ% s ne peut contenir que des caractères alpha et des espaces blancs";
 	$lang['first_or_last']="Veuillez entrer votre prénom ou nom";
 	$lang['password_not_match']="Ancien mot de passe non assorti";
 	$lang['irreversible_process']="C'est un processus irréversible. Cela peut entraîner une perte de données. Soyez vraiment vraiment sûr avant de restaurer les données.";
@@ -902,7 +915,8 @@
 	$lang['toggle_display'] = "(Cliquez pour basculer l'affichage)";
 	$lang['initial_password_message'] = "Le mot de passe initial est le même que le nom d'utilisateur";
 	$lang['thanks_to_amazing_works'] = "Chikitsa n'aurait pas été possible sans les travaux étonnants énumérés ci-dessous";
-	
+	$lang['no_disease'] = "Aucune maladie ajoutée. Ajouter une maladie.";
+
 	$lang['reset_password_instructions'] = "Veuillez saisir votre identifiant ou adresse mail. Vous recevrez un lien pour créer un nouveau mot de passe par email.";
 	$lang['no_email_registered'] = "Aucun utilisateur n'est enregistré avec ce nom d'utilisateur ou cet e-mail.";
 	$lang['check_confirmation_link'] = "Vérifiez votre email pour le lien de confirmation.";

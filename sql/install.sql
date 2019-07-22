@@ -227,3 +227,4 @@ UPDATE %dbprefix%navigation_menu SET menu_text = 'services_setting' WHERE menu_n
 UPDATE %dbprefix%navigation_menu SET menu_text = 'images' WHERE menu_name = 'images';
 UPDATE %dbprefix%navigation_menu SET menu_text = 'tax_rates' WHERE menu_name = 'tax_rates';
 INSERT INTO %dbprefix%menu_access (menu_name, category_name, allow) SELECT navigation_menu.menu_name,'Receptionist', '1' FROM %dbprefix%navigation_menu AS navigation_menu WHERE navigation_menu.menu_name NOT IN (SELECT menu_name FROM %dbprefix%menu_access WHERE category_name = 'Receptionist') AND navigation_menu.menu_name IN ('new_patient',  'payment',  'payments', 'bill',  'issue_refund',  'pending_payments','appointments','new_inquiry','all_patients','patients');
+ALTER TABLE %dbprefix%language_data CHANGE l_value l_value VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

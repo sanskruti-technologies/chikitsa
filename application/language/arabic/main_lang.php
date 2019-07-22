@@ -1,11 +1,11 @@
 <?php
 	//Application Details
-	$lang['app_name'] = "Chikitsa";
+$lang['app_name'] = "Chikitsa ";
 	$lang['app_tagline'] = "Patient Management System";
 	$lang['main_title'] = "Chikitsa - Patient Management System";
 	$lang['cmp_version'] = "Chikitsa Version";
 	$lang['cmp_name'] = "Sanskruti Technologies";
-	$lang['about_chikitsa'] = "About Chikitsa";
+$lang['about_chikitsa'] = "حول شيكانغا ";
 
 
 	$lang['sign_in'] = "تسجيل الدخول";
@@ -13,7 +13,7 @@
 	//Labels
 	$lang['5min'] = "5 دقائق";
 	$lang['7min'] = "7 دقيقة";
-	$lang['15min'] = "15 دقيقة";
+$lang['15min'] = "15 دقيقة ";
 	$lang['30min'] = "30 دقيقة";
 	$lang['1hr'] = "ساعة واحدة";
 
@@ -158,6 +158,9 @@
 	$lang['bottom_section_2'] = "الجزء السفلي 2";
 	$lang['bottom_section_3'] = "الجزء السفلي 3";
 	$lang['button'] = "زر";
+	$lang['bonus_percentage'] = "نسبة المكافأة";
+	$lang['bonus'] = "علاوة";
+	$lang['billed'] = "فاتورة";
 	
 	$lang['calendar'] = "التقويم";
 	$lang['cancel'] = "إلغاء";
@@ -382,7 +385,9 @@
 	$lang['google_plus'] = "جوجل بلس";
 	$lang['general_settings'] = "الاعدادات العامة";
 	$lang['group_by'] = "مجموعة من";
+	$lang['group'] = "مجموعة";
 	
+
 	$lang['header'] = "رأس";
 	$lang['hidden'] = "مخفي";
 	$lang['home'] = "الصفحة الرئيسية";
@@ -484,8 +489,9 @@
 	$lang['maximum_top_posts'] = "(لقد وصلت إلى الحد الأقصى لأعلى أقسام المشاركات التي يمكن إضافتها)";
 	$lang['maximum_bottom_posts'] = "(لقد وصلت إلى الحد الأقصى لمشاركات الأقسام السفلية التي يمكن إضافتها)";
 	$lang['maximum_footer_credits'] = "(لقد وصلت إلى الحد الأقصى لمشاركات رصيد تذييل الصفحة التي يمكن إضافتها)";
+	$lang['month'] = "شهر";
+	$lang['minimum_income'] = "الحد الأدنى للدخل";
 	
-
 	$lang['name'] = "اسم";
 	$lang['none'] = "لا شيء";
 	$lang['next_follow_up'] = "التالي متابعة بعد";
@@ -610,6 +616,7 @@
 	$lang['reset_password'] = "إعادة ضبط كلمة المرور";
 	$lang['remark'] = "تعليق";
 	$lang['remove_logo'] = "إزالة الشعار";
+	$lang['remove'] = "إزالة";
 	$lang['remove_patient_image'] = "إزالة صورة المريض";
 	$lang['renew_license'] = "تجديد الترخيص";
 	$lang['renew_license_to_update'] = "تجديد الترخيص للتحديث";
@@ -805,6 +812,7 @@
 	$lang['top_section_2'] = "الجزء العلوي 2";
 	$lang['top_section_3'] = "الجزء العلوي 3";
 	$lang['this_payment_is_rejected'] = "تم رفض هذا الدفع";
+	$lang['types'] = "أنواع";
 	
 	$lang['upload_extension'] = "تحميل الإضافات";
 	$lang['update'] = "تحديث";
@@ -849,6 +857,8 @@
 	$lang['non_working'] = "غير العاملين";
 	$lang['we_provide'] = "نحن نقدم";
 	
+	$lang['year'] = "عام";
+
 	$lang['sunday'] = "الأحد";
 	$lang['monday'] = "الإثنين";
 	$lang['tuesday'] = "الثلاثاء";
@@ -876,7 +886,7 @@
 	$lang['beds'] = "سرير";
 
 	//Warnings / Errors / Alerts
-		$lang['aplha_space'] = "قد يحتوي الحقل٪ s على أحرف ألفا ومسافات بيضاء فقط";
+	$lang['aplha_space'] = "قد يحتوي الحقل٪ s على أحرف ألفا ومسافات بيضاء فقط";
 	$lang['first_or_last']="الرجاء إدخال الاسم الأول أو اسم العائلة";
 	$lang['password_not_match']="كلمة المرور القديمة غير متطابقة";
 	$lang['irreversible_process']="|هذا هو عملية لا رجعة فيها. قد يسبب فقدان البيانات. كن حقا متأكدا حقا قبل استعادة البيانات.";
@@ -905,7 +915,8 @@
 	$lang['toggle_display'] = "(انقر لتبديل العرض)";
 	$lang['initial_password_message'] = "كلمة المرور المبدئية هي نفسها اسم المستخدم";
 	$lang['thanks_to_amazing_works'] = "لم يكن من الممكن Chikitsa دون الأعمال المدهشة المذكورة أدناه";
-	
+	$lang['no_disease'] = "لم تتم إضافة أي أمراض. إضافة مرض.";
+
 	$lang['reset_password_instructions'] = "الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني. ستتلقى رابطًا لإنشاء كلمة مرور جديدة عبر البريد الإلكتروني.";
 	$lang['no_email_registered'] = "لا يوجد مستخدم مسجل بهذا الاسم أو البريد الإلكتروني.";
 	$lang['check_confirmation_link'] = "تحقق من بريدك الالكتروني للحصول على رابط التأكيد.";

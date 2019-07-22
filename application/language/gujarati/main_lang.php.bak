@@ -1,6 +1,6 @@
 <?php
 	//Application Details
-	$lang['app_name'] = "ચિકિત્સા";
+	$lang['app_name'] = " ચિકિત્સા ";
 	$lang['title'] = "પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['main_title'] = "ચિકિત્સા - પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['cmp_version'] = "ચિકિત્સા આવૃત્તિ";
@@ -13,7 +13,7 @@
 	//Labels
 	$lang['5min'] = "5 મીન";
 	$lang['7min'] = "7 મીન";
-	$lang['15min'] = "15 મીન";
+	$lang['15min'] = "15 મિનિટ";
 	$lang['30min'] = "30 મીન";
 	$lang['1hr'] = "1 કલાક";
 
@@ -158,6 +158,9 @@
 	$lang['bottom_section_2'] = "નીચે ભાગ 2";
 	$lang['bottom_section_3'] = "નીચે ભાગ 3";
 	$lang['button'] = "બટન";
+	$lang['bonus'] = "બોનસ";
+	$lang['billed'] = "બિલ";
+	
 
 	$lang['calendar'] = "કેલેન્ડર";
 	$lang['cancel'] = "રદ કરો";
@@ -335,6 +338,7 @@
 	$lang['email_alert_time'] = "ઇમેઇલ ચેતવણી સમય";
 	$lang['email_format'] = "ઇમેઇલ ફોર્મેટ";
 	$lang['edit_format'] = "ફોર્મેટ સંપાદિત કરો";
+	
 	$lang['face'] = "ફેસ";
 	$lang['facebook'] = "ફેસબુક";
 	$lang['fees'] = "ફી";
@@ -381,6 +385,8 @@
 	$lang['general_settings'] = "સામાન્ય સુયોજનો";
 	$lang['gender'] = "જાતિ";
 	$lang['group_by'] = "ગ્રુપ દ્વારા";
+	$lang['group'] = "ગ્રુપ";
+	
 	
 	$lang['header'] = "હેડર";
 	$lang['hidden'] = "છુપાયેલ";
@@ -483,7 +489,9 @@
 	$lang['maximum_top_posts'] = "(તમે મહત્તમ ટોપ સેક્શન પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે) ";
 	$lang['maximum_bottom_posts'] = "(તમે મહત્તમ બોટમ સેક્શન પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે) ";
 	$lang['maximum_footer_credits'] = "(તમે મહત્તમ ફૂટર ક્રેડિટ પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે";
-	
+	$lang['month'] = "માસ";
+	$lang['minimum_income'] = "ન્યૂનતમ આવક";
+
 	$lang['name'] = "નામ";
 	$lang['none'] = "કોઈ નહીં";
 	$lang['next_follow_up'] = "આગળ ફોલોઅપ પછી";
@@ -608,6 +616,7 @@
 	$lang['reset_password'] = "પાસવર્ડ ફરીથી સેટ કરો";
 	$lang['remark'] = "રીમાર્ક";
 	$lang['remove_logo'] = "લોગો દૂર કરો";
+	$lang['remove'] = "દૂર કરો";
 	$lang['remove_patient_image'] = "પેશન્ટ છબી દૂર કરો";
 	$lang['renew_license'] = "લાયસન્સનું નવીકરણ કરો";
 	$lang['renew_license_to_update'] = "અપડેટ કરવા માટે લાઇસેંસનું નવીકરણ કરો";
@@ -726,7 +735,6 @@
 	$lang['supplier'] = "સપ્લાયર ";
 	$lang['suppliers'] = "સપ્લાયરો ";
 	$lang['stock_suppliers'] = "સપ્લાયર્સ";
-	$lang['stock_report'] = "અહેવાલ";
 	$lang['stock_purchase_report'] = "ખરીદી રિપોર્ટ";
 	$lang['stock_purchase'] = "ખરીદી";
 	$lang['supplier_name'] = "સપ્લાયરનું નામ";
@@ -751,7 +759,7 @@
 	$lang['save_and_bill'] = "સેવ અને બિલ બનાવો";
 	$lang['ssn_id'] = "આધાર નંબર";
 	$lang['save_complete'] = "સાચવો અને પૂર્ણ કરો";
-	$lang['set_alert_time'] = "ચેતવણી ચેતવણી સેટ કરો;
+	$lang['set_alert_time'] = "ચેતવણી ચેતવણી સેટ કરો";
 	$lang['slot'] = "સ્લોટ";
 
 	$lang['to'] = "માટે";
@@ -803,6 +811,7 @@
 	$lang['top_section_2'] = "ટોચ વિભાગ 2";
 	$lang['top_section_3'] = "ટોચ વિભાગ 3";
 	$lang['this_payment_is_rejected'] = "આ ચુકવણી નકારવામાં આવે છે";
+	$lang['types'] = "પ્રકારો";
 
 	$lang['upload_extension'] = "અપલોડ એક્સ્ટેન્શન્સ";
 	$lang['update'] = "અપડેટ";
@@ -846,6 +855,8 @@
 	$lang['working_days'] = "કાર્યકારી દિવસો";
 	$lang['non_working'] = "નોન વર્કીંગ";
 	$lang['we_provide'] = "અમે આપીશું";
+
+	$lang['year'] = "વર્ષ";
 	
 	$lang['sunday'] = "રવિવાર";
 	$lang['monday'] = "સોમવાર";
@@ -932,37 +943,37 @@
 	$lang['brazilian_currency'] = "બ્રાઝિલિયન રીઅલ (બીઆરએલ)";
 	$lang['canadian_currency'] = "કેનેડિયન ડોલર (સીએડી)";
 	$lang['czech_currency'] = "ચેક કોરુના (સીઝેડકે)";
-	$lang['danish_currency'] = "Danish Krone (DKK)";
-	$lang['euro_currency'] = "Euro (EUR)";
-	$lang['hong_kong_currency'] = "Hong Kong Dollar (HKD)";
-	$lang['hungarian_currency'] = "Hungarian Forint (HUF)";
-	$lang['israeli_currency'] = "Israeli New Sheqel (ILS)";
-	$lang['japanese_currency'] = "Japanese Yen (JPY)";
-	$lang['malaysian_currency'] = "Malaysian Ringgit (MYR)";
-	$lang['mexican_currency'] = "Mexican Peso (MXN)";
-	$lang['norwegian_currency'] = "Norwegian Krone	(NOK)";
-	$lang['new_zealand_currency'] = "New Zealand Dollar (NZD)";
-	$lang['philippine_currency'] = "Philippine Peso	(PHP)";
-	$lang['polish_currency'] = "Polish Zloty (PLN)";
-	$lang['pound_currency'] = "Pound Sterling (GBP)";
-	$lang['singapore_currency'] = "Singapore Dollar (SGD)";
-	$lang['swedish_currency'] = "Swedish Krona (SEK)";
-	$lang['swiss_currency'] = "Swiss Franc	(CHF)";
-	$lang['taiwan_currency'] = "Taiwan New Dollar (TWD)";
-	$lang['thai_currency'] = "Thai Baht (THB)";
-	$lang['us_currency'] = "U.S. Dollar	(USD)";
-	$lang['uae_currency'] = "UAE Dirham	(AED)";
-	$lang['bangladesh_currency'] = "Bangladesh Taka	(BDT)";
-	$lang['bahraini_currency'] = "Bahraini Dinar (BHD)";
-	$lang['chinese_currency'] = "Chinese Yuan Renminbi	(CNY)";
-	$lang['indian_currency'] = "Indian Rupee (INR)";
-	$lang['kenyan_currency'] = "Kenyan Shilling	(KES)";
-	$lang['kuwaiti_currency'] = "Kuwaiti Dinar (KWD)";
-	$lang['sri_lankan_currency'] = "Sri Lankan Rupee (LKR)";
-	$lang['mauritius_currency'] = "Mauritius Rupee (MUR)";
-	$lang['nepalese_currency'] = "Nepalese Rupee	(NPR)";
-	$lang['omani_currency'] = "Omani Rial (OMR)";
-	$lang['qatari_currency'] = "Qatari Riyal (QAR)";
-	$lang['saudi_currency'] = "Saudi Riyal	(SAR)";
-	$lang['south_african_currency'] = "South African Rand	(ZAR)";
+	$lang['danish_currency'] = "ડેનિશ ક્રાઉન (ડીકેકે)";
+	$lang['euro_currency'] = "યુરો (EUR)";
+	$lang['hong_kong_currency'] = "હોંગકોંગ ડોલર (HKD)";
+	$lang['hungarian_currency'] = "હંગેરિયન ફોરિન્ટ (એચયુએફ)";
+	$lang['israeli_currency'] = "ઇઝરાયેલી ન્યુ શેકેલ (આઇએલએસ)";
+	$lang['japanese_currency'] = "જાપાનીઝ યેન (જેપીવાય)";
+	$lang['malaysian_currency'] = "મલેશિયન રીંગગિટ (MYR)";
+	$lang['mexican_currency'] = "મેક્સીકન પેસો (એમએક્સએન)";
+	$lang['norwegian_currency'] = "નોર્વેજિયન ક્રાઉન (NOK)";
+	$lang['new_zealand_currency'] = "ન્યુઝિલેન્ડ ડૉલર (એનઝેડડી)";
+	$lang['philippine_currency'] = "ફિલિપાઈન પેસો (PHP)";
+	$lang['polish_currency'] = "પોલિશ ઝ્લોટી (પીએલએન)";
+	$lang['pound_currency'] = "પાઉન્ડ સ્ટર્લિંગ (જીબીપી)";
+	$lang['singapore_currency'] = "સિંગાપોર ડોલર (એસજીડી)";
+	$lang['swedish_currency'] = "સ્વીડિશ ક્રોના (SEK)";
+	$lang['swiss_currency'] = "સ્વિસ ફ્રેંક (સીએચએફ)";
+	$lang['taiwan_currency'] = "તાઇવાન ન્યૂ ડૉલર (TWD)";
+	$lang['thai_currency'] = "થાઇ બાહ્ટ (THB)";
+	$lang['us_currency'] = "યુ.એસ. ડૉલર (યુએસડી)";
+	$lang['uae_currency'] = "યુએઇ દિરહામ (AED)";
+	$lang['bangladesh_currency'] = "બાંગ્લાદેશ ટાકા (બીડીટી)";
+	$lang['bahraini_currency'] = "બહેરિન દિનાર (બીએચડી)";
+	$lang['chinese_currency'] = "ચિની યુઆન રેનમિબી (સીએનવાય)";
+	$lang['indian_currency'] = "ભારતીય રૂપિયો (આઈએનઆર)";
+	$lang['kenyan_currency'] = "કેન્યા શિલિંગ (કેઇએસ)";
+	$lang['kuwaiti_currency'] = "કુવૈત દિનાર (કેડબલ્યુડી)";
+	$lang['sri_lankan_currency'] = "શ્રીલંકન રૂપિ (એલકેઆર)";
+	$lang['mauritius_currency'] = "મોરિશિયસ રૂપી (મુર)";
+	$lang['nepalese_currency'] = "નેપાળી રૂપી (એનપીઆર)";
+	$lang['omani_currency'] = "ઓમની રિયલ (ઓએમઆર)";
+	$lang['qatari_currency'] = "કતાર રિયાલ (ક્યુએઆર)";
+	$lang['saudi_currency'] = "સાઉદી રિયાલ (એસએઆર)";
+	$lang['south_african_currency'] = "દક્ષિણ આફ્રિકન રૅન્ડ (ZAR)";
 ?>

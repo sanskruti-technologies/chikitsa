@@ -1,6 +1,6 @@
 <?php
 	//Application Details
-	$lang['app_name'] = "Pazienti Database";
+$lang['app_name'] = "Chikitsa ";
 	$lang['title'] = "Chirurgia Plastica Ricostruttiva Estetica";
 	$lang['main_title'] = "Chirurgia Plastica Ricostruttiva Estetica";
 	$lang['cmp_version'] = "Versione";
@@ -13,7 +13,7 @@
 	//Labels
 	$lang['5min'] = "5 Min";
 	$lang['7min'] = "7 Min";
-	$lang['15min'] = "15 Min";
+$lang['15min'] = "15 min";
 	$lang['30min'] = "30 Min";
 	$lang['1hr'] = "1 Ora";
 
@@ -158,7 +158,10 @@
 	$lang['bottom_section_2'] = "Sezione inferiore 2";
 	$lang['bottom_section_3'] = "Sezione inferiore 3";
 	$lang['button'] = "Pulsante";
-	
+	$lang['bonus_percentage'] = "Percentuale bonus";
+	$lang['bonus'] = "indennità";
+	$lang['billed'] = "Fatturati";
+
 	$lang['calendar'] = "Calendario";
 	$lang['cancel'] = "Annulla";
 	$lang['cancelled'] = "Annullato";
@@ -381,9 +384,11 @@
 	$lang['google_plus'] = "Google Plus";
 	$lang['general_settings'] = "impostazioni generali";
 	$lang['group_by'] = "Raggruppa per";
+	$lang['group'] = "Gruppo";
+
 
 	$lang['header'] = "Intestazione";
-		$lang['hidden'] = "Nascosto";
+	$lang['hidden'] = "Nascosto";
 	$lang['home'] = "Home";
 	$lang['hour'] = "ora";
 	$lang['hourly'] = "Ogni ora";
@@ -483,7 +488,9 @@
 	$lang['maximum_top_posts'] = "(Hai raggiunto i messaggi delle sezioni principali massime che possono essere aggiunti)";
 	$lang['maximum_bottom_posts'] = "(Hai raggiunto i post delle sezioni inferiori massime che puoi aggiungere)";
 	$lang['maximum_footer_credits'] = "(You have reached the Maximum Footer credit Posts that can be added) ";
-
+	$lang['month'] = "Mese";
+	$lang['minimum_income'] = "Reddito minimo";
+	
 	$lang['name'] = "Nome";
 	$lang['none'] = "None";
 	$lang['next_follow_up'] = "Dopo follow Successivo";
@@ -608,6 +615,7 @@
 	$lang['reset_password'] = "Resetta la password";
 	$lang['remark'] = "osservazione";
 	$lang['remove_logo'] = "Rimuovi logo";
+	$lang['remove'] = "Rimuovere";
 	$lang['remove_patient_image'] = "Rimuovi immagine paziente";
 	$lang['renew_license'] = "Rinnova la licenza";
 	$lang['renew_license_to_update'] = "Rinnova la licenza per l'aggiornamento";
@@ -803,7 +811,8 @@
 	$lang['top_section_2'] = "Sezione superiore 2";
 	$lang['top_section_3'] = "Sezione superiore 3";
 	$lang['this_payment_is_rejected'] = "Questo pagamento è respinto";
-
+	$lang['types'] = "tipi";
+	
 	$lang['upload_extension'] = "Caricare Estensioni";
 	$lang['update'] = "Aggiornare";
 	$lang['updates'] = "aggiornamenti";
@@ -847,6 +856,8 @@
 	$lang['non_working'] = "Non funzionante";
 	$lang['we_provide'] = "Noi forniamo";
 	
+	$lang['year'] = "Anno";
+
 	$lang['sunday'] = "Domenica";
 	$lang['monday'] = "Lunedi";
 	$lang['tuesday'] = "Martedi";
@@ -925,5 +936,44 @@
 	$lang['donot_close_browser'] = "<strong> Si prega di non chiudere il browser fino al completamento del processo. </ strong> <br/>";
 	$lang['download_chikitsa'] = "Download Ultimo Chikitsa zip ... <br/>";
 	$lang['unzip_file'] = "Decompressione del file zip<br/>";
+	
 	$lang['no_services'] = "Nessun servizio aggiunto. Aggiungi un servizio.";	
+
+	$lang['australian_currency'] = "Dollaro australiano(AUD)";
+	$lang['brazilian_currency'] = "Real brasiliano (BRL)";
+	$lang['canadian_currency'] = "Dollaro canadese (CAD)";
+	$lang['czech_currency'] = "Koruna Ceca (CZK)";
+	$lang['danish_currency'] = "Danish Crown (DKK)";
+	$lang['euro_currency'] = "Euro (EUR)";
+	$lang['hong_kong_currency'] = "Dollaro di Hong Kong (HKD)";
+	$lang['hungarian_currency'] = "Fiorino ungherese (HUF)";
+	$lang['israeli_currency'] = "Israeli New Sheqel (ILS)";
+	$lang['japanese_currency'] = "Yen Giapponese(JPY)";
+	$lang['malaysian_currency'] = "Ringgit malese (MYR)";
+	$lang['mexican_currency'] = "Peso messicano (MXN)";
+	$lang['norwegian_currency'] = "Corona norvegese (NOK)";
+	$lang['new_zealand_currency'] = "Dollaro neozelandese (NZD)";
+	$lang['philippine_currency'] = "Peso filippino (PHP)";
+	$lang['polish_currency'] = "Zloty polacco (PLN)";
+	$lang['pound_currency'] = "Sterlina (GBP)";
+	$lang['singapore_currency'] = "Dollaro di Singapore (SGD)";
+	$lang['swedish_currency'] = "Corona svedese (SEK)";
+	$lang['swiss_currency'] = "Franco svizzero (CHF)";
+	$lang['taiwan_currency'] = "Taiwan New Dollar (TWD)";
+	$lang['thai_currency'] = "Baht tailandese (THB)";
+	$lang['us_currency'] = "Dollaro statunitense (USD)";
+	$lang['uae_currency'] = "UAE Dirham (AED)";
+	$lang['bangladesh_currency'] = "Bangladesh Taka (BDT)";
+	$lang['bahraini_currency'] = "Bahrain Dinar (BHD)";
+	$lang['chinese_currency'] = "Yuan Renminbi cinese (CNY)";
+	$lang['indian_currency'] = "Indian Rupee (INR)";
+	$lang['kenyan_currency'] = "Scellino keniota (KES)";
+	$lang['kuwaiti_currency'] = "Dinaro kuwaitiano (KWD)";
+	$lang['sri_lankan_currency'] = "Sri Lankan Rupee (LKR)";
+	$lang['mauritius_currency'] = "Rupia delle Mauritius (MUR)";
+	$lang['nepalese_currency'] = "Rupee nepalese (NPR)";
+	$lang['omani_currency'] = "Rial dell'Oman (OMR)";
+	$lang['qatari_currency'] = "Qatari Riyal (QAR)";
+	$lang['saudi_currency'] = "Riyal saudita (SAR)";
+	$lang['south_african_currency'] = "Rand sudafricano (ZAR)";
 ?>

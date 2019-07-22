@@ -135,6 +135,7 @@ class Menu_model extends CI_Model {
 		$current_version = $this->config->item('current_version'); 
 		$latest_version = $current_version;
 		$today = date('Y-m-d');
+		$yesterday = date('Y-m-d', strtotime('-1 days'));
 		$doc = new DOMDocument();
 		//echo base_url("about_chikitsa/$today.xml");
 		if (@$doc->load( base_url("about_chikitsa/$today.xml") ) !== false){
@@ -182,6 +183,9 @@ class Menu_model extends CI_Model {
 			// read file contents
 			$data = file_get_contents("http://sanskruti.net/chikitsa/modules/chikitsa.xml");
 			write_file('./about_chikitsa/'.$today.'.xml', $data);
+			
+			//Delete yesterday's file
+			unlink('./about_chikitsa/'.$yesterday.'.xml'); 
 		}
 		
 		if($updates_available != 0){

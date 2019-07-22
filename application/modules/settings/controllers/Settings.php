@@ -21,7 +21,7 @@ class Settings extends CI_Controller {
 		$this->load->library('session');
 		
     }
-	public function edit_language() {
+	public function edit_language($language) {
 		$clinic_id = $this->session->userdata('clinic_id'); 
 		$user_id = $this->session->userdata('user_id'); 
 			
@@ -31,9 +31,8 @@ class Settings extends CI_Controller {
 		$header_data['user_id'] = $user_id;
 		$header_data['user'] = $this->admin_model->get_user($user_id);
 		$header_data['login_page'] = get_main_page();
-		
-		$data['language_array']=$this->settings_model->get_language_name_array();
-
+		$data['l_name']=$language;
+		$data['language_array']=$this->settings_model->get_language_name_array($language);
 		$this->load->view('templates/header',$header_data);
 		$this->load->view('templates/menu');
 		$this->load->view('edit_language',$data);
@@ -43,22 +42,24 @@ class Settings extends CI_Controller {
 	}
 	public function save_language(){
 		$this->settings_model->edit_language_data();
-		
 		$language = $this->input->post('language');
 		$index = $this->input->post('index');
+		$l_name = $this->input->post('l_name');
+		$l_name=rtrim($l_name);
+				$language_file = "./application/language/$l_name/main_lang.php";
+				$line_array = file($language_file);	
+					
+				for ($i = 0; $i < count($line_array); $i++) {
+					if (strstr($line_array[$i], '$lang[\''.$index.'\'] = ')) {
+						$line_array[$i] = '$lang[\''.$index.'\'] = "'.$language.'";' . "\r\n";
+					}
+				}
+				file_put_contents($language_file, $line_array);
+				
+				$main_lang_file = "./application/language/$l_name/main_lang.php";
+				rename($language_file,$main_lang_file);
 			
-		$language_file = "./application/language/english/main_lang.php";
-		$line_array = file($language_file);	
 			
-		for ($i = 0; $i < count($line_array); $i++) {
-			if (strstr($line_array[$i], '$lang[\''.$index.'\'] = ')) {
-				$line_array[$i] = '$lang[\''.$index.'\'] = "'.$language.'";' . "\r\n";
-			}
-		}
-		file_put_contents($language_file, $line_array);
-		
-		$main_lang_file = "./application/language/english/main_lang.php";
-		rename($language_file,$main_lang_file);
 	}
 	/** File Upload for Clinic Logo Image */
 	public function do_logo_upload() {
@@ -238,7 +239,7 @@ class Settings extends CI_Controller {
 		$this->settings_model->delete_exceptional_days($uid);
 		$this->working_days();
 	}
-	public function edit_exceptional_days($uid){
+	public function edit_exceptional_days($uid=NULL){
 		$data['exceptional'] = $this->settings_model->get_exceptional_day($uid);
 		$data['def_dateformate']=$this->settings_model->get_date_formate();
 		$this->load->view('templates/header');
@@ -385,8 +386,12 @@ class Settings extends CI_Controller {
 		$this->change_settings();
 	}
 	public function save_lang(){
+		$button=$this->input->post('submit');
 		$language = $this->input->post('default_language');
 		$language = str_replace("\\","",$language);
+		if($button=="Change Language File"){
+			redirect('settings/edit_language/'.$language);
+		}
 		$config_file = "application/config/config.php";
 		$line_array = file($config_file);
 		for ($i = 0; $i < count($line_array); $i++) {

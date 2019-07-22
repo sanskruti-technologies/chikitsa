@@ -1,0 +1,11 @@
+DELETE FROM %db_prefix%modules WHERE module_name = 'doctor';
+DELETE FROM %db_prefix%navigation_menu WHERE menu_name = 'doctor';
+DELETE FROM %db_prefix%navigation_menu WHERE menu_name = 'doctor_detail';
+DELETE FROM %db_prefix%navigation_menu WHERE menu_name = 'department';
+DELETE FROM %db_prefix%navigation_menu WHERE menu_name = 'fees_detail';
+DELETE FROM %db_prefix%navigation_menu WHERE menu_name = 'doctor_schdule';
+DELETE FROM %db_prefix%navigation_menu WHERE menu_name = 'doctor_inavailability';
+DROP TABLE %db_prefix%department;
+DROP TABLE %db_prefix%doctor;
+DROP TABLE %db_prefix%doctor_schedule;
+DROP TABLE %db_prefix%fee_master;

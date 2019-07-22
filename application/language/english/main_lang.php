@@ -158,6 +158,9 @@
 	$lang['bottom_section_2'] = "Bottom Section 2";
 	$lang['bottom_section_3'] = "Bottom Section 3";
 	$lang['button'] = "Button";
+	$lang['bonus_percentage'] = "Bonus Percentage";
+	$lang['bonus'] = "Bonus";
+	$lang['billed'] = "Billed";
 	
 	$lang['calendar'] = "Calendar";
 	$lang['cancel'] = "Cancel";
@@ -254,7 +257,7 @@
 	$lang['date_format'] = "Date Format";
 	$lang['deactivate'] = "Deactivate";
 	$lang['deallocate'] = "Deallocate";
-	$lang['degrees'] = "Degrees";
+	$lang['degrees'] = "degrees";
 	$lang['delete'] = "Delete";
 	$lang['delete_item'] = "Delete Item";
 	$lang['delete_supplier'] = "Delete Sullpier";
@@ -335,6 +338,7 @@
 	$lang['email_alert_time'] = "Email Alert Time";
 	$lang['email_format'] = "Email Format";
 	$lang['edit_format'] = "Edit Format";
+	
 	$lang['face'] = "Face";
 	$lang['facebook'] = "Facebook";
 	$lang['fees'] = "Fees";
@@ -381,7 +385,9 @@
 	$lang['google_plus'] = "Google Plus";
 	$lang['general_settings'] = "General Settings";
 	$lang['group_by'] = "Group By";
+	$lang['group'] = "Group";
 	
+
 	$lang['header'] = "Header";
 	$lang['hidden'] = "Hidden";
 	$lang['home'] = "Home";
@@ -429,7 +435,7 @@
 	$lang['jurisdiction'] = "Subject to Surat Jurisdiction";
 	$lang['journal_voucher'] = "Journal Voucher";
 	$lang['journal_vouchers'] = "Journal Vouchers";
-		
+
 	$lang['key'] = "Key";
 		
 	$lang['landline'] = "Landline";
@@ -483,6 +489,8 @@
 	$lang['maximum_top_posts'] = "(You have reached the Maximum Top Sections Posts that can be added) ";
 	$lang['maximum_bottom_posts'] = "(You have reached the Maximum Bottom Sections Posts that can be added) ";
 	$lang['maximum_footer_credits'] = "(You have reached the Maximum Footer credit Posts that can be added) ";
+	$lang['month'] = "Month";
+	$lang['minimum_income'] = "Minimum Income";
 	
 	$lang['name'] = "Name";
 	$lang['none'] = "None";
@@ -608,6 +616,7 @@
 	$lang['reset_password'] = "Reset Password";
 	$lang['remark'] = "Remark";
 	$lang['remove_logo'] = "Remove Logo";
+	$lang['remove'] = "Remove";
 	$lang['remove_patient_image'] = "Remove Patient Image";
 	$lang['renew_license'] = "Renew License";
 	$lang['renew_license_to_update'] = "Renew License To Update";
@@ -726,7 +735,6 @@
 	$lang['supplier'] = "Supplier";
 	$lang['suppliers'] = "Suppliers";
 	$lang['stock_suppliers'] = "Suppliers";
-	$lang['stock_report'] = "Report";
 	$lang['stock_purchase_report'] = "Purchase Report";
 	$lang['stock_purchase'] = "Purchase";
 	$lang['supplier_name'] = "Supplier Name";
@@ -803,6 +811,7 @@
 	$lang['top_section_2'] = "Top Section 2";
 	$lang['top_section_3'] = "Top Section 3";
 	$lang['this_payment_is_rejected'] = "This Payment is rejected";
+	$lang['types'] = "Types";
 	
 	$lang['upload_extension'] = "Upload Extensions";
 	$lang['update'] = "Update";
@@ -847,6 +856,8 @@
 	$lang['non_working'] = "Non Working";
 	$lang['we_provide'] = "We Provide";
 	
+	$lang['year'] = "Year";
+
 	$lang['sunday'] = "Sunday";
 	$lang['monday'] = "Monday";
 	$lang['tuesday'] = "Tuesday";
@@ -872,7 +883,7 @@
 	$lang['per_hour'] = "Per Hour";
 	$lang['allot'] = "Allot";
 	$lang['beds'] = "Beds";
-	
+
 	//Warnings / Errors / Alerts
 	$lang['aplha_space'] = "The %s field may only contain alpha characters & White spaces";
 	$lang['first_or_last'] ="Please enter First Name or Last Name";
@@ -903,6 +914,7 @@
 	$lang['toggle_display'] = "(Click to toggle display)";
 	$lang['initial_password_message'] = "Initial password is same as username";
 	$lang['thanks_to_amazing_works'] = "Chikitsa would not have been possible without the amazing works listed below";
+	$lang['no_disease'] = "No Diseases added. Add a disease.";
 	
 	$lang['reset_password_instructions'] = "Please enter your username or email address. You will receive a link to create a new password via email.";
 	$lang['no_email_registered'] = "There is no user registered with that Username or Email.";

@@ -77,47 +77,18 @@ $(window).load(function(){
 		});
 	<?php } ?>
 	var list_fees=[];
-	<?php if(isset($fees)){ ?>
-		list_fees = {	
-	<?php 
-		$fees_doctor = 0;
-		$fees_string = "";
-		
-		
-		foreach ($doctors as $doctor) {
-			if($fees_doctor != $doctor['doctor_id']){
-				if($fees_doctor != 0){
-					$fees_string .= '],';
-				}
-				$fees_doctor = $doctor['doctor_id'];
-				$fees_string .= '"'.$fees_doctor.'":[';
-				foreach ($fees as $fee) {
-					if($fee['doctor_id'] == $doctor['doctor_id']){
-						$fees_string .= '{value:"' . $fee['detail'] . '",amount:"' . $fee['fees'] . '"},';
-					}
-				}
-			}
-		}
-		if($fees_string != ""){
-			$fees_string .= "]";
-		}
-		/*foreach ($fees as $fee) {
-			if($fees_doctor != $fee['doctor_id']){
-				if($fees_doctor != 0){
-					$fees_string .= '],';
-				}
-				$fees_doctor = $fee['doctor_id'];
-				$fees_string .= '"'.$fees_doctor.'":['; 
-			}
-			$fees_string .= '{value:"' . $fee['detail'] . '",amount:"' . $fee['fees'] . '"}';
-		}
-		if($fees_string != ""){
-			$fees_string .= "]";
-		}*/
-		echo $fees_string;
-	?>
-	};
 	
+	<?php if(isset($fees)){ 
+		$list_fees_array = array();
+		foreach ($doctors as $doc) {
+			$list_fees_array[$doc['doctor_id']] = array();
+		}
+		foreach ($fees as $fee) {
+			$fee_array = array('value'=>$fee['detail'],'amount' => $fee['fees']);
+			$list_fees_array[$fee['doctor_id']][] = $fee_array;
+		}
+		echo "list_fees = ".json_encode($list_fees_array).";";
+	?>
 	
 	$("#fees_detail").autocomplete({
 		autoFocus: true,
@@ -142,8 +113,9 @@ $(window).load(function(){
 				$("#fees_detail").val('');
 			}
 		}
-	});  
-	<?php } ?>
+	}); 
+
+	<?php }	?>
 	<?php 
 	$tax_rate_name[0] = "";
 	$tax_rate_array[0] = 0;
@@ -343,9 +315,9 @@ $(window).load(function(){
 			}
 		});  
 		var doctor=[<?php $i = 0;
-			foreach ($doctors as $doctor) {
+			foreach ($doctors as $doc) {
 				if ($i > 0) { echo ",";}
-				echo '{value:"' . $doctor['name']. '",id:"' . $doctor['doctor_id'].'"}';
+				echo '{value:"' . $doc['name']. '",id:"' . $doc['doctor_id'].'"}';
 				$i++;
 			}?>];
 		$("#doctor_name").autocomplete({
@@ -381,6 +353,14 @@ $(window).load(function(){
 		var doctor_id = $('#doctor_id').val();
 		$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
 	<?php }?>
+	<?php 	if(isset($visit_id)){ ?>
+				$("#fees_section").show();
+				var doctor_id = $('#doctor_id').val();
+				console.log("doc=="+doctor_id);
+				//console.log("fe=="+list_fees[doctor_id]);
+				$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
+	<?php 	}?>
+	
 	$('#bill_date').datetimepicker({
 		timepicker:false,
 		format: '<?=$def_dateformate; ?>',
@@ -443,16 +423,13 @@ $(window).load(function(){
 				<?=$this->lang->line("new")." ".$this->lang->line("bill");?>
 			</div>
 			<div class="panel-body">
-			
-				<?php 
-					echo form_open('bill/edit/'.$bill_id); 
-				?>
+				<?php echo form_open('bill/edit/'.$bill_id); ?>
 				<div class="form-group">
 					<?php if($bill_id != 0){?>
 					<a class="btn btn-primary square-btn-adjust" title="<?php echo $this->lang->line("print");?>" target="_blank" href="<?php echo site_url("bill/print_receipt/" . $bill_id); ?>"><?php echo $this->lang->line("print")." ".$this->lang->line("receipt");?></a>
 					<a class="btn btn-primary square-btn-adjust" title="<?php echo $this->lang->line("payment");?>" href="<?php echo site_url("payment/insert/" .$patient_id . "/bill"); ?>"><?php echo $this->lang->line("bill")." ".$this->lang->line("payment");?></a>
 					<?php if (in_array("alert", $active_modules)) {	?>
-					<a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("patient/email_bill/" . $bill_id."/".$patient_id ); ?>">Email Bill</a>
+					    <a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("patient/email_bill/" . $bill_id."/".$patient_id ); ?>">Email Bill</a>
 					<?php } ?>
 					<?php 
 						
@@ -472,7 +449,6 @@ $(window).load(function(){
 									<?= $this->lang->line('search')." ".$this->lang->line('patient');?>
 								</div>
 								<div class="panel-body">
-					
 									<div class="col-md-3">
 									<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
 									<input type="hidden" name="patient_id" id="patient_id" value="<?=$patient_id; ?>">
@@ -485,13 +461,11 @@ $(window).load(function(){
 									</div>
 									<div class="col-md-3">
 										<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
-										<?php if(isset($visit_id))
-												{ ?>
+										<?php if(isset($visit_id)){ ?>
 												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control" readonly/>	
-											<?php	}else { ?>
+											<?php }else { ?>
 												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control"/>
 											<?php } ?>
-										
 									</div>
 									<div class="col-md-3">
 										<label for="patient"><?php echo $this->lang->line('patient_name');?></label>
@@ -517,13 +491,16 @@ $(window).load(function(){
 						<div class="form-group col-md-6">
 							<label for="patient_name"><?php echo $this->lang->line("doctor");?></label>
 							<?php if(isset($visit_id))
-									{ ?>
+									{ $doctor_id=$doctor['doctor_id'];?>
 									<input type="text" name="doctor_name" id="doctor_name" value="<?=$doctor_name; ?>" class="form-control" readonly/>	
+									<input type="hidden" name="doctor_id" id="doctor_id" value="<?= $doctor_id ?>"/>
+
 								<?php	}else { ?>
 									<input type="text" name="doctor_name" id="doctor_name" value="<?=$doctor_name; ?>" class="form-control"/>
+									<input type="hidden" name="doctor_id" id="doctor_id" value="<?= @$doctor_id ?>"/>
+
 								<?php } ?>
 							<input type="hidden" name="appointment_id" id="appointment_id" value="<?=@$appointment_id ?>"/>
-							<input type="hidden" name="doctor_id" id="doctor_id" value="<?= @$doctor_id ?>"/>
 							<?php echo form_error('doctor_id','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 					</div>
@@ -588,19 +565,20 @@ $(window).load(function(){
 											<input name="particular" id="particular" class="form-control" value=""/>
 										</div>
 										<div class="col-md-2">
-											<input type="text" name="particular_amount" class="form-control" id="amount"/>
+											<input type="text" name="particular_amount" id="particular_amount" class="form-control" id="amount"/>
 										</div>
 										<?php if($tax_type == "item"){?>
 										
 										<div class="col-md-2">
-											<select name="tax_rate" class="form-control" id="tax_rate">
+											<select name="tax_id" class="form-control" id="bill_tax_rate">
 												<?php foreach($tax_rates as $tax_rate){?>
-													<option value="<?=$tax_rate['tax_rate'];?>"><?=$tax_rate['tax_rate_name'];?></option>
+													<option tax_rate="<?=$tax_rate['tax_rate'];?>" value="<?=$tax_rate['tax_id'];?>"><?=$tax_rate['tax_rate_name'];?></option>
 												<?php } ?>
 											</select>
 										</div>
 										<div class="col-md-2">
-											<input type="text" style="text-align:right;" name="tax_amount" id="tax_amount" class="form-control" readonly />
+
+											<input type="text" style="text-align:right;" name="tax_amount" id="bill_tax_amount" class="form-control" readonly />
 										</div>
 										<?php } ?>
 										

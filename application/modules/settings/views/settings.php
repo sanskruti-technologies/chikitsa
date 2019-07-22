@@ -582,12 +582,16 @@
 							"Zulu" => "Zulu"
 						);
 						$dateformate_list = array(	"d-m-Y" => "dd-mm-yyyy (".date('d-m-Y').")",
+													"d m y" => "dd mm yy (".date('d m y').")",
+													"d M Y" => "dd mon yyyy (".date('d M Y').")",
+													"m-d-Y" => "mm-dd-yyyy (".date('m-d-Y').")",
 													"Y-m-d" => "yyyy-mm-dd (".date('Y-m-d').")");
 						date_default_timezone_set($def_timezone);							
 						
 						$timeformate_list = array(	"H:i" => "hh:mm (".date('H:i').")",
+													"H:i:s" => "HH:mm:ss (".date('H:i:s').")",
 													"h:i A" => "hh:mm AM (".date('h:i A').")",
-													"H:i:s" => "hh:mm:ss (".date('H:i:s').")");
+													"h:i:s A" => "hh:mm:ss AM (".date('h:i:s A').")");
     if(!$invoice){
         $static_prefix = '';
         $left_pad = '';
@@ -629,12 +633,12 @@
 						</div>
 						<div class="col-md-4" >
 							<div class="form-group" >
-								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
+								<input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo $this->lang->line('save');?>" />
 							</div> 
 						</div>
 						<div class="col-md-8" >
 							<div class="form-group" >
-								<a href="settings/edit_language" class="btn btn-primary" ><?php echo $this->lang->line('change')." ".$this->lang->line('language')." ".$this->lang->line('file');?></a>
+								<input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo $this->lang->line('change')." ".$this->lang->line('language')." ".$this->lang->line('file');?>" />
 							</div>
 						</div>
 						

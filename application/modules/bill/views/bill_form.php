@@ -317,7 +317,7 @@ $(window).load(function(){
 		var doctor=[<?php $i = 0;
 			foreach ($doctors as $doc) {
 				if ($i > 0) { echo ",";}
-				echo '{value:"' . $doc['name']. '",id:"' . $doc['doctor_id'].'"}';
+				echo '{value:"' . $doc['title']." ".$doc['first_name']." ".$doc['middle_name']." ".$doc['last_name']. '",id:"' . $doc['doctor_id'].'"}';
 				$i++;
 			}?>];
 		$("#doctor_name").autocomplete({

@@ -2,7 +2,24 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.7.9] - 2019-07-15
+## [0.8.2] - 2019-08-06
+### Changed
+- Minor Fixes
+  
+## [0.8.1] - 2019-08-01
+### Added
+- Date Formats and Time Formats added
+### Changed 
+- Minor Fixes
+- Tax Calculation error solved
+- Change Language File
+
+
+## [0.8.0] - 2019-07-08
+### Changed 
+- Minor Fixes
+  
+## [0.7.9] - 2019-07-02
 ### Added
   - Edit All Language Variables.
 ### Changed

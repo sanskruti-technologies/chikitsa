@@ -1,10 +1,10 @@
 <?php
 	//Application Details
 $lang['app_name'] = "Chikitsa ";
-	$lang['app_tagline'] = "Patient Management System";
-	$lang['main_title'] = "Chikitsa - Patient Management System";
-	$lang['cmp_version'] = "Chikitsa Version";
-	$lang['cmp_name'] = "Sanskruti Technologies";
+	$lang['app_tagline'] = "نظام إدارة المرضى";
+	$lang['main_title'] = "Chikitsa - نظام إدارة المرضى";
+	$lang['cmp_version'] = "Chikitsa الإصدار";
+	$lang['cmp_name'] = "Sanskruti تكنولوجيز";
 $lang['about_chikitsa'] = "حول شيكانغا ";
 
 
@@ -255,6 +255,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['date'] = "تاريخ";
 	$lang['dashboard'] = "لوحة القيادة";
 	$lang['date_format'] = "صيغة التاريخ";
+	$lang['days'] = "Days";
 	$lang['deactivate'] = "عطل";
 	$lang['deallocate'] = "إلغاء تخصيص";
 	$lang['degrees'] = "درجات";
@@ -370,6 +371,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['frontend'] = "نهاية المقدمة";
 	$lang['framework'] = "الإطار";
 	$lang['full_day'] = "يوم كامل";
+	$lang['footer_settings'] = "إعدادات تذييل الصفحة";
 	$lang['fixed_amount'] = "مبلغ ثابت";
 	$lang['from_email'] = "من البريد الإلكترونى";
 	$lang['featured'] = "متميز";
@@ -377,7 +379,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['footer_section_2'] = "تذييل القسم 2";
 	$lang['footer_section_3'] = "تذييل القسم 3";
 	$lang['footer_section_4'] = "تذييل القسم 4";
-
+	
 	$lang['gender'] = "جنس";
 	$lang['gain'] = "ربح";
 	$lang['gallery'] = "صالة عرض";
@@ -694,6 +696,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['shortcode_template_id'] = "[template_id] - سيتم استبداله بمعرف القالب";
 	$lang['share_type'] = "نوع المشاركة";
 	$lang['sms_settings'] = "إعدادات الرسائل القصيرة";
+	$lang['smtp_instructions'] = "أدناه الحقول المطلوبة فقط لإرسال رسائل البريد الإلكتروني SMTP";
 	$lang['services_settings'] = "إعدادات الخدمات";
 	$lang['stock_sell'] = "يبيع";
 	$lang['sell_id'] = "بيع معرف";
@@ -916,7 +919,11 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['initial_password_message'] = "كلمة المرور المبدئية هي نفسها اسم المستخدم";
 	$lang['thanks_to_amazing_works'] = "لم يكن من الممكن Chikitsa دون الأعمال المدهشة المذكورة أدناه";
 	$lang['no_disease'] = "لم تتم إضافة أي أمراض. إضافة مرض.";
-
+	$lang['validate_date_or_day'] = "الرجاء إدخال التاريخ أو تحديد الأيام.";
+	$lang['non_working'] = "هذا هو يوم غير العمل";
+	$lang['time_booked'] = "تم حجز هذه المرة بالفعل مع أقصى عدد ممكن من المرضى!";
+	$lang['doctor_not_available'] = "الطبيب غير متوفر خلال هذا الوقت";
+	
 	$lang['reset_password_instructions'] = "الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني. ستتلقى رابطًا لإنشاء كلمة مرور جديدة عبر البريد الإلكتروني.";
 	$lang['no_email_registered'] = "لا يوجد مستخدم مسجل بهذا الاسم أو البريد الإلكتروني.";
 	$lang['check_confirmation_link'] = "تحقق من بريدك الالكتروني للحصول على رابط التأكيد.";
@@ -978,4 +985,12 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['qatari_currency'] = "الريال القطري (ريال قطري)";
 	$lang['saudi_currency'] = "ريال سعودي (ريال سعودي)";
 	$lang['south_african_currency'] = "الراند الجنوب أفريقي (ZAR)";
+	
+	$lang['cal_sunday'] = 'الأحد';
+	$lang['cal_monday'] = 'الإثنين';
+	$lang['cal_tuesday'] = 'الثلاثاء';
+	$lang['cal_wednesday'] = 'الأربعاء';
+	$lang['cal_thursday'] = 'الخميس';
+	$lang['cal_friday'] = 'يوم الجمعة';
+	$lang['cal_saturday'] = 'يوم السبت';
 ?>

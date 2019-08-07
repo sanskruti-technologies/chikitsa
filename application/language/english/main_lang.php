@@ -255,6 +255,7 @@
 	$lang['date'] = "Date";
 	$lang['dashboard'] = "Dashboard";
 	$lang['date_format'] = "Date Format";
+	$lang['days'] = "Days";
 	$lang['deactivate'] = "Deactivate";
 	$lang['deallocate'] = "Deallocate";
 	$lang['degrees'] = "degrees";
@@ -370,6 +371,7 @@
 	$lang['frontend'] = "Frontend";
 	$lang['framework'] = "Framework";
 	$lang['full_day'] = "Full Day";
+	$lang['footer_settings'] = "Footer Settings";
 	$lang['fixed_amount'] = "Fixed Amount";
 	$lang['from_email'] = "From Email";
 	$lang['featured'] = "Featured";
@@ -694,6 +696,7 @@
 	$lang['shortcode_template_id'] = "[template_id] - Will be replaced by Template ID";
 	$lang['share_type'] = "Share Type";
 	$lang['sms_settings'] = "SMS Settings";
+	$lang['smtp_instructions'] = "Below fields only required for sending SMTP Emails";
 	$lang['services_settings'] = "Services Settings";
 	$lang['stock_sell'] = "Sell";
 	$lang['sell_id'] = "Sell Id";
@@ -735,6 +738,7 @@
 	$lang['supplier'] = "Supplier";
 	$lang['suppliers'] = "Suppliers";
 	$lang['stock_suppliers'] = "Suppliers";
+	$lang['stock_report'] = "Report";
 	$lang['stock_purchase_report'] = "Purchase Report";
 	$lang['stock_purchase'] = "Purchase";
 	$lang['supplier_name'] = "Supplier Name";
@@ -915,6 +919,10 @@
 	$lang['initial_password_message'] = "Initial password is same as username";
 	$lang['thanks_to_amazing_works'] = "Chikitsa would not have been possible without the amazing works listed below";
 	$lang['no_disease'] = "No Diseases added. Add a disease.";
+	$lang['validate_date_or_day'] = "Please enter Date or select Days.";
+	$lang['non_working'] = "This is a Non Working Day";
+	$lang['time_booked'] = "This time is already booked with maximum patients!";
+	$lang['doctor_not_available'] = "Doctor is not available during this time";
 	
 	$lang['reset_password_instructions'] = "Please enter your username or email address. You will receive a link to create a new password via email.";
 	$lang['no_email_registered'] = "There is no user registered with that Username or Email.";
@@ -977,4 +985,12 @@
 	$lang['qatari_currency'] = "Qatari Riyal (QAR)";
 	$lang['saudi_currency'] = "Saudi Riyal	(SAR)";
 	$lang['south_african_currency'] = "South African Rand	(ZAR)";
+	
+	$lang['cal_sunday'] = 'Sunday';
+	$lang['cal_monday'] = 'Monday';
+	$lang['cal_tuesday'] = 'Tuesday';
+	$lang['cal_wednesday'] = 'Wednesday';
+	$lang['cal_thursday'] = 'Thursday';
+	$lang['cal_friday'] = 'Friday';
+	$lang['cal_saturday'] = 'Saturday';
 ?>

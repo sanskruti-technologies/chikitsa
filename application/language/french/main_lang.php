@@ -1,9 +1,9 @@
 <?php
 	//Application Details
-$lang['app_name'] = "Chikitsa ";
-	$lang['title'] = "Patient Management System";
-	$lang['main_title'] = "Chikitsa - Patient Management System";
-	$lang['cmp_version'] = "Chikitsa Version";
+	$lang['app_name'] = "Chikitsa ";
+	$lang['title'] = "Système de gestion du patient";
+	$lang['main_title'] = "Chikitsa - Système de gestion des patients";
+	$lang['cmp_version'] = "Version Chikitsa";
 	$lang['cmp_name'] = "Sanskruti Technologies";
 $lang['about_chikitsa'] = "À propos de Chikanga ";
 
@@ -370,6 +370,7 @@ $lang['15min'] = " 15 Min";
 	$lang['frontend'] = "L'extrémité avant";
 	$lang['framework'] = "Cadre";
 	$lang['full_day'] = "Journée complète";
+	$lang['footer_settings'] = "Paramètres de pied de page";
 	$lang['fixed_amount'] = "Montant fixé";
 	$lang['from_email'] = "De l'email";
 	$lang['featured'] = "En vedette";
@@ -694,6 +695,7 @@ $lang['15min'] = " 15 Min";
 	$lang['shortcode_template_id'] = "[template_id] - Sera remplacé par l'ID de modèle";
 	$lang['share_type'] = "Type de partage";
 	$lang['sms_settings'] = "Paramètres SMS";
+	$lang['smtp_instructions'] = "Les champs ci-dessous ne sont requis que pour l'envoi d'emails SMTP";
 	$lang['services_settings'] = "Paramètres des services";
 	$lang['stock_sell'] = "Vendre";
 	$lang['sell_id'] = "Identifiant de vente";
@@ -844,7 +846,7 @@ $lang['15min'] = " 15 Min";
 	$lang['voucher_date'] = "Date du bon";
 	$lang['view_prescription'] = "Voir la prescription";
 	$lang['value'] = "Valeur";
-
+	
 	$lang['waiting'] = "Attendre";
 	$lang['waiting_in'] = "En attente de";
 	$lang['welcome'] = "Bienvenue";
@@ -856,7 +858,6 @@ $lang['15min'] = " 15 Min";
 	$lang['working_days'] = "Jours de travail";
 	$lang['non_working'] = "Ne fonctionne pas";
 	$lang['we_provide'] = "Nous fournissons";
-
 	$lang['year'] = "Year";
 	
 	$lang['sunday'] = "dimanche";
@@ -916,6 +917,10 @@ $lang['15min'] = " 15 Min";
 	$lang['initial_password_message'] = "Le mot de passe initial est le même que le nom d'utilisateur";
 	$lang['thanks_to_amazing_works'] = "Chikitsa n'aurait pas été possible sans les travaux étonnants énumérés ci-dessous";
 	$lang['no_disease'] = "Aucune maladie ajoutée. Ajouter une maladie.";
+	$lang['validate_date_or_day'] = "Veuillez entrer la date ou sélectionner les jours.";
+	$lang['non_working'] = "C'est un jour de repos";
+	$lang['time_booked'] = "Ce temps est déjà réservé avec un maximum de patients!";
+	$lang['doctor_not_available'] = "Le docteur n'est pas disponible pendant ce temps";
 
 	$lang['reset_password_instructions'] = "Veuillez saisir votre identifiant ou adresse mail. Vous recevrez un lien pour créer un nouveau mot de passe par email.";
 	$lang['no_email_registered'] = "Aucun utilisateur n'est enregistré avec ce nom d'utilisateur ou cet e-mail.";
@@ -978,4 +983,12 @@ $lang['15min'] = " 15 Min";
 	$lang['qatari_currency'] = "Riyal Qatari (QAR)";
 	$lang['saudi_currency'] = "Riyal Saoudien (SAR)";
 	$lang['south_african_currency'] = "Rand sud-africain (ZAR)";
+
+	$lang['cal_sunday'] = 'dimanche';
+	$lang['cal_monday'] = 'Lundi';
+	$lang['cal_tuesday'] = 'Mardi';
+	$lang['cal_wednesday'] = 'Mercredi';
+	$lang['cal_thursday'] = 'Jeudi';
+	$lang['cal_friday'] = 'Vendredi';
+	$lang['cal_saturday'] = 'samedi';
 ?>

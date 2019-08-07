@@ -20,7 +20,7 @@ class Contact_model extends CI_Model {
 		$data['last_name'] = $last_name;
 		//$data['phone_number'] = $phone_number;
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
-        
+        $data['contact_image'] = 'uploads/images/Profile.png';
 		$this->db->insert('contacts', $data);
 		$contact_id = $this->db->insert_id();
 		//echo $this->db->last_query();
@@ -42,7 +42,7 @@ class Contact_model extends CI_Model {
 		$data['postal_code'] = $postal_code;
 		$data['country'] = $country;
 		$data['clinic_code'] = $this->session->userdata('clinic_code');
-        
+        $data['contact_image'] = 'uploads/images/Profile.png';
 		$this->db->insert('contacts', $data);
 		//echo $this->db->last_query();
 		$contact_id = $this->db->insert_id();

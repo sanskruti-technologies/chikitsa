@@ -103,7 +103,7 @@ class Patient extends CI_Controller {
 			}
 			$col[$this->lang->line("follow_up")] = "<a class='btn btn-success btn-sm square-btn-adjust' title='Follow Up' href='".site_url("patient/followup/" . $patient['patient_id'])."'>".$followup_date."</a>";
 			if($level != "Receptionist") {
-				$col[$this->lang->line('delete')]="<a class='btn btn-danger btn-sm square-btn-adjust confirmDelete' title='".$this->lang->line('delete')."' href='".site_url("patient/delete/" . $patient['patient_id'])."'>".$this->lang->line("delete")."</a>";
+				$col[$this->lang->line('delete')]="<a class='btn btn-danger btn-sm square-btn-adjust confirmDelete deletePatient' data-patient_id='".$patient['patient_id']."' title='".$this->lang->line('delete')."' >".$this->lang->line("delete")."</a>";
 			}
 			$ajax_data[] = $col;
 		}
@@ -336,6 +336,7 @@ class Patient extends CI_Controller {
         } else {
 			$contact_id = $this->patient_model->get_contact_id($patient_id);
 			$this->patient_model->delete_patient($patient_id);
+			$this->contact_model->delete_contact($contact_id);
 			$active_modules = $this->module_model->get_active_modules();
 			if (in_array("history", $active_modules)) {	
 				$this->load->model('history/history_model');
@@ -343,7 +344,7 @@ class Patient extends CI_Controller {
 				$data['section_fields'] = $this->history_model->get_fields_by_display_in("patient_detail");
 				$data['field_options'] = $this->history_model->get_field_options_by_display_in("patient_detail");
 			}
-            $this->index();
+            //$this->index();
         }
     }
 	public function add_inquiry(){

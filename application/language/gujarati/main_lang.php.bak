@@ -255,6 +255,7 @@
 	$lang['date'] = "તારીખ";
 	$lang['dashboard'] = "ડેશબોર્ડ";
 	$lang['date_format'] = "તારીખ ફોર્મેટ";
+	$lang['days'] = "દિવસ";
 	$lang['deactivate'] = "નિષ્ક્રિય કરવા";
 	$lang['deallocate'] = "દીઅલોકેત ";
 	$lang['degrees'] = "ડિગ્રી";
@@ -361,7 +362,7 @@
 	$lang['forgot_password'] = "પાસવર્ડ ભૂલી ગયા છો?";
 	$lang['form'] = "ફોર્મ";
 	$lang['found'] = "મળી";
-	$lang['frequancy'] = "આવર્તન";
+	$lang['frequency'] = "આવર્તન";
 	$lang['from_date'] = "તારીખ થી";
 	$lang['from_time'] = "સમય થી";
 	$lang['from_name'] = "નામ પ્રતિ";
@@ -370,6 +371,7 @@
 	$lang['frontend'] = "અગ્ર";
 	$lang['framework'] = "ફ્રેમવર્ક";
 	$lang['full_day'] = "આખો દિવસ";
+	$lang['footer_settings'] = "ફૂટર સેટિંગ્સ";
 	$lang['fixed_amount'] = "સ્થિર રકમ";
 	$lang['from_email'] = "ઇમેઇલ પ્રતિ";
 	$lang['featured'] = "ફીચર્ડ";
@@ -694,6 +696,7 @@
 	$lang['shortcode_template_id'] = "[template_id] - ઢાંચો ID દ્વારા બદલવામાં આવશે";
 	$lang['share_type'] = "શેર પ્રકાર";
 	$lang['sms_settings'] = "એસએમએસ સેટિંગ્સ";
+	$lang['smtp_instructions'] = "ફક્ત SMTP ઇમેઇલ્સ મોકલવા માટે આવશ્યક ";
 	$lang['services_settings'] = "સેવાઓ સેટિંગ્સ";
 	$lang['stock_sell'] = "વેચો";
 	$lang['sell_id'] = "વેચાણ આઈડી";
@@ -735,6 +738,7 @@
 	$lang['supplier'] = "સપ્લાયર ";
 	$lang['suppliers'] = "સપ્લાયરો ";
 	$lang['stock_suppliers'] = "સપ્લાયર્સ";
+	$lang['stock_report'] = "અહેવાલ";
 	$lang['stock_purchase_report'] = "ખરીદી રિપોર્ટ";
 	$lang['stock_purchase'] = "ખરીદી";
 	$lang['supplier_name'] = "સપ્લાયરનું નામ";
@@ -914,7 +918,12 @@
 	$lang['toggle_display'] = "(ડિસ્પ્લે  ટૉગલ કરવા માટે ક્લિક કરો)";
 	$lang['initial_password_message'] = "પ્રારંભિક પાસવર્ડ વપરાશકર્તાનામ તરીકે સમાન છે";
 	$lang['thanks_to_amazing_works'] = "ચિકિત્સા નીચેની અમેઝિંગ કામો વગર શક્ય બન્યું ન હોત.";
-	
+	$lang['no_disease'] = "કોઈ રોગ ઉમેર્યા નથી. એક રોગ ઉમેરો.";
+	$lang['validate_date_or_day'] = "કૃપા કરી તારીખ દાખલ કરો અથવા દિવસો પસંદ કરો.";
+	$lang['non_working'] = "આ નોન વર્કિંગ ડે છે";
+	$lang['time_booked'] = "આ સમય પહેલેથી જ મહત્તમ દર્દીઓ સાથે બુક થયેલ છે!";
+	$lang['doctor_not_available'] = "ડાક્તરઆ સમય દરમિયાન ઉપલબ્ધ નથી";
+		
 	$lang['reset_password_instructions'] = "કૃપા કરીને તમારું વપરાશકર્તાનામ અથવા ઇમેઇલ સરનામું દાખલ કરો.તમને ઇમેઇલ દ્વારા એક નવો પાસવર્ડ બનાવવા માટે એક લિંક પ્રાપ્ત થશે.";
 	$lang['no_email_registered'] = "તે વપરાશકર્તાનામ અથવા ઇમેઇલ સાથે કોઈ વપરાશકર્તા રજીસ્ટર નથી.";
 	$lang['check_confirmation_link'] = "પુષ્ટિકરણ લિંક માટે તમારું ઇમેઇલ તપાસો.";

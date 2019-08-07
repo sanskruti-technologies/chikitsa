@@ -139,10 +139,13 @@ class Doctor_model extends CI_Model {
 		$data['contact_id'] = $contact_id; 
 		if($this->input->post('joining_date')){
 			$data['joining_date'] = date('Y-m-d',strtotime($this->input->post('joining_date')));
+		}else{
+			$data['joining_date'] = "";
 		}
 		if($this->input->post('dob')){
 			$data['dob'] = date('Y-m-d',strtotime($this->input->post('dob')));
 		}
+		
 		if($this->input->post('department_id[]')){
 			$data['department_id'] = implode(",",$this->input->post('department_id[]'));
 		}else{
@@ -190,6 +193,8 @@ class Doctor_model extends CI_Model {
 		$data['licence_number'] = $this->input->post('licence_number');
 		if($this->input->post('department_id[]')){
 			$data['department_id'] = implode(",",$this->input->post('department_id[]'));
+		}else{
+			$data['department_id'] = "";
 		}
 		$data['gender'] = $this->input->post('gender');		
 		$data['description'] = $this->input->post('description');				
@@ -337,7 +342,7 @@ class Doctor_model extends CI_Model {
 	}
 	/*department ---------------------------------------------------------------------------------------*/
 	public function get_all_departments() {	
-		$this->db->where("IFNULL(is_deleted,0) !=", 1);
+		//$this->db->where("IFNULL(is_deleted,0) !=", 1);
 		$query = $this->db->get("department");
 		//echo $this->db->last_query();
 		return $query->result_array();
@@ -371,7 +376,6 @@ class Doctor_model extends CI_Model {
 		$data['is_deleted'] = 1;
 		$data['sync_status'] = 0;	
 		$this->db->update('department', $data, array('department_id' =>  $id));
-		//echo $this->db->last_query();
 	}
 	// fees master 
 	public function find_fees() {	
@@ -562,7 +566,7 @@ class Doctor_model extends CI_Model {
 		$data['sync_status'] = 0;
 		$this->db->where('doctor_id', $doctor_id);
 		$this->db->update('doctor_preferences', $data);
-		echo $this->db->last_query()."<br/>";
+		//echo $this->db->last_query()."<br/>";
 	}
 	public function get_doctor_preferences($doctor_id = NULL){
 		if($doctor_id != NULL){

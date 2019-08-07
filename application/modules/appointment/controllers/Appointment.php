@@ -431,7 +431,7 @@ class Appointment extends CI_Controller {
 		//Check for working day
 		$working_day = $this->settings_model->get_exceptional_day_by_date($appointment_date);
 		if($working_day['working_status'] == 'Non Working'){
-			$this->form_validation->set_message('validate_time','This is a Non Working Day');
+			$this->form_validation->set_message('validate_time',$this->lang->line('non_working'));
 			return FALSE;
 		}
 		
@@ -459,14 +459,14 @@ class Appointment extends CI_Controller {
 						$count++;
 					}
 					if($count+1 > $max_patient){
-						$this->form_validation->set_message('validate_time','This time is already booked with maximum patients!');
+						$this->form_validation->set_message('validate_time',$this->lang->line('time_booked'));
 						return FALSE;
 					}
 				}
 			}else{
 				//echo "Count".count($appointments);
 				if((count($appointments) + 1 )> $max_patient){
-					$this->form_validation->set_message('validate_time','This time is already booked with maximum patients!');
+					$this->form_validation->set_message('validate_time',$this->lang->line('time_booked'));
 					return FALSE;
 				}
 			}
@@ -481,7 +481,7 @@ class Appointment extends CI_Controller {
 		$start_time = date("H:i:s", strtotime($this->input->post('start_time')));
 		$end_time = date("H:i:s", strtotime($this->input->post('end_time')));
 		$doctor_id = $this->input->post('doctor_id');
-		$this->form_validation->set_message('is_available','Doctor is not available during this time');
+		$this->form_validation->set_message('is_available',$this->lang->line('doctor_not_available'));
 		$is_doctor_active = $this->module_model->is_active("doctor");
 		$is_unavailable = $this->appointment_model->get_doctor_unavailability($appointment_date,$start_time,$end_time,$doctor_id,$is_doctor_active);
 		return $is_unavailable;

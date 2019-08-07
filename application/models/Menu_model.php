@@ -181,7 +181,7 @@ class Menu_model extends CI_Model {
 			//Dowload the xml
 			$this->load->helper('download');
 			// read file contents
-			$data = file_get_contents("http://sanskruti.net/chikitsa/modules/chikitsa.xml");
+			$data = file_get_contents("https://chikitsa.net/chikitsa.xml");
 			write_file('./about_chikitsa/'.$today.'.xml', $data);
 			
 			//Delete yesterday's file

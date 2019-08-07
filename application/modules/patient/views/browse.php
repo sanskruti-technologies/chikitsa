@@ -152,9 +152,8 @@
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
 	$('#show_columns').chosen();
-	$(document).on('click', '.confirmDelete' , function() {
-		 return confirm("Are you sure you want to delete?");
-	});
+	
+	
 
     var patient_table =  $("#patient_table").dataTable({
 		"ajax": {"url": "<?=site_url('patient/ajax_all_patients');?>"},
@@ -165,6 +164,20 @@ $( window ).load(function() {
             
         ],
 		"pageLength": 50
+	});
+	
+	$(document).on('click', '.deletePatient' , function() {
+		if(confirm("Are you sure you want to delete?")){
+			var patient_id = $(this).data('patient_id');
+			 $.ajax({
+				url: "<?php echo site_url('patient/delete/'); ?>"+patient_id,
+			});
+			
+
+			patient_table.DataTable().ajax.reload();
+
+		}
+		
 	});
 	
 	$("#add_inquiry_submit").click(function(event) {

@@ -370,6 +370,7 @@ $lang['15min'] = " 15 Min";
 	$lang['frontend'] = "L'extrémité avant";
 	$lang['framework'] = "Cadre";
 	$lang['full_day'] = "Journée complète";
+	$lang['footer_settings'] = "Paramètres de pied de page";
 	$lang['fixed_amount'] = "Montant fixé";
 	$lang['from_email'] = "De l'email";
 	$lang['featured'] = "En vedette";
@@ -694,6 +695,7 @@ $lang['15min'] = " 15 Min";
 	$lang['shortcode_template_id'] = "[template_id] - Sera remplacé par l'ID de modèle";
 	$lang['share_type'] = "Type de partage";
 	$lang['sms_settings'] = "Paramètres SMS";
+	$lang['smtp_instructions'] = "Les champs ci-dessous ne sont requis que pour l'envoi d'emails SMTP";
 	$lang['services_settings'] = "Paramètres des services";
 	$lang['stock_sell'] = "Vendre";
 	$lang['sell_id'] = "Identifiant de vente";
@@ -844,7 +846,7 @@ $lang['15min'] = " 15 Min";
 	$lang['voucher_date'] = "Date du bon";
 	$lang['view_prescription'] = "Voir la prescription";
 	$lang['value'] = "Valeur";
-
+	
 	$lang['waiting'] = "Attendre";
 	$lang['waiting_in'] = "En attente de";
 	$lang['welcome'] = "Bienvenue";

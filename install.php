@@ -661,7 +661,7 @@
 											$language_sqls = array();
 											//Language Files
 											foreach($lan_file_array as $language){
-												$language_sqls[$lf] = array();	
+												$language_sqls[$language] = array();
 												$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data WHERE l_name='".$language."';";
 												$language_sqls[$language][]= $sql;
 												$database_array=array();
@@ -670,7 +670,6 @@
 														 $database_array[$row['l_index']] = $row['l_value'];
 													}
 												}
-												
 												$lang = array();
 												include_once("./application/language/$language/main_lang.php");
 												foreach($lang as $key =>$l){
@@ -1091,7 +1090,7 @@
 											
 						$link = mysqli_select_db($con, $dbname );
 						if (!$link) {
-							$error_message = 'Not connected : ' . mysql_error($con);
+							$error_message = 'Not connected : ' . mysqli_error($con);
 							display_form($error_message);
 							exit;
 						}
@@ -1100,7 +1099,7 @@
 							$message = "Error : " . mysqli_error($con);
 							display_system_admin_form($message,$server,$mysql_username,$mysql_password,$dbname,$dbprefix);
 						}else{
-									
+							
 							$sql = "UPDATE ".$dbprefix."version SET current_version='$latest_version';";
 							//echo $sql;
 							if (!mysqli_query($con,$sql)) {

@@ -173,11 +173,10 @@ class Admin extends CI_Controller {
 				$this->contact_model->update_contact_full($contact_id,$first_name,$middle_name,$last_name,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);	
                 $data['user'] = $this->admin_model->get_users();	
 				$data['categories'] = $this->admin_model->find_category();				
-				$data['message']="User Updated Successfully";
-				$this->load->view('templates/header_chikitsa');
-				$this->load->view('templates/menu');
-				$this->load->view('users_list', $data);
-				$this->load->view('templates/footer');
+				$message['text'] = 'User Updated Successfully';
+				$message['type'] = 'success';
+				$this->users($message);
+				
             }
         }
     }

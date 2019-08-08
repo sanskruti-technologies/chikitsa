@@ -97,7 +97,7 @@ class Appointment extends CI_Controller {
 							$appointment = $this->appointment_model->get_appointments_id($appointment_id);
 							$visit_id = $appointment['visit_id'];
 							if($visit_id != 0){
-								$href = site_url("patient/edit_visit/" . $visit_id."/".$patient_id );
+								$href = site_url("patient/edit_visit/" . $visit_id."/".$patient_id."/".$appointment_id );
 							}else{
 								$href = site_url("patient/visit/" . $patient_id ."/" . $appointment_id) ;
 							}

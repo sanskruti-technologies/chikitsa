@@ -42,7 +42,7 @@
 		global $flag;
 		$flag="false";
 		
-		$latest_version = "0.8.2";
+		$latest_version = "0.8.3";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.

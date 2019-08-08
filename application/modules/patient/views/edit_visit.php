@@ -124,6 +124,7 @@ if(isset($visit)){
 			<span class="err"><?php echo validation_errors(); ?></span>
 			<div class="panel-body">
 			<?php echo form_open('patient/edit_visit/'. $visit_id . "/" . $patient_id) ?>
+			<input type="hidden" name="appointment_id" value="<?=$appointment_id;?>" />
 			<div class="form-group">
 				<label for="visit_doctor"><?php echo $this->lang->line("doctor");?></label>
 				<select name="visit_doctor" id="visit_doctor" class="form-control">
@@ -375,9 +376,14 @@ if(isset($visit)){
 			}?>
 			<div class="col-md-12">
 			<div class="form-group">
-				<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" /><?php echo $this->lang->line("save");?></button>
+				
 				<!--a class="btn btn-primary square-btn-adjust" href="<?php echo base_url()."index.php/appointment/change_status_visit/".$visit['visit_id']?>"><?php echo $this->lang->line("complete");?></a-->
-				<a class="btn btn-primary square-btn-adjust" href="<?php echo base_url() . "/index.php/patient/visit/" . $patient_id . "/" . $appointment_id; ?>"><?php echo $this->lang->line("cancel");?></a>
+				<?php  if($level != "Nurse"){?>
+					<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="save_complete" /><?php echo $this->lang->line("save_complete");?></button>
+				<?php } ?>
+				<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="save" /><?php echo $this->lang->line("save");?></button>
+				
+				<a class="btn btn-info square-btn-adjust" href="<?php echo base_url() . "/index.php/patient/visit/" . $patient_id . "/" . $appointment_id; ?>"><?php echo $this->lang->line("back");?></a>
 			</div>
 			</div>
 			</div>

@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.8.3] - 2019-08-08
+### Changed
+- Minor Fixes
+- Multiple Appointment overlap problem fixed
+  
 ## [0.8.2] - 2019-08-06
 ### Changed
 - Minor Fixes

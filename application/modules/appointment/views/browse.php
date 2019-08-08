@@ -79,15 +79,19 @@
 					}else{
 						columns[appointment.start_position] = 0;
 					}
-					var s_position = $( "#" + appointment.start_position ).position();
-					var e_position = $( "#" + appointment.end_position ).position();
-					var height = e_position.top - s_position.top - 2;
 					
-					var left = s_position.left + (columns[appointment.start_position]*width);
-					var style = "position:absolute;top:"+ s_position.top +"px;left:" + left +"px;height:"+height+"px;width:"+width+"px;";
 					
-					appointment = "<div id="+ appointment.appointment_id +" style='"+style+"'><a href='"+appointment.href+"' title='"+appointment.appointment_title+"' class='btn square-btn-adjust " + appointment.appointment_class + "' style='height:100%;' >"+appointment.appointment_title+"</a>"+appointment.next_link+""+appointment.cancel_link+"</div>";
-					$('#appointment_table').append(appointment);
+					if($("#" + appointment.end_position).length != 0) {
+						var s_position = $( "#" + appointment.start_position ).position();	
+						var e_position = $( "#" + appointment.end_position ).position();
+						var height = e_position.top - s_position.top - 2;
+					
+						var left = s_position.left + (columns[appointment.start_position]*width);
+						var style = "position:absolute;top:"+ s_position.top +"px;left:" + left +"px;height:"+height+"px;width:"+width+"px;";
+					
+						appointment = "<div id="+ appointment.appointment_id +" style='"+style+"'><a href='"+appointment.href+"' title='"+appointment.appointment_title+"' class='btn square-btn-adjust " + appointment.appointment_class + "' style='height:100%;' >"+appointment.appointment_title+"</a>"+appointment.next_link+""+appointment.cancel_link+"</div>";
+						$('#appointment_table').append(appointment);
+					}
 				});
 			});
 		}

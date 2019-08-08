@@ -341,6 +341,7 @@ $(document).ready(function(){
 										</div>
 										<div class="modal-footer">
 											<input id="add_treatment_submit" type="submit" name="submit" value="Save" class="btn btn-primary" data-dismiss="modal"/>
+							
 											<button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->lang->line('close');?></button>
 										</div>
 										<?php echo form_close(); ?>
@@ -616,6 +617,9 @@ $(document).ready(function(){
 							<div class="col-md-4">	
 								<div class="form-group">
 									<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" /><?php echo $this->lang->line('save');?></button>
+									<?php  if($level != "Nurse"){?>
+										<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="save_complete" /><?php echo $this->lang->line("save_complete");?></button>
+									<?php } ?>
 								</div>
 							</div>
 							<div class="col-md-4">	

@@ -145,7 +145,6 @@ class Doctor_model extends CI_Model {
 		if($this->input->post('dob')){
 			$data['dob'] = date('Y-m-d',strtotime($this->input->post('dob')));
 		}
-		
 		if($this->input->post('department_id[]')){
 			$data['department_id'] = implode(",",$this->input->post('department_id[]'));
 		}else{
@@ -342,7 +341,7 @@ class Doctor_model extends CI_Model {
 	}
 	/*department ---------------------------------------------------------------------------------------*/
 	public function get_all_departments() {	
-		//$this->db->where("IFNULL(is_deleted,0) !=", 1);
+		$this->db->where("IFNULL(is_deleted,0) !=", 1);
 		$query = $this->db->get("department");
 		//echo $this->db->last_query();
 		return $query->result_array();

@@ -517,7 +517,10 @@ class Patient extends CI_Controller {
 					$this->load->model('history/history_model');
 					$this->history_model->update_visit_history_details($visit_id);
 				}
-				$this->appointment_model->change_status($appointment_id,"Complete");
+				$level = $this->session->userdata('category');
+				if($level != "Nurse"){
+					$this->appointment_model->change_status($appointment_id,"Complete");
+				}
             }
 			
 			$data['patient_id'] = $patient_id;
@@ -639,7 +642,10 @@ class Patient extends CI_Controller {
 			$this->form_validation->set_rules('visit_date', $this->lang->line('visit_date'), 'required');
 			$this->form_validation->set_rules('visit_time', $this->lang->line('visit_time'), 'required');
             if ($this->form_validation->run() === FALSE) {
+				$level = $this->session->userdata('category');
+				$data['level'] = $level;
 				$data['visit'] = $this->patient_model->get_visit_data($visit_id);
+				
 				$data['doctors'] = $this->doctor_model->get_doctors();
 				if ($this->session->userdata('category') == 'Doctor'){
 					$user_id = $this->session->userdata('id');
@@ -715,6 +721,11 @@ class Patient extends CI_Controller {
             } else {
 				$active_modules = $this->module_model->get_active_modules();
                 $this->patient_model->edit_visit_data($visit_id);
+
+				if($this->input->post('submit') == "save_complete"){
+					$appointment_id = $this->input->post('appointment_id');
+					$this->appointment_model->change_status($appointment_id,"Complete");
+				}
 				if (in_array("history", $active_modules)) {
 					$this->load->model('history/history_model');
 					$this->history_model->update_visit_history_details($visit_id);

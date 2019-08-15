@@ -383,7 +383,6 @@ class Bill_model extends CI_Model {
 		$this->db->select_sum('amount', 'total');
         $query = $this->db->get_where('view_bill_detail_report', array('bill_id' => $bill_id,'type'=>$type));
         $row = $query->row();
-		//echo $this->db->last_query()."<br/>";
         return $row->total;
 	}
 	public function get_balance_amount($bill_id) {

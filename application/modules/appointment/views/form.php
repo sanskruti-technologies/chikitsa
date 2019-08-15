@@ -553,7 +553,7 @@
 			formatTime:'<?=$def_timeformate; ?>',
 			<?php if($clinic_start_time != '00:00' && $clinic_end_time !='24:00'){?>
 			minTime:'<?=date($def_timeformate,strtotime($clinic_start_time));?>',
-			maxTime:'<?=date($def_timeformate,strtotime($clinic_end_time));?>',
+			maxTime:'<?=date($def_timeformate,strtotime($clinic_end_time . "+ $time_interval minute"));?>',
 			<?php } ?>
 			scrollMonth:false,
 			scrollTime:false,

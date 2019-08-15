@@ -703,6 +703,11 @@ class Bill extends CI_Controller {
 							if($col =='mrp' || $col =='amount'){
 								$room_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
 								$room_table .= currency_format($bill_detail[$col])."</td>";
+							}elseif($col=='tax_amount'){
+								if($data['tax_type'] == "item"){	
+									$particular_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+									$particular_table .= currency_format($bill_detail[$col])."</td>";
+								}
 							}else{
 								$room_table .= "<td style='padding:5px;border:1px solid black;'>";
 								$room_table .= $bill_detail[$col]."</td>";

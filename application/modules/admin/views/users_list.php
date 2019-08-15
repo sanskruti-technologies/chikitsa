@@ -58,8 +58,6 @@
  <!-- DATA TABLE SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/dataTables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>assets/js/dataTables/dataTables.bootstrap.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/dataTables/moment.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/dataTables/datetime-moment.min.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/custom.min.js"></script>
 <script type="text/javascript" charset="utf-8">

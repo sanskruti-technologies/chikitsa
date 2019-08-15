@@ -416,9 +416,8 @@ function is_holiday($today){
 					<span class="btn square-btn-adjust btn_pending"><?=$this->lang->line('pending');?></span>
 				</div-->
             </div>
-			</div></br>
-			</div>
-		</div>
+		</div></br>
+	
 		<div class="col-md-4">
 				<!--------------------------- Display Follow-Up  ------------------------------->
 				<div class="panel panel-primary">

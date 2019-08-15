@@ -417,8 +417,11 @@ class Doctor_model extends CI_Model {
 		$this->db->update('fee_master', $data, array('id' =>  $id));
 	}
 	//Doctor Schedule
-	public function find_drschedule(){
+	public function find_drschedule($doctor_id = NULL){
 		$this->db->where("IFNULL(is_deleted,0) !=", 1);
+		if($doctor_id != NULL){
+			$this->db->where('doctor_id', $doctor_id);
+		}
 		$query = $this->db->get("doctor_schedule");
 		//echo $this->db->last_query()."<br/>";
         return $query->result_array();

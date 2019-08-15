@@ -393,6 +393,8 @@ class Patient extends CI_Controller {
 			$data['def_timeformate'] = $this->settings_model->get_time_formate();
 			$data['morris_date_format'] = $this->settings_model->get_morris_date_format();
 			$data['morris_time_format'] = $this->settings_model->get_morris_time_format();
+			$level = $this->session->userdata('category');
+			$data['level'] = $level;
 			
 			$data['curr_date']=date($data['def_dateformate']);
 			$data['curr_time']=date($data['def_timeformate']);		

@@ -528,7 +528,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<?php if (in_array("history", $active_modules)){
-						if (file_exists(APPPATH."views/log/display_fields.".EXT)){
+						if (file_exists(APPPATH."modules/history/views/display_fields".EXT)){
 								$this->load->view('history/display_fields'); 
 							}else{?>
 								<div class="col-md-12">

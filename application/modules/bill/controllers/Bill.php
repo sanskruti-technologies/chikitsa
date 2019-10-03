@@ -6,6 +6,7 @@ class Bill extends CI_Controller {
 		$this->load->model('doctor/doctor_model');
 		$this->load->model('admin/admin_model');
 		$this->load->model('patient/patient_model');
+		$this->load->model('contact/contact_model');
 		//$this->load->model('package/package_model');
 		$this->load->model('module/module_model');
 		$this->load->model('payment/payment_model');
@@ -29,6 +30,7 @@ class Bill extends CI_Controller {
          } else {
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
 		  	$data['def_dateformate'] = $this->settings_model->get_date_formate();
+			$data['currency_postfix'] = $this->settings_model->get_currency_postfix();
 			$data['bills'] = $this->bill_model->get_bills();
 		    $data['doctors']=$this->doctor_model->get_doctors();
 			if($this->input->post('from_date')){
@@ -166,8 +168,9 @@ class Bill extends CI_Controller {
 			if ($this->form_validation->run() === FALSE) {
 			}else{
 				$patient_id = $this->input->post('patient_id');
+				$doctor_id = $this->input->post('doctor_id');
 				if($bill_id == 0){
-					$bill_id = $this->bill_model->create_bill_for_patient($patient_id);
+					$bill_id = $this->bill_model->create_bill_for_patient($patient_id,0,$doctor_id);
 				}
 				$data['patient_id'] = $patient_id;
 				$action = $this->input->post('submit');
@@ -184,6 +187,7 @@ class Bill extends CI_Controller {
 						$amount = $this->input->post('item_amount');
 						$quantity = $this->input->post('item_quantity');
 						$this->patient_model->add_bill_item($action, $bill_id, $item, $quantity, $amount*$quantity, $amount,$item_id);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'lab_test') {
 					$this->form_validation->set_rules('lab_test', $this->lang->line('lab_test'), 'required');
@@ -212,6 +216,7 @@ class Bill extends CI_Controller {
 						$session_charges = $this->input->post('session_charges');
 						
 						$this->patient_model->add_bill_item($action, $bill_id, 'Session', 1, $session_charges,$session_charges,NULL,0);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'package') {
 					$this->form_validation->set_rules('package', $this->lang->line("package"), 'required');
@@ -222,6 +227,7 @@ class Bill extends CI_Controller {
 						$package = $this->input->post('package');
 						$package_price = $this->input->post('package_price');
 						$this->patient_model->add_bill_item($action, $bill_id, $package, 1, $package_price);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'treatment') {
 					$this->form_validation->set_rules('treatment', $this->lang->line("treatment"), 'required');
@@ -234,6 +240,7 @@ class Bill extends CI_Controller {
 						$tax_amount = $this->input->post('treatment_rate');
 						
 						$this->bill_model->add_bill_item($action, $bill_id, $treatment, 1,$treatment_price,$treatment_price,NULL,$tax_amount);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'fees') {
 					$this->form_validation->set_rules('fees_detail','fees detail' , 'required');
@@ -244,6 +251,7 @@ class Bill extends CI_Controller {
 						$fees = $this->input->post('fees_detail');
 						$fees_amount = $this->input->post('fees_amount');
 						$this->bill_model->add_bill_item($action, $bill_id,$fees ,1, $fees_amount,$fees_amount);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'particular') {
 					
@@ -254,9 +262,11 @@ class Bill extends CI_Controller {
 					} else {
 						$particular = $this->input->post('particular');
 						$particular_amount = $this->input->post('particular_amount');
-						$tax_amount = $this->input->post('tax_amount');
+						$tax_rate = $this->input->post('tax_amount');
+						$tax_amount = $tax_rate*$particular_amount/100;
 						$tax_id = $this->input->post('tax_id');
 						$this->bill_model->add_bill_item($action, $bill_id, $particular, 1, $particular_amount,$particular_amount,NULL,	$tax_amount,$tax_id);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'tax') {
 					$bill_amount = $this->bill_model->get_bill_amount($bill_id);
@@ -274,6 +284,7 @@ class Bill extends CI_Controller {
 						$tax_amount = $taxable_amount * $tax_rate_percent /100;
 					
 						$this->bill_model->add_bill_item($action, $bill_id, $tax_rate_name, 1, $tax_amount,$tax_amount,NULL,NULL,$tax_id);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'discount') {
 					//echo $bill_id."<br/>";
@@ -287,6 +298,7 @@ class Bill extends CI_Controller {
 					} else {
 						$discount_amount = $this->input->post('discount');
 						$this->bill_model->update_discount($bill_id,$discount_amount);
+						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}else{
 					
@@ -569,7 +581,7 @@ class Bill extends CI_Controller {
 			if (in_array("doctor", $active_modules)) {
 				$data['fees_total'] = $this->bill_model->get_fee_total($bill_id);
 			}
-            $data['currency_postfix'] = $this->settings_model->get_currency_postfix();
+            $currency_postfix = $this->settings_model->get_currency_postfix();
 			
 			$def_dateformate = $this->settings_model->get_date_formate();
 			$def_timeformate = $this->settings_model->get_time_formate();
@@ -641,11 +653,17 @@ class Bill extends CI_Controller {
 			$template = str_replace("[tax_details]", $tax_details, $template);
 			//Patient Details
 			$patient = $this->patient_model->get_patient_detail($patient_id);
-			$patient_array = array('patient_name');
+			$addresses = $this->contact_model->get_contacts($patient['contact_id']);
+			$patient_array = array('patient_name','age','sex','patient_address');
 			foreach($patient_array as $patient_detail){
 				if($patient_detail == 'patient_name'){
 					$patient_name = $patient['first_name']." ".$patient['middle_name']." ".$patient['last_name'];
 					$template = str_replace("[patient_name]",$patient_name, $template);
+				}elseif($patient_detail == 'patient_address'){
+					$patient_address = "<strong>(".$addresses['type'].")</strong><br/>".$addresses['address_line_1']."<br/>".$addresses['address_line_2']."<br/>".$addresses['area']."<br/>".$addresses['city'] . "," . $addresses['state'] . " " . $addresses['postal_code'] . "<br/>" . $addresses['country'];
+					$template = str_replace("[$patient_detail]", $patient_address, $template);
+				}elseif($patient_detail == 'sex'){
+					$template = str_replace("[$patient_detail]", $patient['gender'], $template);
 				}else{
 					$template = str_replace("[$patient_detail]", $patient[$patient_detail], $template);
 				}
@@ -683,11 +701,11 @@ class Bill extends CI_Controller {
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount' ){
 								$particular_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$particular_table .= currency_format($bill_detail[$col])."</td>";
+								$particular_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 							}elseif($col=='tax_amount'){
 								if($data['tax_type'] == "item"){	
 									$particular_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-									$particular_table .= currency_format($bill_detail[$col])."</td>";
+									$particular_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 								}
 							}else{
 								$particular_table .= "<td style='padding:5px;border:1px solid black;'>";
@@ -702,11 +720,11 @@ class Bill extends CI_Controller {
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount'){
 								$room_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$room_table .= currency_format($bill_detail[$col])."</td>";
+								$room_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 							}elseif($col=='tax_amount'){
 								if($data['tax_type'] == "item"){	
 									$particular_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-									$particular_table .= currency_format($bill_detail[$col])."</td>";
+									$particular_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 								}
 							}else{
 								$room_table .= "<td style='padding:5px;border:1px solid black;'>";
@@ -720,7 +738,7 @@ class Bill extends CI_Controller {
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount'){
 								$item_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$item_table .= currency_format($bill_detail[$col])."</td>";
+								$item_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 							}else{
 								$item_table .= "<td style='padding:5px;border:1px solid black;'>";
 								$item_table .= $bill_detail[$col]."</td>";
@@ -734,11 +752,11 @@ class Bill extends CI_Controller {
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount'){
 								$treatment_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$treatment_table .= currency_format($bill_detail[$col])."</td>";
+								$treatment_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 							}else if($col=='tax_amount'){
 								if($data['tax_type'] == "item"){	
 									$treatment_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-									$treatment_table .= currency_format($bill_detail[$col])."</td>";
+									$treatment_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 								}
 							}else{
 								$treatment_table .= "<td style='padding:5px;border:1px solid black;'>";
@@ -754,7 +772,7 @@ class Bill extends CI_Controller {
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount'){
 								$fees_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$fees_table .= currency_format($bill_detail[$col])."</td>";
+								$fees_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 							}else{
 								$fees_table .= "<td style='padding:5px;border:1px solid black;'>";
 								$fees_table .= $bill_detail[$col]."</td>";
@@ -768,11 +786,11 @@ class Bill extends CI_Controller {
 						foreach($cols as $col){
 							if($col =='mrp' || $col =='amount' ){
 								$sessions_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-								$sessions_table .= currency_format($bill_detail[$col])."</td>";
+								$sessions_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 							}elseif($col=='tax_amount'){
 								if($data['tax_type'] == "item"){	
 									$sessions_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
-									$sessions_table .= currency_format($bill_detail[$col])."</td>";
+									$sessions_table .= currency_format($bill_detail[$col]).$currency_postfix."</td>";
 								}
 							}else{
 								$sessions_table .= "<td style='padding:5px;border:1px solid black;'>";
@@ -790,40 +808,40 @@ class Bill extends CI_Controller {
 				}
 				if($particular_table != ""){
 					if($data['tax_type'] == "bill"){		
-						$particular_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Particular</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_amount)."</strong></td></tr>";
+						$particular_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Particular</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_amount).$currency_postfix."</strong></td></tr>";
 					}else{
-						$particular_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Particular</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_amount)."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount)."</strong></td></tr>";
+						$particular_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Particular</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_amount).$currency_postfix."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount).$currency_postfix."</strong></td></tr>";
 					}
 				}
 				if($room_table != ""){
 					if($data['tax_type'] == "bill"){		
-						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Rooms</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($room_amount)."</strong></td></tr>";
+						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Rooms</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($room_amount).$currency_postfix."</strong></td></tr>";
 					}else{
-						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Rooms</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($room_amount)."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount)."</strong></td></tr>";
+						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Rooms</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($room_amount).$currency_postfix."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount).$currency_postfix."</strong></td></tr>";
 					}
 				}
 				if($item_table != ""){
 					if($data['tax_type'] == "bill"){		
-						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount)."</strong></td></tr>";
+						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount).$currency_postfix."</strong></td></tr>";
 					}else{
-						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount)."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount)."</strong></td></tr>";
+						$room_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Items</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($item_amount).$currency_postfix."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($particular_tax_amount).$currency_postfix."</strong></td></tr>";
 					}
 				}
 				if($treatment_table != ""){	
 					if($data['tax_type'] == "bill"){		
-						$treatment_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Treatment</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($treatment_amount)."</strong></td></tr>";
+						$treatment_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Treatment</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($treatment_amount).$currency_postfix."</strong></td></tr>";
 					}else{
-						$treatment_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Treatment</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($treatment_amount)."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($tax_rate)."</strong></td></tr>";
+						$treatment_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Treatment</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($treatment_amount).$currency_postfix."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($tax_rate).$currency_postfix."</strong></td></tr>";
 					}
 				}
 				if($fees_table != ""){	
-					$fees_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Fees</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($fees_amount)."</strong></td></tr>";
+					$fees_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Fees</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($fees_amount).$currency_postfix."</strong></td></tr>";
 				}
 				if($sessions_table != ""){	
 					if($data['tax_type'] == "bill"){
-						$sessions_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Sessions</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($sessions_amount)."</strong></td></tr>";
+						$sessions_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Sessions</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($sessions_amount).$currency_postfix."</strong></td></tr>";
 					}else{
-						$sessions_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Sessions</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($sessions_amount)."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($session_tax_amount)."</strong></td></tr>";
+						$sessions_table .= "<tr><td colspan='3' style='padding:5px;border:1px solid black;'><strong>Sub Total - Sessions</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($sessions_amount).$currency_postfix."</strong></td><td style='text-align:right;padding:5px;border:1px solid black;'><strong>".currency_format($session_tax_amount).$currency_postfix."</strong></td></tr>";
 					}
 				}
 			}
@@ -839,18 +857,18 @@ class Bill extends CI_Controller {
 			
 			
 			$balance = $this->bill_model->get_balance_amount($bill['bill_id']);
-			$balance = currency_format($balance);
+			$balance = currency_format($balance).$currency_postfix;
 			$template = str_replace("[previous_due]",$balance, $template);
 			
 			$paid_amount = $this->payment_model->get_paid_amount($bill['bill_id']);
-			$paid_amount = currency_format($paid_amount);
+			$paid_amount = currency_format($paid_amount).$currency_postfix;
 			if($data['tax_type'] == "item"){
 				$paid_amount = "</td><td style='text-align: right; padding: 5px; border: 1px solid black;'>".$paid_amount;	
 			}	
 			$template = str_replace("[paid_amount]",$paid_amount, $template);
 			
 			$discount_amount = $this->bill_model->get_discount_amount($bill['bill_id']);
-			$discount = currency_format($discount_amount);
+			$discount = currency_format($discount_amount).$currency_postfix;
 			if($data['tax_type'] == "item"){
 				$discount = "(".$discount.")"."<td style='text-align: right; padding: 5px; border: 1px solid black;'></td>";	
 			}
@@ -860,7 +878,7 @@ class Bill extends CI_Controller {
 			
 			
 			$total_amount = $total_amount + $tax_amount;  
-			$total_amount = currency_format($total_amount);
+			$total_amount = currency_format($total_amount).$currency_postfix;
 			if($data['tax_type'] == "item"){
 				$total_amount = "</td><td style='text-align: right; padding: 5px; border: 1px solid black;'>".$total_amount;	
 			}

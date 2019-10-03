@@ -11,7 +11,6 @@ class Bill_model extends CI_Model {
         if ($row)
             return $row->bill_id;
     }
-	
 	public function get_bill_id_allocate($allocate_id) {
         $query = $this->db->get_where('room_allocate', array('allocate_id' => $allocate_id));
         //echo $this->db->last_query()."<br/>";
@@ -134,6 +133,15 @@ class Bill_model extends CI_Model {
 		//echo $this->db->last_query()."<br/>";
 
     }
+	public function delete_bill($bill_id){
+		$bill_details = $this->get_bill_detail($bill_id);
+		foreach($bill_details as $bill_detail){
+			$bill_detail_id = $bill_detail['bill_detail_id'];
+			$this->delete_bill_detail($bill_detail_id, $bill_id);
+		}
+		$this->db->delete('bill', array('bill_id' => $bill_id));
+		
+	}
     public function update_discount($bill_id,$discount_amount) {
 		$data['bill_id'] = $bill_id;
 		$data['particular'] = 'Discount';
@@ -383,6 +391,7 @@ class Bill_model extends CI_Model {
 		$this->db->select_sum('amount', 'total');
         $query = $this->db->get_where('view_bill_detail_report', array('bill_id' => $bill_id,'type'=>$type));
         $row = $query->row();
+		//echo $this->db->last_query()."<br/>";
         return $row->total;
 	}
 	public function get_balance_amount($bill_id) {

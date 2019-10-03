@@ -2,6 +2,9 @@
 class Appointment extends CI_Controller {
     function __construct() {
         parent::__construct();
+		
+		$this->config->load('version');
+		
         $this->load->model('appointment_model');
         $this->load->model('admin/admin_model');
 		$this->load->model('contact/contact_model');
@@ -36,115 +39,113 @@ class Appointment extends CI_Controller {
 	public function ajax_appointments($appointment_date){
 		$clinic_id = $this->session->userdata('clinic_id');
 		$level = $this->session->userdata('category');
-		
-			$start_time = $this->settings_model->get_clinic_start_time($clinic_id);
-			$end_time = $this->settings_model->get_clinic_end_time($clinic_id);
-			$time_interval = $this->settings_model->get_time_interval();
-			
-			$start_time = timetoint($start_time);
-			$end_time = timetoint($end_time);
-		
-			if ($level == 'Doctor') {
-				//Fetch this doctor's appointments for the date 
-                $user_id = $this->session->userdata('id');
-				$doctor = $this->admin_model->get_doctor($user_id);
-				$doctor_id = $doctor['doctor_id'];
-				$appointments = $this->appointment_model->get_appointments($appointment_date,$doctor_id);
 
-            } else {
-				//Fetch appointments for the date
-                $appointments = $this->appointment_model->get_appointments($appointment_date);
-            }
-			$appointment_array = array();
-			foreach($appointments as $appointment){
-				$row = array();
-				$appointment_id = $appointment['appointment_id'];
-				$patient_id = $appointment['patient_id'];
-				$row['appointment_id'] = $appointment_id;
-				
-				$start_position = timetoint($appointment['start_time'])*100;
-				$start_position = round($start_position);
-				$start_position = nearest_timeinterval($start_time,$end_time,$time_interval,$start_position);
-				
-				$end_position =  timetoint($appointment['end_time'])*100;
-				$end_position = round($end_position);
-				$end_position = nearest_timeinterval($start_time,$end_time,$time_interval,$end_position);
-				
-				$href = site_url("appointment/edit_appointment/" . $appointment_id );
-				
-				
-				$appointment_title = $appointment['title'];
-				
-				$appointment_column = 0;
-				$doctor_id = 0;
-				$next_link = "";			
-				$cancel_link = "";			
-				if ($level == 'Doctor') {
-					switch($appointment['status']){
-						case 'Appointments':
-							$class = "btn-primary";
-							$start_position = "app".$start_position;
-							$end_position = "app".$end_position;
-							$nxt=true;
-							$nextstatus= base_url() ."index.php/appointment/change_status/". $appointment_id."/Waiting";
-							$ca=true;
-							$cancelapp= base_url() ."index.php/appointment/change_status/". $appointment_id."/Cancel";
-							break;
-						case 'Consultation':
-							$class = "btn-danger";
-							$start_position = "con".$start_position;
-							$end_position = "con".$end_position;
-							$appointment = $this->appointment_model->get_appointments_id($appointment_id);
-							$visit_id = $appointment['visit_id'];
-							if($visit_id != 0){
-								$href = site_url("patient/edit_visit/" . $visit_id."/".$patient_id."/".$appointment_id );
-							}else{
-								$href = site_url("patient/visit/" . $patient_id ."/" . $appointment_id) ;
-							}
-							$nxt=false;
-							$ca=false;
-							break;
-						case 'Complete':
-							$class = "btn btn-success";
-							$start_position = "com".$start_position;
-							$end_position = "com".$end_position;
+		$start_time = $this->settings_model->get_clinic_start_time($clinic_id);
+		$end_time = $this->settings_model->get_clinic_end_time($clinic_id);
+		$time_interval = $this->settings_model->get_time_interval();
+	
+		$start_time = timetoint($start_time);
+		$end_time = timetoint($end_time);
+	
+		if ($level == 'Doctor') {
+			//Fetch this doctor's appointments for the date 
+			$user_id = $this->session->userdata('id');
+			$doctor = $this->admin_model->get_doctor($user_id);
+			$doctor_id = $doctor['doctor_id'];
+			$appointments = $this->appointment_model->get_appointments($appointment_date,$doctor_id);
+
+		} else {
+			//Fetch appointments for the date
+			$appointments = $this->appointment_model->get_appointments($appointment_date);
+		}
+		$appointment_array = array();
+		foreach($appointments as $appointment){
+			$row = array();
+			$appointment_id = $appointment['appointment_id'];
+			$patient_id = $appointment['patient_id'];
+			$row['appointment_id'] = $appointment_id;
+			
+			$start_position = timetoint($appointment['start_time'])*100;
+			$start_position = round($start_position);
+			$start_position = nearest_timeinterval($start_time,$end_time,$time_interval,$start_position);
+			
+			$end_position =  timetoint($appointment['end_time'])*100;
+			$end_position = round($end_position);
+			$end_position = nearest_timeinterval($start_time,$end_time,$time_interval,$end_position);
+			
+			$href = site_url("appointment/edit_appointment/" . $appointment_id );
+			$appointment_title = $appointment['title'];
+			
+			$appointment_column = 0;
+			$doctor_id = 0;
+			$next_link = "";			
+			$cancel_link = "";			
+			if ($level == 'Doctor') {
+				switch($appointment['status']){
+					case 'Appointments':
+						$class = "btn-primary";
+						$start_position = "app".$start_position;
+						$end_position = "app".$end_position;
+						$nxt=true;
+						$nextstatus= base_url() ."index.php/appointment/change_status/". $appointment_id."/Waiting";
+						$ca=true;
+						$cancelapp= base_url() ."index.php/appointment/change_status/". $appointment_id."/Cancel";
+						break;
+					case 'Consultation':
+						$class = "btn-danger";
+						$start_position = "con".$start_position;
+						$end_position = "con".$end_position;
+						$appointment = $this->appointment_model->get_appointments_id($appointment_id);
+						$visit_id = $appointment['visit_id'];
+						if($visit_id != 0){
+							$href = site_url("patient/edit_visit/" . $visit_id."/".$patient_id."/".$appointment_id );
+						}else{
 							$href = site_url("patient/visit/" . $patient_id ."/" . $appointment_id) ;
-							$nxt=false;
-							$ca=false;
-							break;
-						case 'Cancel':
-							$class = "btn btn-info";
-							$start_position = "can".$start_position;
-							$end_position = "can".$end_position;
-							$nxt=false;
-							$ca=false;
-							break;
-						case 'Pending':
-							$class = "btn btn_pending";
-							$start_position = "pend".$start_position;
-							$end_position = "pend".$end_position;
-							$nxt=false;
-							$ca=false;
-							break;
-						case 'Waiting':
-							$class = "btn-warning";
-							$start_position = "wai".$start_position;
-							$end_position = "wai".$end_position;
-							$nxt=true;
-							$nextstatus = site_url("appointment/change_status/". $appointment_id."/Consultation");
-							$ca=true;
-							$cancelapp= base_url() ."index.php/appointment/change_status/". $appointment_id."/Cancel";
-							break;
-						default:
-							break;
-					}
-					if ($nxt){
-						$next_link = "<a href='".$nextstatus."' class='btn square-btn-adjust $class ' style='height:100%;'><i class='fa fa-arrow-circle-right'></i></a>";
-					}
-					if($ca){ 
-						$cancel_link = "<a href='".$cancelapp."' class='btn square-btn-adjust $class' style='height:100%;'><i class='fa fa-times'></i></a>";
-					}
-				}else{
+						}
+						$nxt=false;
+						$ca=false;
+						break;
+					case 'Complete':
+						$class = "btn btn-success";
+						$start_position = "com".$start_position;
+						$end_position = "com".$end_position;
+						$href = site_url("patient/visit/" . $patient_id ."/" . $appointment_id) ;
+						$nxt=false;
+						$ca=false;
+						break;
+					case 'Cancel':
+						$class = "btn btn-info";
+						$start_position = "can".$start_position;
+						$end_position = "can".$end_position;
+						$nxt=false;
+						$ca=false;
+						break;
+					case 'Pending':
+						$class = "btn btn_pending";
+						$start_position = "pend".$start_position;
+						$end_position = "pend".$end_position;
+						$nxt=false;
+						$ca=false;
+						break;
+					case 'Waiting':
+						$class = "btn-warning";
+						$start_position = "wai".$start_position;
+						$end_position = "wai".$end_position;
+						$nxt=true;
+						$nextstatus = site_url("appointment/change_status/". $appointment_id."/Consultation");
+						$ca=true;
+						$cancelapp= base_url() ."index.php/appointment/change_status/". $appointment_id."/Cancel";
+						break;
+					default:
+						break;
+				}
+				if ($nxt){
+					$next_link = "<a href='".$nextstatus."' class='btn square-btn-adjust $class ' style='height:100%;'><i class='fa fa-arrow-circle-right'></i></a>";
+				}
+				if($ca){ 
+					$cancel_link = "<a href='".$cancelapp."' class='btn square-btn-adjust $class' style='height:100%;'><i class='fa fa-times'></i></a>";
+				}
+			}else{
 				
 					$start_position = $appointment['doctor_id']."_".$start_position;
 					$end_position = $appointment['doctor_id']."_".$end_position;
@@ -433,6 +434,21 @@ class Appointment extends CI_Controller {
 		if($working_day['working_status'] == 'Non Working'){
 			$this->form_validation->set_message('validate_time',$this->lang->line('non_working'));
 			return FALSE;
+		}
+		//Check for Half Day
+		if($working_day['working_status'] == 'Half Day'){
+			
+			//Check time slot
+				$s_time=strtotime(substr($working_day['start_time'],0,5));
+				$e_time=strtotime(substr($working_day['end_time'],0,5));
+				$start_time=strtotime(substr($start_time,0,5));
+				$end_time=strtotime(substr($end_time,0,5));
+				//echo $s_time."=s_time ".$e_time."e_time ".$start_time."start ".$end_time."end<br/>";
+				if(($start_time>=$s_time) && ($start_time<$e_time)){
+					$this->form_validation->set_message('validate_time',$this->lang->line('half_day')." (".$working_day['start_time']." to ".$working_day['end_time'].")");
+						return false;
+				}				
+					
 		}
 		
 		//Check For Maximum Patients allowed 

@@ -24,7 +24,6 @@
 			<tbody>
 			<?php $i=1; ?>
 			<?php
-			$demo = $this->config->item('demo');
 			if($user){
 			?>
 			<?php foreach ($user as $u):  ?>
@@ -34,7 +33,7 @@
 				<td><?php echo $u['username']; ?></td>        
 				<td><?php echo $u['level']; ?></td>
 				<td><?php if($u['is_active']) {echo "Yes";}else {echo "No";} ?></td>
-				<td><a <?php if ($demo == 1 && $u['level'] == 'System Administrator') echo 'style="display:none;"' ?> class="btn btn-primary square-btn-adjust" title="Visit" href="<?php echo site_url("admin/edit_user/" . $u['userid']); ?>"><?php echo $this->lang->line('edit_user');?></a></td>
+				<td><a <?php if ($u['level'] == 'System Administrator') echo 'style="display:none;"' ?> class="btn btn-primary square-btn-adjust" title="Visit" href="<?php echo site_url("admin/edit_user/" . $u['userid']); ?>"><?php echo $this->lang->line('edit_user');?></a></td>
 				<td><a <?php if ($u['level'] == 'System Administrator') echo 'style="display:none;"' ?> class="btn btn-danger square-btn-adjust confirmDelete" title="<?php echo $this->lang->line('delete_user')." : " . $u['username'] ?>" href="<?php echo site_url("admin/delete/" . $u['userid']); ?>"><?php echo $this->lang->line('delete_user');?></a></td>
 			</tr>
 			<?php $i++; ?>

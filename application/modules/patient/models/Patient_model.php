@@ -317,7 +317,6 @@ class Patient_model extends CI_Model {
             return 0;
     }
     function get_previous_visits($patient_id,$doctor_id = NULL) {
-        //$level = $this->session->userdata('category');
 		$this->db->order_by("visit_date", "desc");
         if($doctor_id != NULL){
            // $userid = $this->session->userdata('id');

@@ -39,14 +39,12 @@
 	$lang['add_another_medicine'] = "બીજી દવા ઉમેરો";
 	$lang['add_appointment'] = "નિમણૂંક ઉમેરો";
 	$lang['add_alerts'] = "ચેતવણીઓ ઉમેરો";
-
 	$lang['add_slider'] = "સ્લાઇડર ઉમેરો";
 	$lang['add_about_page_post'] = "પૃષ્ઠ પોસ્ટ વિશે ઉમેરો";
 	$lang['add_footer_section'] = "ફૂટર વિભાગ ઉમેરો";
 	$lang['add_footer_credit'] = "ફૂટર ક્રેડિટ વિભાગ ઉમેરો";
 	$lang['add_top_section'] = "ટોચના વિભાગ ઉમેરો";
 	$lang['add_image'] = "નવી છબી ઉમેરો";
-
 	$lang['add_category'] = "કેટેગરી ઉમેરો";
 	$lang['add_detail'] = "વિગતવાર ઉમેરવા માટે પરવાનગી આપે છે";
 	$lang['add_department'] = "વિભાગ ઉમેરો";
@@ -158,10 +156,10 @@
 	$lang['bottom_section_2'] = "નીચે ભાગ 2";
 	$lang['bottom_section_3'] = "નીચે ભાગ 3";
 	$lang['button'] = "બટન";
+	$lang['bonus_percentage'] = "બોનસ ટકા";
 	$lang['bonus'] = "બોનસ";
 	$lang['billed'] = "બિલ";
 	
-
 	$lang['calendar'] = "કેલેન્ડર";
 	$lang['cancel'] = "રદ કરો";
 	$lang['cancelled'] = "રદ";
@@ -300,6 +298,7 @@
 	$lang['diseases'] = "રોગો";
 	$lang['diagnosed_diseases'] = "નિદાન રોગ";
 
+	$lang['eraser'] = "ઇરેઝર";
 	$lang['erpnext_sync'] = "Erpnext Sync";
 	$lang['erpnext_url'] = "Erpnext URL";
 	$lang['enable_about_page'] = "વિશે પેજમાં સક્ષમ કરો";
@@ -401,12 +400,13 @@
 	$lang['home_settings'] = "મુખ્ય પૃષ્ઠ સેટિંગ્સ";
 	$lang['has_additional_details'] = "વધારાની વિગતો છે";
 	$lang['heading'] = "મથાળું";
-	$lang['history'] = "History";
+	$lang['history'] = "ઇતિહાસ";
 	$lang['home_page_settings'] = "મુખ્ય પૃષ્ઠ સેટિંગ્સ";
 	$lang['home_page_slider'] = "મુખ્ય પૃષ્ઠ સ્લાઇડર";
 	$lang['home_page_top_section'] = "હોમ પેજ ટોચના વિભાગ";
 	$lang['home_page_bottom_section'] = "મુખ્ય પૃષ્ઠ તળિયે વિભાગ";
-	
+	$lang['half_day'] = "અર્ધ દિવસ";
+		
 	$lang['invoice'] = "ભરતિયું";
 	$lang['id'] = "આઈડી";
 	$lang['icon'] = "ચિહ્ન";
@@ -461,7 +461,9 @@
 	$lang['link'] = "લિંક";
 	
 	$lang['male'] = "પુરૂષ";
+	$lang['marker'] = "માર્કર";
 	$lang['marking'] = "નિશાન";
+	$lang['marking_images'] = "છબીઓ ચિહ્નિત કરી રહ્યા છીએ";
 	$lang['max_patient'] = "એક સમયે મહત્તમદર્દીઓ";
 	$lang['medicine'] = "દવા";
 	$lang['medicine_store_bill'] = "મેડિસિન સ્ટોર બિલ";
@@ -923,7 +925,11 @@
 	$lang['non_working'] = "આ નોન વર્કિંગ ડે છે";
 	$lang['time_booked'] = "આ સમય પહેલેથી જ મહત્તમ દર્દીઓ સાથે બુક થયેલ છે!";
 	$lang['doctor_not_available'] = "ડાક્તરઆ સમય દરમિયાન ઉપલબ્ધ નથી";
-		
+	$lang['image_for_compare'] = "કૃપા કરીને તુલના માટે છબીઓ પસંદ કરો";
+	$lang['error_saving_image'] = "છબી સાચવવાનો પ્રયાસ કરતી વખતે થોડી ભૂલ આવી.";
+	$lang['select_two'] = "કૃપા કરીને ફક્ત બે જ પસંદ કરો";
+	$lang['save_language_instructions'] = "(ફક્ત ટેક્સ્ટ બદલો અને સાચવવા માટે આગળ વધો)";
+	
 	$lang['reset_password_instructions'] = "કૃપા કરીને તમારું વપરાશકર્તાનામ અથવા ઇમેઇલ સરનામું દાખલ કરો.તમને ઇમેઇલ દ્વારા એક નવો પાસવર્ડ બનાવવા માટે એક લિંક પ્રાપ્ત થશે.";
 	$lang['no_email_registered'] = "તે વપરાશકર્તાનામ અથવા ઇમેઇલ સાથે કોઈ વપરાશકર્તા રજીસ્ટર નથી.";
 	$lang['check_confirmation_link'] = "પુષ્ટિકરણ લિંક માટે તમારું ઇમેઇલ તપાસો.";

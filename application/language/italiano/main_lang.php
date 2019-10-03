@@ -39,14 +39,12 @@ $lang['15min'] = "15 min";
 	$lang['add_another_medicine'] = "Aggiungi un'altra medicina";
 	$lang['add_appointment'] = "Aggiungi appuntamento";
 	$lang['add_alerts'] = "Aggiungi avvisi";
-
 	$lang['add_slider'] = "Aggiungi cursore";
 	$lang['add_about_page_post'] = "Aggiungi informazioni sul post della pagina";
 	$lang['add_footer_section'] = "Aggiungi sezione piè di pagina";
 	$lang['add_footer_credit'] = "Aggiungi sezione credito";
 	$lang['add_top_section'] = "Aggiungi la sezione superiore";
 	$lang['add_image'] = "Aggiungi nuova immagine";
-
 	$lang['add_category'] = "Aggiungi categoria";
 	$lang['add_detail'] = "Permetti di aggiungere dettagli";
 	$lang['add_department'] = "Aggiungi dipartimento";
@@ -406,6 +404,7 @@ $lang['15min'] = "15 min";
 	$lang['home_page_slider'] = "Cursore della pagina iniziale";
 	$lang['home_page_top_section'] = "Home Page Sezione superiore";
 	$lang['home_page_bottom_section'] = "Home Page Sezione inferiore";
+	$lang['half_day'] = "Mezza giornata";
 	
 	$lang['invoice'] = "Fattura";
 	$lang['id'] = "Id";
@@ -461,7 +460,9 @@ $lang['15min'] = "15 min";
 	$lang['link'] = "collegamento";
 	
 	$lang['male'] = "Maschio";
+	$lang['marker'] = "Marcatrice";
 	$lang['marking'] = "Segnando";
+	$lang['marking_images'] = "Marcatura delle immagini";
 	$lang['max_patient'] = "Max pazienti alla volta";
 	$lang['medicine'] = "Medicina";
 	$lang['medicine_store_bill'] = "Medicine Store Bill";
@@ -923,6 +924,10 @@ $lang['15min'] = "15 min";
 	$lang['non_working'] = "Questa è una giornata non lavorativa";
 	$lang['time_booked'] = "Questa volta è già prenotato con il massimo dei pazienti!";
 	$lang['doctor_not_available'] = "Il medico non è disponibile durante questo periodo";
+	$lang['image_for_compare'] = "Seleziona le immagini per il confronto";
+	$lang['error_saving_image'] = "Si è verificato un errore durante il tentativo di salvare l'immagine.";
+	$lang['select_two'] = "Seleziona solo due";
+	$lang['save_language_instructions'] = "(Basta cambiare il testo e passare al prossimo per salvare)";
 	
 	$lang['reset_password_instructions'] = "Per favore inserisci il tuo nome utente o l'indirizzo email. Riceverai un link per creare una nuova password via email.";
 	$lang['no_email_registered'] = "Non c'è nessun utente registrato con quel Nome utente o Email.";
@@ -985,12 +990,4 @@ $lang['15min'] = "15 min";
 	$lang['qatari_currency'] = "Qatari Riyal (QAR)";
 	$lang['saudi_currency'] = "Riyal saudita (SAR)";
 	$lang['south_african_currency'] = "Rand sudafricano (ZAR)";
-
-	$lang['cal_sunday'] = 'Domenica';
-	$lang['cal_monday'] = 'Lunedi';
-	$lang['cal_tuesday'] = 'martedì';
-	$lang['cal_wednesday'] = 'mercoledì';
-	$lang['cal_thursday'] = 'giovedi';
-	$lang['cal_friday'] = 'Venerdì';
-	$lang['cal_saturday'] = 'Sabato';
 ?>

@@ -334,24 +334,33 @@ class Settings_model extends CI_Model {
 		$data['working_date'] = date('Y-m-d',strtotime($this->input->post('working_date')));
 		$data['working_status'] = $this->input->post('working_status');
 		$data['working_reason'] = $this->input->post('working_reason');
+		$data['end_date'] =  date('Y-m-d',strtotime($this->input->post('end_date')));
+		$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
+		$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
+		
 		//check if any data exists for this date. 
 		$query=$this->db->get_where('working_days',array('working_date' => $data['working_date']));
 		$row=$query->row();
 		if (!$row) {
 			//if data doesnot exist then insert it
 			$this->db->insert('working_days',$data);
+			//echo $this->db->last_query();
 		}else{
 			//If data exists then update it
 			$data['sync_status'] = 0;
 			$this->db->update('working_days',$data,array('working_date'=>$data['working_date']));	
 		}
+		//echo $this->db->last_query();
 	}
 	public function get_exceptional_days(){
-		$query = $this->db->get('working_days');
+		//$this->db->order_by("uid", "desc");
+		$query = $this->db->get('working_days'); 
+		//echo $this->db->last_query();
         return $query->result_array();
 	}
 	public function get_exceptional_day_by_date($date){
 		$query = $this->db->get_where('working_days',array('working_date' => $date));
+		//echo $this->db->last_query();
         return $query->row_array();
 	}
 	public function get_exceptional_day($uid){
@@ -364,11 +373,15 @@ class Settings_model extends CI_Model {
 	function update_exceptional_days(){
 		//prepare data
 		$data['working_date'] = date('Y-m-d',strtotime($this->input->post('working_date')));
+		$data['end_date'] = date('Y-m-d',strtotime($this->input->post('end_date')));
 		$data['working_status'] = $this->input->post('working_status');
 		$data['working_reason'] = $this->input->post('working_reason');
+		$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
+		$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
 		$data['sync_status'] = 0;
 		$uid = $this->input->post('uid');
 		$this->db->update('working_days',$data,array('uid' => $uid));	
+		//echo $this->db->last_query();
 	}
 	function get_reference_by(){
 		$query = $this->db->get('reference_by');

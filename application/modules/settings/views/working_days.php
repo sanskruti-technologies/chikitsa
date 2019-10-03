@@ -8,6 +8,9 @@
 			scrollInput:false
 		}); 
 		$('#working_table').dataTable();
+		$('.confirmDelete').click(function(){
+			return confirm("<?=$this->lang->line('areyousure_delete');?>");
+		})
 	});
 </script>
 <div id="page-inner">
@@ -58,7 +61,7 @@
 					?>
 										
 					<div class="col-md-1">	
-						<input type="submit" name="submit" class="btn btn-primary" value="Save">
+						<input type="submit" name="submit" class="btn btn-primary square-btn-adjust btn-sm" value="Save">
 					</div>	
 					<?php echo form_close(); ?>
 				</div>
@@ -68,7 +71,7 @@
 				<div class="panel-body">
 					
 					<div class="col-md-3">
-							<a href="<?=site_url('settings/edit_exceptional_days/');?>" class="btn btn-primary" ><?php echo $this->lang->line('add');?></a>
+							<a href="<?=site_url('settings/edit_exceptional_days/');?>" class="btn btn-primary square-btn-adjust btn-sm" ><?php echo $this->lang->line('add');?></a>
 					</div>
 					<div class="col-md-12">
 						<p></p>
@@ -78,27 +81,35 @@
 						<table class="table table-striped table-bordered table-hover" id="working_table">
 							<thead>
 							<tr>
-								<th><?php echo $this->lang->line('date');?></th>
+								<th><?php echo $this->lang->line('sr_no');?></th>
+								<th><?php echo $this->lang->line('start_date');?></th>
+								<th><?php echo $this->lang->line('end_date');?></th>
+								<th><?php echo $this->lang->line('start_time');?></th>
+								<th><?php echo $this->lang->line('end_time');?></th>
 								<th><?php echo $this->lang->line('status');?></th>
 								<th><?php echo $this->lang->line('reason');?></th>
-								<th></th>
+								<th><?php echo $this->lang->line('actions');?></th>
 							</tr>
 							</thead>
 							<tbody>
+							<?php $i=1;?>
 							<?php foreach($exceptional_days as $exceptional_day){?>
-								
 							
 							<tr>
+								<td><?php echo $i;?></td>
 								<td><?php echo date($def_dateformate,strtotime($exceptional_day['working_date']));?></td>
+								<td><?php echo date($def_dateformate,strtotime($exceptional_day['end_date']));?></td>
+								<td><?php echo date($def_timeformate,strtotime($exceptional_day['start_time']));?></td>
+								<td><?php echo date($def_timeformate,strtotime($exceptional_day['end_time']));?></td>
 								<td><?php echo $exceptional_day['working_status'];?></td>
 								<td><?php echo $exceptional_day['working_reason'];?></td>
 								<td>
-									<a href="<?=site_url('settings/edit_exceptional_days/'.$exceptional_day['uid']);?>" class="btn btn-primary btn-sm"><?php echo $this->lang->line('edit');?></a>
-									<a href="<?=site_url('settings/delete_exceptional_days/'.$exceptional_day['uid']);?>" class="btn btn-danger btn-sm confirmDelete"><?php echo $this->lang->line('delete');?></a>
+									<a href="<?=site_url('settings/edit_exceptional_days/'.$exceptional_day['uid']);?>" class="btn btn-primary btn-sm square-btn-adjust"><?php echo $this->lang->line('edit');?></a>
+									<a href="<?=site_url('settings/delete_exceptional_days/'.$exceptional_day['uid']);?>" class="btn btn-danger btn-sm  square-btn-adjust confirmDelete"><?php echo $this->lang->line('delete');?></a>
 								</td>
 							</tr>
 							
-							<?php }?>
+							<?php $i++; }?>
 							</tbody>
 						</table>
 					</div>

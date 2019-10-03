@@ -55,13 +55,6 @@
 				?>
 					<div class="col-md-12">
 						<div class="form-group">
-							<?php 
-							//if($level == 'Administrator') { 
-							if($user_username == $admin_name) { 						
-							?>
-							<label for="level"><?php echo $this->lang->line('category');?></label>
-							<input type="text" name="level" id="level" value="<?php echo $user['level']; ?>" readonly="readonly" class="form-control"/><br/>
-							<?php }else { ?>
 							<label for="level"><?php echo $this->lang->line('category');?></label>
 							<select name="level" class="form-control" >  <option></option>
 										<?php  foreach ($categories as $category) { ?>
@@ -71,7 +64,6 @@
 										<?php } ?>
 							</select>
 							<?php echo form_error('level','<div class="alert alert-danger">','</div>'); ?>
-							<?php } ?>
 						</div>
 					</div>
 					
@@ -123,15 +115,7 @@
 								<label for="is_active"><?php echo $this->lang->line('is_active');?></label> 
 							</div>
 							<div class="col-md-2">
-								<input type="checkbox" <?php //if($level=="Administrator"){
-									if($user_username == $admin_name) { 	
-									?> disabled="disabled" name="is_act" id="is_act"<?php }else{ ?>  name="is_active" id="is_active" <?php } ?> value="1" <?php if($user_is_active) echo "checked"; ?> class="form-control"/>
-								<?php //if($level=="Administrator"){
-									if($user_username == $admin_name) { 	
-									$active=1;
-									?>
-								<input name="is_active" type="hidden" id="is_active" value="<?php echo $user['is_active']; ?>"/>
-								<?php } ?>
+								<input type="checkbox" name="is_active" id="is_active" value="1" <?php if($user_is_active) echo "checked"; ?> class="form-control"/>
 							</div>
 							<div class="col-md-8">
 								&nbsp;

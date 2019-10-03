@@ -10,9 +10,17 @@ $(window).load(function(){
 			data: {language:language,index:index,l_name:l_name},
 			success: function (result) {
 				console.log(result);
+				
+				$('#'+result).addClass("btn-success", 500).delay(1000).queue(function(next){
+					$(this).removeClass("btn-success", 500);
+					next();
+				});
+				
 			}
 		});
 	});
+	$("#language_table").dataTable();
+	
 });
 </script>
 <div id="page-inner">
@@ -20,10 +28,10 @@ $(window).load(function(){
 		<div class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<?php echo $this->lang->line('language');?>
+				<?php echo $this->lang->line('language');?> <?php echo $this->lang->line('save_language_instructions');?> 
 			</div>
 			<div class="panel-body">
-				<table class="table table-striped table-bordered table-hover" id="bill_table">
+				<table class="table table-striped table-bordered table-hover" id="language_table">
 					<thead>
 						<tr>
 							<th><?php echo $this->lang->line('language')." ".$this->lang->line('key');?></th>

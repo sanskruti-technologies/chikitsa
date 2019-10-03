@@ -39,14 +39,12 @@ $lang['15min'] = "15 min";
 	$lang['add_another_medicine'] = "Aggiungi un'altra medicina";
 	$lang['add_appointment'] = "Aggiungi appuntamento";
 	$lang['add_alerts'] = "Aggiungi avvisi";
-
 	$lang['add_slider'] = "Aggiungi cursore";
 	$lang['add_about_page_post'] = "Aggiungi informazioni sul post della pagina";
 	$lang['add_footer_section'] = "Aggiungi sezione piè di pagina";
 	$lang['add_footer_credit'] = "Aggiungi sezione credito";
 	$lang['add_top_section'] = "Aggiungi la sezione superiore";
 	$lang['add_image'] = "Aggiungi nuova immagine";
-
 	$lang['add_category'] = "Aggiungi categoria";
 	$lang['add_detail'] = "Permetti di aggiungere dettagli";
 	$lang['add_department'] = "Aggiungi dipartimento";
@@ -461,7 +459,9 @@ $lang['15min'] = "15 min";
 	$lang['link'] = "collegamento";
 	
 	$lang['male'] = "Maschio";
+	$lang['marker'] = "Marcatrice";
 	$lang['marking'] = "Segnando";
+	$lang['marking_images'] = "Marcatura delle immagini";
 	$lang['max_patient'] = "Max pazienti alla volta";
 	$lang['medicine'] = "Medicina";
 	$lang['medicine_store_bill'] = "Medicine Store Bill";
@@ -919,6 +919,13 @@ $lang['15min'] = "15 min";
 	$lang['initial_password_message'] = "Come username password iniziale è";
 	$lang['thanks_to_amazing_works'] = "Chikitsa sarebbe impissibile senza le opere sorprendenti elencati di seguito";
 	$lang['no_disease'] = "Nessuna malattia aggiunta. Aggiungi una malattia.";
+	$lang['validate_date_or_day'] = "Inserisci la data o seleziona giorni.";
+	$lang['non_working'] = "Questa è una giornata non lavorativa";
+	$lang['time_booked'] = "Questa volta è già prenotato con il massimo dei pazienti!";
+	$lang['doctor_not_available'] = "Il medico non è disponibile durante questo periodo";
+	$lang['image_for_compare'] = "Seleziona le immagini per il confronto";
+	$lang['error_saving_image'] = "Si è verificato un errore durante il tentativo di salvare l'immagine.";
+	$lang['select_two'] = "Seleziona solo due";
 
 	$lang['reset_password_instructions'] = "Per favore inserisci il tuo nome utente o l'indirizzo email. Riceverai un link per creare una nuova password via email.";
 	$lang['no_email_registered'] = "Non c'è nessun utente registrato con quel Nome utente o Email.";

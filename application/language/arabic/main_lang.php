@@ -39,14 +39,12 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['add_another_medicine'] = "إضافة دواء آخر";
 	$lang['add_appointment'] = "إضافة موعد";
 	$lang['add_alerts'] = "إضافة تنبيهات";
-
 	$lang['add_slider'] = "أضف منزلق";
 	$lang['add_about_page_post'] = "إضافة حول نشر الصفحة";
 	$lang['add_footer_section'] = "إضافة قسم تذييل الصفحة";
 	$lang['add_footer_credit'] = "إضافة قسم الائتمان تذييل";
 	$lang['add_top_section'] = "إضافة القسم العلوي";
 	$lang['add_image'] = "إضافة صورة جديدة";
-
 	$lang['add_category'] = "إضافة فئة";
 	$lang['add_detail'] = "السماح لإضافة التفاصيل";
 	$lang['add_department'] = "إضافة قسم";
@@ -300,6 +298,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['diseases'] = "الأمراض";
 	$lang['diagnosed_diseases'] = "مرض تشخيصي";
 	
+	$lang['eraser'] = "مسترة";
 	$lang['erpnext_sync'] = "مزامنة Erpnext";
 	$lang['erpnext_url'] = "عنوان Erpnext";
 	$lang['enable_about_page'] = "تمكين حول الصفحة";
@@ -388,7 +387,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['general_settings'] = "الاعدادات العامة";
 	$lang['group_by'] = "مجموعة من";
 	$lang['group'] = "مجموعة";
-	
+
 
 	$lang['header'] = "رأس";
 	$lang['hidden'] = "مخفي";
@@ -406,7 +405,8 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['home_page_slider'] = "الصفحة الرئيسية المتزلج";
 	$lang['home_page_top_section'] = "الصفحة الرئيسية القسم العلوي";
 	$lang['home_page_bottom_section'] = "الصفحة الرئيسية القسم السفلي";
-	
+	$lang['half_day'] = "نصف يوم";
+		
 	$lang['invoice'] = "فاتورة";
 	$lang['id'] = "هوية شخصية";
 	$lang['icon'] = "أيقونة";
@@ -461,7 +461,9 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['link'] = "حلقة الوصل";
 	
 	$lang['male'] = "الذكر";
+	$lang['marker'] = "علامة";
 	$lang['marking'] = "العلامات";
+	$lang['marking_images'] = "بمناسبة الصور";
 	$lang['max_patient'] = "ماكس المرضى في وقت واحد";
 	$lang['medicine'] = "دواء";
 	$lang['medicine_store_bill'] = "فاتورة متجر الأدوية";
@@ -923,7 +925,11 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['non_working'] = "هذا هو يوم غير العمل";
 	$lang['time_booked'] = "تم حجز هذه المرة بالفعل مع أقصى عدد ممكن من المرضى!";
 	$lang['doctor_not_available'] = "الطبيب غير متوفر خلال هذا الوقت";
-	
+	$lang['image_for_compare'] = "يرجى اختيار الصور للمقارنة";
+	$lang['error_saving_image'] = "حدث خطأ ما أثناء محاولة حفظ الصورة.";
+	$lang['select_two'] = "يرجى اختيار اثنين فقط";
+	$lang['save_language_instructions'] = "(فقط قم بتغيير النص وانتقل إلى التالي للحفظ)";
+
 	$lang['reset_password_instructions'] = "الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني. ستتلقى رابطًا لإنشاء كلمة مرور جديدة عبر البريد الإلكتروني.";
 	$lang['no_email_registered'] = "لا يوجد مستخدم مسجل بهذا الاسم أو البريد الإلكتروني.";
 	$lang['check_confirmation_link'] = "تحقق من بريدك الالكتروني للحصول على رابط التأكيد.";
@@ -985,12 +991,5 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['qatari_currency'] = "الريال القطري (ريال قطري)";
 	$lang['saudi_currency'] = "ريال سعودي (ريال سعودي)";
 	$lang['south_african_currency'] = "الراند الجنوب أفريقي (ZAR)";
-	
-	$lang['cal_sunday'] = 'الأحد';
-	$lang['cal_monday'] = 'الإثنين';
-	$lang['cal_tuesday'] = 'الثلاثاء';
-	$lang['cal_wednesday'] = 'الأربعاء';
-	$lang['cal_thursday'] = 'الخميس';
-	$lang['cal_friday'] = 'يوم الجمعة';
-	$lang['cal_saturday'] = 'يوم السبت';
+
 ?>

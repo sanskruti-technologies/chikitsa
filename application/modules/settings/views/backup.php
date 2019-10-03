@@ -43,7 +43,7 @@
 		<?=$this->lang->line("take_backup");?>
 	</div>
 	<div class="panel-body">
-		<a class="btn btn-success square-btn-adjust" title="Take Backup" href="<?php echo site_url("settings/take_backup/"); ?>"><?php echo $this->lang->line('take_backup');?></a>
+		<a class="btn btn-success square-btn-adjust" href="<?php echo site_url("settings/take_backup/"); ?>"><?php echo $this->lang->line('take_backup');?></a>
 		<br/><br/>
 		<?php if(isset($error)){?>
 			<div class="alert alert-danger">

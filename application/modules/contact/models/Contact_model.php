@@ -143,6 +143,27 @@ class Contact_model extends CI_Model {
 		$data['second_number'] = $this->input->post('second_number');
 		$data['display_name'] = $this->input->post('display_name');
 		$data['email'] = $this->input->post('email');
+		if($this->input->post('type') != false){
+			$data['type'] = $this->input->post('type');
+		}
+		if($this->input->post('address_line_1') != false){
+			$data['address_line_1'] = $this->input->post('address_line_1');
+		}
+		if($this->input->post('address_line_2') != false){
+			$data['address_line_2'] = $this->input->post('address_line_2');
+		}
+		if($this->input->post('city') != false){
+			$data['city'] = $this->input->post('city');
+		}
+        if($this->input->post('state') != false){
+			$data['state'] = $this->input->post('state');
+		}    
+		if($this->input->post('postal_code') != false){
+			$data['postal_code'] = $this->input->post('postal_code');
+		}
+		if($this->input->post('country') != false){
+			$data['country'] = $this->input->post('country');
+		}
 		if($name != NULL && $name != "" ){
 			$data['contact_image'] = 'uploads/profile_picture/'. $name;
 		}

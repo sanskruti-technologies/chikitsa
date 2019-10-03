@@ -80,6 +80,77 @@ $(document).ready(function(){
 	}else{
 		$('#reference_details').parent().hide();
 	}
+<?php if (in_array("prescription", $active_modules)) { ?>
+						
+		var medicine_array = [<?php
+				$i=0;
+				foreach ($medicines as $medicine){
+					if ($i>0) {echo ",";}
+					echo '{value:"' . $medicine['medicine_name'] . '",id:"' . $medicine['medicine_id'] . '"}';
+					$i++;
+				}
+			?>];
+		$("#medicine_name").autocomplete({
+			source: medicine_array,
+			minLength: 1,//search after one characters
+			select: function(event,ui){
+				//do something
+				$("#medicine_id").val(ui.item ? ui.item.id : '');
+
+			},
+			change: function(event, ui) {
+				 if (ui.item == null) {
+					$("#medicine_name").val('');
+					}
+			},
+		});			
+			$( "#add_medicine" ).click(function() {
+											event.preventDefault();
+
+											var medicine_count = parseInt( $( "#medicine_count" ).val());
+											medicine_count = medicine_count + 1;
+											$( "#medicine_count" ).val(medicine_count);
+											
+											var medicine = "<div><div class='col-md-2'><label for='medicine' style='display:block;text-align:left;'>Medicine</label><input type='text' name='medicine_name[]' id='medicine_name"+medicine_count+"' class='form-control'/><input type='hidden' name='medicine_id[]' id='medicine_id"+medicine_count+"' class='form-control'/></div>";
+											medicine += "<div class='col-md-6'><label for='frequency' style='display:block;text-align:left;'>Frequency</label><div class='col-md-1'>M</div><div class='col-md-3'><input type='text' name='freq_morning[]' id='freq_morning' class='form-control'/></div><div class='col-md-1'>A</div><div class='col-md-3'><input type='text' name='freq_afternoon[]' id='freq_afternoon' class='form-control'/></div><div class='col-md-1'>N</div><div class='col-md-3'><input type='text' name='freq_evening[]' id='freq_evening' class='form-control'/></div></div>";
+											medicine += "<div class='col-md-1'><label for='days' style='display:block;text-align:left;'>Days</label><input type='text' name='days[]' id='days' class='form-control'/></div>";
+											medicine += "<div class='col-md-2'><label for='prescription_notes' style='display:block;text-align:left;'>Instructions</label><input type='text' name='prescription_notes[]' id='prescription_notes' class='form-control'/></div>";
+											medicine += "<div class='col-md-1'><label></label><a href='#' id='delete_medicine"+medicine_count+"' class='btn btn-danger btn-sm square-btn-adjust'>Delete</a></div></div>";
+											$( "#prescription_list" ).append(medicine);
+
+											$("#delete_medicine"+medicine_count).click(function() {			
+												$(this).parent().parent().remove();
+											});			
+											$("#medicine_name"+medicine_count).autocomplete({
+												source: medicine_array,
+												minLength: 1,//search after one characters
+												select: function(event,ui){
+													//do something
+													$("#medicine_id"+medicine_count).val(ui.item ? ui.item.id : '');
+
+												},
+												change: function(event, ui) {
+													if (ui.item == null) {
+														$("#medicine_name"+medicine_count).val('');
+													}
+												},
+											});											
+										});
+	$("#add_medicine_submit").click(function(event) {
+		event.preventDefault();
+		var medicine_name = $("#add_medicine_name").val();
+		console.log(medicine_array);	
+		$.post( "<?php echo site_url('prescription/add_medicine');?>",
+			{medicine_name: medicine_name},
+			function(data,status){
+				data = JSON.parse(data);
+				medicine_array.push(data)
+				$( "#medicine_name" ).autocomplete('option', 'source', medicine_array);
+			});
+		});
+		  
+										
+	<?php } ?>
 });
 </script>
 
@@ -341,7 +412,6 @@ $(document).ready(function(){
 										</div>
 										<div class="modal-footer">
 											<input id="add_treatment_submit" type="submit" name="submit" value="Save" class="btn btn-primary" data-dismiss="modal"/>
-							
 											<button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->lang->line('close');?></button>
 										</div>
 										<?php echo form_close(); ?>
@@ -503,6 +573,8 @@ $(document).ready(function(){
 							</div>
 							<div class="col-md-12">
 								<a href="#" id="add_medicine" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('add_another_medicine');?></a>
+								<a id="add_new_medicine" class="btn btn-primary square-btn-adjust"  data-toggle="modal" data-target="#myModal">Add Medicine</a>
+								
 								<input type="hidden" id="medicine_count" value="0"/>
 							</div>
 							<div id="prescription_list">
@@ -553,6 +625,13 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<?php } ?>
+						<?php if (in_array("marking",$active_modules)) {?>
+							<div class="col-md-12">	
+								<div class="col-md-4">
+									<a class="btn btn-primary square-btn-adjust" href="<?= site_url('marking/index') ."/". $patient['patient_id'] ."/". $this->input->post('doctor'); ?>"><?php echo $this->lang->line('marking');?></a>
+								</div>
+							</div>
+						<?php } ?>	
 						<?php if (in_array("prescription", $active_modules)){
 							if (file_exists(APPPATH."views/log/display_fields.".EXT)){
 								$this->load->view('history/display_fields'); 
@@ -778,6 +857,28 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">Add Medicine</h4>
+			</div>
+			<?php echo form_open(); ?>
+			<div class="modal-body">
+					<div class="col-md-12"><label><?=$this->lang->line('medicine_name');?>:</label></div>
+					<div class="col-md-12"><input type="text" id="add_medicine_name" name="medicine_name" class="form-control"/></div>
+			</div>
+			<div class="modal-footer">
+					<input id="add_medicine_submit" type="submit" name="submit" value="Save" class="btn btn-primary" data-dismiss="modal"/>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->lang->line('close');?></button>
+			</div>
+			<?php echo form_close(); ?>
 		</div>
 	</div>
 </div>

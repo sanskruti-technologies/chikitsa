@@ -204,7 +204,7 @@ $g_year = $year;
 		}
 		return $doctor_is_available;
 	}
-function is_holiday($today){
+	function is_holiday($today){
 		global $holidays;
 		global $workingdays;
 		
@@ -220,15 +220,28 @@ function is_holiday($today){
 				if(strtotime($holiday['working_date']) == strtotime($today)){
 					$holiday_reason = $holiday['working_reason'];
 				}
+			}elseif($holiday['working_status'] == "Half Day"){
+				if(strtotime($holiday['working_date']) == strtotime($today)){
+					//$holiday_reason = $holiday['working_reason'];
+					$holiday_reason = $holiday['working_status'];
+				}
 			}else{
 				if(strtotime($holiday['working_date']) == strtotime($today)){
 					$holiday_reason = "";
 				}
 			}
 		}
-		
 		return $holiday_reason;
-	}
+}
+
+function is_half_day($i,$s_time,$e_time){
+	if(($i>=$s_time) && ($i<$e_time)){
+			return true;
+		}else{
+			return false;
+		}
+	
+}
 	
 ?>
 <div id="appointments"></div>
@@ -367,11 +380,26 @@ function is_holiday($today){
 													?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>" bgcolor="gray"></td><?php
 												}
 											}	
+										}elseif($is_holiday == "Half Day"){
+											foreach($doctors as $doctor){
+												foreach($holidays as $holiday){
+													//print_r($holiday)."<br/>";
+													if($holiday['working_status']== "Half Day"){
+														$s_time=substr($holiday['start_time'],0,2);
+														$e_time=substr($holiday['end_time'],0,2);
+														break;
+													}
+												}
+												if(is_half_day($i,$s_time,$e_time)){
+													?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>" style="background-color:#4d4d4d;color:white;"><?=$is_holiday;?></td><?php
+												}else{
+													?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>"><a href='<?=base_url() . "index.php/appointment/add/" . $year . "/" . $month . "/" . $day_date . "/" . $time[0] . "/" . $time[1] . "/Appointments/0/".$doctor['doctor_id'] ?>' class="add_appointment"></a></td>	<?php
+												}
+											}
 										}else{
 											foreach ($doctors as $doctor) {
 												?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>" style="background-color:#FF5599;color:white;"><?=$is_holiday;?></td><?php
-											}	
-											
+											}
 										}
 										 ?>
 										</tr>
@@ -417,7 +445,6 @@ function is_holiday($today){
 				</div-->
             </div>
 		</div></br>
-	
 		<div class="col-md-4">
 				<!--------------------------- Display Follow-Up  ------------------------------->
 				<div class="panel panel-primary">

@@ -2,6 +2,7 @@
 class Patient extends CI_Controller {
     function __construct() {
         parent::__construct();
+		$this->config->load('version');
 		
         $this->load->model('contact/contact_model');
         $this->load->model('patient_model');
@@ -19,6 +20,7 @@ class Patient extends CI_Controller {
         $this->load->helper('currency');
 		$this->load->helper('date');
 		$this->load->helper('mainpage');
+		
         $this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->library('export');

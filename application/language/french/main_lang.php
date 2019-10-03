@@ -39,14 +39,12 @@ $lang['15min'] = " 15 Min";
 	$lang['add_another_medicine'] = "Ajouter un autre médicament";
 	$lang['add_appointment'] = "Ajouter un rendez-vous";
 	$lang['add_alerts'] = "Ajouter des alertes";
-
 	$lang['add_slider'] = "Ajouter un curseur";
 	$lang['add_about_page_post'] = "Ajouter à propos de la page";
 	$lang['add_footer_section'] = "Ajouter une section de pied de page";
 	$lang['add_footer_credit'] = "Ajouter une section de crédit de pied de page";
 	$lang['add_top_section'] = "Ajouter la section supérieure";
 	$lang['add_image'] = "Ajouter une nouvelle image";
-
 	$lang['add_category'] = "ajouter une catégorie";
 	$lang['add_detail'] = "Permettre d'ajouter des détails";
 	$lang['add_department'] = "Ajouter un département";
@@ -299,6 +297,7 @@ $lang['15min'] = " 15 Min";
 	$lang['diseases'] = "Maladies";
 	$lang['diagnosed_diseases'] = "Maladie diagnostiquée";
 
+	$lang['eraser'] = "La gomme";
 	$lang['erpnext_sync'] = "Erpnext Sync";
 	$lang['erpnext_url'] = "Erpnext URL";
 	$lang['enable_about_page'] = "Activer la page";
@@ -405,6 +404,7 @@ $lang['15min'] = " 15 Min";
 	$lang['home_page_slider'] = "Page d'accueil curseur";
 	$lang['home_page_top_section'] = "Page d'accueil Haut Section";
 	$lang['home_page_bottom_section'] = "Page d'accueil Section inférieure";
+	$lang['half_day'] = "Demi-journée";
 	
 	$lang['invoice'] = "Facture d'achat";
 	$lang['id'] = "Id";
@@ -460,7 +460,9 @@ $lang['15min'] = " 15 Min";
 	$lang['link'] = "Lien";
 	
 	$lang['male'] = "Mâle";
+	$lang['marker'] = "Marker";	
 	$lang['marking'] = "Marquage";
+	$lang['marking_images'] = "Marquage des images";
 	$lang['max_patient'] = "Max patients à la fois";
 	$lang['medicine'] = "Médicament";
 	$lang['medicine_store_bill'] = "Bill magasin de médecine";
@@ -520,7 +522,7 @@ $lang['15min'] = " 15 Min";
 	$lang['night_time'] = "La nuit";
 	$lang['needs_cash_calc'] = "Calculateur de besoins";
 	$lang['nurse'] = "Infirmière";
-
+	$lang['no_prescription']="Aucune ordonnance trouvée";
 		
 	$lang['on'] = "Sur";
 	$lang['our'] = "Notre";
@@ -708,8 +710,8 @@ $lang['15min'] = " 15 Min";
 	$lang['services'] = "Prestations de service";
 	$lang['service'] = "Un service";
 	$lang['services_type'] = "Types de services";
-	$lang['sessions'] = "Sessions";
 	$lang['session'] = "Session";
+	$lang['sessions'] = "Sessions";
 	$lang['session_report'] = "Rapport de session";
 	$lang['setting'] = "Réglage";
 	$lang['sign_in'] = "Se connecter";
@@ -921,7 +923,11 @@ $lang['15min'] = " 15 Min";
 	$lang['non_working'] = "C'est un jour de repos";
 	$lang['time_booked'] = "Ce temps est déjà réservé avec un maximum de patients!";
 	$lang['doctor_not_available'] = "Le docteur n'est pas disponible pendant ce temps";
-
+	$lang['image_for_compare'] = "Veuillez sélectionner des images pour les comparer";
+	$lang['error_saving_image'] = "Une erreur s'est produite lors de la tentative d'enregistrement de l'image.";
+	$lang['select_two'] = "Veuillez ne sélectionner que deux";
+	$lang['save_language_instructions'] = "(Il suffit de changer le texte et passer à la suivante pour enregistrer)";
+	
 	$lang['reset_password_instructions'] = "Veuillez saisir votre identifiant ou adresse mail. Vous recevrez un lien pour créer un nouveau mot de passe par email.";
 	$lang['no_email_registered'] = "Aucun utilisateur n'est enregistré avec ce nom d'utilisateur ou cet e-mail.";
 	$lang['check_confirmation_link'] = "Vérifiez votre email pour le lien de confirmation.";
@@ -983,12 +989,4 @@ $lang['15min'] = " 15 Min";
 	$lang['qatari_currency'] = "Riyal Qatari (QAR)";
 	$lang['saudi_currency'] = "Riyal Saoudien (SAR)";
 	$lang['south_african_currency'] = "Rand sud-africain (ZAR)";
-
-	$lang['cal_sunday'] = 'dimanche';
-	$lang['cal_monday'] = 'Lundi';
-	$lang['cal_tuesday'] = 'Mardi';
-	$lang['cal_wednesday'] = 'Mercredi';
-	$lang['cal_thursday'] = 'Jeudi';
-	$lang['cal_friday'] = 'Vendredi';
-	$lang['cal_saturday'] = 'samedi';
 ?>

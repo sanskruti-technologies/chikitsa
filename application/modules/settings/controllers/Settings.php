@@ -19,6 +19,8 @@ class Settings extends CI_Controller {
         
 		$this->load->library('form_validation');
 		$this->load->library('session');
+		$this->load->helper('time');
+		$this->load->helper('date');
 		
     }
 	public function edit_language($language) {
@@ -59,7 +61,7 @@ class Settings extends CI_Controller {
 				$main_lang_file = "./application/language/$l_name/main_lang.php";
 				rename($language_file,$main_lang_file);
 			
-			
+		echo $index;
 	}
 	/** File Upload for Clinic Logo Image */
 	public function do_logo_upload() {
@@ -175,6 +177,8 @@ class Settings extends CI_Controller {
             redirect('login/index');
         } else {
 			$data['def_dateformate']=$this->settings_model->get_date_formate();
+			$data['def_timeformate']=$this->settings_model->get_time_formate();
+		
 			$data['working_days'] = $this->settings_model->get_working_days();
 			$data['all_working_days'] = $this->settings_model->get_all_working_days();
 			$data['exceptional_days'] = $this->settings_model->get_exceptional_days();
@@ -242,6 +246,8 @@ class Settings extends CI_Controller {
 	public function edit_exceptional_days($uid=NULL){
 		$data['exceptional'] = $this->settings_model->get_exceptional_day($uid);
 		$data['def_dateformate']=$this->settings_model->get_date_formate();
+		$data['def_timeformate']=$this->settings_model->get_time_formate();
+		$data['clinics'] = $this->settings_model->get_all_clinics();
 		$this->load->view('templates/header');
 		$this->load->view('templates/menu');
 		$this->load->view('settings/edit_working_days',$data);

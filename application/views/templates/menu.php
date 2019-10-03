@@ -75,23 +75,7 @@
 			endforeach;
 			
 			?>
-			<?php 
-		if($this->menu_model->is_ad_enabled()){
-		?>
-        <!-- Google AdSense -->
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-		<!-- Chikitsa_Ad -->
-		<ins class="adsbygoogle"
-			 style="display:block"
-			 data-ad-client="ca-pub-1826370096856656"
-			 data-ad-slot="6425375397"
-			 data-ad-format="auto"></ins>
-		<script>
-		(adsbygoogle = window.adsbygoogle || []).push({});
-		</script>
-		<?php
-		}
-		?>
+			
 			<li>
 				<a target="_blank" href="<?php echo $copyright_url;?>"><?php echo $copyright_text;?></a>
 				<a target="_blank" href="<?php echo site_url("admin/about"); ?>"><?php echo $software_name;?> <?php echo $version['current_version']; ?></a>

@@ -39,14 +39,12 @@
 	$lang['add_another_medicine'] = "Add Another Medicine";
 	$lang['add_appointment'] = "Add Appointment";
 	$lang['add_alerts'] = "Add Alerts";
-	
 	$lang['add_slider'] = "Add Slider";
 	$lang['add_about_page_post'] = "Add About Page Post";
 	$lang['add_footer_section'] = "Add Footer Section";
 	$lang['add_footer_credit'] = "Add Footer credit Section";
 	$lang['add_top_section'] = "Add Top Section";
 	$lang['add_image'] = "Add New Image";
-	
 	$lang['add_category'] = "Add Category";
 	$lang['add_detail'] = "Allow to add Detail";
 	$lang['add_department'] = "Add Department";
@@ -300,6 +298,7 @@
 	$lang['diseases'] = "Diseases";
 	$lang['diagnosed_diseases'] = "Diagnosed Disease";
 
+	$lang['eraser'] = "Eraser";
 	$lang['erpnext_sync'] = "Erpnext Sync";
 	$lang['erpnext_url'] = "Erpnext URL";
 	$lang['enable_about_page'] = "Enable About Page";
@@ -406,6 +405,7 @@
 	$lang['home_page_slider'] = "Home Page Slider";
 	$lang['home_page_top_section'] = "Home Page Top Section";
 	$lang['home_page_bottom_section'] = "Home Page Bottom Section";
+	$lang['half_day'] = "Half Day";
 	
 	$lang['invoice'] = "Invoice";
 	$lang['id'] = "Id";
@@ -461,7 +461,9 @@
 	$lang['link'] = "Link";
 	
 	$lang['male'] = "Male";
+	$lang['marker'] = "Marqueur";
 	$lang['marking'] = "Marking";
+	$lang['marking_images'] = "Marking Images";
 	$lang['max_patient'] = "Max Patients At a Time";
 	$lang['medicine'] = "Medicine";
 	$lang['medicine_store_bill'] = "Medicine Store Bill";
@@ -861,7 +863,7 @@
 	$lang['we_provide'] = "We Provide";
 	
 	$lang['year'] = "Year";
-
+	
 	$lang['sunday'] = "Sunday";
 	$lang['monday'] = "Monday";
 	$lang['tuesday'] = "Tuesday";
@@ -887,7 +889,7 @@
 	$lang['per_hour'] = "Per Hour";
 	$lang['allot'] = "Allot";
 	$lang['beds'] = "Beds";
-
+	
 	//Warnings / Errors / Alerts
 	$lang['aplha_space'] = "The %s field may only contain alpha characters & White spaces";
 	$lang['first_or_last'] ="Please enter First Name or Last Name";
@@ -920,9 +922,13 @@
 	$lang['thanks_to_amazing_works'] = "Chikitsa would not have been possible without the amazing works listed below";
 	$lang['no_disease'] = "No Diseases added. Add a disease.";
 	$lang['validate_date_or_day'] = "Please enter Date or select Days.";
-	$lang['non_working'] = "This is a Non Working Day";
+	$lang['non_working_day'] = "This is a Non Working Day";
 	$lang['time_booked'] = "This time is already booked with maximum patients!";
 	$lang['doctor_not_available'] = "Doctor is not available during this time";
+	$lang['image_for_compare'] = "Please Select images for compare";
+	$lang['error_saving_image'] = "Some Error occured while trying to save Image.";
+	$lang['select_two'] = "Please Select only Two";
+	$lang['save_language_instructions'] = "(Just change the text and move to next to save)";
 	
 	$lang['reset_password_instructions'] = "Please enter your username or email address. You will receive a link to create a new password via email.";
 	$lang['no_email_registered'] = "There is no user registered with that Username or Email.";
@@ -985,12 +991,5 @@
 	$lang['qatari_currency'] = "Qatari Riyal (QAR)";
 	$lang['saudi_currency'] = "Saudi Riyal	(SAR)";
 	$lang['south_african_currency'] = "South African Rand	(ZAR)";
-	
-	$lang['cal_sunday'] = 'Sunday';
-	$lang['cal_monday'] = 'Monday';
-	$lang['cal_tuesday'] = 'Tuesday';
-	$lang['cal_wednesday'] = 'Wednesday';
-	$lang['cal_thursday'] = 'Thursday';
-	$lang['cal_friday'] = 'Friday';
-	$lang['cal_saturday'] = 'Saturday';
+
 ?>

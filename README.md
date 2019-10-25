@@ -14,3 +14,7 @@
 <p>GNU/General Public License (see license.txt)</p>
 
 <p>The Chikitsa code is licensed as GNU General Public License (v3) and the Documentation is licensed as Creative Commons (CC-BY-SA-3.0) and the copyright is owned by Sanskruti Technologies.</p>
+
+
+<h3>Contributing</h3>
+<ol><li><a href="https://github.com/sanskruti-technologies/chikitsa/wiki/Issue-Guidelines">Issue Guidelines</a></li></ol>

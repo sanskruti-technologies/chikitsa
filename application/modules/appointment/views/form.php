@@ -502,13 +502,7 @@
 				}
 			}
 		});  
-		/*$('#appointment_date').datetimepicker({
-			timepicker:false,
-			format: '<?=$def_dateformate; ?>',
-			scrollMonth:false,
-			scrollTime:false,
-			scrollInput:false,
-		}); */
+
 		 var unavailableDates = [
 		 <?php 
 		 $dates = "";

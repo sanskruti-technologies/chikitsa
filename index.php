@@ -296,6 +296,6 @@ switch (ENVIRONMENT)
 	$base_url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
 	header('Location: '.$base_url.'/install.php');
  }
- 
+
 /* End of file index.php */
 /* Location: ./index.php */

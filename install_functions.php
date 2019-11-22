@@ -21,8 +21,7 @@
 				if (strpos($error, "Duplicate entry") === false) {
 					echo "Error : ". $error . " occurred while executing ".$statement;
 				}
-			}
-		
+			}		
 			mysqli_close($con);
 		}
 		

@@ -49,8 +49,8 @@ class Admin_model extends CI_Model {
 				$center = $this->session->userdata('clinic_id');
 			}
 		}
-		$name =  $this->input->post('title') . " " .$this->input->post('first_name'). " ".$this->input->post('middle_name'). " ".$this->input->post('last_name');
-		
+		$name = $this->input->post('title') . " " .$this->input->post('first_name'). " ".$this->input->post('middle_name'). " ".$this->input->post('last_name');
+		$data['is_active'] = $this->input->post('is_active');
         $data = array(
             'username' => $this->input->post('username'),
             'name' => $name,

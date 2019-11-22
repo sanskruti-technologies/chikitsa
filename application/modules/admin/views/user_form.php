@@ -32,7 +32,7 @@
 				$level = ""; 
 				$user_username = "";
 				$user_name = "";
-				$user_is_active = 0;
+				$user_is_active = 1;
 				$edit = FALSE;
 				$centers = "";
 				$title = "";

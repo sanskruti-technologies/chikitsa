@@ -95,9 +95,11 @@ $( window ).load(function() {
 		<div class="col-md-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<?php echo $this->lang->line('center_details');?>
+					<div class="row">
+						<h2><?php echo $this->lang->line('center_details');?></h2>
+					</div>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body table-responsive-25">
 					<?php if (in_array("centers", $active_modules) ) { 					?>
 						<?php if (isset($center)){ ?>
 						<?php echo form_open_multipart('centers/edit_center/'.$clinic_id) ?>
@@ -114,12 +116,13 @@ $( window ).load(function() {
 							<label for="clinic_logo"><?php echo $this->lang->line('center_logo');?></label><br/>
 							
 							<?php if($clinic_logo!=""){ ?>
-							<img id="PreviewImage" src="<?php echo base_url().$clinic_logo; ?>" alt="Clinic Logo"  height="60" width="260" />
+							<img id="PreviewImage" src="<?php echo base_url().$clinic_logo; ?>" alt="Clinic Logo"   />
 							<?php }else{ ?>
-							<img id="PreviewImage" src="<?php echo base_url()."uploads/images/blank_logo.png"; ?>" alt="Clinic Logo"  height="60" width="260" />
+							<img id="PreviewImage" src="<?php echo base_url()."uploads/images/blank_logo.png"; ?>" alt="Clinic Logo"   />
 							<?php } ?>
 							<a href="<?= site_url("settings/remove_clinic_logo"); ?>" class="btn btn-sm square-btn-adjust btn-danger" ><?php echo $this->lang->line('remove_logo');?></a>
-							<input type="file" id="clinic_logo" name="clinic_logo" class="form-control" size="20" onchange="readURL(this);" />
+							<br>
+							<input type="file" id="clinic_logo" name="clinic_logo" class="form-control" size="20" onchange="readURL(this);" style="margin-top:5px;padding-top:5px" />
 							<span><?php echo $this->lang->line('preferred_size');?></span>
 							<?php if(isset($error)){?>
 								<div class='alert alert-danger'><?=$error;?></div>
@@ -186,7 +189,7 @@ $( window ).load(function() {
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="full_day"><?php echo $this->lang->line('full_day');?></label> 
-							<div class="checkbox">
+							<div class="checkbox1">
 								<label>
 									<input type="checkbox" name="full_day" id="full_day" value="1" <?php if($full_day == 1) echo "checked";?>><?php echo $this->lang->line('clinic_runs_full_day');?>
 								</label>

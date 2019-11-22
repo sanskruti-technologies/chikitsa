@@ -609,11 +609,13 @@
 		<div class="col-md-6">
 			<div class="panel panel-primary" >
 				<div class="panel-heading" >
-					<?php echo $this->lang->line('settings');?>
+					<div class="row" >
+						<h2><?php echo $this->lang->line('settings');?></h2>
+					</div>
 				</div>
-				<div class="panel-body" >
+				<div class="panel-body table-responsive-15" >
 				<?php echo form_open('settings/save_lang'); ?>
-					<div class="col-md-12" >
+					<div class="row" >
 						<div class="col-md-12">
 							<label for="default_language"><?php echo $this->lang->line('select_lang');?> </label> 
 						</div>	
@@ -633,7 +635,7 @@
 						</div>
 						<div class="col-md-4" >
 							<div class="form-group" >
-								<input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo $this->lang->line('save');?>" />
+								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
 							</div> 
 						</div>
 						<div class="col-md-8" >
@@ -645,7 +647,7 @@
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_timezone'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
 							<label for="timezones"><?php echo $this->lang->line('time_zone');?></label> 
 						</div>
@@ -662,7 +664,7 @@
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_date_formate'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
 							<label for="timeformate"><?php echo $this->lang->line('date_format');?></label> 
 						</div>
@@ -679,7 +681,7 @@
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_time_formate'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
 							<label for="timeformate"><?php echo $this->lang->line('time_format');?></label> 
 						</div>
@@ -696,7 +698,7 @@
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/tax_type'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
 							<label for="tax_type"><?php echo $this->lang->line('tax');?></label> 
 						</div>
@@ -737,9 +739,11 @@
 		<div class="col-md-6">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-						<?php echo $this->lang->line('invoice_details');?>
+					<div class="row">
+						<h2><?php echo $this->lang->line('invoice_details');?></h2>
+					</div>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body table-responsive-15">
 				<?php echo form_open('settings/save_invoice') ?>
 						<div class="form-group">
 							 <label for="static_prefix"><?php echo $this->lang->line('static_prefix');?></label> 

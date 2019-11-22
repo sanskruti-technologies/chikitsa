@@ -2,9 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.5] - 2019-11-19
+### Changed
+- Language Changes
+
 ## [0.8.4] - 2019-10-02
 ### Changed
 - Half Working Day
+- Backup before update
 
 
 ## [0.8.3] - 2019-08-08

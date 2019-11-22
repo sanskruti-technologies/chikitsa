@@ -15,19 +15,19 @@
 				<?php if($edit_bill){ ?>
 				<th><?php echo $this->lang->line("action");?></th>
 				<?php } ?>
-			</tr>									
+			</tr>
 		</thead>
 		<tbody>
-			<?php 
-				if ($bill_details != NULL) {       
+			<?php
+				if ($bill_details != NULL) {
 					$i=1;
 					$current_type='';
-					foreach ($bill_details as $bill_detail) {                     
+					foreach ($bill_details as $bill_detail) {
 						if ($current_type=='') {
-							$current_type=$bill_detail['type'];                            
-						}elseif($current_type <> $bill_detail['type']){ 
+							$current_type=$bill_detail['type'];
+						}elseif($current_type <> $bill_detail['type']){
 							?>
-								<?php if($current_type == "fees"){ ?>
+								<?php if($current_type == "fees" && ($session_total+$room_total+$treatment_total+$particular_total+$item_total+$lab_test_total > 0)){ ?>
 									<tr>
 									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 									<th style="text-align:right;"><?=currency_format($fees_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -35,7 +35,7 @@
 									<td>&nbsp;</td>
 									<?php } ?>
 									</tr>
-								<?php }elseif($current_type == "item"){ ?>
+								<?php }elseif($current_type == "item" && ($session_total+$room_total+$treatment_total+$particular_total+$fees_total+$lab_test_total > 0)){ ?>
 									<tr>
 									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 									<th style="text-align:right;"><?=currency_format($item_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -43,18 +43,18 @@
 									<td>&nbsp;</td>
 									<?php } ?>
 									</tr>
-								<?php }elseif($current_type == "particular"){ ?>
-									<tr>
-									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
-									<th style="text-align:right;"><?=currency_format($particular_total);if($currency_postfix) echo $currency_postfix; ?></th>
-									<?php if($tax_type == "item"){?>
-									<th style="text-align:right;"><?=currency_format($particular_tax_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
-									<?php } ?>
-									<?php if($edit_bill){ ?>
-									<td>&nbsp;</td>
-									<?php } ?>
-									</tr>
-									<?php }elseif($current_type == "room"){ ?>
+								<?php }elseif($current_type == "particular" && ($session_total+$room_total+$treatment_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
+										<tr>
+										<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
+										<th style="text-align:right;"><?=currency_format($particular_total);if($currency_postfix) echo $currency_postfix; ?></th>
+										<?php if($tax_type == "item"){?>
+										<th style="text-align:right;"><?=currency_format($particular_tax_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
+										<?php } ?>
+										<?php if($edit_bill){ ?>
+										<td>&nbsp;</td>
+										<?php } ?>
+										</tr>
+									<?php }elseif($current_type == "room" && ($session_total+$treatment_total+$particular_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
 									<tr>
 									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 									<th style="text-align:right;"><?=currency_format($room_total);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
@@ -65,7 +65,7 @@
 									<td>&nbsp;</td>
 									<?php } ?>
 									</tr>
-								<?php }elseif($current_type == "treatment"){ ?>
+								<?php }elseif($current_type == "treatment" && ($session_total+$room_total+$particular_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
 									<tr>
 									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 									<th style="text-align:right;"><?=currency_format($treatment_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -75,8 +75,8 @@
 									<?php if($edit_bill){ ?>
 									<td>&nbsp;</td>
 									<?php } ?>
-									</tr>	
-								<?php }elseif($current_type == "lab_test"){ ?>
+									</tr>
+								<?php }elseif($current_type == "lab_test" && ($session_total+$room_total+$treatment_total+$particular_total+$item_total+$fees_total > 0)){ ?>
 									<tr>
 									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 									<th style="text-align:right;"><?=currency_format($lab_test_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -86,8 +86,8 @@
 									<?php if($edit_bill){ ?>
 									<td>&nbsp;</td>
 									<?php } ?>
-									</tr>	
-								<?php }elseif($current_type == "session"){ ?>
+									</tr>
+								<?php }elseif($current_type == "session" && ($room_total+$treatment_total+$particular_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
 									<tr>
 									<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 									<th style="text-align:right;"><?=currency_format($session_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -97,8 +97,8 @@
 									<?php if($edit_bill){ ?>
 									<td>&nbsp;</td>
 									<?php } ?>
-									
-									</tr>	
+
+									</tr>
 								<?php }elseif($current_type == "disount" || $current_type == "tax"){ ?>
 									<!-- Do Nothing -->
 								<?php } ?>
@@ -106,9 +106,9 @@
 							$current_type=$bill_detail['type'];
 						}
 					?>
-					<?php if($current_type != "discount" && $current_type != "tax"){ ?>	
+					<?php if($current_type != "discount" && $current_type != "tax"){ ?>
 					<tr <?php if ($i % 2 == 0) { echo "class='alt'";} ?> >
-						<td><?php echo $bill_detail['particular'] ?></td>						
+						<td><?php echo $bill_detail['particular'] ?></td>
 						<td style="text-align:right;"><?php echo $bill_detail['quantity'] ?></td>
 						<td style="text-align:right;"><?php echo currency_format($bill_detail['mrp']);if($currency_postfix) echo $currency_postfix; ?></td>
 						<td style="text-align:right;"><?php echo currency_format($bill_detail['amount']);if($currency_postfix) echo $currency_postfix; ?></td>
@@ -118,7 +118,7 @@
 						<?php if($edit_bill){ ?>
 						<td>
 							<?php if($bill_detail['type'] != 'session'){ ?>
-						
+
 								<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/".$called_from."/". $bill_detail['bill_detail_id'] . "/" . $bill_id . "/" . $visit_id . "/" . $patient_id); ?>"><?php echo $this->lang->line("delete");?></a>
 							<?php } ?>
 						</td>
@@ -126,24 +126,24 @@
 					</tr>
 					<?php } ?>
 				<?php $i++; ?>
-				<?php } ?>				
-				<?php if($current_type == "fees"){ ?>
+				<?php } ?>
+				<?php if($current_type == "fees" && ($session_total+$room_total+$treatment_total+$particular_total+$item_total+$lab_test_total > 0)){ ?>
 					<tr>
 					<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 					<th style="text-align:right;"><?=currency_format($fees_total);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
 					</tr>
-				<?php }elseif($current_type == "item"){ ?>
+				<?php }elseif($current_type == "item" && ($session_total+$room_total+$treatment_total+$particular_total+$fees_total+$lab_test_total > 0)){ ?>
 					<tr>
 					<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 					<th style="text-align:right;"><?=currency_format($item_total);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
 					</tr>
-				<?php }elseif($current_type == "particular"){ ?>
+				<?php }elseif($current_type == "particular" && ($session_total+$room_total+$treatment_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
 					<tr>
 					<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 					<th style="text-align:right;"><?=currency_format($particular_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -151,10 +151,10 @@
 					<th style="text-align:right;"><?=currency_format($particular_tax_total);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php } ?>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
 					</tr>
-				<?php }elseif($current_type == "session"){ ?>
+				<?php }elseif($current_type == "session" && ($room_total+$treatment_total+$particular_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
 					<tr>
 					<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 					<th style="text-align:right;"><?=currency_format($session_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -162,10 +162,10 @@
 					<th style="text-align:right;"><?=currency_format($session_tax_total);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php } ?>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
 					</tr>
-				<?php }elseif($current_type == "treatment"){ ?>
+				<?php }elseif($current_type == "treatment" && ($session_total+$room_total+$particular_total+$item_total+$fees_total+$lab_test_total > 0)){ ?>
 					<tr>
 					<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 					<th style="text-align:right;"><?=currency_format($treatment_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -173,10 +173,10 @@
 					<th style="text-align:right;"><?=currency_format($treatment_tax_total);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php } ?>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
 					</tr>
-				<?php }elseif($current_type == "lab_test"){ ?>
+				<?php }elseif($current_type == "lab_test" && ($session_total+$room_total+$treatment_total+$particular_total+$item_total+$fees_total > 0)){ ?>
 					<tr>
 					<th style="text-align:left;" colspan="3"><?php echo $this->lang->line('sub_total');?> - <?php echo $this->lang->line($current_type);?></th>
 					<th style="text-align:right;"><?=currency_format($lab_test_total);if($currency_postfix) echo $currency_postfix; ?></th>
@@ -184,7 +184,7 @@
 					<th style="text-align:right;"><?=currency_format($lab_test_tax_total);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php } ?>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
 					</tr>
 				<?php }elseif($current_type == "discount" || $current_type == "tax"){ ?>
@@ -194,9 +194,9 @@
 					<?php if($tax_type == "item"){?>
 					<th style="text-align:left;" colspan="4" ><?php echo $this->lang->line("total");?></th>
 					<th style="text-align:right;"><?=currency_format($total + $session_tax_total + $particular_tax_total + $treatment_tax_total);if($currency_postfix) echo $currency_postfix; ?>
-					
+
 					</th>
-						
+
 					<?php }else{ ?>
 					<th style="text-align:left;" colspan="3" ><?php echo $this->lang->line("total");?></th>
 					<th style="text-align:right;"><?=currency_format($total);if($currency_postfix) echo $currency_postfix; ?>
@@ -204,9 +204,9 @@
 					</th>
 					<?php } ?>
 					<?php if($edit_bill){ ?>
-					<td>&nbsp;</td>	
+					<td>&nbsp;</td>
 					<?php } ?>
-					
+
 				</tr>
 				<?php if($tax_type == "bill"){
 						$tax_total = 0;
@@ -218,13 +218,13 @@
 						<td><?=$bill_detail['particular'];?></td>
 						<th style="text-align: right;"><?= currency_format($bill_detail['amount']);if($currency_postfix) echo $currency_postfix; ?></th>
 						<?php $tax_total =  $tax_total + $bill_detail['amount']; ?>
-						
+
 						<?php if($edit_bill){ ?>
 						<td>
 						<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/" .$called_from ."/".$bill_detail['bill_detail_id'] . "/" . $bill_detail['bill_id'] . "/" . $visit_id. "/".$patient_id); ?>"><?php echo $this->lang->line("delete");?></a>
 						</td>
 						<?php } ?>
-						
+
 					</tr>
 				<?php } ?>
 				<?php } ?>
@@ -236,24 +236,24 @@
 					<th style="text-align: left;" colspan="3" ><?php echo $this->lang->line("discount");?></th>
 					<?php } ?>
 					<th style="text-align: right;"><?= currency_format($discount);if($currency_postfix) echo $currency_postfix; ?></th>
-					
+
 					<?php if($edit_bill){ ?>
 					<td>
-						 
+
 						<?php
 							if($bill_detail['type'] != 'session'){ ?>
 							<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_discount/" . $bill_id . "/" . $visit_id . "/" . $patient_id."/".$called_from); ?>"><?php echo $this->lang->line("delete");?></a>
 						<?php } ?>
 					</td>
 					<?php } ?>
-					
+
 				</tr>
-				
+
 				<tr>
 					<?php if($tax_type == "item"){?>
-					<th style="text-align: left;" colspan="4" ><?php echo $this->lang->line("to_be_paid");?></th>
+					<th style="text-align: left;" colspan="4" ><?php echo $this->lang->line("net_total");?></th>
 					<?php }else{ ?>
-					<th style="text-align: left;" colspan="3" ><?php echo $this->lang->line("to_be_paid");?></th>
+					<th style="text-align: left;" colspan="3" ><?php echo $this->lang->line("net_total");?></th>
 					<?php } ?>
 					<?php if($tax_type == "bill"){?>
 					<th style="text-align: right;"><?= currency_format($total + $tax_total - $discount);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
@@ -271,8 +271,20 @@
 					<?php }else{ ?>
 					<th style="text-align: left;" colspan="3" ><?php echo $this->lang->line("amount_paid");?></th>
 					<?php } ?>
-					
+
 					<th style="text-align: right;"><?= currency_format($paid_amount);if($currency_postfix) echo $currency_postfix; ?></th>
+					<?php if($edit_bill){ ?>
+					<td>&nbsp;</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<?php if($tax_type == "item"){?>
+					<th style="text-align: left;" colspan="4" ><?php echo $this->lang->line("to_be_paid");?></th>
+					<?php }else{ ?>
+					<th style="text-align: left;" colspan="3" ><?php echo $this->lang->line("to_be_paid");?></th>
+					<?php } ?>
+
+					<th style="text-align: right;"><?= currency_format($total + $session_tax_total + $particular_tax_total + $treatment_tax_total-$discount-$paid_amount);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php if($edit_bill){ ?>
 					<td>&nbsp;</td>
 					<?php } ?>

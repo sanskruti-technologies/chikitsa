@@ -42,7 +42,8 @@
 		global $flag;
 		$flag="false";
 		
-		$latest_version = "0.8.4";
+
+		$latest_version = "0.8.5";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.
@@ -546,7 +547,7 @@
 	        <div class="row">
 				<div class="col-md-12">
 					<div class="col-md-6" style="margin:0 auto;">
-					<h2> Chikitsa : Install</h2>
+					<h1> Chikitsa : Install</h1>
 					<?php 
 					if (!isset($_REQUEST["step"])) {
 						// Check if application is installled or not      

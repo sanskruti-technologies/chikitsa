@@ -35,7 +35,7 @@
 							</div>
 							<?php } ?>
 							
-							<button type="submit" name="submit" class="btn btn-primary"><?php echo $this->lang->line('select');?></button>
+							<button type="submit" name="submit" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('select');?></button>
 							<!--a class="btn btn-primary" href="<?=site_url('login/forgot_password');?>"><?php echo $this->lang->line('forgot_password');?></a-->
 							<?php echo form_close(); ?>
 						</div>

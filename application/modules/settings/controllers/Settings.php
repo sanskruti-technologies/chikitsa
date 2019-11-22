@@ -470,7 +470,7 @@ class Settings extends CI_Controller {
 		$prefs = array(
 			'tables'        => $tables_array,			    // Array of tables to backup.
 			'ignore'        => array(),                     // List of tables to omit from the backup
-			'format'        => 'zip',                       // gzip, zip, txt
+			'format'        => 'txt',                       // gzip, zip, txt
 			'filename'      => 'chikitsa-backup.sql',              // File name - NEEDED ONLY WITH ZIP FILES
 			'add_drop'      => TRUE,                        // Whether to add DROP TABLE statements to backup file
 			'add_insert'    => TRUE,                        // Whether to add INSERT data to backup file
@@ -480,15 +480,26 @@ class Settings extends CI_Controller {
 		$backup = $this->dbutil->backup($prefs);
 		// Load the file helper and write the file to your server
 		$this->load->helper('file');
-		write_file('chikitsa-backup.zip', $backup);
-		//Take Backup of Profile Pictures
-		$this->load->library('zip');
-		$this->zip->read_dir('profile_picture');
-		$this->zip->read_dir('patient_images');
+		write_file('chikitsa-backup.sql', $backup);
 		
 		$data = $db_prefix;
 		$db_prefix_file = "prefix.txt";
 		write_file($db_prefix_file, $data);
+		
+		//Take Backup of Profile Pictures
+		
+		$this->load->library('zip');
+		$this->zip->read_file('chikitsa-backup.sql');
+		$this->zip->read_dir('uploads/images');
+		$this->zip->read_dir('uploads/marking_images');
+		$this->zip->read_dir('uploads/media');
+		$this->zip->read_dir('uploads/patient_images');
+		$this->zip->read_dir('uploads/profile_picture');
+		$this->zip->read_dir('uploads/themes');
+
+
+	
+		
 		$this->zip->read_file($db_prefix_file);
 		
 		$this->zip->download('chikitsa-backup.zip');

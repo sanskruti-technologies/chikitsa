@@ -70,7 +70,7 @@
 				$('#appointments').html("");
 				var appointments = (JSON.parse(data));
 				var appointment = "";
-				var width = 175;
+				var width = 150;
 				var columns = [];
 								
 				$.each( appointments, function( id, appointment ) {
@@ -87,7 +87,7 @@
 						var height = e_position.top - s_position.top - 2;
 					
 						var left = s_position.left + (columns[appointment.start_position]*width);
-						var style = "position:absolute;top:"+ s_position.top +"px;left:" + left +"px;height:"+height+"px;width:"+width+"px;";
+						var style = "position:absolute;top:"+ s_position.top +"px;left:" + left +"px;height:"+height+"px;";
 					
 						appointment = "<div id="+ appointment.appointment_id +" style='"+style+"'><a href='"+appointment.href+"' title='"+appointment.appointment_title+"' class='btn square-btn-adjust " + appointment.appointment_class + "' style='height:100%;' >"+appointment.appointment_title+"</a>"+appointment.next_link+""+appointment.cancel_link+"</div>";
 						$('#appointment_table').append(appointment);

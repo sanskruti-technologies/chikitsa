@@ -1,4 +1,4 @@
-  <script>
+<script>
 	function number_format (number, decimals, dec_point, thousands_sep) {
 		// Strip all characters but numerical ones.
 		number = (number + '').replace(/[^0-9+\-Ee.]/g, '');

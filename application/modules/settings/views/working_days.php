@@ -17,8 +17,12 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-primary">
-				<div class="panel-heading"><?php echo $this->lang->line('working_days');?></div>
-				<div class="panel-body">
+				<div class="panel-heading">
+					<div class="row">
+						<h2><?php echo $this->lang->line('working_days');?></h2>
+					</div>
+				</div>
+				<div class="panel-body table-responsive-30">
 					<?php echo form_open('settings/save_working_days'); ?>
 					
 					<?php 
@@ -67,8 +71,12 @@
 				</div>
 			</div>
 			<div class="panel panel-primary">
-				<div class="panel-heading"><?php echo $this->lang->line('exceptional_days');?></div>
-				<div class="panel-body">
+				<div class="panel-heading">
+					<div class="row">
+						<h2><?php echo $this->lang->line('exceptional_days');?></h2>
+					</div>
+				</div>
+				<div class="panel-body table-responsive-15">
 					
 					<div class="col-md-3">
 							<a href="<?=site_url('settings/edit_exceptional_days/');?>" class="btn btn-primary square-btn-adjust btn-sm" ><?php echo $this->lang->line('add');?></a>
@@ -76,9 +84,9 @@
 					<div class="col-md-12">
 						<p></p>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-12 table-responsive-25">
 					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover" id="working_table">
+						<table class="table table-striped table-hover display responsive nowrap" id="working_table">
 							<thead>
 							<tr>
 								<th><?php echo $this->lang->line('sr_no');?></th>
@@ -104,8 +112,8 @@
 								<td><?php echo $exceptional_day['working_status'];?></td>
 								<td><?php echo $exceptional_day['working_reason'];?></td>
 								<td>
-									<a href="<?=site_url('settings/edit_exceptional_days/'.$exceptional_day['uid']);?>" class="btn btn-primary btn-sm square-btn-adjust"><?php echo $this->lang->line('edit');?></a>
-									<a href="<?=site_url('settings/delete_exceptional_days/'.$exceptional_day['uid']);?>" class="btn btn-danger btn-sm  square-btn-adjust confirmDelete"><?php echo $this->lang->line('delete');?></a>
+									<a class="btn btn-primary btn-sm square-btn-adjust editbt" title="Edit" href="<?=site_url('settings/edit_exceptional_days/'.$exceptional_day['uid']);?>"><i class="fa fa-pencil"></i></a>
+									<a class="btn btn-danger btn-sm square-btn-adjust confirmDelete" title="delete" href="<?=site_url('settings/delete_exceptional_days/'.$exceptional_day['uid']);?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 								</td>
 							</tr>
 							

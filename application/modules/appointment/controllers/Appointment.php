@@ -2,9 +2,9 @@
 class Appointment extends CI_Controller {
     function __construct() {
         parent::__construct();
-		
+
 		$this->config->load('version');
-		
+
         $this->load->model('appointment_model');
         $this->load->model('admin/admin_model');
 		$this->load->model('contact/contact_model');
@@ -15,7 +15,7 @@ class Appointment extends CI_Controller {
 		$this->load->model('module/module_model');
 		$this->load->model('doctor/doctor_model');
 		$this->load->model('menu_model');
-		
+
         $this->load->helper('url');
         $this->load->helper('form');
 		$this->load->helper('currency_helper');
@@ -24,17 +24,17 @@ class Appointment extends CI_Controller {
 		$this->load->helper('time');
 		$this->load->helper('mainpage_helper');
 
-		$this->lang->load('main'); 
-		
+		$this->lang->load('main');
+
         $this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->library('export');
-		
+
         $prefs = array(
             'show_next_prev' => TRUE,
             'next_prev_url' => base_url() . 'index.php/appointment/index',
         );
-        $this->load->library('calendar', $prefs);		
+        $this->load->library('calendar', $prefs);
     }
 	public function ajax_appointments($appointment_date){
 		$clinic_id = $this->session->userdata('clinic_id');
@@ -43,12 +43,12 @@ class Appointment extends CI_Controller {
 		$start_time = $this->settings_model->get_clinic_start_time($clinic_id);
 		$end_time = $this->settings_model->get_clinic_end_time($clinic_id);
 		$time_interval = $this->settings_model->get_time_interval();
-	
+
 		$start_time = timetoint($start_time);
 		$end_time = timetoint($end_time);
-	
+
 		if ($level == 'Doctor') {
-			//Fetch this doctor's appointments for the date 
+			//Fetch this doctor's appointments for the date
 			$user_id = $this->session->userdata('id');
 			$doctor = $this->admin_model->get_doctor($user_id);
 			$doctor_id = $doctor['doctor_id'];
@@ -64,22 +64,22 @@ class Appointment extends CI_Controller {
 			$appointment_id = $appointment['appointment_id'];
 			$patient_id = $appointment['patient_id'];
 			$row['appointment_id'] = $appointment_id;
-			
+
 			$start_position = timetoint($appointment['start_time'])*100;
 			$start_position = round($start_position);
 			$start_position = nearest_timeinterval($start_time,$end_time,$time_interval,$start_position);
-			
+
 			$end_position =  timetoint($appointment['end_time'])*100;
 			$end_position = round($end_position);
 			$end_position = nearest_timeinterval($start_time,$end_time,$time_interval,$end_position);
-			
+
 			$href = site_url("appointment/edit_appointment/" . $appointment_id );
 			$appointment_title = $appointment['title'];
-			
+
 			$appointment_column = 0;
 			$doctor_id = 0;
-			$next_link = "";			
-			$cancel_link = "";			
+			$next_link = "";
+			$cancel_link = "";
 			if ($level == 'Doctor') {
 				switch($appointment['status']){
 					case 'Appointments':
@@ -142,17 +142,17 @@ class Appointment extends CI_Controller {
 				if ($nxt){
 					$next_link = "<a href='".$nextstatus."' class='btn square-btn-adjust $class ' style='height:100%;'><i class='fa fa-arrow-circle-right'></i></a>";
 				}
-				if($ca){ 
+				if($ca){
 					$cancel_link = "<a href='".$cancelapp."' class='btn square-btn-adjust $class' style='height:100%;'><i class='fa fa-times'></i></a>";
 				}
 			}else{
-				
+
 					$start_position = $appointment['doctor_id']."_".$start_position;
 					$end_position = $appointment['doctor_id']."_".$end_position;
 					switch($appointment['status']){
 						case 'Appointments':
 							$class = "btn-primary";
-							
+
 							break;
 						case 'Consultation':
 							$class = "btn-danger";
@@ -193,48 +193,48 @@ class Appointment extends CI_Controller {
 				$row['appointment_class'] = $class;
 				$row['next_link'] = $next_link;
 				$row['cancel_link'] = $cancel_link;
-				
+
 				$appointment_array[] = $row;
 			}
 		echo json_encode($appointment_array);
 	}
 	public function index($year = NULL, $month = NULL, $day = NULL) {
-		// Check If user has logged in or not 
+		// Check If user has logged in or not
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
 			$timezone = $this->settings_model->get_time_zone();
 			if (function_exists('date_default_timezone_set'))
 				date_default_timezone_set($timezone);
-				
+
 			//Default to today's date if date is not mentioned
             if ($year == NULL) { $year = date("Y"); }
             if ($month == NULL) { $month = date("m"); }
             if ($day == NULL) { $day = date("d");}
-			
+
             $data['year'] = $year;
             $data['month'] = $month;
             $data['day'] = $day;
-			
+
 			//Fetch Time Interval from settings
             $data['time_interval'] = $this->settings_model->get_time_interval();
 			$data['time_format'] = $this->settings_model->get_time_formate();
-			
+
 			//Generate display date in YYYY-MM-DD formate
-            //$appointment_date = date("Y-n-d", gmmktime(0, 0, 0, $month, $day, $year));                      
+            //$appointment_date = date("Y-n-d", gmmktime(0, 0, 0, $month, $day, $year));
 			$appointment_date = $year ."-". $month."-".$day;
 			$data['appointment_date'] = $appointment_date;
-			
+
 			//Fetch Task Details
             $data['todos'] = $this->appointment_model->get_todos();
-			
+
 			//Display Followups for next 8 days
 			$followup_date = date('Y-m-d', strtotime("+8 days"));
 			//Fetch Level of Current User
 			$level = $this->session->userdata('category');
 			$data['level'] = $level;
 			if ($level == 'Doctor') {
-				//Fetch this doctor's appointments for the date 
+				//Fetch this doctor's appointments for the date
                 $user_id = $this->session->userdata('id');
 				$data['doctor']=$this->admin_model->get_doctor($user_id);
 				$doctor_id = $data['doctor']['doctor_id'];
@@ -243,33 +243,33 @@ class Appointment extends CI_Controller {
 				$user_id = 0;
 				$doctor_id = 0;
 			}
-			
+
 			$data['followups'] = $this->patient_model->get_followups($followup_date,$doctor_id);
-			
+
 			//Fetch all patient details
 			$data['patients'] = $this->patient_model->get_patient();
 			//Fetch Doctor Schedules
 			$doctor_active=$this->module_model->is_active("doctor");
 			$data['doctor_active']=$doctor_active;
-			
-			if($doctor_active){	
-				$this->load->model('doctor/doctor_model');			
+
+			if($doctor_active){
+				$this->load->model('doctor/doctor_model');
 				$data['doctors_data'] = $this->doctor_model->find_doctor();
 				$data['drschedules'] = $this->doctor_model->find_drschedule();
 				$data['inavailability'] = $this->appointment_model->get_dr_inavailability();
 			}
 			$data['exceptional_days']= $this->settings_model->get_exceptional_days();
-			
+
 			$centers_active=$this->module_model->is_active("centers");
-			
+
 			if($centers_active){
 				$clinic_id = $this->session->userdata('clinic_id');
 				$data['working_days']= $this->settings_model->get_working_days_for_clinic($clinic_id);
-				
+
 				//Fetch Clinic Start Time and Clinic End Time
 				$data['start_time'] = $this->settings_model->get_clinic_start_time($clinic_id);
 				$data['end_time'] = $this->settings_model->get_clinic_end_time($clinic_id);
-			
+
 			}else{
 				$data['working_days']= $this->settings_model->get_working_days();
 				$data['start_time'] = $this->settings_model->get_clinic_start_time(1);
@@ -277,7 +277,7 @@ class Appointment extends CI_Controller {
 			}
 			//For Doctor's login
             if ($level == 'Doctor') {
-				//Fetch this doctor's appointments for the date 
+				//Fetch this doctor's appointments for the date
                 $user_id = $this->session->userdata('id');
 				$data['appointments'] = $this->appointment_model->get_appointments($appointment_date,$doctor_id);
 
@@ -288,52 +288,54 @@ class Appointment extends CI_Controller {
 			//Fetch details of all Doctors
 			$data['doctors'] = $this->doctor_model->get_doctors();
 			//Load the view
-			$clinic_id = $this->session->userdata('clinic_id'); 
+			$clinic_id = $this->session->userdata('clinic_id');
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$user_id = $this->session->userdata('user_id'); 
+			$user_id = $this->session->userdata('user_id');
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
+		    $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+
 			$data['def_dateformate'] = $this->settings_model->get_date_formate();
 			$this->load->view('templates/header_chikitsa',$header_data);
-			$this->load->view('templates/menu');	
+			$this->load->view('templates/menu');
 			$this->load->view('browse', $data);
 			$this->load->view('templates/footer');
         }
     }
 	/** Add Appointment */
 	public function add($year = NULL, $month = NULL, $day = NULL, $hour = NULL, $min = NULL,$status = NULL,$patient_id=NULL,$doctor_id=NULL,$session_date_id=NULL) {
-		//Check if user has logged in 
+		//Check if user has logged in
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
 			$timezone = $this->settings_model->get_time_zone();
 			if (function_exists('date_default_timezone_set'))
 				date_default_timezone_set($timezone);
-				
+
 			$level = $this->session->userdata('category');
 			$data['level'] = $level;
             if ($year == NULL) { $year = date("Y");}
             if ($month == NULL) { $month = date("m");}
             if ($day == NULL) { $day = date("d");}
-			
+
 			if ($hour == NULL) { $hour = date("H");}
             if ($min == NULL) { $min = date("i");}
-			
+
 			$data['year'] = $year;
 			$data['month'] = $month;
 			$data['day'] = $day;
-			
+
             $today = date('Y-m-d');
-			
+
 			$data['hour'] = $hour;
 			$data['min'] = $min;
 			$time = $hour . ":" . $min;
-			
+
             $appointment_dt = date("Y-m-d", strtotime($year."-".$month."-".$day));
-			
+
             $data['appointment_date'] = $appointment_dt;
 			$data['appointment_time'] = $time;
 			$data['appointment_id']=0;
@@ -342,7 +344,7 @@ class Appointment extends CI_Controller {
 			}else{
 				$data['app_status']=$status;
 			}
-			
+
 			$data['session_date_id']=$session_date_id;
 			//Form Validation Rules
 			$this->form_validation->set_rules('patient_id', $this->lang->line('patient_id'), 'required');
@@ -350,7 +352,7 @@ class Appointment extends CI_Controller {
 			$this->form_validation->set_rules('start_time', $this->lang->line('start_time'), 'required|callback_validate_time');
 			$this->form_validation->set_rules('end_time', $this->lang->line('end_time'), 'required|callback_validate_time');
 			$this->form_validation->set_rules('appointment_date', $this->lang->line('appointment_date'), 'required');
-			
+
 			if ($this->form_validation->run() === FALSE){
 				$data['clinic_start_time'] = $this->settings_model->get_clinic_start_time();
 				$data['clinic_end_time'] = $this->settings_model->get_clinic_end_time();
@@ -376,15 +378,16 @@ class Appointment extends CI_Controller {
 				}
 				$data['reference_by'] = $this->settings_model->get_reference_by();
 				$data['selected_doctor_id'] = $doctor_id;
-				$user_id = $this->session->userdata('user_id'); 	
-				$clinic_id = $this->session->userdata('clinic_id'); 
+				$user_id = $this->session->userdata('user_id');
+				$clinic_id = $this->session->userdata('clinic_id');
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
 				$header_data['user_id'] = $user_id;
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
-					
+		        $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+
 				$this->load->view('templates/header_chikitsa',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('form', $data);
@@ -393,11 +396,11 @@ class Appointment extends CI_Controller {
 				$appointment_id = $this->appointment_model->add_appointment($status);
 				$patient_id = $this->input->post('patient_id');
 				$doctor_id = $this->input->post('doctor_id');
-				
+
 				$year = date("Y", strtotime($this->input->post('appointment_date')));
 				$month = date("m", strtotime($this->input->post('appointment_date')));
 				$day = date("d", strtotime($this->input->post('appointment_date')));
-				
+
 				$active_modules = $this->module_model->get_active_modules();
 				if (in_array("sessions", $active_modules)) {
 					$session_date_id = $this->input->post('session_date_id');
@@ -437,7 +440,7 @@ class Appointment extends CI_Controller {
 		}
 		//Check for Half Day
 		if($working_day['working_status'] == 'Half Day'){
-			
+
 			//Check time slot
 				$s_time=strtotime(substr($working_day['start_time'],0,5));
 				$e_time=strtotime(substr($working_day['end_time'],0,5));
@@ -447,25 +450,25 @@ class Appointment extends CI_Controller {
 				if(($start_time>=$s_time) && ($start_time<$e_time)){
 					$this->form_validation->set_message('validate_time',$this->lang->line('half_day')." (".$working_day['start_time']." to ".$working_day['end_time'].")");
 						return false;
-				}				
-					
+				}
+
 		}
-		
-		//Check For Maximum Patients allowed 
+
+		//Check For Maximum Patients allowed
 		$clinic = $this->settings_model->get_clinic();
 		$max_patient = $clinic['max_patient'];
-		
+
 		$is_doctor_active = $this->module_model->is_active("doctor");
 		//echo $is_doctor_active."<br/>";
 		if($is_doctor_active){
-			$this->load->model('doctor/doctor_model');	
+			$this->load->model('doctor/doctor_model');
 			$doctor_preference = $this->doctor_model->get_doctor_preference($doctor_id);
 			if(isset($doctor_preference)){
 				$max_patient = $doctor_preference['max_patient'];
 				//print_r($doctor_preference);
 			}
 		}
-		
+
 		$appointments = $this->appointment_model->get_appointments_between_times($appointment_date,$appointment_date,$start_time,$end_time,$doctor_id);
 		if($max_patient > 0){
 			if($edit){
@@ -503,7 +506,7 @@ class Appointment extends CI_Controller {
 		return $is_unavailable;
 	}
 	public function edit_appointment($appointment_id) {
-		//Check if user has logged in 
+		//Check if user has logged in
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
@@ -526,7 +529,7 @@ class Appointment extends CI_Controller {
 				$data['def_dateformate'] = $this->settings_model->get_date_formate();
 				$data['def_timeformate'] = $this->settings_model->get_time_formate();
 				$data['working_days']=$this->settings_model->get_exceptional_days();
-				
+
 				$data['time_interval'] = $this->settings_model->get_time_interval();
 				$data['clinic_start_time'] = $this->settings_model->get_clinic_start_time();
 				$data['clinic_end_time'] = $this->settings_model->get_clinic_end_time();
@@ -535,24 +538,25 @@ class Appointment extends CI_Controller {
 				//Fetch Level of Current User
 				$level = $this->session->userdata('category');
 				$data['level'] = $level;
-				
+
 				$active_modules = $this->module_model->get_active_modules();
 				if (in_array("sessions", $active_modules)){
 					$this->load->model('sessions/sessions_model');
-					
+
 					$session_date = $this->sessions_model->get_session_date_id($appointment_id);
 					$data['session_date_id']=$session_date['session_date_id'];
 				}
-				
-				$clinic_id = $this->session->userdata('clinic_id'); 
-				$user_id = $this->session->userdata('user_id'); 
+
+				$clinic_id = $this->session->userdata('clinic_id');
+				$user_id = $this->session->userdata('user_id');
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
 				$header_data['user_id'] = $user_id;
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
-					
+		        $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+
 				$this->load->view('templates/header_chikitsa',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('form', $data);
@@ -560,7 +564,7 @@ class Appointment extends CI_Controller {
 			}else{
 				$patient_id = $this->input->post('patient_id');
 				$curr_patient = $this->patient_model->get_patient_detail($patient_id);
-				$title = $curr_patient['first_name']." " .$curr_patient['middle_name'].$curr_patient['last_name']; 
+				$title = $curr_patient['first_name']." " .$curr_patient['middle_name'].$curr_patient['last_name'];
 				$this->appointment_model->update_appointment($title);
 				$year = date('Y', strtotime($this->input->post('appointment_date')));
 				$month = date('m', strtotime($this->input->post('appointment_date')));
@@ -572,13 +576,13 @@ class Appointment extends CI_Controller {
 	public function insert_patient_add_appointment($hour = NULL, $min =NULL, $appointment_date = NULL, $status = NULL, $doc_id = NULL,$pid=NULL,$appid=NULL) {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
-        } else {            
+        } else {
             $this->form_validation->set_rules('first_name', $this->lang->line('first_name'), 'callback_validate_name');
             $this->form_validation->set_rules('last_name', $this->lang->line('last_name'), 'callback_validate_name');
-			
-            if ($this->form_validation->run() === FALSE) {                				
+
+            if ($this->form_validation->run() === FALSE) {
 				$this->add();
-            }else{	
+            }else{
 				$contact_id = $this->contact_model->insert_contact();
 				$today = date('Y-m-d');
                 $patient_id = $this->patient_model->insert_patient($contact_id,$today);
@@ -597,10 +601,10 @@ class Appointment extends CI_Controller {
 	   }
 	}
 	public function change_status($appointment_id = NULL,$new_status = NULL) {
-		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {	
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         }else{
-			
+
 			$this->appointment_model->change_status($appointment_id,$new_status);
 			$appointment = $this->appointment_model->get_appointment_from_id($appointment_id);
 			$appointment_date = $appointment['appointment_date'];
@@ -626,7 +630,7 @@ class Appointment extends CI_Controller {
 					redirect('alert/send/appointment_complete/0/0/'.$appointment_id.'/0/0/0/appointment/index/'.$year.'/'.$month.'/'.$day);
 				}else{
 					redirect('appointment/index/'.$year.'/'.$month.'/'.$day);
-				}	
+				}
 			}else{
 				redirect('appointment/index/'.$year.'/'.$month.'/'.$day);
 			}
@@ -635,7 +639,7 @@ class Appointment extends CI_Controller {
 	public function change_status_visit($visit_id = NULL){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
-        } else {            
+        } else {
             $this->appointment_model->change_status_visit($visit_id);
 			redirect('appointment/index');
         }
@@ -643,7 +647,7 @@ class Appointment extends CI_Controller {
 	public function view_appointment($appointment_id) {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
 			redirect('login/index');
-        } else {        
+        } else {
 			$appointment = $this->appointment_model->get_appointments_id($appointment_id);
 			$data['appointment']=$appointment;
 			$patient_id = $appointment['patient_id'];
@@ -683,15 +687,16 @@ class Appointment extends CI_Controller {
 			$data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
 			$data['discount'] = $this->bill_model->get_discount_amount($bill_id);
 			$data['edit_bill'] = FALSE;
-			$clinic_id = $this->session->userdata('clinic_id'); 
+			$clinic_id = $this->session->userdata('clinic_id');
 			$header_data['clinic_id'] = $clinic_id;
-			$user_id = $this->session->userdata('user_id'); 
+			$user_id = $this->session->userdata('user_id');
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-				
+	        $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+
 			$this->load->view('templates/header_chikitsa',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('view_appointment', $data);
@@ -701,7 +706,7 @@ class Appointment extends CI_Controller {
     public function appointment_report_excel_export($result){
 		$def_dateformate = $this->settings_model->get_date_formate();
 		$def_timeformate = $this->settings_model->get_time_formate();
-		
+
 		$appointment_report = array();
 		$i = 0;
 		foreach($result as $row){
@@ -731,13 +736,13 @@ class Appointment extends CI_Controller {
 				$appointment_report[$i]['consultation_duration'] = date('H:i:s',strtotime($consultation_duration));
 			} else{
 				$appointment_report[$i]['consultation_duration'] = $consultation_duration;
-			} 
+			}
 			$i++;
 		}
-		$this->export->to_excel($appointment_report, 'appointment_report'); 
+		$this->export->to_excel($appointment_report, 'appointment_report');
 	}
 	public function print_appointment_report($report){
-		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {	
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
 			$data['active_modules'] = $this->module_model->get_active_modules();
@@ -746,8 +751,8 @@ class Appointment extends CI_Controller {
 			$this->load->view('appointment/print_report', $data);
 		}
 	}
-	public function appointment_report() {	
-		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {	
+	public function appointment_report() {
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
 			$data['active_modules'] = $this->module_model->get_active_modules();
@@ -762,7 +767,7 @@ class Appointment extends CI_Controller {
 				$user_id = $this->session->userdata('id');
 				$data['doctor']=$this->admin_model->get_doctor($user_id);
 				$doctor_id = $data['doctor']['doctor_id'];
-				
+
                 $this->form_validation->set_rules('from_date', $this->lang->line('from_date'), 'required');
 				$this->form_validation->set_rules('to_date', $this->lang->line('to_date'), 'required');
                 if ($this->form_validation->run() === FALSE) {
@@ -773,9 +778,9 @@ class Appointment extends CI_Controller {
 					$to_date = date('Y-m-d');
 					$data['from_date'] = $from_date;
 					$data['to_date'] = $to_date;
-					
+
 					$data['app_reports'] = $this->appointment_model->get_report($from_date, $to_date, $doctor_id,$patient_id);
-					
+
                 } else {
                     $from_date = date('Y-m-d', strtotime($this->input->post('from_date')));
 					$data['from_date'] = $from_date;
@@ -785,15 +790,16 @@ class Appointment extends CI_Controller {
                 }
 				$data['doctor_id'] = $doctor_id;
 				//var_dump($data);
-				
-				$clinic_id = $this->session->userdata('clinic_id'); 
+
+				$clinic_id = $this->session->userdata('clinic_id');
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
 				$header_data['user_id'] = $user_id;
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
-				
+	            $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+
 				$this->load->view('templates/header_chikitsa',$header_data);
                 $this->load->view('templates/menu');
                 $this->load->view('appointment/report', $data);
@@ -802,7 +808,7 @@ class Appointment extends CI_Controller {
 				$timezone = $this->settings_model->get_time_zone();
 				if (function_exists('date_default_timezone_set'))
 					date_default_timezone_set($timezone);
-					
+
 					$user_id = $this->session->userdata('id');
 					$to_date = NULL;
 					$from_date = NULL;
@@ -831,28 +837,29 @@ class Appointment extends CI_Controller {
 					$data['doctor_id'] = $doctor_id;
 					$data['clinic_id'] = $clinic_id;
 					$data['patient_id'] = $patient_id;
-				
+
 					$data['app_reports'] = $this->appointment_model->get_report($from_date,$to_date, $doctor_id,$patient_id,$clinic_id);
-				
+
 					if($this->input->post('export_to_excel')!== NULL){
 						$this->appointment_report_excel_export($data['app_reports']);
 					}elseif($this->input->post('print_report')!== NULL){
 						$this->print_appointment_report($data['app_reports']);
 					}else{
-						$clinic_id = $this->session->userdata('clinic_id'); 
+						$clinic_id = $this->session->userdata('clinic_id');
 						$header_data['clinic_id'] = $clinic_id;
 						$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 						$header_data['active_modules'] = $this->module_model->get_active_modules();
 						$header_data['user_id'] = $user_id;
 						$header_data['user'] = $this->admin_model->get_user($user_id);
 						$header_data['login_page'] = get_main_page();
-			
+			            $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+            
 						$this->load->view('templates/header_chikitsa',$header_data);
 						$this->load->view('templates/menu');
 						$this->load->view('appointment/report', $data);
 						$this->load->view('templates/footer');
 					}
-                
+
             }
         }
     }
@@ -860,7 +867,7 @@ class Appointment extends CI_Controller {
 		$this->form_validation->set_rules('task', $this->lang->line('task'), 'required');
         if ($this->form_validation->run() === FALSE) {
 		}else{
-			$this->appointment_model->add_todos();	
+			$this->appointment_model->add_todos();
 		}
         redirect('appointment/index');
     }
@@ -877,8 +884,8 @@ class Appointment extends CI_Controller {
 			$selected_doctors = implode(",",  $this->input->post('select_doctor[]'));
 		}
 		$this->session->set_userdata('selected_doctors', $selected_doctors);
-		
-		$date = $this->input->post('select_doctor_date');	
+
+		$date = $this->input->post('select_doctor_date');
 		$year = date("Y",strtotime($date));
         $month = date("m",strtotime($date));
         $day = date("d",strtotime($date));

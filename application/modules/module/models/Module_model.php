@@ -46,7 +46,7 @@ class Module_model extends CI_Model {
 		}
 		return $active_modules;
     }
-	function is_active($module_name) {
+	function is_active($module_name){
 		$this->db->where('module_name', $module_name);
 		$this->db->select('module_status');
 		$query=$this->db->get('modules');

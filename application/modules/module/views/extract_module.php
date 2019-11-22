@@ -4,6 +4,10 @@
 		<div class="col-md-12">
 			<?php if ($error){
 				echo "<div class='alert alert-danger'>$error</div>";
+				?>
+				<a href="<?=base_url() . "index.php/module/index/" ?>" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('back'); ?></a>
+
+				<?php
 			}else{
 			?>
 			<?php

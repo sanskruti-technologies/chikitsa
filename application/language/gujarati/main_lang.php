@@ -1,15 +1,14 @@
 <?php
 	//Application Details
-	$lang['app_name'] = " ચિકિત્સા ";
 	$lang['title'] = "પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['main_title'] = "ચિકિત્સા - પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['cmp_version'] = "ચિકિત્સા આવૃત્તિ";
 	$lang['cmp_name'] = "સંસ્કૃતિ ટેક્નોલોજીસ";
 	$lang['about_chikitsa'] = "ચિકિત્સા વિશે";
-	
+
 	//Form Headers
 	$lang['sign_in'] = "સાઇન ઇન કરો";
-	
+
 	//Labels
 	$lang['5min'] = "5 મીન";
 	$lang['7min'] = "7 મીન";
@@ -105,7 +104,7 @@
 	$lang['appointment_report'] = "નિમણૂંક રિપોર્ટ";
 	$lang['appointment_reason'] = "નિમણૂંક કારણ";
 	$lang['appointment_date'] = "નિમણૂંક તારીખ ";
-	$lang['appointment_time_interval'] = "નિમણૂંક સમય અંતરાલ";	
+	$lang['appointment_time_interval'] = "નિમણૂંક સમય અંતરાલ";
 	$lang['assets'] = "અસ્કયામતો";
 	$lang['availability'] = "ઉપલબ્ધતા";
 	$lang['available'] = "ઉપલબ્ધ";
@@ -159,7 +158,7 @@
 	$lang['bonus_percentage'] = "બોનસ ટકા";
 	$lang['bonus'] = "બોનસ";
 	$lang['billed'] = "બિલ";
-	
+
 	$lang['calendar'] = "કેલેન્ડર";
 	$lang['cancel'] = "રદ કરો";
 	$lang['cancelled'] = "રદ";
@@ -203,14 +202,14 @@
 	$lang['clinic_landline'] = "ક્લિનિક લેન્ડલાઇન";
 	$lang['clinic_note'] = "ક્લિનિક નોંધ";
 	$lang['clinic_logo'] = "ક્લિનિક લોગો";
-	$lang['clinic_name'] = "ક્લિનિક નામ";	
+	$lang['clinic_name'] = "ક્લિનિક નામ";
 	$lang['clinic_phone_1'] = "ક્લિનિક ફોન 1";
 	$lang['clinic_phone_2'] = "ક્લિનિક ફોન 2";
 	$lang['clinic_start_time'] = "ક્લિનિક શરૂઆત સમય";
 	$lang['clinic_runs_full_day'] = "ક્લિનિક રન ફુલ ડે";
 	$lang['cost'] = "ખર્ચ";
 	$lang['column_1'] = "કૉલમ 1";
-	$lang['column_2'] = "કૉલમ 2";	
+	$lang['column_2'] = "કૉલમ 2";
 	$lang['complete'] = "પૂર્ણ";
 	$lang['completed_sessions'] = "પૂર્ણ સત્રો";
 	$lang['company'] = "કંપની";
@@ -283,6 +282,7 @@
 	$lang['doctors'] = "ડૉક્ટર્સ";
 	$lang['doctor_name'] = "ડોક્ટરનું નામ";
 	$lang['doctor_share'] = "ડોક્ટર શેર";
+	$lang['doctor_availability'] = "ડોક્ટર ઉપલબ્ધતા";
 	$lang['doctor_detail'] = "ડોક્ટર વિગત";
 	$lang['doctor_bonus_report'] = "ડોક્ટર બોનસ રિપોર્ટ";
 	$lang['doctor_unavailability'] = "ડોક્ટર ઉપલબ્ધ નથી";
@@ -293,7 +293,7 @@
 	$lang['downloading_files'] = "ડાઉનલોડ ફાઇલો ";
 	$lang['dr'] = "Dr.";
 	$lang['duration'] = "સમયગાળો";
-	$lang['description'] = "વર્ણન";	
+	$lang['description'] = "વર્ણન";
 	$lang['disease'] = "રોગ";
 	$lang['diseases'] = "રોગો";
 	$lang['diagnosed_diseases'] = "નિદાન રોગ";
@@ -319,12 +319,12 @@
 	$lang['established_patient'] = "સ્થાપિત પેશન્ટ";
 	$lang['enter_details_to_login'] = "લોગીન થવા માટે વીગતો ભરો  ";
 	$lang['enter_email_address'] = "ઇમેઇલ સરનામું દાખલ કરો ";
-	$lang['extracting'] = "એક્સટ્રેક્ટિંગ";	
+	$lang['extracting'] = "એક્સટ્રેક્ટિંગ";
 	$lang['extraction_failed'] = "એક્સટ્રેક્શન નિષ્ફળ";
-	$lang['extensions'] = "એક્સ્ટેન્શન્સ";	
+	$lang['extensions'] = "એક્સ્ટેન્શન્સ";
 	$lang['expenditure'] = "ખર્ચ";
 	$lang['experience'] = "અનુભવ";
-	$lang['exceptional_days'] = "અપવાદરૂપ દિવસો";	
+	$lang['exceptional_days'] = "અપવાદરૂપ દિવસો";
 	$lang['export_to_excel'] = "Excel માં નિકાસ કરો";
 	$lang['expiry_date'] = "અંતિમ તારીખ";
 	$lang['enter_new_password'] = "નીચે તમારો નવો પાસવર્ડ દાખલ કરો";
@@ -338,7 +338,7 @@
 	$lang['email_alert_time'] = "ઇમેઇલ ચેતવણી સમય";
 	$lang['email_format'] = "ઇમેઇલ ફોર્મેટ";
 	$lang['edit_format'] = "ફોર્મેટ સંપાદિત કરો";
-	
+
 	$lang['face'] = "ફેસ";
 	$lang['facebook'] = "ફેસબુક";
 	$lang['fees'] = "ફી";
@@ -387,8 +387,8 @@
 	$lang['gender'] = "જાતિ";
 	$lang['group_by'] = "ગ્રુપ દ્વારા";
 	$lang['group'] = "ગ્રુપ";
-	
-	
+
+
 	$lang['header'] = "હેડર";
 	$lang['hidden'] = "છુપાયેલ";
 	$lang['home'] = "હોમ";
@@ -406,7 +406,7 @@
 	$lang['home_page_top_section'] = "હોમ પેજ ટોચના વિભાગ";
 	$lang['home_page_bottom_section'] = "મુખ્ય પૃષ્ઠ તળિયે વિભાગ";
 	$lang['half_day'] = "અર્ધ દિવસ";
-		
+
 	$lang['invoice'] = "ભરતિયું";
 	$lang['id'] = "આઈડી";
 	$lang['icon'] = "ચિહ્ન";
@@ -437,7 +437,7 @@
 	$lang['jurisdiction'] = "સુરત અધિકારક્ષેત્ર માટે વિષય";
 	$lang['journal_voucher'] = "જર્નલ વાઉચર";
 	$lang['journal_vouchers'] = "જર્નલ વાઉચર";
-	
+
 	$lang['key'] = "કી";
 
 	$lang['landline'] = "લેન્ડલાઇન";
@@ -459,7 +459,7 @@
 	$lang['language'] = "ભાષા";
 	$lang['latest'] = "નવીનતમ";
 	$lang['link'] = "લિંક";
-	
+
 	$lang['male'] = "પુરૂષ";
 	$lang['marker'] = "માર્કર";
 	$lang['marking'] = "નિશાન";
@@ -499,6 +499,7 @@
 	$lang['name'] = "નામ";
 	$lang['none'] = "કોઈ નહીં";
 	$lang['next_follow_up'] = "આગળ ફોલોઅપ પછી";
+	$lang['net_total'] = "કુલ રકમ";
 	$lang['next_follow_date'] = "આગળ ફોલોઅપની તારીખ";
 	$lang['news_title'] = "શીર્ષક";
 	$lang['new'] = "ન્યૂ";
@@ -524,7 +525,7 @@
 	$lang['needs_cash_calc'] = "કેશ કેલ્ક્યુલેટરની જરૂર છે";
 	$lang['nurse'] = "નર્સ";
 	$lang['no_prescription']="કોઈ પ્રિસ્ક્રિપ્શન મળી નથી";
-	
+
 	$lang['on'] = "ચાલુ";
 	$lang['our'] = "અમારું";
 	$lang['office'] = "ઓફિસ";
@@ -535,7 +536,7 @@
 	$lang['opening_stock'] = "શેર ખુલે છે";
 	$lang['other'] = "અન્ય";
 	$lang['of_appoinment_time'] = "of appoinment time";
-	
+
 	$lang['paid'] = "ચૂકવેલ";
 	$lang['page_title'] = "પૃષ્ઠ શીર્ષક";
 	$lang['paid_cash'] = "ચૂકવણી કેશ";
@@ -545,7 +546,7 @@
 	$lang['password'] = "પાસવર્ડ";
 	$lang['patient'] = "પેશન્ટ";
 	$lang['patient_details'] = "પેશન્ટ વિગતવાર";
-	$lang['patients'] = "દર્દીઓ";	
+	$lang['patients'] = "દર્દીઓ";
 	$lang['patient_id'] = "પેશન્ટ આઈડી";
 	$lang['patient_name'] = "પેશન્ટ નામ";
 	$lang['patient_notes'] = "પેશન્ટ નોંધો";
@@ -608,7 +609,7 @@
 
 	$lang['rate'] = "દર";
 	$lang['reason'] = "કારણ";
-	$lang['response'] = "પ્રતિભાવ";	
+	$lang['response'] = "પ્રતિભાવ";
 	$lang['rebrand'] = "રિબ્રાન્ડ";
 	$lang['receipt'] = "રસીદ";
 	$lang['receipt_template'] = "રસીદ નમૂનાઓ";
@@ -631,26 +632,26 @@
 	$lang['rooms_allocate'] = "રૂમ ફાળવણી";
 	$lang['rooms_calendar'] = "રૂમ કૅલેન્ડર";
 	$lang['rooms_beds'] = "રૂમ / બેડ્સ";
-	$lang['register'] = "નોંધણી કરો"; 
-	$lang['registration'] = "નોંધણી"; 
-	$lang['reference_details'] = "સંદર્ભ વિગતો"; 
-	$lang['resend_code'] = "કોડ ફરીથી મોકલો"; 
+	$lang['register'] = "નોંધણી કરો";
+	$lang['registration'] = "નોંધણી";
+	$lang['reference_details'] = "સંદર્ભ વિગતો";
+	$lang['resend_code'] = "કોડ ફરીથી મોકલો";
 	$lang['residence'] = "નિવાસ";
-	$lang['restore_backup'] = "બેકઅપ પુનઃસ્થાપિત કરો"; 
-	$lang['return'] = "પાછા આવો"; 
-	$lang['return_change'] = "રીટર્ન ચેન્જ"; 
-	$lang['return_date'] = "રીટર્ન તારીખ"; 
+	$lang['restore_backup'] = "બેકઅપ પુનઃસ્થાપિત કરો";
+	$lang['return'] = "પાછા આવો";
+	$lang['return_change'] = "રીટર્ન ચેન્જ";
+	$lang['return_date'] = "રીટર્ન તારીખ";
 	$lang['reference_by'] = "સંદર્ભ દ્વારા";
-	$lang['room_charges'] = "રૂમ ચાર્જિસ રિપોર્ટ્સ"; 
-	$lang['room_number'] = "ઓરડા ક્રમાંક"; 
-	$lang['refund_amount'] = "પરત કરવાની રકમ"; 
-	$lang['refund_date'] = "રિફંડ તારીખ"; 
-	$lang['refund_note'] = "રીફંડ નોટ"; 
-	$lang['refresh'] = "તાજું કરો"; 
-	$lang['reject'] = " નામંજૂર"; 
+	$lang['room_charges'] = "રૂમ ચાર્જિસ રિપોર્ટ્સ";
+	$lang['room_number'] = "ઓરડા ક્રમાંક";
+	$lang['refund_amount'] = "પરત કરવાની રકમ";
+	$lang['refund_date'] = "રિફંડ તારીખ";
+	$lang['refund_note'] = "રીફંડ નોટ";
+	$lang['refresh'] = "તાજું કરો";
+	$lang['reject'] = " નામંજૂર";
 	$lang['reason_for_appointment'] = "નિમણૂંક માટેનું કારણ";
 	$lang['required_quantity'] = "આવશ્યક જથ્થો";
- 
+
 	$lang['sign_up'] = "સાઇન અપ કરો";
 	$lang['slider_1'] = "સ્લાઇડર 1";
 	$lang['slider_2'] = "સ્લાઇડર 2";
@@ -659,7 +660,7 @@
 	$lang['section_1'] = "વિભાગ 1";
 	$lang['section_2'] = "વિભાગ 2";
 	$lang['section_3'] = "વિભાગ 3";
-	$lang['section_4'] = "વિભાગ 4"; 
+	$lang['section_4'] = "વિભાગ 4";
 	$lang['senderid'] = "પ્રેષક ID";
 	$lang['save'] = "સાચવો";
 	$lang['schedule'] = "સૂચિ";
@@ -678,6 +679,12 @@
 	$lang['shortcode_patient_name'] = "[patient_name] - દર્દી સંપૂર્ણ નામ";
 	$lang['shortcode_patient_id'] = "[patient_id] - દર્દી ID";
 	$lang['shortcode_clinic_name'] = "[clinic_name] - ક્લિનિક નામ";
+	$lang['shortcode_clinic_logo'] = "[clinic_logo] - ક્લિનિક લોગો - ક્લિનિક વિગતોમાં સેટ કરી શકાય છે";
+	$lang['shortcode_clinic_address'] = "[clinic_address] - ક્લિનિક સરનામું - ક્લિનિક વિગતોમાં સેટ કરી શકાય છે";
+	$lang['shortcode_clinic_landline'] = "[landline] - લેન્ડલાઇન - ક્લિનિક વિગતોમાં સેટ કરી શકાય છે";
+	$lang['shortcode_clinic_mobile'] = "[mobile] - મોબાઇલ - ક્લિનિક વિગતોમાં સેટ કરી શકાય છે";
+	$lang['shortcode_clinic_email'] = "[email] - ઇમેઇલ - ક્લિનિક વિગતોમાં સેટ કરી શકાય છે";
+	$lang['shortcode_tag_line'] = "[tag_line] - ટેગલાઇન - ક્લિનિક વિગતોમાં સેટ કરી શકાય છે";
 	$lang['shortcode_doctor_name'] = "[doctor_name] - ડોક્ટર નામ";
 	$lang['shortcode_dose_time'] = "[dose_time] - મોર્નિંગ | મંગળવારે | બુધવાર";
 	$lang['shortcode_medicine_details'] = "[medicine_details] - ટેબલ ફોર્મેટમાં તમામ તબીબી વિગતો";
@@ -688,7 +695,17 @@
 	$lang['shortcode_bill'] = "[bill] - બિલની સોફ્ટ કૉપિ";
 	$lang['shortcode_appointment_reason'] = "[appointment_reason] - નિમણૂક કારણ";
 	$lang['shortcode_bill_id'] = "[bill_id] - બિલ આઈડી";
+	$lang['shortcode_bill_date'] = "[bill_date] - બિલની તારીખ";
+	$lang['shortcode_bill_time'] = "[bill_time] - બિલનો સમય";
 	$lang['shortcode_patient_email'] = "[patient_email] - ઇમેઇલ આઈડી";
+	$lang['shortcode_patient_id'] = "[patient_id] - પેશન્ટ આઈ.ડી.";
+	$lang['shortcode_patient_name'] = "[patient_name] - દર્દીનું નામ";
+	$lang['shortcode_patient_age'] = "[age] - દર્દીની ઉંમર";
+	$lang['shortcode_patient_sex'] = "[sex] - પેશન્ટ સેક્સ";
+	$lang['shortcode_visit_date'] = "[visit_date] - મુલાકાત તારીખ";
+	$lang['shortcode_previous_due'] = "[previous_due] - પાછલા બાકી લેણાં";
+	$lang['shortcode_total'] = "[total] - આ બિલનો કુલ";
+	$lang['shortcode_paid_amount'] = "[paid_amount] - ચૂકવેલ રકમ";
 	$lang['shortcode_patient_phone_number'] = "[patient_phone_number] - ફોન નંબર";
 	$lang['shortcode_username'] = "[username] - વપરાશકર્તા નામ દ્વારા બદલવામાં આવશે";
 	$lang['shortcode_password'] = "[password] - પાસવર્ડ દ્વારા બદલવામાં આવશે";
@@ -696,9 +713,14 @@
 	$lang['shortcode_mobileno'] = "[mobileno] - પ્રાપ્તકર્તા મોબાઇલ નંબર દ્વારા બદલવામાં આવશે";
 	$lang['shortcode_message'] = "[message] - સંદેશ દ્વારા બદલવામાં આવશે";
 	$lang['shortcode_template_id'] = "[template_id] - ઢાંચો ID દ્વારા બદલવામાં આવશે";
+	$lang['shortcode_bill_columns'] = "કોલમમાં બિલ માટે કોષ્ટકમાં પ્રદર્શિત કરવા";
+	$lang['shortcode_prescription_columns'] = "પ્રિસ્ક્રિપ્શન માટે કોષ્ટકમાં પ્રદર્શિત કરવા માટે કumnsલમ";
 	$lang['share_type'] = "શેર પ્રકાર";
 	$lang['sms_settings'] = "એસએમએસ સેટિંગ્સ";
 	$lang['smtp_instructions'] = "ફક્ત SMTP ઇમેઇલ્સ મોકલવા માટે આવશ્યક ";
+
+	$lang['sessions'] = "સત્રો";
+	$lang['session'] = "સત્ર";
 	$lang['services_settings'] = "સેવાઓ સેટિંગ્સ";
 	$lang['stock_sell'] = "વેચો";
 	$lang['sell_id'] = "વેચાણ આઈડી";
@@ -809,7 +831,9 @@
 	$lang['theme'] = "થીમ";
 	$lang['txn_id'] = "TXN ID";
 	$lang['tax_rate_name'] = "કર દર નામ";
-	$lang['test_name'] = "પરીક્ષણ નામ";
+    $lang['tax_rates'] = "કર દર";
+	$lang['tax_report'] = "કર રિપોર્ટ";
+  	$lang['test_name'] = "પરીક્ષણ નામ";
 	$lang['test'] = "પરીક્ષણ";
 	$lang['tests'] = "પરીક્ષણ";
 	$lang['text'] = "ટેક્સ્ટ";
@@ -818,6 +842,7 @@
 	$lang['top_section_3'] = "ટોચ વિભાગ 3";
 	$lang['this_payment_is_rejected'] = "આ ચુકવણી નકારવામાં આવે છે";
 	$lang['types'] = "પ્રકારો";
+	$lang['template_name'] = "Template Name";
 
 	$lang['upload_extension'] = "અપલોડ એક્સ્ટેન્શન્સ";
 	$lang['update'] = "અપડેટ";
@@ -830,7 +855,7 @@
 	$lang['using'] = "નો ઉપયોગ";
 	$lang['upcoming_appointments'] = "આગામી નિમણૂંક";
 	$lang['unpacking_zip_package'] = "અનપેકિંગ  ઝિપ પેકેજ";
-	
+
 	$lang['vaccine'] = "રસી";
 	$lang['vaccines'] = "રસીઓ";
 	$lang['vaccine_master'] = "રસીકરણ";
@@ -849,7 +874,7 @@
 	$lang['voucher_date'] = "વાઉચર તારીખ";
 	$lang['view_prescription'] = "પ્રિસ્ક્રિપ્શન જુઓ";
 	$lang['value'] = "મૂલ્ય";
-	
+
 	$lang['waiting'] = "રાહ ";
  	$lang['waiting_in'] = "માં પ્રતીક્ષામાં છે";
 	$lang['welcome'] = "વેલકમ";
@@ -863,7 +888,7 @@
 	$lang['we_provide'] = "અમે આપીશું";
 
 	$lang['year'] = "વર્ષ";
-	
+
 	$lang['sunday'] = "રવિવાર";
 	$lang['monday'] = "સોમવાર";
 	$lang['tuesday'] = "મંગળવાર";
@@ -871,12 +896,12 @@
 	$lang['thursday'] = "ગુરુવાર";
 	$lang['friday'] = "શુક્રવાર";
 	$lang['saturday'] = "શનિવાર";
-	
+
 	$lang['your_username'] = "તમારું  વપરાશકર્તા નામ";
 	$lang['your_password'] = "તમારો  પાસવર્ડ";
-	
-	$lang['rooms_beds'] = "રૂમ / બેડ્સ "; 
-	$lang['room_numbers_for'] = "માટે રૂમ નંબર્સ"; 
+
+	$lang['rooms_beds'] = "રૂમ / બેડ્સ ";
+	$lang['room_numbers_for'] = "માટે રૂમ નંબર્સ";
 	$lang['no_of_beds'] = "બેડ્સ ની સંખ્યા ";
 	$lang['daily_per_bed_charge']="દીઠ બેડ ચાર્જ ( દૈનિક )";
 	$lang['hourly_per_bed_charge']="બેડ દીઠ ચાર્જ ( કલાકના )";
@@ -889,13 +914,13 @@
 	$lang['per_hour'] = "કલાક દીઠ";
 	$lang['allot'] = "ફાળવવું";
 	$lang['beds'] = "બેડ્સ";
-	
+
 	//Warnings / Errors / Alerts
 	$lang['aplha_space'] = "% S ફીલ્ડમાં ફક્ત આલ્ફા અક્ષરો અને વ્હાઇટ સ્પેસ હોઈ શકે છે";
 	$lang['first_or_last'] ="કૃપા કરી પ્રથમ નામ અથવા છેલ્લું નામ દાખલ કરો";
 	$lang['password_not_match']="જૂના પાસવર્ડ મેળ ખાતો નથી";
 	$lang['irreversible_process']="આ એક ઉલટાવી શકાય તેવી પ્રક્રિયા છે. આનાથી ડેટા ગુમાવવાનું કારણ બની શકે છે. માહિતી પુનઃસ્થાપિત કરતા પહેલાં ખરેખર ખરેખર ખાતરી કરો";
-	$lang['numbersof_days_between_two_appointments']="બે એપોઇન્ટમેન્ટ્સ વચ્ચેના દિવસોના મૂળભૂત નંબરો પર તેને સેટ કરો આગલા ફોલોઅપને આપમેળે સેટ કરવાનું અક્ષમ કરવા માટે, તેને 0 પર સેટ કરો.";			
+	$lang['numbersof_days_between_two_appointments']="બે એપોઇન્ટમેન્ટ્સ વચ્ચેના દિવસોના મૂળભૂત નંબરો પર તેને સેટ કરો આગલા ફોલોઅપને આપમેળે સેટ કરવાનું અક્ષમ કરવા માટે, તેને 0 પર સેટ કરો.";
 	$lang['calculation_purpose_only']="*આ ક્ષેત્રો માત્ર ગણતરી હેતુ માટે છે. ચુકવણી રકમ ક્ષેત્રમાં વાસ્તવિક ચુકવણી રકમ ઉમેરો.";
 	$lang['clickto_toggle_display'] ="(ડિસ્પ્લે ટૉગલ કરવા માટે ક્લિક કરો)";
 	$lang['nobillsfound_for_selected_parameters'] = "પસંદ કરેલ પરિમાણો માટે કોઈ બિલ મળ્યા નથી";
@@ -929,16 +954,16 @@
 	$lang['error_saving_image'] = "છબી સાચવવાનો પ્રયાસ કરતી વખતે થોડી ભૂલ આવી.";
 	$lang['select_two'] = "કૃપા કરીને ફક્ત બે જ પસંદ કરો";
 	$lang['save_language_instructions'] = "(ફક્ત ટેક્સ્ટ બદલો અને સાચવવા માટે આગળ વધો)";
-	
+
 	$lang['reset_password_instructions'] = "કૃપા કરીને તમારું વપરાશકર્તાનામ અથવા ઇમેઇલ સરનામું દાખલ કરો.તમને ઇમેઇલ દ્વારા એક નવો પાસવર્ડ બનાવવા માટે એક લિંક પ્રાપ્ત થશે.";
 	$lang['no_email_registered'] = "તે વપરાશકર્તાનામ અથવા ઇમેઇલ સાથે કોઈ વપરાશકર્તા રજીસ્ટર નથી.";
 	$lang['check_confirmation_link'] = "પુષ્ટિકરણ લિંક માટે તમારું ઇમેઇલ તપાસો.";
-	
+
 	$lang['appointment_payment_success'] = "તમારું ચુકવણી સફળ થયું, બુકિંગની મુલાકાત માટે આભાર.";
-	
+
 	$lang['paypal_cancel_salutation'] = "પ્રિય સભ્ય";
 	$lang['paypal_cancel_message'] = "માફ કરશો! તમારો છેલ્લો વ્યવહાર રદ થયો હતો.";
-	
+
 	$lang['file_missing'] = "ફોલ્ડર ખૂટે છે.";
 
 	$lang['sms_username_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પ્રદાન કરેલ વપરાશકર્તા નામ દાખલ કરો";
@@ -946,7 +971,7 @@
 	$lang['sms_senderid_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પ્રદાન કરાયેલ પ્રેષક આઈડી દાખલ કરો";
 	$lang['sms_countrycode_instruction'] = "મોબાઇલ નંબરમાં દેશનો કોડ શામેલ કરવા માટે તેને ખાલી રાખો";
 	$lang['sms_url_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પૂરી પાડવામાં આવેલ URL દાખલ કરો";
-	
+
 	$lang['updating_to_latest'] = "ચિકિત્સાને નવીનતમ સંસ્કરણ પર અપડેટ કરી રહ્યું છે. <br/> આ પ્રક્રિયામાં થોડો સમય લાગી શકે છે. <br/>";
 	$lang['donot_close_browser'] = "<strong> પ્રક્રિયા પૂર્ણ થાય ત્યાં સુધી બ્રાઉઝર બંધ કરશો નહીં. </ strong> <br/>";
 	$lang['download_chikitsa'] = "છેલ્લી ચિકિત્સા ઝિપ ડાઉનલોડ કરી રહ્યું છે ... <br/>";

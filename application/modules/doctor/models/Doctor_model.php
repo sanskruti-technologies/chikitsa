@@ -17,7 +17,7 @@ class Doctor_model extends CI_Model {
 		//echo $this->db->last_query()."<br/>";
         $row = $query->row_array();
 		if ($row){
-			return $row['doctor_id'];	
+			return $row['doctor_id'];
 		}else{
 			return 0;
 		}
@@ -26,7 +26,7 @@ class Doctor_model extends CI_Model {
         $query = $this->db->get('view_doctor');
         $doctor_array = $query->result_array();
 		$doctor = array();
-		
+
 		foreach($doctor_array as $doctor_detail){
 			$doctor[$doctor_detail['doctor_id']] = $doctor_detail['name'];
 		}
@@ -38,13 +38,13 @@ class Doctor_model extends CI_Model {
 		return $query->result_array();
 	}
 	public function find_doctor($user_id = NULL) {
-		
+
 		$this->db->select('*');
 		$this->db->from('doctor');
 		$this->db->join('contacts', 'doctor.contact_id = contacts.contact_id');
 		if(isset($user_id)){
 			$this->db->where('userid',$user_id);
-		}	
+		}
 		$this->db->where("IFNULL(".$this->db->dbprefix('doctor').".is_deleted,0) !=", 1);
 		$query = $this->db->get();
 		//echo $this->db->last_query();
@@ -59,24 +59,24 @@ class Doctor_model extends CI_Model {
 		$query = $this->db->get('view_nurse');
 		return $query->result_array();
 	}
-	public function get_doctor_user_id($user_id) {	
+	public function get_doctor_user_id($user_id) {
 		$query = $this->db->get_where('doctor', array('userid' => $user_id,"IFNULL(is_deleted,0) !=" => 1));
 		return $query->row_array();
 	}
-	public function get_nurse_user_id($user_id) {	
+	public function get_nurse_user_id($user_id) {
 		$query = $this->db->get_where('nurse', array('userid' => $user_id,"IFNULL(is_deleted,0) !=" => 1));
 		//echo $this->db->last_query();
 		return $query->row_array();
 	}
-	public function get_doctor_doctor_id($doctor_id) {	
+	public function get_doctor_doctor_id($doctor_id) {
 		$this->db->where('doctor_id',$doctor_id);
 		$query = $this->db->get('view_doctor');
 		//echo $this->db->last_query();
-		return $query->row_array();			
+		return $query->row_array();
 	}
 	public function insert_doctors($contact_id) {
 		$this->load->helper('string');
-				  
+
 		$query = $this->db->get_where('contacts', array('contact_id' => $contact_id));
 		$contact = $query->row_array();
 		$name = $contact['title'] . ' ' .$contact['first_name'] . ' ' . $contact['middle_name'] . ' ' . $contact['last_name'];
@@ -92,9 +92,9 @@ class Doctor_model extends CI_Model {
         $this->db->insert('users', $data);
 		//echo $this->db->last_query();
 		$userid = $this->db->insert_id();
-		
-		$data = array();		
-		$data['contact_id'] = $contact_id; 
+
+		$data = array();
+		$data['contact_id'] = $contact_id;
         $data['degree'] = $this->input->post('degree');
 		$data['specification'] = $this->input->post('specification');
 		if($this->input->post('joining_date')){
@@ -103,7 +103,7 @@ class Doctor_model extends CI_Model {
 		if($this->input->post('dob')){
 			$data['dob'] = date('Y-m-d',strtotime($this->input->post('dob')));
 		}
-		
+
 		$data['licence_number'] = $this->input->post('licence_number');
 		if($this->input->post('department_id[]')){
 			$data['department_id'] = implode(",",$this->input->post('department_id[]'));
@@ -118,7 +118,7 @@ class Doctor_model extends CI_Model {
     }
 	public function insert_nurse($contact_id) {
 		$this->load->helper('string');
-				  
+
 		$query = $this->db->get_where('contacts', array('contact_id' => $contact_id));
 		$contact = $query->row_array();
 		$name = $contact['title'] . ' ' .$contact['first_name'] . ' ' . $contact['middle_name'] . ' ' . $contact['last_name'];
@@ -134,9 +134,9 @@ class Doctor_model extends CI_Model {
         $this->db->insert('users', $data);
 		//echo $this->db->last_query();
 		$userid = $this->db->insert_id();
-		
-		$data = array();		
-		$data['contact_id'] = $contact_id; 
+
+		$data = array();
+		$data['contact_id'] = $contact_id;
 		if($this->input->post('joining_date')){
 			$data['joining_date'] = date('Y-m-d',strtotime($this->input->post('joining_date')));
 		}else{
@@ -166,23 +166,23 @@ class Doctor_model extends CI_Model {
         $this->db->insert('users', $data);
 		//echo $this->db->last_query();
 		$userid = $this->db->insert_id();
-		
-		$data = array();		
-		$data['contact_id'] = $contact_id; 
+
+		$data = array();
+		$data['contact_id'] = $contact_id;
 		$data['userid'] = $userid;
         $this->db->insert('doctor', $data);
 		//echo $this->db->last_query();
-		
+
 		$doctor_id = $this->db->insert_id();
-		
+
 		return $doctor_id;
 	}
 	public function update_doctors() {
-    
+
 		$doctor_id = $this->input->post('doctor_id');
         $data['degree'] = $this->input->post('degree');
-		$data['specification'] = $this->input->post('specification');		
-		$data['experience'] = $this->input->post('experience');		
+		$data['specification'] = $this->input->post('specification');
+		$data['experience'] = $this->input->post('experience');
 		if($this->input->post('joining_date')){
 			$data['joining_date'] = date('Y-m-d',strtotime($this->input->post('joining_date')));
 		}
@@ -195,14 +195,14 @@ class Doctor_model extends CI_Model {
 		}else{
 			$data['department_id'] = "";
 		}
-		$data['gender'] = $this->input->post('gender');		
-		$data['description'] = $this->input->post('description');				
+		$data['gender'] = $this->input->post('gender');
+		$data['description'] = $this->input->post('description');
 		$data['sync_status'] = 0;
 		$this->db->update('doctor', $data, array('doctor_id' =>  $doctor_id));
 		//echo $this->db->last_query();
 	}
 	public function update_nurse() {
-    
+
 		$nurse_id = $this->input->post('nurse_id');
 		if($this->input->post('joining_date')){
 			$data['joining_date'] = date('Y-m-d',strtotime($this->input->post('joining_date')));
@@ -217,7 +217,7 @@ class Doctor_model extends CI_Model {
 		}else{
 			$data['department_id'] = "";
 		}
-		$data['gender'] = $this->input->post('gender');		
+		$data['gender'] = $this->input->post('gender');
 		$data['sync_status'] = 0;
 		$this->db->update('nurse', $data, array('nurse_id' =>  $nurse_id));
 		//echo $this->db->last_query();
@@ -246,7 +246,7 @@ class Doctor_model extends CI_Model {
 		if($level == "Nurse"){
 			$level = $this->session->userdata('category');
 			$user_id = $this->session->userdata('id');
-			
+
 			$nurse = $this->get_nurse_user_id($user_id);
 			$departments = $nurse['department_id'];
 			if($departments != NULL && $departments != ""){
@@ -269,17 +269,17 @@ class Doctor_model extends CI_Model {
 		$user_id = $doctor['userid'];
 		//$this->db->delete('doctor', array('doctor_id' => $doctor_id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('doctor', $data, array('doctor_id' =>  $doctor_id));
 		$this->db->delete('contacts', array('contact_id' => $contact_id));
 		$this->db->delete('users', array('userid' => $user_id));
 		//$this->db->delete('doctor_preferences', array('doctor_id' => $doctor_id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('doctor_preferences', $data, array('doctor_id' =>  $doctor_id));
 		//$this->db->delete('doctor_schedule', array('doctor_id' => $doctor_id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('doctor_schedule', $data, array('doctor_id' =>  $doctor_id));
 	}
 	public function delete_nurse($nurse_id) {
@@ -288,7 +288,7 @@ class Doctor_model extends CI_Model {
 		$user_id = $nurse['userid'];
 		//$this->db->delete('doctor', array('nurse_id' => $nurse_id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('nurse', $data, array('nurse_id' =>  $nurse_id));
 		$this->db->delete('contacts', array('contact_id' => $contact_id));
 		$this->db->delete('users', array('userid' => $user_id));
@@ -304,12 +304,12 @@ class Doctor_model extends CI_Model {
 				//Doctor already created
 			}else{
 				$display_name = $doctor['name'];
-				
+
 				$display_name = str_replace("Dr. ","",$display_name);
 				$display_name = str_replace("Dr.","",$display_name);
 				$display_name = str_replace("Dr ","",$display_name);
-				
-				
+
+
 				$name = explode(" ", $display_name);
 				if(count($name) >= 3){
 					$first_name = $name[0];
@@ -331,7 +331,7 @@ class Doctor_model extends CI_Model {
 				$data_contacts['display_name'] = $display_name;
 				$this->db->insert('contacts', $data_contacts);
 				$contact_id = $this->db->insert_id();
-				
+
 				//Insert in Doctor's Table
 				$data['contact_id'] = $contact_id;
 				$data['userid'] = $doctor['userid'];
@@ -340,7 +340,7 @@ class Doctor_model extends CI_Model {
 		}
 	}
 	/*department ---------------------------------------------------------------------------------------*/
-	public function get_all_departments() {	
+	public function get_all_departments() {
 		$this->db->where("IFNULL(is_deleted,0) !=", 1);
 		$query = $this->db->get("department");
 		//echo $this->db->last_query();
@@ -356,28 +356,28 @@ class Doctor_model extends CI_Model {
 		$data['department_name'] = $this->input->post('department_name');
 		$data['sync_status'] = 0;
 		if($this->input->post('clinic_code')){
-			$data['clinic_code'] = $this->input->post('clinic_id');	
+			$data['clinic_code'] = $this->input->post('clinic_id');
 		}
-		$this->db->update('department', $data, array('department_id' =>  $department_id));		
+		$this->db->update('department', $data, array('department_id' =>  $department_id));
 	}
-	public function add_department() {       
-		$data['department_name'] = $this->input->post('department_name');	
+	public function add_department() {
+		$data['department_name'] = $this->input->post('department_name');
 		if($this->input->post('clinic_code')){
-			$data['clinic_code'] = $this->input->post('clinic_code');	
+			$data['clinic_code'] = $this->input->post('clinic_code');
 		}
-		$this->db->insert('department', $data);	
+		$this->db->insert('department', $data);
 		return $this->db->insert_id();
 		//echo $this->db->last_query();
-		
+
 	}
 	public function delete_department($id) {
 		//$this->db->delete('department', array('department_id' => $id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('department', $data, array('department_id' =>  $id));
 	}
-	// fees master 
-	public function find_fees() {	
+	// fees master
+	public function find_fees() {
 		 $query = $this->db->get("view_fee_master");
 		return $query->result_array();
 	}
@@ -403,17 +403,17 @@ class Doctor_model extends CI_Model {
 		$data['sync_status'] = 0;
 		$this->db->update('fee_master', $data, array('id' =>  $id));
 	}
-	public function add_fees() {       
+	public function add_fees() {
         $data['doctor_id'] = $this->input->post('doctor');
 		$data['detail'] = $this->input->post('detail');
-		$data['fees'] = $this->input->post('fees');	
-        $this->db->insert('fee_master', $data);	
+		$data['fees'] = $this->input->post('fees');
+        $this->db->insert('fee_master', $data);
 		return $this->db->insert_id();
     }
 	public function delete_fees($id) {
 		//$this->db->delete('fee_master', array('id' => $id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('fee_master', $data, array('id' =>  $id));
 	}
 	//Doctor Schedule
@@ -442,10 +442,10 @@ class Doctor_model extends CI_Model {
 		}
 		$data['from_time'] = date('H:i:s',strtotime($this->input->post('from_time')));
 		$data['to_time'] = date('H:i:s',strtotime($this->input->post('to_time')));
-		
-		$this->db->insert('doctor_schedule', $data);		
+
+		$this->db->insert('doctor_schedule', $data);
 		//echo $this->db->last_query()."<br/>";
-		return $this->db->insert_id();	
+		return $this->db->insert_id();
 	}
 	public function edit_drschedule(){
 		$schedule_id = $this->input->post('schedule_id');
@@ -469,29 +469,29 @@ class Doctor_model extends CI_Model {
 	public function delete_drschedule($schedule_id) {
 		//$this->db->delete('doctor_schedule', array('schedule_id' => $schedule_id));
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('doctor_schedule', $data, array('schedule_id' =>  $schedule_id));
-		
+
 	}
 	public function find_patientid($id){
-		$this->db->select('patient_id'); 
+		$this->db->select('patient_id');
 		$this->db->where("IFNULL(is_deleted,0) !=", 1);
-		$this->db->from('doctor_schedule');   
+		$this->db->from('doctor_schedule');
 		$this->db->where('id', $id);
 		return $this->db->get()->result();
 	}
 	public function get_dr_inavailability($appointment_id = NULL, $doctor_id = NULL) {
 		$level = $_SESSION['category'];
-		
+
 		if($appointment_id != NULL){
 				$this->db->where('end_date IS NOT NULL');
 				$this->db->where('appointment_id', $appointment_id);
 				$query=$this->db->get('appointments');
-				
+
 				return $query->row_array();
 		}
 		else
-		{	
+		{
 			if($level == 'Doctor')
 			{
 				$userid = $_SESSION['id'];
@@ -507,25 +507,25 @@ class Doctor_model extends CI_Model {
 				$query=$this->db->get('appointments');
 			}
 			return $query->result_array();
-		}        
+		}
     }
 	public function insert_availability($appointment_id = NULL){
 		$start_date = date("Y-m-d", strtotime($this->input->post('start_date')));
         $data['appointment_date'] = $start_date;
 		$end_date=date("Y-m-d", strtotime($this->input->post('end_date')));
 		$data['end_date']=$end_date;
-		
+
 		//Set Time Zone
 		$timezone = $this->settings_model->get_time_zone();
         if (function_exists('date_default_timezone_set'))
             date_default_timezone_set($timezone);
-		
-		//$timeformat = $this->settings_model->get_time_formate();	
+
+		//$timeformat = $this->settings_model->get_time_formate();
 		$data['start_time'] = date('H:i',strtotime($this->input->post('start_time')));
 		$data['end_time'] =  date('H:i',strtotime($this->input->post('end_time')));
 		//$data['start_time'] = $this->input->post('start_time');
 		//$data['end_time'] =  $this->input->post('end_time');
-        
+
 		$data['status'] = 'NotAvailable';
 		$data['visit_id']=0;
 		$data['patient_id']=0;
@@ -541,7 +541,7 @@ class Doctor_model extends CI_Model {
 			$this->db->where('appointment_id', $appointment_id);
 			$this->db->update('appointments', $data);
 			//echo $this->db->last_query()."<br/>";
-			
+
 		}
 	}
 	public function get_today_birthdays($todate){
@@ -554,7 +554,7 @@ class Doctor_model extends CI_Model {
 	public function add_doctor_preference(){
 		$data['doctor_id'] = $this->input->post('doctor');
 		$data['max_patient'] = $this->input->post('max_patient');
-		$this->db->insert('doctor_preferences', $data);	
+		$this->db->insert('doctor_preferences', $data);
 		//echo $this->db->last_query()."<br/>";
 	}
 	public function update_doctor_preference($doctor_id){
@@ -564,7 +564,7 @@ class Doctor_model extends CI_Model {
 		}else{
 			$data['enable_online_appointment'] = 0;
 		}*/
-		
+
 		$data['sync_status'] = 0;
 		$this->db->where('doctor_id', $doctor_id);
 		$this->db->update('doctor_preferences', $data);
@@ -588,7 +588,7 @@ class Doctor_model extends CI_Model {
 	}
 	public function delete_preference($preference_id){
 		$data['is_deleted'] = 1;
-		$data['sync_status'] = 0;	
+		$data['sync_status'] = 0;
 		$this->db->update('doctor_preferences', $data, array('preference_id' =>  $preference_id));
 		//$this->db->delete('doctor_preferences', array('preference_id' => $preference_id));
 	}
@@ -596,24 +596,24 @@ class Doctor_model extends CI_Model {
 		$month = $this->input->post('month');
 		$year = $this->input->post('year');
 		$doctor_id = $this->input->post('doctor');
-		
+
 		$where = " WHERE YEAR(visit.visit_date) = $year AND MONTH(visit.visit_date) = $month";
-		
+
 		if($doctor_id != NULL){
 			$where .= " AND visit.doctor_id = $doctor_id";
 		}
-		
+
 		$query = $this->db->query("SELECT CONCAT(IFNULL(patient.first_name,''),' ',IFNULL(patient.middle_name,''),' ',IFNULL(patient.last_name,'')) AS patient_name,
 										   visit.visit_date AS date,
 										   SUM(bill_detail.amount) AS amount
-									  FROM ". $this->db->dbprefix('visit') ." AS visit 
+									  FROM ". $this->db->dbprefix('visit') ." AS visit
 										   JOIN ". $this->db->dbprefix('bill') ." AS bill ON bill.visit_id = visit.visit_id
 										   JOIN ". $this->db->dbprefix('bill_detail') ." AS bill_detail ON bill_detail.bill_id = bill.bill_id
 										   JOIN ". $this->db->dbprefix('view_patient') ." AS patient ON patient.patient_id = visit.patient_id
 								   $where
 								   GROUP BY patient.patient_id,visit.visit_date
 								   ORDER By visit.visit_date");
-		
+
 		$result = $query->result_array();
 		return $result;
 	}

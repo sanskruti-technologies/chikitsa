@@ -272,9 +272,15 @@ class Settings_model extends CI_Model {
 	public function get_morris_date_format(){
 		$date_format = $this->get_date_formate();
 		if($date_format == "d-m-Y"){
-			return 'dd-mm-yy';
+			return 'D-mm-YYYY';
 		}elseif($date_format == "Y-m-d"){
-			return 'yyyy-mm-dd';
+			return 'YYYY-mm-D';
+		}elseif($date_format == "m-d-Y"){
+			return 'mm-D-YYYY';
+		}elseif($date_format == "d m y"){
+			return 'D mm YY';
+		}elseif($date_format == "d M Y"){
+			return 'D MMM YYYY';
 		}
 	}
 	public function get_morris_time_format(){
@@ -544,35 +550,6 @@ class Settings_model extends CI_Model {
 	public function delete_payment_method($payment_method_id){
 		$this->db->delete('payment_methods', array('payment_method_id' => $payment_method_id));
 	}
-	public function get_list_master(){
-		$query = $this->db->get('list_master');
-        return $query->result_array();	
-	}
-	public function get_list($list_name){
-		$query = $this->db->get_where('list_master',array('list_name' => $list_name));
-        return $query->row_array();	
-	}
-	public function get_list_details($list_name){
-		$query = $this->db->get_where('list_detail',array('list_name' => $list_name));
-		//echo $this->db->last_query();
-        return $query->result_array();
-	}
-	public function get_list_detail($list_detail_id){
-		$query = $this->db->get_where('list_detail',array('list_detail_id' => $list_detail_id));
-        return $query->row_array();	
-	}
-	public function add_list_detail($list_name){
-		$data['list_col_1_value'] = $this->input->post('list_col_1');
-		$data['list_name'] = $list_name;
-		$this->db->insert('list_detail',$data);
-		//echo $this->db->last_query();
-	}
-	public function edit_list_master($list_detail_id){
-		$data['list_col_1_value'] = $this->input->post('list_col_1');
-		$this->db->update('list_detail',$data,array('list_detail_id' => $list_detail_id));	
-	}
-	public function delete_list_detail($list_detail_id){
-		$this->db->delete('list_detail', array('list_detail_id' => $list_detail_id));
-	}
+	
 }
 ?>

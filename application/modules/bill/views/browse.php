@@ -13,17 +13,17 @@ $( window ).load(function() {
         $( "#from_date" ).datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate; ?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false
 		});
         $( "#to_date" ).datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate; ?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false
-		}); 
+		});
     });
 </script>
 <div id="page-inner">
@@ -35,11 +35,11 @@ $( window ).load(function() {
 					<?php echo $this->lang->line("bills");?>
 				</div>
 				<div class="panel-body">
-					<a 	title="<?php echo $this->lang->line("add")." ".$this->lang->line("bill");?>" 
-						href="<?php echo base_url()."index.php/bill/insert/" ?>" 
+					<a 	title="<?php echo $this->lang->line("add")." ".$this->lang->line("bill");?>"
+						href="<?php echo base_url()."index.php/bill/insert/" ?>"
 						class="btn btn-primary square-btn-adjust">
 							<?php echo $this->lang->line("add")." ".$this->lang->line("bill");?>
-					</a>	
+					</a>
 					<p></p>
 					<div class="table-responsive">
 						<div class="col-md-12" style="padding: 0px">
@@ -48,7 +48,7 @@ $( window ).load(function() {
 							<div class="form-group">
 								<label class="control-label" for="from_date"><?=$this->lang->line('from_date');?></label>
 								<div class="controls">
-									<input type="text" name="from_date" id="from_date" value="<?= date($def_dateformate,strtotime($from_date));?>" class="form-control"/>			
+									<input type="text" name="from_date" id="from_date" value="<?= date($def_dateformate,strtotime($from_date));?>" class="form-control"/>
 									<?php echo form_error('from_date','<div class="alert alert-danger">','</div>'); ?>
 								</div>
 							</div>
@@ -57,7 +57,7 @@ $( window ).load(function() {
 							<div class="form-group">
 								<label class="control-label" for="to_date"><?=$this->lang->line('to_date');?></label>
 								<div class="controls">
-									<input type="text" name="to_date" id="to_date" value="<?= date($def_dateformate,strtotime($to_date));?>" class="form-control"/>			
+									<input type="text" name="to_date" id="to_date" value="<?= date($def_dateformate,strtotime($to_date));?>" class="form-control"/>
 									<?php echo form_error('to_date','<div class="alert alert-danger">','</div>'); ?>
 								</div>
 							</div>
@@ -67,24 +67,24 @@ $( window ).load(function() {
 								<label for="visit_doctor"><?=$this->lang->line('doctor');?></label>
 									<select name="doctor_id" class="form-control">
 										<option value="0"></option>
-										<?php foreach ($doctors as $doctor) { 
+										<?php foreach ($doctors as $doctor) {
 										$selected = "";
 										if($doctor['doctor_id'] == $doctor_id){
-											$selected = "selected";	
+											$selected = "selected";
 										}
 										?>
-										
+
 										<option value="<?php echo $doctor['doctor_id'] ?>" <?=$selected;?>><?= $doctor['name']; ?></option>
 										<?php }	?>
 									</select>
 									<?php echo form_error('doctor_id','<div class="alert alert-danger">','</div>'); ?>
 								</div>
 							</div>
-	
+
 						<div class="col-md-3">
 							<label class="control-label" for="voucher_no">&nbsp;</label>
 							<div class="controls">
-								<input type="submit" name="submit" class="btn btn-primary" value="<?=$this->lang->line('filter');?>" /> 
+								<input type="submit" name="submit" class="btn btn-primary" value="<?=$this->lang->line('filter');?>" />
 							</div>
 						</div>
 						<?php echo form_close(); ?>
@@ -103,7 +103,7 @@ $( window ).load(function() {
 								</tr>
 							</thead>
 							<tbody>
-								<?php $i=1; 
+								<?php $i=1;
 								$total_amount = 0;
 								$paid_amount = 0;
 								$due_amount = 0;
@@ -115,22 +115,23 @@ $( window ).load(function() {
 									<td><?php echo $bill['first_name'] . ' ' . $bill['middle_name'] . ' ' . $bill['last_name']; ?></td>
 									<td><?php echo $bill['doctor_name']; ?></td>
 									<td style="text-align:right;"><?php echo currency_format($bill['total_amount']+$bill[$tax_type.'_tax_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
-									<td style="text-align:right;"><?php echo currency_format($bill['pay_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
+									<td style="text-align:right;"><?php echo currency_format($bill['total_amount']+$bill[$tax_type.'_tax_amount'] - $bill['due_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
 									<td style="text-align:right;"><?php echo currency_format($bill['due_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
 									<td><a href="<?= site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-sm btn-primary square-btn-adjust"><?php echo $this->lang->line("edit");?></a>
 										<a target="_blank" class="btn btn-primary square-btn-adjust" href="<?= site_url('bill/print_receipt') . "/" . $bill['bill_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('bill');?></a>
-										<a 	title="<?php echo $this->lang->line("payment");?>" 
-						href="<?php echo base_url()."index.php/payment/insert/".$bill['patient_id']."/payment" ?>" 
+										<a 	title="<?php echo $this->lang->line("payment");?>"
+						href="<?php echo base_url()."index.php/payment/insert/".$bill['patient_id']."/payment" ?>"
 						class="btn btn-primary square-btn-adjust"
 					>
 							<?php echo $this->lang->line("payment");?>
 					</a>
 									</td>
 								</tr>
-								<?php $i++; 
+								<?php $i++;
 								$total_amount = $total_amount + $bill['total_amount']+$bill[$tax_type.'_tax_amount'];
-								$paid_amount = $paid_amount + $bill['pay_amount'];
 								$due_amount = $due_amount + $bill['due_amount'];
+								$paid_amount = $total_amount - $due_amount;
+
 								?>
 								<?php } ?>
 							</tbody>
@@ -149,4 +150,3 @@ $( window ).load(function() {
 		</div>
 	</div>
 </div>
-

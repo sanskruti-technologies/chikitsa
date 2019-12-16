@@ -1,11 +1,27 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
 	$total = ($particular_total + $fees_total + $treatment_total +  $lab_test_total +$item_total + $session_total+$room_total);
 	?>
 <div class="table-responsive">
-	<table class="table table-striped table-bordered table-hover" id="bill_table">
+	<table class="table table-striped table-hover display responsive nowrap" id="bill_table">
 		<thead>
 			<tr>
-				<th><span style="color:black;"><?php echo $this->lang->line("particular");?></span></th>
+				<th><span><?php echo $this->lang->line("particular");?></span></th>
 				<th><?php echo $this->lang->line("quantity");?></th>
 				<th><?php echo $this->lang->line("mrp");?></th>
 				<th><?php echo $this->lang->line("amount");?></th>
@@ -119,7 +135,7 @@
 						<td>
 							<?php if($bill_detail['type'] != 'session'){ ?>
 
-								<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/".$called_from."/". $bill_detail['bill_detail_id'] . "/" . $bill_id . "/" . $visit_id . "/" . $patient_id); ?>"><?php echo $this->lang->line("delete");?></a>
+								<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/".$called_from."/". $bill_detail['bill_detail_id'] . "/" . $bill_id . "/" . $visit_id . "/" . $patient_id); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 							<?php } ?>
 						</td>
 						<?php } ?>
@@ -221,7 +237,7 @@
 
 						<?php if($edit_bill){ ?>
 						<td>
-						<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/" .$called_from ."/".$bill_detail['bill_detail_id'] . "/" . $bill_detail['bill_id'] . "/" . $visit_id. "/".$patient_id); ?>"><?php echo $this->lang->line("delete");?></a>
+						<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/" .$called_from ."/".$bill_detail['bill_detail_id'] . "/" . $bill_detail['bill_id'] . "/" . $visit_id. "/".$patient_id); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 						</td>
 						<?php } ?>
 
@@ -242,7 +258,7 @@
 
 						<?php
 							if($bill_detail['type'] != 'session'){ ?>
-							<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_discount/" . $bill_id . "/" . $visit_id . "/" . $patient_id."/".$called_from); ?>"><?php echo $this->lang->line("delete");?></a>
+							<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_discount/" . $bill_id . "/" . $visit_id . "/" . $patient_id."/".$called_from); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 						<?php } ?>
 					</td>
 					<?php } ?>

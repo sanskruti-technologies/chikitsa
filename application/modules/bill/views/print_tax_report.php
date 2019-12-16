@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <head>
 <style>
 	.table-bordered{
@@ -47,10 +65,10 @@
 								<th><?php echo $this->lang->line('tax_revenue');?></th>
 								<th><?php echo $this->lang->line('discount');?></th>
 								<th><?php echo $this->lang->line('invoice') ." ".$this->lang->line('total');?></th>
-								
+
 							</tr>
 						</thead>
-						<?php 
+						<?php
 						$total_taxable_revenue = 0;
 						$total_non_taxable_revenue = 0;
 						$grand_total = 0;
@@ -63,8 +81,8 @@
 							<?php foreach ($tax_report as $row):  ?>
 								<tr <?php if ($i%2 == 0) { echo "class='even'"; }else{ echo "class='odd'"; } ?> >
 									<td><?php echo $i;?></td>
-									<td><?=$row['display_id'];?></td>      
-									<td><?=$row['first_name']." ".$row['middle_name']." ".$row['last_name'];?></td>                
+									<td><?=$row['display_id'];?></td>
+									<td><?=$row['first_name']." ".$row['middle_name']." ".$row['last_name'];?></td>
 									<td><?=$row['bill_id']; ?></td>
 									<td><?=date($def_dateformate,strtotime($row['bill_date'])); ?></td>
 									<td style="text-align:right;"><?=currency_format($row['taxable_amount']);?></td>
@@ -74,7 +92,7 @@
 									<td style="text-align:right;"><?=currency_format($row['discount']);?></td>
 									<td style="text-align:right;"><?=currency_format($row['taxable_amount'] + $row['non_taxable_amount'] + $row[$tax_type.'_tax_amount'] - $row['discount']);?></td>
 								</tr>
-							
+
 							<?php $i++;
 							$total_taxable_revenue = $total_taxable_revenue + $row['taxable_amount'];
 							$total_non_taxable_revenue = $total_non_taxable_revenue + $row['non_taxable_amount'];
@@ -93,7 +111,7 @@
 								<th style="text-align:right;"><?=currency_format($total_tax_revenue);?></th>
 								<th style="text-align:right;"><?=currency_format($total_discount);?></th>
 								<th style="text-align:right;"><?=currency_format($grand_total + $total_tax_revenue - $total_discount);?></th>
-								
+
 							</tr>
 						</tfoot>
 					<table>

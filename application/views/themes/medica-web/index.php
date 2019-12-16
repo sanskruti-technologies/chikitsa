@@ -1,4 +1,22 @@
-			<!---start-images-slider---->
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
+	<!---start-images-slider---->
 			<div class="image-slider">
 						<!-- Slideshow 1 -->
 					    <ul class="rslides rslides1" id="slider1" style="max-width: 2500px;">
@@ -9,7 +27,7 @@
 					      		<span><?=$frontend_settings['description1'];?></span>
 					      		<a href="<?=$frontend_settings['btn_link1'];?>"><?=$frontend_settings['btn_text1'];?></a>
 					      	</div>
-					      </li>	
+					      </li>
 					      <li id="rslides1_s1" class="" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; -webkit-transition: opacity 600ms ease-in-out; transition: opacity 600ms ease-in-out;">
 					      	<img src="<?php echo base_url().'/application/views/themes/medica-web/images/'.$frontend_settings['slider_image2']; ?>" alt="">
 					      	<div class="slider-info">
@@ -39,20 +57,20 @@
 							<h4>Make an appointment</h4>
 						</div>
 						<div class="grid_4_of_4 contact-form">
-							<?php echo form_open('frontend/book_appointment') ?>    	
+							<?php echo form_open('frontend/book_appointment') ?>
 								<div class="boxs">
 								<div class="section group">
 									<div class="grid_1_of_4 images_1_of_4">
 										<label>Select Doctor</label>
 										<select name="doctor">
-										<?php 
+										<?php
 											foreach($doctors as $doctor){
 												echo "<option value=".$doctor['doctor_id'].">".$doctor['name']."</option>";
 											}
 										?>
 										</select>
 									</div>
-									<div class="grid_1_of_4 images_1_of_4">										
+									<div class="grid_1_of_4 images_1_of_4">
 										<label>Select Date</label>
 										<input type="text" placeholder="Appointment Date" name="appointment_date" id="appointment_date">
 										<?php echo form_error('appointment_date','<div class="alert alert-danger">','</div>'); ?>
@@ -67,7 +85,7 @@
 									</div>
 								</div>
 								</div>
-							<?php echo form_close(); ?>    	
+							<?php echo form_close(); ?>
 						</div>
 					</div>
 				</div>
@@ -145,7 +163,7 @@
 		</div>
 		<!---End-wrap---->
 <script type="text/javascript">
- 
+
     $(window).load(function(){
 		$('#appointment_date').datetimepicker({
 			timepicker:false,
@@ -153,6 +171,6 @@
 			scrollMonth:false,
 			scrollTime:false,
 			scrollInput:false,
-		}); 
-	}); 
+		});
+	});
 </script>

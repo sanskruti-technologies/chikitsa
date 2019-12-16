@@ -1,6 +1,24 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
-	
+
     $("#appointments").dataTable({
 		"pageLength": 10,
 		 "order": [[ 0, "desc" ]]
@@ -9,14 +27,14 @@ $( window ).load(function() {
 		"pageLength": 10,
 		 "order": [[ 0, "desc" ]]
 	});
-	
+
 });
-</script>			
+</script>
 			<!----start-content----->
 			<div class="content">
 				<div class="wrap">
 					<!---start-contact---->
-					<div class="contact">			
+					<div class="contact">
 						<?php if($logged_in){ ?>
 							<div class="book_appointment">
 								<div class="services">
@@ -113,9 +131,9 @@ $( window ).load(function() {
 												<label><?php echo $this->lang->line('password');?></label>
 												<input type="password" id="password" name="register_password" placeholder="<?php echo $this->lang->line('password');?>"/>
 												<?php echo form_error('register_password','<div class="alert alert-danger">','</div>'); ?>
-													
+
 												<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('register');?></button>
-																			
+
 											<?php echo form_close(); ?>
 										</div>
 										<div class="services-sidebar grid_1_of_4 images_1_of_4 contact-form">
@@ -130,7 +148,7 @@ $( window ).load(function() {
 												<?php echo form_error('login_password','<div class="alert alert-danger">','</div>'); ?>
 												<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('login');?></button>
 												<a href="<?=site_url('login/forgot_password');?>" class="make_appointment_button"><?php echo $this->lang->line('forgot_password');?></a>
-											<?php echo form_close(); ?>  
+											<?php echo form_close(); ?>
 										</div>
 									</div>
 								</div>
@@ -141,22 +159,22 @@ $( window ).load(function() {
 											<?php if(isset($message_from) && $message_from == "verify_account_code") { echo "<div class='alert alert-info'>".urldecode ( $message )."</div>";} ?>
 											<label><?php echo $this->lang->line('email');?></label>
 											<input type="text" id="verify_email" name="verify_email" placeholder="<?php echo $this->lang->line('email');?>"/>
-											<?php echo form_error('verify_email','<div class="alert alert-danger">','</div>'); ?>	
+											<?php echo form_error('verify_email','<div class="alert alert-danger">','</div>'); ?>
 											<label><?php echo $this->lang->line('verification_code');?></label>
 											<input type="text" id="verification_code" name="verification_code" placeholder="<?php echo $this->lang->line('verification_code');?>"/>
-											<?php echo form_error('verification_code','<div class="alert alert-danger">','</div>'); ?>	
+											<?php echo form_error('verification_code','<div class="alert alert-danger">','</div>'); ?>
 											<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('verify');?></button>
 										<?php echo form_close();?>
 									</div>
 									<div class="services-sidebar grid_1_of_4 images_1_of_4 contact-form">
 										<h4><?php echo $this->lang->line('resend_code');?></h4>
 										<?php echo form_open('frontend/resend_code') ?>
-				
+
 											<label><?php echo $this->lang->line('email');?></label>
 											<input type="text" id="email" name="email" placeholder="<?php echo $this->lang->line('email');?>"/>
 											<?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
 											<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('resend_code');?></button>
-										<?php echo form_close(); ?>  
+										<?php echo form_close(); ?>
 									</div>
 								</div>
 							</div>
@@ -168,5 +186,3 @@ $( window ).load(function() {
 			<!----End-content----->
 		</div>
 		<!---End-wrap---->
-		
-

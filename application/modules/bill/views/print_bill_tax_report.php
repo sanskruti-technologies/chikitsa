@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <head>
 <style>
 	.table-bordered{
@@ -58,23 +76,23 @@
 							</thead>
 							<?php if ($tax_report) {?>
 							<tbody>
-								<?php 
+								<?php
 								$i=1;
-								$grand_total = 0;								
+								$grand_total = 0;
 								$tax_total = 0;
 								?>
 								<?php foreach ($tax_report as $row):  ?>
-									<?php 
+									<?php
 										$tax_count = 0;
 										$tax_rows = "";
 										$tax_first_row = "";
-										
+
 										foreach($bill_details as $bill_detail){
 											if($bill_detail['bill_id'] == $row['bill_id']  && $bill_detail['type'] == "tax") {
 												if($tax_first_row == ""){
 													$tax_first_row .= "<td>".$bill_detail['particular']."</td>";
 													$tax_first_row .= "<td style='text-align: right;'>".currency_format($bill_detail['amount'])."</td>";
-												
+
 												}else{
 													$tax_rows .= "<tr>";
 													$tax_rows .= "<td>".$bill_detail['particular']."</td>";
@@ -93,8 +111,8 @@
 									?>
 									<tr <?php if ($i%2 == 0) { echo "class='even'"; }else{ echo "class='odd'"; } ?> >
 										<td rowspan="<?=$tax_count;?>"><?php echo $i;?></td>
-										<td rowspan="<?=$tax_count;?>"><?=$row['display_id'];?></td>      
-										<td rowspan="<?=$tax_count;?>"><?=$row['first_name']." ".$row['middle_name']." ".$row['last_name'];?></td>                
+										<td rowspan="<?=$tax_count;?>"><?=$row['display_id'];?></td>
+										<td rowspan="<?=$tax_count;?>"><?=$row['first_name']." ".$row['middle_name']." ".$row['last_name'];?></td>
 										<td rowspan="<?=$tax_count;?>"><?=$row['bill_id']; ?></td>
 										<td rowspan="<?=$tax_count;?>"><?=date($def_dateformate,strtotime($row['bill_date'])); ?></td>
 										<td rowspan="<?=$tax_count;?>" style="text-align:right;"><?=currency_format($row['total_amount']);?></td>
@@ -102,7 +120,7 @@
 										<td rowspan="<?=$tax_count;?>" style="text-align:right;"><?=currency_format($row['tax_amount'] + $row['total_amount']); ?></td>
 									</tr>
 									<?php echo $tax_rows; ?>
-										
+
 								<?php $i++; ?>
 								<?php $grand_total = $grand_total + $row['total_amount']; ?>
 								<?php $tax_total = $tax_total + $row['tax_amount']; ?>
@@ -118,7 +136,7 @@
 							</tfoot>
 							</tbody>
 							<?php } ?>
-						
+
 						<table>
 					</div>
 				</div>

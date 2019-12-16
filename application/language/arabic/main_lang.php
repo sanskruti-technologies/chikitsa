@@ -1,5 +1,6 @@
 <?php
 	//Application Details
+	$lang['app_name'] = "Chikitsa";
 	$lang['app_tagline'] = "نظام إدارة المرضى";
 	$lang['main_title'] = "Chikitsa - نظام إدارة المرضى";
 	$lang['cmp_version'] = "Chikitsa الإصدار";
@@ -58,6 +59,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['add_reference_by'] = "إضافة مرجع بواسطة";
 	$lang['add_refund'] = "إضافة رد";
 	$lang['add_user'] = "أضف المستخدم";
+	$lang['add_bottom_section'] = "إضافة القسم السفلي";
 	$lang['add_fee'] = "إضافة رسوم";
 	$lang['add_extension'] = "إضافة ملحقات";
 	$lang['add_patient'] = "أضف المريض";
@@ -129,11 +131,12 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['bank_payments'] = "المدفوعات المصرفية";
 	$lang['bank_receipt'] = "إيصال البنك";
 	$lang['bank_receipts'] = "إيصالات البنك";
+	$lang['barcode'] = "الرمز الشريطي";
 	$lang['bed'] = "السرير";
 	$lang['before'] = "قبل";
 	$lang['beds'] = "سرير";
-	$lang['bills'] = "فواتير";
 	$lang['bill'] = "مشروع قانون";
+	$lang['bills'] = "فواتير";
 	$lang['bill_amount'] = "المبلغ المفوتر";
 	$lang['bill_no'] = "مشروع قانون لا";
 	$lang['bill_details'] = "تفاصيل الفاتورة";
@@ -829,6 +832,8 @@ $lang['shortcode_patient_phone_number'] = "[patient_phone_number] - رقم ال�
 	$lang['theme'] = "موضوع";
 	$lang['txn_id'] = "معرف TXN";
 	$lang['tax_rate_name'] = "اسم معدل الضريبة";
+	$lang['tax_rates'] = "معدلات الضريبة";
+	$lang['tax_report'] = "تقرير الضرائب";	
 	$lang['test_name'] = "اسم الاختبار";
 	$lang['test'] = "اختبار";
 	$lang['tests'] = "اختبارات";
@@ -840,6 +845,7 @@ $lang['shortcode_patient_phone_number'] = "[patient_phone_number] - رقم ال�
 	$lang['types'] = "أنواع";
 	$lang['template_name'] = "اسم القالب";
 	
+	$lang['upload'] = "رفع";
 	$lang['upload_extension'] = "تحميل الإضافات";
 	$lang['update'] = "تحديث";
 	$lang['updates'] = "التحديثات";
@@ -974,6 +980,9 @@ $lang['shortcode_patient_phone_number'] = "[patient_phone_number] - رقم ال�
 	$lang['unzip_file'] = "فك ضغط ملف zip <br/>";
 
 	$lang['no_services'] = "لم تتم إضافة خدمات. أضف خدمة";
+
+	$lang['extension_requires'] = "%1$s %2$s هذا التمديد يتطلب ";
+	$lang['compatible_version'] = "%1$s متوافق مع هذا الإصدار من ";
 
 	$lang['australian_currency'] = "الدولار الأسترالي (AUD)";
 	$lang['brazilian_currency'] = "ريال برازيلي (BRL)";

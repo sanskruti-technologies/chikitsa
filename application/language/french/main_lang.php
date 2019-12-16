@@ -1,18 +1,18 @@
 <?php
 	//Application Details
+	$lang['app_name'] = "Chikitsa";
 	$lang['title'] = "Système de gestion du patient";
 	$lang['main_title'] = "Chikitsa - Système de gestion des patients";
 	$lang['cmp_version'] = "Version Chikitsa";
 	$lang['cmp_name'] = "Sanskruti Technologies";
-$lang['about_chikitsa'] = "À propos de Chikanga ";
+	$lang['about_chikitsa'] = "À propos de Chikanga ";
 
-	//Form Headers
 	$lang['sign_in'] = "Se connecter";
 
 	//Labels
 	$lang['5min'] = "5 Min";
 	$lang['7min'] = "7 Min";
-$lang['15min'] = " 15 Min";
+	$lang['15min'] = " 15 Min";
 	$lang['30min'] = "30 Min";
 	$lang['1hr'] = "1 Heure";
 
@@ -59,6 +59,7 @@ $lang['15min'] = " 15 Min";
 	$lang['add_reference_by'] = "Ajouter une référence par";
 	$lang['add_refund'] = "Ajouter un remboursement";
 	$lang['add_user'] = "Ajouter un utilisateur";
+	$lang['add_bottom_section'] = "Ajouter une section inférieure";
 	$lang['add_fee'] = "Ajouter des frais";
 	$lang['add_extension'] = "Ajouter des extensions";
 	$lang['add_patient'] = "Ajouter un patient";
@@ -130,6 +131,7 @@ $lang['15min'] = " 15 Min";
 	$lang['bank_payments'] = "Paiements bancaires";
 	$lang['bank_receipt'] = "Reçu de banque";
 	$lang['bank_receipts'] = "Recettes bancaires";
+	$lang['barcode'] = "code à barre";	
 	$lang['bed'] = "Lit";
 	$lang['before'] = "Avant";
 	$lang['beds'] = "Des lits";
@@ -721,24 +723,20 @@ $lang['15min'] = " 15 Min";
 	$lang['share_type'] = "Type de partage";
 	$lang['sms_settings'] = "Paramètres SMS";
 	$lang['smtp_instructions'] = "Les champs ci-dessous ne sont requis que pour l'envoi d'emails SMTP";
-
-	$lang['sessions'] = "Sessions";
-	$lang['session'] = "Session";
 	$lang['services_settings'] = "Paramètres des services";
 	$lang['stock_sell'] = "Vendre";
 	$lang['sell_id'] = "Identifiant de vente";
 	$lang['set'] = "Ensemble";
-	$lang['sell_amount'] = "Vendre un montant";
+	$lang['sell_amount'] = "Vendre le montant";
 	$lang['sell_date'] = "Date de vente";
-	$lang['sell_price'] = "Prix de vente";
+	$lang['sell_price'] = "Prix ​​de vente";
 	$lang['set_as_default'] = "Définir par défaut";
 	$lang['settings'] = "Paramètres";
 	$lang['services'] = "Prestations de service";
 	$lang['service'] = "Un service";
 	$lang['services_type'] = "Types de services";
 	$lang['session'] = "Session";
-	$lang['sessions'] = "Sessions";
-	$lang['session'] = "Session";
+	$lang['sessions'] = "Séances";
 	$lang['session_report'] = "Rapport de session";
 	$lang['setting'] = "Réglage";
 	$lang['sign_in'] = "Se connecter";
@@ -835,6 +833,8 @@ $lang['15min'] = " 15 Min";
 	$lang['theme'] = "Thème";
 	$lang['txn_id'] = "TXN ID";
 	$lang['tax_rate_name'] = "Nom du taux d'imposition";
+	$lang['tax_rates'] = "Les taux d'imposition";
+	$lang['tax_report'] = "Rapport fiscal";	
 	$lang['test_name'] = "Nom du test";
 	$lang['test'] = "Tester";
 	$lang['tests'] = "Des tests";
@@ -846,6 +846,7 @@ $lang['15min'] = " 15 Min";
 	$lang['types'] = "Les types";
 	$lang['template_name'] = "Nom du modèle";
 	
+	$lang['upload'] = "Télécharger";
 	$lang['upload_extension'] = "Télécharger des extensions";
 	$lang['update'] = "Mettre à jour";
 	$lang['updates'] = "Mises à jour";
@@ -986,6 +987,9 @@ $lang['15min'] = " 15 Min";
 	$lang['canadian_currency'] = "Dollar canadien (CAD)";
 	$lang['czech_currency'] = "Couronne tchèque (CZK)";
 	$lang['danish_currency'] = "Couronne danoise (DKK)";
+	$lang['canadian_currency'] = "Canadian Dollar (CAD)";
+	$lang['czech_currency'] = "Czech Koruna (CZK)";
+	$lang['danish_currency'] = "Danish Krone (DKK)";
 	$lang['euro_currency'] = "Euro (EUR)";
 	$lang['hong_kong_currency'] = "Dollar de Hong Kong (HKD)";
 	$lang['hungarian_currency'] = "Forint hongrois (HUF)";

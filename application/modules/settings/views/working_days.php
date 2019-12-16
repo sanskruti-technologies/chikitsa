@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">	
 	$(window).load(function(){
 		$('#working_date').datetimepicker({
@@ -6,7 +24,7 @@
 			scrollMonth:false,
 			scrollTime:false,
 			scrollInput:false
-		}); 
+		});
 		$('#working_table').dataTable();
 		$('.confirmDelete').click(function(){
 			return confirm("<?=$this->lang->line('areyousure_delete');?>");
@@ -24,8 +42,8 @@
 				</div>
 				<div class="panel-body table-responsive-30">
 					<?php echo form_open('settings/save_working_days'); ?>
-					
-					<?php 
+
+					<?php
 						$days = array();
 						$days[7] = "S";
 						$days[1] = "M";
@@ -34,16 +52,16 @@
 						$days[4] = "T";
 						$days[5] = "F";
 						$days[6] = "S";
-								
+
 						if (in_array("centers", $active_modules)) {
 							foreach($clinics as $clinic){
 								echo "<div class='col-md-12'>";
 								echo "<div class='col-md-2'>".$clinic['clinic_name']."</div>";
-								
-						
+
+
 								foreach($days as $key=>$value){
-									$checked = '';	
-									if(in_array($key, $all_working_days[$clinic['clinic_id']])){	
+									$checked = '';
+									if(in_array($key, $all_working_days[$clinic['clinic_id']])){
 										$checked = 'checked';
 									}
 									echo"<div class='col-md-1'><label><input type='checkbox' name='working_days_".$clinic['clinic_id']."[]' $checked value='$key'>$value</label></div>";
@@ -52,10 +70,10 @@
 							}
 						}else{
 							echo "<div class='col-md-12'>";
-					
+
 								foreach($days as $key=>$value){
-									$checked = '';	
-									if(in_array($key, $working_days)){	
+									$checked = '';
+									if(in_array($key, $working_days)){
 										$checked = 'checked';
 									}
 									echo"<div class='col-md-1'><label><input type='checkbox' name='working_days[]' $checked value='$key'>$value</label></div>";
@@ -63,10 +81,10 @@
 								echo "</div>";
 						}
 					?>
-										
-					<div class="col-md-1">	
+
+					<div class="col-md-1">
 						<input type="submit" name="submit" class="btn btn-primary square-btn-adjust btn-sm" value="Save">
-					</div>	
+					</div>
 					<?php echo form_close(); ?>
 				</div>
 			</div>
@@ -77,7 +95,7 @@
 					</div>
 				</div>
 				<div class="panel-body table-responsive-15">
-					
+
 					<div class="col-md-3">
 							<a href="<?=site_url('settings/edit_exceptional_days/');?>" class="btn btn-primary square-btn-adjust btn-sm" ><?php echo $this->lang->line('add');?></a>
 					</div>
@@ -102,7 +120,7 @@
 							<tbody>
 							<?php $i=1;?>
 							<?php foreach($exceptional_days as $exceptional_day){?>
-							
+
 							<tr>
 								<td><?php echo $i;?></td>
 								<td><?php echo date($def_dateformate,strtotime($exceptional_day['working_date']));?></td>
@@ -116,7 +134,7 @@
 									<a class="btn btn-danger btn-sm square-btn-adjust confirmDelete" title="delete" href="<?=site_url('settings/delete_exceptional_days/'.$exceptional_day['uid']);?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 								</td>
 							</tr>
-							
+
 							<?php $i++; }?>
 							</tbody>
 						</table>

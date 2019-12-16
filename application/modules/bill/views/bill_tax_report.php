@@ -1,13 +1,33 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<?php echo $this->lang->line('tax')." ".$this->lang->line('report');?>
+					<div class="row">
+						<h2><?php echo $this->lang->line('tax')." ".$this->lang->line('report');?></h2>
 				</div>
-				<div class="panel-body">
+				</div>
+				<div class="panel-body table-responsive-10">
 					<?php echo form_open('bill/tax_report'); ?>
-					<div class="col-md-12">
+					<div class="row">
 					<div class="col-md-3">
 						<?php echo $this->lang->line('from_date');?>
 						<input type="text" name="from_date" id="from_date" class="form-control" value="<?php if($from_date){ echo date($def_dateformate,strtotime($from_date));}?>" />
@@ -17,20 +37,23 @@
 						<input type="text" name="to_date" id="to_date" class="form-control" value="<?php if($to_date){ echo date($def_dateformate,strtotime($to_date));}?>" />
 					</div>
 					</div>
+					<br>
+					<div class="row">
 					<div class="col-md-12">
 						<button type="submit" name="submit" class="btn btn-primary"><?php echo $this->lang->line('go');?></button>
 						<button type="submit" name="export_to_excel" class="btn btn-primary"><?php echo $this->lang->line('export_to_excel');?></button>
 						<button type="submit" name="print_report" class="btn btn-primary"><?php echo $this->lang->line('print_report');?></button>
 					</div>
+					</div>
 					<?php echo form_close(); ?>
 				</div>
 			</div>
-		</div>	
-		
+		</div>
+
 			<div class="col-md-12">
-				<div class="panel panel-primary">
+				<div class="panel panel-primary table-responsive-10">
 					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover" id="appointment_report" >
+						<table class="table table-striped table-hover display responsive nowrap" id="appointment_report" >
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("sr_no");?></th>
@@ -50,27 +73,27 @@
 									<th><?php echo $this->lang->line('amount');?></th>
 									<th></th>
 								</tr>
-								<?php 
+								<?php
 								break;} } ?>
 							</thead>
 							<?php if ($tax_report) {?>
 							<tbody>
 								<?php $i=1;
-								$grand_total = 0;								
-								$tax_total = 0;			
+								$grand_total = 0;
+								$tax_total = 0;
 								?>
 								<?php foreach ($tax_report as $row):  ?>
-									<?php 
+									<?php
 										$tax_count = 0;
 										$tax_rows = "";
 										$tax_first_row = "";
-										
+
 										foreach($bill_details as $bill_detail){
 											if($bill_detail['bill_id'] == $row['bill_id'] && $bill_detail['type'] == "tax") {
 												if($tax_first_row == ""){
 													$tax_first_row .= "<td>".$bill_detail['particular']."</td>";
 													$tax_first_row .= "<td style='text-align: right;'>".currency_format($bill_detail['amount'])."</td>";
-												
+
 												}else{
 													$tax_rows .= "<tr>";
 													$tax_rows .= "<td>".$bill_detail['particular']."</td>";
@@ -81,7 +104,7 @@
 											}
 										}
 										$tax_rows .= "";
-										
+
 										if($tax_first_row == ""){
 											$tax_first_row .= "<td>&nbsp;</td>";
 											$tax_first_row .= "<td>&nbsp;</td>";
@@ -90,17 +113,17 @@
 									?>
 									<tr <?php if ($i%2 == 0) { echo "class='even'"; }else{ echo "class='odd'"; } ?> >
 										<td rowspan="<?=$tax_count;?>"><?php echo $i;?></td>
-										<td rowspan="<?=$tax_count;?>"><?=$row['display_id'];?></td>      
-										<td rowspan="<?=$tax_count;?>"><?=$row['first_name']." ".$row['middle_name']." ".$row['last_name'];?></td>                
+										<td rowspan="<?=$tax_count;?>"><?=$row['display_id'];?></td>
+										<td rowspan="<?=$tax_count;?>"><?=$row['first_name']." ".$row['middle_name']." ".$row['last_name'];?></td>
 										<td rowspan="<?=$tax_count;?>"><?=$row['bill_id']; ?></td>
 										<td rowspan="<?=$tax_count;?>"><?=date($def_dateformate,strtotime($row['bill_date'])); ?></td>
 										<td rowspan="<?=$tax_count;?>" style="text-align:right;"><?=currency_format($row['total_amount']);?></td>
-										
+
 										<?php echo $tax_first_row; ?>
 										<td rowspan="<?=$tax_count;?>" style="text-align:right;"><?=currency_format($row['tax_amount'] + $row['total_amount']); ?></td>
 									</tr>
 									<?php echo $tax_rows; ?>
-										
+
 								<?php $i++; ?>
 								<?php $grand_total = $grand_total + $row['total_amount']; ?>
 								<?php $tax_total = $tax_total + $row['tax_amount']; ?>
@@ -116,12 +139,12 @@
 							</tfoot>
 							</tbody>
 							<?php } ?>
-						
+
 						<table>
 					</div>
 				</div>
 			</div>
-		
+
 	</div>
 </div>
 <!-- JQUERY SCRIPTS -->
@@ -147,7 +170,7 @@
 		$("#from_date").datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
 			maxDate: 0,
@@ -155,7 +178,7 @@
 		$("#to_date").datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
 			maxDate: 0,

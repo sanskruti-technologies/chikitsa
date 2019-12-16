@@ -1,4 +1,22 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
+<?php
 	if(isset($doctor)){
 		$doctor_name = $doctor['name'];
 	}
@@ -20,8 +38,8 @@
 		$title = "";
 		$time_interval =  $time_interval*60;
 		$start_time = date($def_timeformate, strtotime($appointment_time));
-		$end_time = date($def_timeformate, strtotime("+$time_interval minutes", strtotime($appointment_time))); 
-		
+		$end_time = date($def_timeformate, strtotime("+$time_interval minutes", strtotime($appointment_time)));
+
 		$appointment_date = $appointment_date;
 		$status = "Appointments";
 	}
@@ -31,14 +49,14 @@
 
 <div class="page-inner">
 	<div class="wrap">
-		
+
 		<div class="col-md-12">
-			<div class="appointment_detail grid_4_of_4 images_4_of_4">	
+			<div class="appointment_detail grid_4_of_4 images_4_of_4">
 				<h3>Appointment Details</h3>
 			</div>
 			<div class="panel panel-primary">
 				<div class="panel-body">
-					
+
 					<div class="grid_1_of_3 images_1_of_3">
 						<div class="col-md-4">
 							<div class="form-group">
@@ -57,7 +75,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="grid_1_of_3 images_1_of_3">
 						<div class="col-md-4">
 						<div class="book_appointment">
@@ -65,7 +83,7 @@
 								</div>
 								<span><?=date($def_dateformate,strtotime($visit['visit_date']));?>&nbsp<?=date($def_timeformate,strtotime($visit['visit_time']));?></span>
 							</div>
-						
+
 						<div class="col-md-4">
 							<div class="form-group">
 							<div class="book_appointment">
@@ -107,13 +125,13 @@
 									<th>Frequency ( M - A - N )</th>
 									<th>Days</th>
 									<th>Instructions</th>
-								</tr>									
+								</tr>
 							</thead>
 							<tbody>
 							<?php if (!empty($prescriptions)) {  ?>
 								<?php foreach($prescriptions as $prescription){ ?>
 									<tr>
-										<td><?=$prescription['medicine_id'] ?></td>						
+										<td><?=$prescription['medicine_id'] ?></td>
 										<td><?=$prescription['freq_morning'] . "-" . $prescription['freq_afternoon'] . "-" . $prescription['freq_night'] ?></td>
 										<td><?=$prescription['for_days'] ?></td>
 										<td><?=$prescription['instructions'] ?></td>
@@ -122,8 +140,8 @@
 							<?php } ?>
 							</tbody>
 						</table>
-					</div>	
-				</div>	
+					</div>
+				</div>
 				<?php } ?>
 					<div class="grid_1_of_3 images_1_of_3" style="width:100%;margin:0px;" >
 						<div class="col-md-12" >
@@ -138,7 +156,7 @@
 								</div>
 								<span><?=$bill['bill_id'];?></span>
 							</div>
-							
+
 						</div>
 						<div class="grid_1_of_3 images_1_of_3">
 							<div class="form-group">
@@ -149,7 +167,7 @@
 							</div>
 						</div>
 						</div>
-				</div>		
+				</div>
 						<div class="col-md-12">
 							<div class="table-responsive">
 								<table class="book_appointment_calendar" style="font-family:'Open Sans', sans-serif">
@@ -159,7 +177,7 @@
 											<th><?php echo $this->lang->line('quantity');?></th>
 											<th><?php echo $this->lang->line('mrp');?></th>
 											<th><?php echo $this->lang->line('amount');?></th>
-										</tr>									
+										</tr>
 									</thead>
 									<tbody>
 										<?php if ($bill_details != NULL) {  ?>
@@ -189,9 +207,9 @@
 												$current_type=$bill_detail['type'];
 											}
 											?>
-											<?php if($current_type != "discount"){ ?>	
+											<?php if($current_type != "discount"){ ?>
 												<tr>
-													<td><?php echo $bill_detail['particular'] ?></td>						
+													<td><?php echo $bill_detail['particular'] ?></td>
 													<td style="text-align:right;"><?php echo $bill_detail['quantity'] ?></td>
 													<td style="text-align:right;"><?php echo currency_format($bill_detail['mrp']);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></td>
 													<td style="text-align:right;"><?php echo currency_format($bill_detail['amount']);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></td>
@@ -244,9 +262,8 @@
 						</div>
 					</div>
 				</div>
-			
-			
+
+
 			</div>
 			</div>
 			</div>
-		

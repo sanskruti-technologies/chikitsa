@@ -1,22 +1,34 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title><?=$frontend_settings['page_title'];?></title>
-		
+
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="<?=base_url();?>application/views/themes/medica-web/css/responsiveslides.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script src="<?=base_url();?>application/views/themes/medica-web/js/responsiveslides.min.js"></script>
 		<script src="<?=base_url();?>application/views/themes/medica-web/js/jquery.ultimate-burger-menu.js"></script>
-		
+
 		<!-- TimePicker SCRIPTS-->
 		<script src="<?= base_url() ?>assets/js/jquery.datetimepicker.js"></script>
 		<link href="<?= base_url() ?>assets/js/jquery.datetimepicker.css" rel="stylesheet" />
@@ -78,9 +90,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									</ul>
 									<?php
 								}
-								
+
 							?>
-							
+
 						</div>
 						<div class="clear"> </div>
 					</div>
@@ -99,11 +111,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								</ul>
 							</div>
 							<div class="logo">
-								<?php if($clinic['clinic_logo'] != NULL){  ?>			
+								<?php if($clinic['clinic_logo'] != NULL){  ?>
 									<a class="navbar-brand" style="padding:0px;background:#FFF;" href="<?= site_url("frontend/index"); ?>">
 										<img src="<?php echo base_url().$clinic['clinic_logo']; ?>" alt="Logo"  height="60" width="260" />
 									</a>
-								<?php  }elseif($clinic['clinic_name'] != NULL){  ?>			
+								<?php  }elseif($clinic['clinic_name'] != NULL){  ?>
 									<a href="<?= site_url("frontend/index"); ?>">
 										<p><?= $clinic['clinic_name'];?></p>
 									</a>
@@ -113,7 +125,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									</a>
 								<?php }  ?>
 							</div>
-							
+
 							<div class="clear"> </div>
 						</div>
 					</div>

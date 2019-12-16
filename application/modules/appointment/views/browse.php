@@ -1,3 +1,21 @@
+<?php 
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <!-- JQUERY SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/jquery-1.11.3.min.js"></script>
 <!-- JQUERY UI SCRIPTS -->
@@ -17,7 +35,7 @@
 			var element = $(this);
 			var id = $(this).val();
 			if($(this).is(':checked')){
-				
+
 				$.ajax({
 					type: "POST",
 					url: "<?php echo base_url(); ?>index.php/appointment/todos_done/1/" + id,
@@ -240,9 +258,9 @@ function is_half_day($i,$s_time,$e_time){
 		}else{
 			return false;
 		}
-	
+
 }
-	
+
 ?>
 <div id="appointments"></div>
 <div id="page-inner">
@@ -255,7 +273,7 @@ function is_half_day($i,$s_time,$e_time){
 					<?php $day_date=$day; ?>
 				</div>
 				<div class="panel-body">
-					<?php 
+					<?php
 						$day = date('l', strtotime($day . "-" . $month . "-" . $year));
 						$today = date('Y-m-d', strtotime($appointment_date ));
 						//Clinic Start Time and Clinic End Time
@@ -266,8 +284,8 @@ function is_half_day($i,$s_time,$e_time){
 					<?php if ($level == 'Doctor') {?>
 						<a href="<?=site_url('appointment/add');?>" class="btn square-btn-adjust btn-primary"><?=$this->lang->line('add_appointment');?></a>
 						<a href="#" class="btn square-btn-adjust btn-primary" data-toggle="modal" data-target="#myModal"><?=$this->lang->line('add_inquiry');?></a>
-						
-						
+
+
 						<div class="table-responsive"  style='position:relative;height:500px;'>
 							<table id="appointment_table" class="table table-condensed table-striped table-bordered table-hover dataTable no-footer"  >
 								<thead>
@@ -287,10 +305,10 @@ function is_half_day($i,$s_time,$e_time){
 									$time_intervals = array();
 									$is_holiday = is_holiday($today);
 									for ($i = $start_time; $i < $end_time; $i = $i + ($time_interval/60)) {
-										$time = explode(":",inttotime($i));                    
+										$time = explode(":",inttotime($i));
 										$time_intervals[] = round($i*100);
 										if ($is_holiday == ""){
-											$doctor_is_available = check_doctor_availability($i,$doctor_id);			
+											$doctor_is_available = check_doctor_availability($i,$doctor_id);
 											if ($doctor_is_available){ ?>
 											<tr>
 												<th><?=inttotime12( $i ,$time_format);?></th><!-- Display the Time -->
@@ -337,7 +355,7 @@ function is_half_day($i,$s_time,$e_time){
 							</table>
 						</div>
 					<?php } else { ?>
-					<!--------------------------- Display Administration's Screen / Staff Scrren  ------------------------------->	
+					<!--------------------------- Display Administration's Screen / Staff Scrren  ------------------------------->
 					<div class="table-responsive"  style='position:relative;overflow:scroll;height:500px;'>
 						<div class="col-md-4">
 						<a href="<?=site_url('appointment/add');?>" class="btn square-btn-adjust btn-primary"><?=$this->lang->line('add_appointment');?></a>
@@ -347,9 +365,9 @@ function is_half_day($i,$s_time,$e_time){
 							<thead>
 								<tr>
 									<th><?=$this->lang->line('time');?></th>
-									<?php 
-									foreach ($doctors as $doctor) { 
-										if (strlen($doctor['name'])>12){ 
+									<?php
+									foreach ($doctors as $doctor) {
+										if (strlen($doctor['name'])>12){
 											$doctor_name = substr($doctor['name'],0,9)."..." ;
 										}else{
 											$doctor_name = $doctor['name'];
@@ -358,7 +376,7 @@ function is_half_day($i,$s_time,$e_time){
 									<th><?=$doctor_name;?></th>
 									<?php } ?>
 								</tr>
-							</thead>	
+							</thead>
 							<tbody>
 								<?php
 								global $time_intervals;
@@ -373,13 +391,13 @@ function is_half_day($i,$s_time,$e_time){
 										$is_holiday = is_holiday($today);
 										if ($is_holiday == ""){
 											foreach ($doctors as $doctor) {
-												$doctor_is_available = check_doctor_availability($i,$doctor['doctor_id']);												
+												$doctor_is_available = check_doctor_availability($i,$doctor['doctor_id']);
 												if ($doctor_is_available){
 													?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>"><a href='<?=base_url() . "index.php/appointment/add/" . $year . "/" . $month . "/" . $day_date . "/" . $time[0] . "/" . $time[1] . "/Appointments/0/".$doctor['doctor_id'] ?>' class="add_appointment"></a></td>	<?php
 												}else{
 													?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>" bgcolor="gray"></td><?php
 												}
-											}	
+											}
 										}elseif($is_holiday == "Half Day"){
 											foreach($doctors as $doctor){
 												foreach($holidays as $holiday){
@@ -414,7 +432,7 @@ function is_half_day($i,$s_time,$e_time){
 												?><td id="<?=$doctor['doctor_id'];?>_<?=round($i*100);?>"></td><?php
 											}?>
 										</tr>
-									
+
 							</tbody>
 						</table>
 					</div>
@@ -450,7 +468,7 @@ function is_half_day($i,$s_time,$e_time){
 				<div class="panel panel-primary">
                     <div class="panel-heading"><?=$this->lang->line('follow_ups');?></div>
 					<div class="panel-body"  style="overflow:scroll;height:250px;padding:0;">
-						
+
 							<table class="table table-condensed table-striped table-bordered table-hover dataTable no-footer" id="followup_table">
 								<thead>
 									<th><?= $this->lang->line('follow_up') .' '. $this->lang->line('date');?></th>
@@ -459,13 +477,13 @@ function is_half_day($i,$s_time,$e_time){
 								</thead>
 								<tbody>
 								<?php
-									if ($followups) { 
+									if ($followups) {
 									$i = 0;
 									foreach ($followups as $followup) {
 										foreach ($patients as $patient) {
-											if ($followup['patient_id'] == $patient['patient_id']) { 
+											if ($followup['patient_id'] == $patient['patient_id']) {
 												if ($followup['patient_id'] == $patient['patient_id']) {
-													foreach ($doctors as $doctor) {	
+													foreach ($doctors as $doctor) {
 														if ($followup['doctor_id'] == $doctor['doctor_id']) {
 															$followup_date = $followup['followup_date'];
 															$patient_name = $patient['first_name'] . " " . $patient['middle_name'] . " " . $patient['last_name'];
@@ -475,18 +493,18 @@ function is_half_day($i,$s_time,$e_time){
 																<td><?=$doctor['name'];?></td>
 																<td><a href='<?= base_url() . "index.php/patient/followup/" . $patient['patient_id'] ;?>' ><?=$patient_name;?></a></td>
 															</tr>
-												<?php 
+												<?php
 														}
 													}
 												}
-												break; 
+												break;
 											}
 										}
 									} ?>
 									<?php }	?>
-								</tbody>	
+								</tbody>
 							</table>
-						
+
 					</div>
 				</div>
 			</div>
@@ -530,18 +548,18 @@ function is_half_day($i,$s_time,$e_time){
 			<?php echo form_open(); ?>
 			<div class="modal-body">
 					<div class="col-md-12"><label><?=$this->lang->line('name');?>:</label></div>
-					<div class="col-md-4"><input type="text" id="first_name" name="first_name" class="form-control" placeholder="first name"/></div>										
+					<div class="col-md-4"><input type="text" id="first_name" name="first_name" class="form-control" placeholder="first name"/></div>
 					<div class="col-md-4"><input type="text" id="middle_name" name="middle_name" class="form-control" placeholder="middle name"/></div>
 					<div class="col-md-4"><input type="text" id="last_name" name="last_name" class="form-control" placeholder="last name"/></div>
-				
-				
+
+
 					<div class="col-md-12"><label><?=$this->lang->line('email_id');?>:</label></div>
 					<div class="col-md-12"><input type="text" id="email_id" name="email_id" class="form-control"/></div>
-				
-				
+
+
 					<div class="col-md-12"><label><?=$this->lang->line('mobile_no');?>:</label></div>
 					<div class="col-md-12"><input type="text" id="mobile_no" name="mobile_no" class="form-control"/></div>
-				
+
 			</div>
 			<div class="modal-footer">
 					<input id="add_inquiry_submit" type="submit" name="submit" value="Save" class="btn btn-primary" data-dismiss="modal"/>

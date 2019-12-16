@@ -1,12 +1,12 @@
 <?php
 	//Application Details
+	$lang['app_name'] = "Chikitsa";
 	$lang['title'] = "પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['main_title'] = "ચિકિત્સા - પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
 	$lang['cmp_version'] = "ચિકિત્સા આવૃત્તિ";
 	$lang['cmp_name'] = "સંસ્કૃતિ ટેક્નોલોજીસ";
 	$lang['about_chikitsa'] = "ચિકિત્સા વિશે";
 
-	//Form Headers
 	$lang['sign_in'] = "સાઇન ઇન કરો";
 
 	//Labels
@@ -59,6 +59,7 @@
 	$lang['add_reference_by'] = "દ્વારા સંદર્ભ ઉમેરો";
 	$lang['add_refund'] = "રીફંડ ઉમેરો";
 	$lang['add_user'] = "વપરાશકર્તાને ઉમેરો";
+	$lang['add_bottom_section'] = "બોટમ વિભાગ ઉમેરો";
 	$lang['add_fee'] = "ફી ઉમેરો";
 	$lang['add_extension'] = "એક્સ્ટેન્શન્સ ઉમેરો";
 	$lang['add_patient'] = "પેશન્ટ ઉમેરો";
@@ -130,6 +131,7 @@
 	$lang['bank_payments'] = "બેન્ક ચુકવણીઓ";
 	$lang['bank_receipt'] = "બેંક રસીદ";
 	$lang['bank_receipts'] = "બેન્ક રસીદો";
+	$lang['barcode'] = "બારકોડ";	
 	$lang['bed'] = "બેડ";
 	$lang['before'] = "પહેલાં";
 	$lang['beds'] = "પથારી";
@@ -143,6 +145,7 @@
 	$lang['bills_payments'] = "ચુકવણી";
 	$lang['bill_number'] = "બિલ નં.";
 	$lang['bill_no'] = "બિલ નં";
+	$lang['bill_type'] = "બિલનો પ્રકાર";	
 	$lang['bill_report'] = "બિલ રિપોર્ટ";
 	$lang['body'] = "બોડી";
 	$lang['book'] = "પુસ્તક";
@@ -718,9 +721,6 @@
 	$lang['share_type'] = "શેર પ્રકાર";
 	$lang['sms_settings'] = "એસએમએસ સેટિંગ્સ";
 	$lang['smtp_instructions'] = "ફક્ત SMTP ઇમેઇલ્સ મોકલવા માટે આવશ્યક ";
-
-	$lang['sessions'] = "સત્રો";
-	$lang['session'] = "સત્ર";
 	$lang['services_settings'] = "સેવાઓ સેટિંગ્સ";
 	$lang['stock_sell'] = "વેચો";
 	$lang['sell_id'] = "વેચાણ આઈડી";
@@ -978,6 +978,9 @@
 	$lang['unzip_file'] = "ઝિપ ફાઇલને અનઝિપ કરી રહ્યું છે <br/>";
 
 	$lang['no_services'] = "કોઈ સેવાઓ ઉમેરાઈ નથી. એક સેવા ઉમેરો.";
+
+	$lang['extension_requires'] = "આ એક્સ્ટેંશનને %1$s %2$s ની જરૂર છે";
+	$lang['compatible_version'] = "%1$s ની આ સંસ્કરણ સાથે સુસંગત";
 
 	$lang['australian_currency'] = "ઓસ્ટ્રેલિયન ડોલર (એયુડી)";
 	$lang['brazilian_currency'] = "બ્રાઝિલિયન રીઅલ (બીઆરએલ)";

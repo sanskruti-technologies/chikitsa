@@ -1,6 +1,6 @@
 <?php
 	//Application Details
-$lang['app_name'] = "Chikitsa ";
+	$lang['app_name'] = "Chikitsa ";
 	$lang['title'] = "Chirurgia Plastica Ricostruttiva Estetica";
 	$lang['main_title'] = "Chirurgia Plastica Ricostruttiva Estetica";
 	$lang['cmp_version'] = "Versione";
@@ -60,6 +60,7 @@ $lang['15min'] = "15 min";
 	$lang['add_reference_by'] = "Aggiungi riferimento di";
 	$lang['add_refund'] = "Aggiungi rimborso";
 	$lang['add_user'] = "Aggiungere utente";
+	$lang['add_bottom_section'] = "Aggiungi sezione inferiore";
 	$lang['add_fee'] = "Aggiungi tariffa";
 	$lang['add_extension'] = "Aggiungi estensioni";
 	$lang['add_patient'] = "Aggiungi paziente";
@@ -131,6 +132,7 @@ $lang['15min'] = "15 min";
 	$lang['bank_payments'] = "Pagamenti bancari";
 	$lang['bank_receipt'] = "Ricevuta bancaria";
 	$lang['bank_receipts'] = "Ricevute bancarie";
+	$lang['barcode'] = "Codice a barre";	
 	$lang['bed'] = "Letto";
 	$lang['before'] = "Prima";
 	$lang['beds'] = "Letti";
@@ -144,6 +146,7 @@ $lang['15min'] = "15 min";
 	$lang['bills_payments'] = "Pagamento";
 	$lang['bill_number'] = "Numero di Bill";
 	$lang['bill_no'] = "Bill No.";
+	$lang['bill_type'] = "Tipo di fattura";	
 	$lang['bill_report'] = "Rapporto Conto";
 	$lang['body'] = "Corpo";
 	$lang['book'] = "Libro";
@@ -299,6 +302,7 @@ $lang['15min'] = "15 min";
 	$lang['diseases'] = "Malattie";
 	$lang['diagnosed_diseases'] = "Malattia diagnosticata";
 
+	$lang['eraser'] = "Gomma per cancellare";
 	$lang['erpnext_sync'] = "Erpnext Sync";
 	$lang['erpnext_url'] = "Erpnext URL";	
 	$lang['enable_about_page'] = "Abilita la pagina";
@@ -718,8 +722,6 @@ $lang['15min'] = "15 min";
 	$lang['share_type'] = "Condividi tipo";
 	$lang['sms_settings'] = "Impostazioni SMS";
 	$lang['smtp_instructions'] = "I campi sottostanti sono richiesti solo per l'invio di e-mail SMTP";
-	$lang['sessions'] = "sessioni";
-	$lang['session'] = "Sessione";
 	$lang['services_settings'] = "Impostazioni servizi";
 	$lang['stock_sell'] = "Vendere";
 	$lang['sell_id'] = "Id Vendita";
@@ -843,6 +845,7 @@ $lang['15min'] = "15 min";
 	$lang['types'] = "tipi";
 	$lang['template_name'] = "Nome modello";	
 	
+	$lang['upload'] = "Caricare";	
 	$lang['upload_extension'] = "Caricare Estensioni";
 	$lang['update'] = "Aggiornare";
 	$lang['updates'] = "aggiornamenti";
@@ -977,6 +980,9 @@ $lang['15min'] = "15 min";
 	$lang['unzip_file'] = "Decompressione del file zip<br/>";
 	
 	$lang['no_services'] = "Nessun servizio aggiunto. Aggiungi un servizio.";	
+
+	$lang['extension_requires'] = "Questa estensione richiede %1$s %2$s";
+	$lang['compatible_version'] = "Compatibile con questa versione di %1$s";
 
 	$lang['australian_currency'] = "Dollaro australiano(AUD)";
 	$lang['brazilian_currency'] = "Real brasiliano (BRL)";

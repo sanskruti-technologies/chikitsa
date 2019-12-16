@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
 	$("#bill_table").dataTable({
@@ -31,16 +49,19 @@ $( window ).load(function() {
 		<div class="col-md-12">
 			<!-- Advanced Tables -->
 			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<?php echo $this->lang->line("bills");?>
+				<div class="panel-heading clearfix">
+				<div class="row">
+                    <div class="col-md-4 nopadding"><h2><?php echo $this->lang->line("bills");?></h2></div>
 				</div>
-				<div class="panel-body">
+				</div>
+				<div class="panel-body table-responsive-25">
+						<div class="form-group">
 					<a 	title="<?php echo $this->lang->line("add")." ".$this->lang->line("bill");?>"
 						href="<?php echo base_url()."index.php/bill/insert/" ?>"
 						class="btn btn-primary square-btn-adjust">
-							<?php echo $this->lang->line("add")." ".$this->lang->line("bill");?>
+							<i class="fa fa-plus"></i>&nbsp;<?php echo $this->lang->line("add")." ".$this->lang->line("bill");?>
 					</a>
-					<p></p>
+						</div>
 					<div class="table-responsive">
 						<div class="col-md-12" style="padding: 0px">
 						<?php echo form_open('bill/index') ?>
@@ -81,7 +102,7 @@ $( window ).load(function() {
 								</div>
 							</div>
 
-						<div class="col-md-3">
+						<div class="col-md-3 text-right rp-text-left rp-mr-bt-10">
 							<label class="control-label" for="voucher_no">&nbsp;</label>
 							<div class="controls">
 								<input type="submit" name="submit" class="btn btn-primary" value="<?=$this->lang->line('filter');?>" />
@@ -117,13 +138,13 @@ $( window ).load(function() {
 									<td style="text-align:right;"><?php echo currency_format($bill['total_amount']+$bill[$tax_type.'_tax_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
 									<td style="text-align:right;"><?php echo currency_format($bill['total_amount']+$bill[$tax_type.'_tax_amount'] - $bill['due_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
 									<td style="text-align:right;"><?php echo currency_format($bill['due_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
-									<td><a href="<?= site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-sm btn-primary square-btn-adjust"><?php echo $this->lang->line("edit");?></a>
-										<a target="_blank" class="btn btn-primary square-btn-adjust" href="<?= site_url('bill/print_receipt') . "/" . $bill['bill_id']; ?>"><?php echo $this->lang->line('print') . ' ' . $this->lang->line('bill');?></a>
+									<td><a href="<?= site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-sm btn-primary square-btn-adjust"><i class="fa fa-pencil"></i></a>
+										<a target="_blank" class="btn btn-primary square-btn-adjust" href="<?= site_url('bill/print_receipt') . "/" . $bill['bill_id']; ?>"><i class="fa fa-print"></i></a>
 										<a 	title="<?php echo $this->lang->line("payment");?>"
 						href="<?php echo base_url()."index.php/payment/insert/".$bill['patient_id']."/payment" ?>"
 						class="btn btn-primary square-btn-adjust"
 					>
-							<?php echo $this->lang->line("payment");?>
+							<i class="fa fa-money"></i>
 					</a>
 									</td>
 								</tr>

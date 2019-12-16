@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <?php  
 	if(isset($payment)){
 		$payment_additional_detail = $payment['additional_detail'];
@@ -17,10 +35,10 @@
 		$patient_last_name = $patient['last_name'];
 		$patient_name = $patient_first_name . " " . $patient_middle_name . " " . $patient_last_name;
 	}else{
-		$patient_name = " " ;	
+		$patient_name = " " ;
 	}
 	$ttl_due_amount = 0;
-?> 
+?>
 <script>
 	function number_format (number, decimals, dec_point, thousands_sep) {
 		// Strip all characters but numerical ones.
@@ -55,21 +73,21 @@
 		var in_account_amount = <?=($patient['in_account_amount']!=NULL)?$patient['in_account_amount']:0;?>;
 		$("#adjust_from_account_amount").html(in_account_amount);
 		$("#adjust_from_account_display").html(currency_format(in_account_amount));
-		
+
 		<?php if(isset($patient_id) && $patient_id !=0 && !isset($payment)){ ?>
-				
+
 				var this_patient_id = <?=$patient_id;?>;
 				var billArray = [
-				<?php 
+				<?php
 				$total_due_amount = 0;
 				foreach($bills as $bill){
-					$total_due_amount = $total_due_amount + $bill['due_amount'];	
+					$total_due_amount = $total_due_amount + $bill['due_amount'];
 					$bill_due_amount = currency_format($bill['due_amount']);
-					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;	
+					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;
 					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
 				}
 				$total_due_amount = currency_format($total_due_amount );
-				if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;	
+				if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;
 				?>
 				];
 				var total_due_amount = 0;
@@ -89,7 +107,7 @@
 						if(index == 3){	//due amount w/o string
 							due_amount_val = value;
 						}
-						
+
 					});
 					if(this_patient_id == patient_id){
 						$("#bill_detail").append("<tr><td><a href='<?=site_url('bill/edit/');?>/"+bill_id+"' class='btn btn-primary btn-sm square-btn-adjust'>"+bill_id+"</a><input type='hidden' name='bill_id[]' value='"+bill_id+"'/></td><td style='text-align:right;'>"+due_amount+"</td><td class='adjust_amount' style='text-align:right;' amount='"+due_amount_val+"'></td></tr>");
@@ -109,7 +127,7 @@
 			autoFocus: true,
 			source: searcharrpatient,
 			minLength: 1,//search after one characters
-			
+
 			select: function(event,ui){
 				//do something
 				$("#patient_id").val(ui.item ? ui.item.id : '');
@@ -118,7 +136,7 @@
 				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
 				load_bill_table(ui.item.id);
 			},
-			
+
 			change: function(event, ui) {
 				 if (ui.item == null) {
 					$("#patient_id").val('');
@@ -127,7 +145,7 @@
 					}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#patient_name").val('');
@@ -158,7 +176,7 @@
 				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
 				load_bill_table(ui.item.id);
 			},
-			change: function(event, ui) 
+			change: function(event, ui)
 			{
 				if (ui.item == null) {
 					$("#patient_id").val('');
@@ -168,9 +186,9 @@
 					$("#ssn_id").val('');
 				}
 			},
-			response: function(event, ui) 
+			response: function(event, ui)
 			{
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#phone_number").val('');
@@ -179,7 +197,7 @@
 					$("#ssn_id").val('');
 				}
 			}
-		});   
+		});
 		var searcharrmob=[<?php $i = 0;
 		foreach ($patients as $p) {
 			if ($i > 0) {
@@ -212,7 +230,7 @@
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#phone_number").val('');
@@ -221,7 +239,7 @@
 					$("#ssn_id").val('');
 				}
 			}
-		});  
+		});
 		var search_ssn_id=[<?php $i = 0;
 		foreach ($patients as $p) {
 			if ($i > 0) {
@@ -254,7 +272,7 @@
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#phone_number").val('');
@@ -263,16 +281,16 @@
 					$("#ssn_id").val('');
 				}
 			}
-		});  
+		});
 		function load_bill_table(this_patient_id){
 			var billArray = [
-				<?php 
+				<?php
 				$total_due_amount = 0;
 				foreach($bills as $bill){
-					
-					$total_due_amount = $total_due_amount + $bill['due_amount'];	
+
+					$total_due_amount = $total_due_amount + $bill['due_amount'];
 					$bill_due_amount = currency_format($bill['due_amount']);
-					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;	
+					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;
 					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
 				}
 				?>
@@ -298,19 +316,19 @@
 					if(index == 3){	//due amount string
 						due_amount_val = value;
 					}
-					
+
 				});
 				if(this_patient_id == patient_id){
 					$("#bill_detail").append("<tr><td><a href='<?=site_url('bill/edit/');?>/"+bill_id+"' class='btn btn-primary btn-sm square-btn-adjust'>"+bill_id+"</a><input type='hidden' name='bill_id[]' value='"+bill_id+"'/></td><td style='text-align:right;'>"+due_amount+"</td><td style='text-align:right;' class='adjust_amount' amount='"+due_amount_val+"'></td></tr>");
 					total_due_amount = parseInt(total_due_amount) + parseInt(due_amount_val);
 				}
-				
+
 			});
 			$("#bill_detail").append("<tr><td>Patient Account</td><td style='text-align:right;'></td><td style='text-align:right;' id='in_account'></td><input type='hidden' id='in_account_amount' name='in_account_amount' value=''/></tr>");
-				
+
 			$("#bill_detail_footer").append("<tr><th>Total</th><th style='text-align:right;'>"+currency_format(total_due_amount)+"<input type='hidden' id='total_due_amount' name='total_due_amount' value='"+total_due_amount+"'/></th><th style='text-align:right;' id='total_payment_amount'></th></tr>");
 			$("#bill_detail_footer").append("<tr><th colspan='2'>Total Due After Payment</th><th style='text-align:right;' id='total_due_after_payment'>"+total_due_after_payment+"</th></tr>");
-			
+
 		}
 		<?php } ?>
 		$("#adjust_from_account").click(function () {
@@ -321,16 +339,16 @@
 				$("#return_change").parent().hide();
 				$("#pay_mode").parent().hide();
 				$("#save_payment").val('Adjust Payment');
-				
+
 				var due_amount;
 				var payment_amount;
 				var adjust_amount;
 				var total_due_after_payment = 0;
-				
+
 				payment_amount = parseFloat($("#adjust_from_account_amount").html());
 				$('#total_payment_amount').html(currency_format(payment_amount));
 				total_due_amount = parseFloat($("#total_due_amount").val());
-				
+
 				if(payment_amount > total_due_amount){
 					in_account = payment_amount - total_due_amount;
 					$('#in_account').html(currency_format(in_account));
@@ -350,13 +368,13 @@
 						if(due_amount > payment_amount && payment_amount > 0){
 							adjust_amount = payment_amount;
 							payment_amount = 0;
-						}	
+						}
 					}
 					total_due_after_payment =  total_due_after_payment + due_amount - adjust_amount;
 					$(this).html(currency_format(adjust_amount) + '<input type="hidden" name="adjust_amount[]" value="'+adjust_amount+'" />');
 				});
 				$('#total_due_after_payment').html(currency_format(total_due_after_payment));
-				
+
 			} else {
 				$("#payment_amount").parent().show();
 				$("#payment_date").parent().show();
@@ -371,7 +389,7 @@
 			var payment_amount;
 			var adjust_amount;
 			var total_due_after_payment = 0;
-			
+
 			payment_amount = parseFloat($("#payment_amount").val());
 			total_due_amount = parseFloat($("#total_due_amount").val());
 			if(payment_amount > total_due_amount){
@@ -387,7 +405,7 @@
 			$('.adjust_amount').each(function(){
 				adjust_amount = 0;
 				due_amount = parseFloat($(this).attr('amount'));
-		
+
 				if(due_amount <= payment_amount && payment_amount > 0){
 					adjust_amount = due_amount;
 					payment_amount = payment_amount - due_amount;
@@ -395,60 +413,60 @@
 					if(due_amount > payment_amount && payment_amount > 0){
 						adjust_amount = payment_amount;
 						payment_amount = 0;
-					}	
+					}
 				}
 				total_due_after_payment =  total_due_after_payment + due_amount - adjust_amount;
 				$(this).html(currency_format(adjust_amount) + '<input type="hidden" name="adjust_amount[]" value="'+adjust_amount+'" />');
 			});
 			$('#total_due_after_payment').html(currency_format(total_due_after_payment));
-		});	
+		});
 		$('#payment_date').datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
-		}); 
-		
+		});
+
 		if($( "#pay_mode" ).find(':selected').data('needs_cash_calc') == 1){
 			$( "#cash_calculator" ).show();
 		}else{
 			$( "#cash_calculator" ).hide();
-		}	
+		}
 		if($( "#pay_mode" ).find(':selected').data('has_additional_details') == 1){
 			$( "#additional_detail" ).parent().parent().show();
 			var additional_detail_label = $( "#pay_mode" ).find(':selected').data('additional_detail_label');
 			$( "#additional_detail_label" ).html(additional_detail_label);
-				
+
 		}else{
 			$( "#additional_detail" ).parent().parent().hide();
-		}	
+		}
 		$( "#pay_mode" ).change(function() {
-			
+
 			if($(this).find(':selected').data('has_additional_details') == 1){
 				$( "#additional_detail" ).parent().parent().show();
 				var additional_detail_label = $(this).find(':selected').data('additional_detail_label');
 				$( "#additional_detail_label" ).html(additional_detail_label);
-				
+
 			}else{
 				$( "#additional_detail" ).parent().parent().hide();
 			}
-			
+
 			if($(this).find(':selected').data('needs_cash_calc') == 1){
 				$( "#cash_calculator" ).show();
 			}else{
 				$( "#cash_calculator" ).hide();
 			}
 		});
-		
-		
+
+
 		$( "#paid_cash" ).change(function() {
 			var paid_cash = $( "#paid_cash" ).val();
 			var payment_amount = $( "#payment_amount" ).val();
 			var return_change = paid_cash - payment_amount;
 			$( "#return_change" ).val(return_change);
 		});
-		
+
 	});
 </script>
 
@@ -457,33 +475,36 @@
 		<div class="col-md-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<?php echo $this->lang->line("payment_form");?>
+					<div class="row">
+						<h2><?php echo $this->lang->line("payment_form");?></h2>
+					</div>
 				</div>
 				<div class="panel-body">
 					<?php if($payment_status == 'rejected'){ ?>
 							<div class='alert alert-danger'><?php echo $this->lang->line('this_payment_is_rejected');?></div>
 					<?php } ?>
-					<?php  if(!isset($payment)){ ?> 
+					<?php  if(!isset($payment)){ ?>
 					<?php echo form_open('payment/insert/'.$patient_id.'/'.$called_from) ?>
-					<?php  }else{ ?> 
+					<?php  }else{ ?>
 					<?php echo form_open('payment/edit/'.$payment_id.'/'.$called_from) ?>
-					<?php  } ?> 
-					<?php 
+					<?php  } ?>
+					<?php
 						if(isset($payment)){
-							$payment_date = date($def_dateformate,strtotime($payment['pay_date'])); 
+							$payment_date = date($def_dateformate,strtotime($payment['pay_date']));
 						}else{
-							$payment_date = date($def_dateformate); 
+							$payment_date = date($def_dateformate);
 						}
 					?>
 					<input type="hidden" name="payment_type" value="bill_payment" />
 					<div class="col-md-12">
-						
+
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<?= $this->lang->line('search')." ".$this->lang->line('patient');?>
 								</div>
-								<div class="panel-body">
-					
+
+								<div class="panel-body table-responsive-15">
+
 									<div class="col-md-3">
 										<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
 										<input type="text" <?php if(isset($patient)){echo "readonly";}?> name="display_id" id="display_id" value="<?php if(isset($patient)){echo $patient['display_id']; } ?>" class="form-control"/>
@@ -506,19 +527,20 @@
 							<input type="hidden" name="patient_id" id="patient_id" value="<?= $patient_id; ?>" />
 							<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
 					</div>
-					<div class="col-md-12">
-						<div class="table-responsive">
-							<table class="table table-striped table-bordered table-hover" id="bill_table">
+					<div class="row">
+						<div class="table-responsive table-responsive-10">
+							<table class="display responsive nowrap" style="width:100%" id="bill_table">
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("bill_no");?></th>
 									<th style="text-align:right;"><?php echo $this->lang->line("due_amount");?></th>
 									<th style="text-align:right;"><?php echo $this->lang->line("payment_adjustement");?></th>
+                                    <th style="text-align:right;"><?php echo $this->lang->line("edit");?></th>
 								</tr>
 							</thead>
 							<?php if(isset($payment)){ //Edit Mode ?>
 							<tbody id="bill_detail">
-								<?php 
+								<?php
 									$total_due_amount = 0;
 									$total_adjust_amount = 0;
 									foreach($adjusted_bills as $bill){ ?>
@@ -527,39 +549,43 @@
 											<a href="<?=site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-primary btn-sm square-btn-adjust"><?=$bill['bill_id'];?></a>
 											<input type='hidden' name='bill_id[]' value='<?=$bill['bill_id'];?>'/>
 										</td>
-										<?php 
+										<?php
 										foreach($bills as $patient_bill){
 											if($patient_bill['bill_id'] == $bill['bill_id']){
 												$due_amount = $bill['adjust_amount'];
 												$total_due_amount = $total_due_amount + $due_amount;
 												$due_amount = currency_format($due_amount);
-												if($currency_postfix) 
-													$due_amount = $due_amount . $currency_postfix;	
+												if($currency_postfix)
+													$due_amount = $due_amount . $currency_postfix;
 											}
 										}
 										?>
 										<td style="text-align:right;"><?=$due_amount;?></td>
-										<?php 
+										<?php
 										$adjust_amount = currency_format($bill['adjust_amount']);
 										$total_adjust_amount = $total_adjust_amount + $bill['adjust_amount'];
-										if($currency_postfix) $adjust_amount = $adjust_amount . $currency_postfix;	
-										
+										if($currency_postfix) $adjust_amount = $adjust_amount . $currency_postfix;
+
 										?>
 										<td style="text-align:right;" class="adjust_amount" amount="<?=$bill['adjust_amount'];?>" ><?=$adjust_amount;?><input type="hidden" name="adjust_amount[]" value="<?=$bill['adjust_amount'];?>" /></td>
-										
+                                            <td class="text-right">
+                                                <a href="<?=site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-primary btn-sm square-btn-adjust editbt"><i class="fa fa-pencil-square"></i></a>
+
+                                            </td>
 										</tr>
-								<?php } 
+								<?php }
 										$total_due_after_payment = $total_due_amount - $total_adjust_amount;
 										$total_due_after_payment = currency_format($total_due_after_payment);
-										if($currency_postfix) $total_due_after_payment = $total_due_after_payment . $currency_postfix;	
+										if($currency_postfix) $total_due_after_payment = $total_due_after_payment . $currency_postfix;
 										$ttl_due_amount = $total_due_amount;
 										$total_due_amount = currency_format($total_due_amount);
-										if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;	
+										if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;
 										$in_account = $payment['pay_amount']- $total_adjust_amount;
 										$total_adjust_amount = currency_format($total_adjust_amount);
-										if($currency_postfix) $total_adjust_amount = $total_adjust_amount . $currency_postfix;	
+										if($currency_postfix) $total_adjust_amount = $total_adjust_amount . $currency_postfix;
 								?>
 								<tr>
+                                    <td></td>
 									<td><?=$this->lang->line('patient_account');?></td>
 									<td style='text-align:right;'></td>
 									<td style='text-align:right;' id='in_account'><?=currency_format($in_account);?></td>
@@ -568,6 +594,7 @@
 							</tbody>
 							<tfoot id="bill_detail_footer">
 								<tr>
+                                    <th style="text-align:right;" ></th>
 									<th><?php echo $this->lang->line("total");?></th>
 									<th style="text-align:right;"><?=$total_due_amount;?><input type="hidden" name="total_due_amount" id="total_due_amount" value="<?=$ttl_due_amount;?>"/></th>
 									<th style="text-align:right;" id="total_payment_amount"><?=$total_adjust_amount;?></th>
@@ -584,7 +611,7 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="title"><?=$this->lang->line('adjust_from_account');?></label>        
+							<label for="title"><?=$this->lang->line('adjust_from_account');?></label>
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="adjust_from_account" name="adjust_from_account" value="1"><span style="display:none;" id="adjust_from_account_amount"></span>
@@ -593,23 +620,21 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="title"><?php echo $this->lang->line('payment_amount');?></label>        
+					<div class="table-responsive-30">
+						<div class="form-group col-md-6">
+							<label for="title"><?php echo $this->lang->line('payment_amount');?></label>
 							<input type="text" name="payment_amount" id="payment_amount" class="form-control" value="<?=$payment_pay_amount;?>" />
 							<?php echo form_error('payment_amount','<div class="alert alert-danger">','</div>'); ?>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="title"><?php echo $this->lang->line('payment_date');?></label>        
+                        <div class="form-group col-md-6">
+							<label for="title"><?php echo $this->lang->line('payment_date');?></label>
 							<input type="text" name="payment_date" id="payment_date" class="form-control" value="<?=$payment_date;?>" />
 							<?php echo form_error('payment_date','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="title"><?php echo $this->lang->line('payment_mode');?></label>        
+					<div class="table-responsive-30">
+						<div class="form-group col-md-6">
+							<label for="title"><?php echo $this->lang->line('payment_mode');?></label>
 							<select name="pay_mode" id="pay_mode" class="form-control">
 								<?php foreach($payment_methods as $payment_method){ ?>
 									<option data-needs_cash_calc="<?=$payment_method['needs_cash_calc'];?>" data-has_additional_details="<?=$payment_method['has_additional_details'];?>" data-additional_detail_label="<?=$payment_method['additional_detail_label'];?>" value="<?=$payment_method['payment_method_name'];?>" <?php if ($payment_pay_mode == $payment_method['payment_method_name']) {echo "selected";} ?>><?=$payment_method['payment_method_name'];?></option>
@@ -619,45 +644,51 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label id="additional_detail_label" for="title"><?php echo $this->lang->line('additional_detail');?></label>        
+							<label id="additional_detail_label" for="title"><?php echo $this->lang->line('additional_detail');?></label>
 							<input type="text" name="additional_detail" id="additional_detail" class="form-control" value="<?=$payment_additional_detail;?>" />
 							<?php echo form_error('additional_detail','<div class="alert alert-danger">','</div>'); ?>
-						</div>	
+						</div>
 					</div>
 					<div class="col-md-12" id="cash_calculator">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="title"><?php echo $this->lang->line('paid_cash');?></label>        
+								<label for="title"><?php echo $this->lang->line('paid_cash');?></label>
 								<input type="text" name="paid_cash" id="paid_cash" class="form-control" value="" />
 								<small><?php echo $this->lang->line('calculation_purpose_only');?></small>
-							</div>	
+							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="title"><?php echo $this->lang->line('return_change');?></label>        
+								<label for="title"><?php echo $this->lang->line('return_change');?></label>
 								<input type="text" name="return_change" id="return_change" readonly="readonly" class="form-control" value="" />
-							</div>	
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<?php if(!isset($payment)){ ?> 
-							<input class="btn btn-primary" type="submit" id="save_payment" value="Add Payment" name="submit" />
-							<?php }else{ ?> 
-							<input class="btn btn-primary" type="submit" value="Update Payment" name="submit" />
-							<?php } ?> 
-						</div>
-					</div>
-					<?php if(!isset($payment)){ ?> 
-						<div class="col-md-12">
-							<div class="form-group">
-								<a href="<?=site_url("appointment/index"); ?>" class="btn btn-primary" ><?php echo $this->lang->line('back_to_app');?></a>
 							</div>
 						</div>
-					<?php } ?> 
+					</div>
+					<div class="table-responsive-25">
+					<div class="col-md-12">
+						<div class="form-group">
+							<?php if(!isset($payment)){ ?>
+								<input class="btn btn-primary square-btn-adjust" type="submit" id="save_payment" value="Add Payment" name="submit" />
+							<?php }else{ ?>
+								<input class="btn btn-primary square-btn-adjust" type="submit" value="Update Payment" name="submit" />
+							<?php } ?>
+						</div>
+					</div>
+					</div>
+					<?php if(!isset($payment)){ ?>
+						<div class="table-responsive-25">
+						<div class="col-md-12">
+							<div class="form-group">
+									<a href="<?=site_url("payment/index"); ?>" class="btn btn-primary square-btn-adjust" >Back to Payments</a>
+									<a href="<?=site_url("appointment/index"); ?>" class="btn btn-primary square-btn-adjust" >Back to Appointments</a>
+									
+								</div>
+							</div>
+						</div>
+					<?php } ?>
 					<?php echo form_close(); ?>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>			
+</div>

@@ -1,4 +1,22 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
+<?php
 class Bill extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -198,9 +216,12 @@ class Bill extends CI_Controller {
 
 					} else {
 						$lab_test = $this->input->post('lab_test');
+						$lab_test_id = $this->input->post('lab_test_id');
 						$test_price = $this->input->post('test_price');
 
 						$this->bill_model->add_bill_item($action, $bill_id, $lab_test, 1, $test_price,$test_price,NULL,NULL);
+            			$this->load->model('lab/lab_model');
+            			$this->lab_model->add_test_visit_r($lab_test_id,'pending',NULL,$bill_id);
 						$this->bill_model->recalculate_tax($bill_id);
 					}
 
@@ -445,7 +466,7 @@ class Bill extends CI_Controller {
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
 	        $header_data['software_name']= $this->settings_model->get_data_value("software_name");
-      
+
 			if($tax_type == "item"){
 				$data['tax_report'] = $this->bill_model->get_tax_report($from_date,$to_date);
 			}elseif($tax_type == "bill"){

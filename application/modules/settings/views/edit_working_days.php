@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">	
 	$(window).load(function(){
 		$('#time').hide();
@@ -9,14 +27,14 @@
 		if(status=='Half Day'){
 			$('#time').show();
 		}
-		
+
 		$('#working_date').datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
 			scrollMonth:false,
 			scrollTime:false,
 			scrollInput:false
-		}); 
+		});
 		$('#end_date').datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
@@ -28,13 +46,13 @@
 			datepicker:false,
 			format: '<?=$def_timeformate; ?>',
 			formatTime:'<?=$def_timeformate; ?>'
-		});    
+		});
 		$('#end_time').datetimepicker({
 			datepicker:false,
 			format: '<?=$def_timeformate; ?>',
 			formatTime:'<?=$def_timeformate; ?>'
-		}); 
-				
+		});
+
 		$('#working_date').change(function () {
 			var w_date=this.value;
 			document.getElementById("end_date").value = w_date;
@@ -47,9 +65,9 @@
 					else{
 					$('#time').hide();
 					}
-				
+
 			});
-		
+
 	});
 </script>
 <?php
@@ -98,7 +116,7 @@ if(isset($exceptional)){
 							<input type="text" id="end_date" name="end_date" class="form-control" value="<?= date($def_dateformate,strtotime($end_date));?>">
 							<?php echo form_error('end_date','<div class="alert alert-danger">','</div>'); ?>
 						</div>
-					
+
 						<div class="col-md-3">
 							<label><?php echo $this->lang->line("status");?></label>
 							<?php
@@ -134,16 +152,16 @@ if(isset($exceptional)){
 						<div class="col-md-3">
 							<p></p>
 							<input type="submit" name="submit" class="btn btn-primary square-btn-adjust btn-sm" value="<?=$this->lang->line('save');?>">
-							<a href="<?=site_url('settings/working_days/');?>" class="btn btn-info square-btn-adjust btn-sm" ><?php echo $this->lang->line('back');?></a>
+							<a href="<?=site_url('settings/working_days/');?>" class="btn btn-primary square-btn-adjust btn-sm" ><?php echo $this->lang->line('back');?></a>
 						</div>
 					</div>
 					<?php echo form_close(); ?>
 					<div class="col-md-12">
 						<p></p>
 					</div>
-					
+
 				</div>
 		</div>
 		</div>
 	</div>
-</div>	
+</div>

@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <head>
 <style>
 	.table-bordered{
@@ -50,7 +68,7 @@
 							<tbody>
 								<?php foreach($patient_report as $patient){
 						$followup_date = "";
-						
+
 						if($patient['followup_date'] != '0000-00-00' && $patient['followup_date'] != NULL){
 							$followup_date = date($def_dateformate,strtotime($patient['followup_date']));
 						}
@@ -78,7 +96,7 @@
 					</div>
 				</div>
 			</div>
-		
+
 	</div>
 </div>
 </body>

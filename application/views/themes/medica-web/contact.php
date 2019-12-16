@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">	
 	$(window).load(function(){
 		$("#contact_form").submit(function(){
@@ -17,9 +35,9 @@
 				<div class="wrap">
 					<!---start-contact---->
 					<div class="contact">
-						<div class="section group">				
+						<div class="section group">
 				<div class="col span_1_of_3">
-					
+
       			<div class="company_address">
 				     	<h3>Company Information :</h3>
 						<p><?=$clinic['clinic_address'];?></p>
@@ -27,7 +45,7 @@
 				 	 	<p>Email: <span><?=$clinic['email'];?></span></p>
 				   		<p>Follow on: <span><a href="http://<?=$frontend_settings['facebook'];?>">Facebook</a></span>, <span><a href="http://<?=$frontend_settings['twitter'];?>">Twitter</a></span></p>
 				   </div>
-				</div>				
+				</div>
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
 				  	<h3>Contact Us</h3>
@@ -54,7 +72,7 @@
 							</div>
 					    </form>
 				    </div>
-  				</div>				
+  				</div>
 			  </div>
 					</div>
 					<!---End-contact---->
@@ -63,5 +81,3 @@
 			<!----End-content----->
 		</div>
 		<!---End-wrap---->
-		
-

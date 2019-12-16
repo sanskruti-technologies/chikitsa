@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">
     $(window).load(function() {
 		$(".expand-collapse-header").click(function () {
@@ -9,15 +27,15 @@
 				$(this).find("i").removeClass("fa-arrow-circle-up");
 				$(this).find("i").addClass("fa-arrow-circle-down");
 			}
-			
+
 			$content = $(this).next('.expand-collapse-content');
 			$content.slideToggle(500);
 
 		});
-		$('.datetimepicker').datetimepicker({		
+		$('.datetimepicker').datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate; ?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
 		});
@@ -28,10 +46,10 @@
 			minDate:0,
 			<?php } ?>
 			maxDate:0,
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
-		}); 
+		});
 		$('#visit_time').datetimepicker({
 			datepicker:false,
 			step:<?=$time_interval*60;?>,
@@ -41,20 +59,24 @@
 			minTime:'<?=date($def_timeformate,strtotime($clinic_start_time));?>',
 			maxTime:'<?=date($def_timeformate,strtotime($clinic_end_time . "+ $time_interval minute"));?>',
 			<?php } ?>
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
-		}); 
+		});
 		$('#followup_date').datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate; ?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
 		});
 		$('#visit_date').change(function() {
 			var startdate = $('#visit_date').val();
-			$('#followup_date').val(moment(startdate, '<?=$morris_date_format; ?>').add(<?=$clinic_settings['next_followup_days'];?>, 'day').format('<?=$morris_date_format; ?>'));
+			var add_day=<?php echo $clinic_settings['next_followup_days']; ?> ;
+			var formate_followup = moment(startdate,'DD MM YYYY').add(add_day, 'days').format('DD-MM-YYYY');
+			console.log(formate_followup);
+			$('#followup_date').val(formate_followup);
+			//$('#followup_date').val(moment(startdate, '<?=$morris_date_format; ?>').add(<?=$clinic_settings['next_followup_days'];?>, 'day').format('<?=$morris_date_format; ?>'));
 		});
 		$('#reference_by').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
@@ -66,14 +88,14 @@
 		}else{
 			$('#reference_details').parent().hide();
 		}
-	});	
+	});
     });
-	
+
 $(document).ready(function(){
 	var optionSelected = $("option:selected", this);
 	var reference_add_option  = optionSelected.attr('reference_add_option');
 	var placeholder  = optionSelected.attr('reference_placeholder');
-	
+
 	if(reference_add_option == 1){
 		$('#reference_details').parent().show();
 		$("#reference_details").attr("placeholder", placeholder);
@@ -81,7 +103,7 @@ $(document).ready(function(){
 		$('#reference_details').parent().hide();
 	}
 <?php if (in_array("prescription", $active_modules)) { ?>
-						
+
 		var medicine_array = [<?php
 				$i=0;
 				foreach ($medicines as $medicine){
@@ -103,14 +125,14 @@ $(document).ready(function(){
 					$("#medicine_name").val('');
 					}
 			},
-		});			
+		});
 			$( "#add_medicine" ).click(function() {
 											event.preventDefault();
 
 											var medicine_count = parseInt( $( "#medicine_count" ).val());
 											medicine_count = medicine_count + 1;
 											$( "#medicine_count" ).val(medicine_count);
-											
+
 											var medicine = "<div><div class='col-md-2'><label for='medicine' style='display:block;text-align:left;'>Medicine</label><input type='text' name='medicine_name[]' id='medicine_name"+medicine_count+"' class='form-control'/><input type='hidden' name='medicine_id[]' id='medicine_id"+medicine_count+"' class='form-control'/></div>";
 											medicine += "<div class='col-md-6'><label for='frequency' style='display:block;text-align:left;'>Frequency</label><div class='col-md-1'>M</div><div class='col-md-3'><input type='text' name='freq_morning[]' id='freq_morning' class='form-control'/></div><div class='col-md-1'>A</div><div class='col-md-3'><input type='text' name='freq_afternoon[]' id='freq_afternoon' class='form-control'/></div><div class='col-md-1'>N</div><div class='col-md-3'><input type='text' name='freq_evening[]' id='freq_evening' class='form-control'/></div></div>";
 											medicine += "<div class='col-md-1'><label for='days' style='display:block;text-align:left;'>Days</label><input type='text' name='days[]' id='days' class='form-control'/></div>";
@@ -118,9 +140,9 @@ $(document).ready(function(){
 											medicine += "<div class='col-md-1'><label></label><a href='#' id='delete_medicine"+medicine_count+"' class='btn btn-danger btn-sm square-btn-adjust'>Delete</a></div></div>";
 											$( "#prescription_list" ).append(medicine);
 
-											$("#delete_medicine"+medicine_count).click(function() {			
+											$("#delete_medicine"+medicine_count).click(function() {
 												$(this).parent().parent().remove();
-											});			
+											});
 											$("#medicine_name"+medicine_count).autocomplete({
 												source: medicine_array,
 												minLength: 1,//search after one characters
@@ -134,12 +156,12 @@ $(document).ready(function(){
 														$("#medicine_name"+medicine_count).val('');
 													}
 												},
-											});											
+											});
 										});
 	$("#add_medicine_submit").click(function(event) {
 		event.preventDefault();
 		var medicine_name = $("#add_medicine_name").val();
-		console.log(medicine_array);	
+		console.log(medicine_array);
 		$.post( "<?php echo site_url('prescription/add_medicine');?>",
 			{medicine_name: medicine_name},
 			function(data,status){
@@ -148,14 +170,14 @@ $(document).ready(function(){
 				$( "#medicine_name" ).autocomplete('option', 'source', medicine_array);
 			});
 		});
-		  
-										
+
+
 	<?php } ?>
 });
 </script>
 
 
-<?php 
+<?php
 	$bal_amount=0;
 	$total_amount=0;
 ?>
@@ -218,7 +240,7 @@ $(document).ready(function(){
 								<span><?= $patient['gender']; ?></span>
 							</div>
 						</div>
-						<?php 
+						<?php
 						$contacts = "";
 						foreach($contact_details as $contact_detail){
 							if($contact_detail['contact_id'] == $patient['contact_id']){
@@ -257,9 +279,9 @@ $(document).ready(function(){
 					<div class="col-md-3">
 						<div class="form-group">
 							<?php if(isset($addresses['contact_image']) && $addresses['contact_image'] != ""){ ?>
-								<img src="<?php echo base_url() . $addresses['contact_image']; ?>" height="150" width="150"/>	
+								<img src="<?php echo base_url() . $addresses['contact_image']; ?>" height="150" width="150"/>
 							<?php }else{ ?>
-								<img src="<?php echo base_url() . "/uploads/images/Profile.png" ?>" height="150" width="150"/>	
+								<img src="<?php echo base_url() . "/uploads/images/Profile.png" ?>" height="150" width="150"/>
 							<?php } ?>
 						</div>
 					</div>
@@ -277,17 +299,17 @@ $(document).ready(function(){
 				</div>
 				<div class="panel-body expand-collapse-content">
 					<?php echo form_open('patient/visit/' . $patient_id,$appointment_id); ?>
-					<div class="col-md-12">	
+					<div class="col-md-12">
 						<input type="hidden" name="patient_id" value="<?= $patient_id; ?>"/>
 						<input type="hidden" name="session_date_id" value="<?=$session_date_id; ?>"/>
 						<div class="col-md-12">
 							<?php if($session_date_id != NULL){ ?>
-							<div class="alert alert-warning"><?=$this->lang->line('planned_visit');?></div>		
+							<div class="alert alert-warning"><?=$this->lang->line('planned_visit');?></div>
 							<?php } ?>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="visit_doctor"><?=$this->lang->line('doctor');?></label>
-									<?php 
+									<?php
 										if ($user_level == 'Doctor') {
 											$doctor_name = $doctors['name'];
 											?><input type="text" name="doctor_name" class="form-control" readonly="readonly" value="<?=$doctor['name'];?>"/>
@@ -305,26 +327,26 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">	
-							<div class="col-md-4">	
+						<div class="col-md-12">
+							<div class="col-md-4">
 								<div class="form-group">
 									<label for="visit_date"><?=$this->lang->line('visit')." ".$this->lang->line('date');?></label>
 									<input type="text" name="visit_date" id="visit_date" value="<?php echo $curr_date; ?>" class="form-control"/>
 									<?php echo form_error('visit_date','<div class="alert alert-danger">','</div>'); ?>
 								</div>
 							</div>
-							<div class="col-md-4">	
+							<div class="col-md-4">
 								<div class="form-group">
-									<label for="visit_time"><?php echo $this->lang->line('time');?></label>	
+									<label for="visit_time"><?php echo $this->lang->line('time');?></label>
 									<input type="text" name="visit_time" id="visit_time" value="<?php echo $curr_time; ?>" class="form-control"/>
 									<?php echo form_error('visit_time','<div class="alert alert-danger">','</div>'); ?>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">	
-							<div class="col-md-4">	
+						<div class="col-md-12">
+							<div class="col-md-4">
 								<div class="form-group">
-									<label for="type"><?php echo $this->lang->line('type');?></label> 
+									<label for="type"><?php echo $this->lang->line('type');?></label>
 									<select name="type" class="form-control">
 										<option value="New Visit"><?php echo $this->lang->line('new')." ".$this->lang->line('visit');?></option>
 										<option <?php if ($visits) {echo 'selected = "selected"';} ?> value="Established Patient"><?php echo $this->lang->line('established_patient');?></option>
@@ -339,21 +361,21 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</div>
-						
-						<div class="col-md-12">	
-							<div class="col-md-12">	
+
+						<div class="col-md-12">
+							<div class="col-md-12">
 								<div class="form-group">
-									<label for="notes"><?php echo $this->lang->line('notes');?></label> 
+									<label for="notes"><?php echo $this->lang->line('notes');?></label>
 									<textarea rows="4" cols="100" class="form-control" name="notes"></textarea>
 									<?php echo form_error('notes','<div class="alert alert-danger">','</div>'); ?>
 								</div>
 							</div>
 						</div>
 						<?php if (in_array("prescription", $active_modules)) { ?>
-						<div class="col-md-12">	
-							<div class="col-md-12">	
+						<div class="col-md-12">
+							<div class="col-md-12">
 								<div class="form-group">
-									<label for="patient_notes"><?php echo $this->lang->line('notes_for_patient');?></label> 
+									<label for="patient_notes"><?php echo $this->lang->line('notes_for_patient');?></label>
 									<textarea rows="4" cols="100" class="form-control" name="patient_notes"></textarea>
 									<?php echo form_error('patient_notes','<div class="alert alert-danger">','</div>'); ?>
 								</div>
@@ -361,8 +383,8 @@ $(document).ready(function(){
 						</div>
 						<?php } ?>
 						<?php if (in_array("disease", $active_modules)) { ?>
-						<div class="col-md-12">	
-							<div class="col-md-6">	
+						<div class="col-md-12">
+							<div class="col-md-6">
 								<label for="visit_diseases" style="display:block;text-align:left;"><?php echo $this->lang->line('diagnosed_diseases');?></label>
 								<select id="disease" class="form-control" multiple="multiple" style="width:350px;" tabindex="4" name="disease[]">
 									<?php foreach ($diseases as $disease) { ?>
@@ -374,7 +396,7 @@ $(document).ready(function(){
 							<div class="col-md-6">
 								<a href="#" id="add_related_treatment" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('add_related_treatment');?></a>
 							</div>
-							
+
 							<div class="modal fade" id="addTreatmentModal" tabindex="-1" role="dialog" aria-labelledby="addTreatmentModalLabel" aria-hidden="true" style="display: none;">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -421,8 +443,8 @@ $(document).ready(function(){
 						</div>
 						<?php } ?>
 						<?php if (in_array("treatment", $active_modules)) { ?>
-						<div class="col-md-12">	
-							<div class="col-md-4">	
+						<div class="col-md-12">
+							<div class="col-md-4">
 								<label for="visit_treatment" style="display:block;text-align:left;"><?php echo $this->lang->line('treatment');?></label>
 								<select id="treatment" class="form-control" multiple="multiple" style="width:350px;" tabindex="4" name="treatment[]">
 									<?php foreach ($treatments as $treatment) { ?>
@@ -433,13 +455,13 @@ $(document).ready(function(){
 									$(window).load(function() {
 										$('#treatment').chosen();
 										$('#doctor').change(function() {
-											
+
 											$('#treatment').val([]);
-											
+
 											var departments = $(this).find(':selected').data('departments');
 											departments = departments.toString();
 											var department_array = departments.split(',');
-											
+
 											$("#treatment > option").each(function() {
 												var treatment_departments = $(this).data('departments');
 												treatment_departments = treatment_departments.toString();
@@ -455,13 +477,13 @@ $(document).ready(function(){
 													$(this).hide();
 												}
 											});
-											
+
 											$('#treatment').trigger("chosen:updated");
 										});
 										$('#add_related_treatment').on('click',function(){
 											event.preventDefault();
 											$("#addTreatmentTable tbody tr").hide();
-											
+
 											var diseases = $("#disease").val();
 											if(diseases != null){
 												$.each(diseases, function( index, disease ) {
@@ -473,7 +495,7 @@ $(document).ready(function(){
 										});
 										$( "#add_treatment_submit" ).click(function() {
 											event.preventDefault();
-											
+
 											$(".disease_treatment_checkbox").each(function() {
 												if ($(this).is(":checked")) {
 													var treatment_id = $(this).val();
@@ -482,15 +504,15 @@ $(document).ready(function(){
 													$('#treatment').trigger("chosen:updated");
 												}
 											});
-										});	
+										});
 									});
 								</script>
 							</div>
 						</div>
 						<?php } ?>
 						<?php if (in_array("lab", $active_modules)) { ?>
-						<div class="col-md-12">	
-							<div class="col-md-4">	
+						<div class="col-md-12">
+							<div class="col-md-4">
 								<label for="lab_test" style="display:block;text-align:left;"><?php echo $this->lang->line('lab_tests');?></label>
 								<select id="lab_test" class="form-control" multiple="multiple" style="width:350px;" name="lab_test[]">
 									<?php foreach ($lab_tests as $lab_test) { ?>
@@ -506,9 +528,9 @@ $(document).ready(function(){
 						</div>
 						<?php } ?>
 						<?php if (in_array("prescription", $active_modules)) { ?>
-						
+
 						<script>
-									$(window).load(function() {    
+									$(window).load(function() {
 										var medicine_array = [<?php
 											$i=0;
 											foreach ($medicines as $medicine){
@@ -537,7 +559,7 @@ $(document).ready(function(){
 											var medicine_count = parseInt( $( "#medicine_count" ).val());
 											medicine_count = medicine_count + 1;
 											$( "#medicine_count" ).val(medicine_count);
-											
+
 											var medicine = "<div><div class='col-md-2'><label for='medicine' style='display:block;text-align:left;'>Medicine</label><input type='text' name='medicine_name[]' id='medicine_name"+medicine_count+"' class='form-control'/><input type='hidden' name='medicine_id[]' id='medicine_id"+medicine_count+"' class='form-control'/></div>";
 											medicine += "<div class='col-md-6'><label for='frequency' style='display:block;text-align:left;'>Frequency</label><div class='col-md-1'>M</div><div class='col-md-3'><input type='text' name='freq_morning[]' id='freq_morning' class='form-control'/></div><div class='col-md-1'>A</div><div class='col-md-3'><input type='text' name='freq_afternoon[]' id='freq_afternoon' class='form-control'/></div><div class='col-md-1'>N</div><div class='col-md-3'><input type='text' name='freq_evening[]' id='freq_evening' class='form-control'/></div></div>";
 											medicine += "<div class='col-md-1'><label for='days' style='display:block;text-align:left;'>Days</label><input type='text' name='days[]' id='days' class='form-control'/></div>";
@@ -545,9 +567,9 @@ $(document).ready(function(){
 											medicine += "<div class='col-md-1'><label></label><a href='#' id='delete_medicine"+medicine_count+"' class='btn btn-danger btn-sm square-btn-adjust'>Delete</a></div></div>";
 											$( "#prescription_list" ).append(medicine);
 
-											$("#delete_medicine"+medicine_count).click(function() {			
+											$("#delete_medicine"+medicine_count).click(function() {
 												$(this).parent().parent().remove();
-											});			
+											});
 											$("#medicine_name"+medicine_count).autocomplete({
 												source: medicine_array,
 												minLength: 1,//search after one characters
@@ -561,24 +583,24 @@ $(document).ready(function(){
 														$("#medicine_name"+medicine_count).val('');
 													}
 												},
-											});											
+											});
 										});
-										
+
 									});
 								</script>
-						
-						<div class="col-md-12">	
-							<div class="col-md-12">	
+
+						<div class="col-md-12">
+							<div class="col-md-12">
 								<label style="display:block;text-align:left;"><?php echo $this->lang->line('prescription');?></label>
 							</div>
 							<div class="col-md-12">
 								<a href="#" id="add_medicine" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('add_another_medicine');?></a>
 								<a id="add_new_medicine" class="btn btn-primary square-btn-adjust"  data-toggle="modal" data-target="#myModal">Add Medicine</a>
-								
+
 								<input type="hidden" id="medicine_count" value="0"/>
 							</div>
 							<div id="prescription_list">
-							<div class="col-md-2">	
+							<div class="col-md-2">
 								<label for="medicine" style="display:block;text-align:left;"><?php echo $this->lang->line('medicine');?></label>
 								<input type="text" name="medicine_name[]" id="medicine_name" class="form-control"/>
 								<input type="hidden" name="medicine_id[]" id="medicine_id" class="form-control"/>
@@ -616,8 +638,8 @@ $(document).ready(function(){
 						</div>
 						<?php } ?>
 						<?php if($session_date_id == NULL){ ?>
-						<div class="col-md-12">	
-							<div class="col-md-4">	
+						<div class="col-md-12">
+							<div class="col-md-4">
 								<div class="form-group">
 									<label for="followup_date"><?php echo $this->lang->line('next_follow_date');?></label>
 									<input type="text" class="form-control" name="followup_date" id="followup_date" value="<?php echo date($def_dateformate, strtotime($next_followup_date)); ?>"/>
@@ -626,15 +648,15 @@ $(document).ready(function(){
 						</div>
 						<?php } ?>
 						<?php if (in_array("marking",$active_modules)) {?>
-							<div class="col-md-12">	
+							<div class="col-md-12">
 								<div class="col-md-4">
 									<a class="btn btn-primary square-btn-adjust" href="<?= site_url('marking/index') ."/". $patient['patient_id'] ."/". $this->input->post('doctor'); ?>"><?php echo $this->lang->line('marking');?></a>
 								</div>
 							</div>
-						<?php } ?>	
+						<?php } ?>
 						<?php if (in_array("prescription", $active_modules)){
 							if (file_exists(APPPATH."views/log/display_fields.".EXT)){
-								$this->load->view('history/display_fields'); 
+								$this->load->view('history/display_fields');
 							}else{?>
 								<div class="col-md-12">
 							<div class="col-md-6">
@@ -643,14 +665,14 @@ $(document).ready(function(){
 									<h3><?=$section['section_name'];?></h3>
 									<?php $section_id = $section['section_id'];?>
 									<?php foreach($section_fields as $field){?>
-										<?php 
+										<?php
 										if(isset($patient_history_details[$field['field_id']])){
 											$value = $patient_history_details[$field['field_id']];
 										}else{
 											$value = "";
 										}?>
 										<div class="form-group">
-											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label> 
+											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label>
 										<?php if($field['field_type'] == "text"){?>
 											<input type="input" class="form-control" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
 										<?php }elseif($field['field_type'] == "date"){ ?>
@@ -660,8 +682,8 @@ $(document).ready(function(){
 												<?php foreach($field_options as $field_option){ ?>
 													<?php if($field_option['field_id'] == $field['field_id']){?>
 													<option value="<?=$field_option['option_value'];?>" <?php if($field_option['option_value'] == $value ){echo "selected";}?>><?=$field_option['option_label'];?></option>
-													<?php } ?> 
-												<?php } ?> 
+													<?php } ?>
+												<?php } ?>
 											</select>
 										<?php }elseif($field['field_type'] == "checkbox"){ ?>
 											<?php foreach($field_options as $field_option){ ?>
@@ -669,10 +691,10 @@ $(document).ready(function(){
 													<label class="checkbox">
 														<input type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
 													</label>
-												<?php } ?> 
-											<?php } ?> 
+												<?php } ?>
+											<?php } ?>
 										<?php }elseif($field['field_type'] == "radio"){ ?>
-											
+
 											<?php foreach($field_options as $field_option){ ?>
 												<?php if($field_option['field_id'] == $field['field_id']){?>
 													<div class="radio">
@@ -680,9 +702,9 @@ $(document).ready(function(){
 															<input type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
 														</label>
 													</div>
-												<?php } ?> 
-											<?php } ?> 
-										<?php } ?> 
+												<?php } ?>
+											<?php } ?>
+										<?php } ?>
 											<?php echo form_error($field['field_id'],'<div class="alert alert-danger">','</div>'); ?>
 										</div>
 									<?php } ?>
@@ -692,8 +714,8 @@ $(document).ready(function(){
 						</div>
 							<?php }
 						}?>
-						<div class="col-md-12">	
-							<div class="col-md-4">	
+						<div class="col-md-12">
+							<div class="col-md-4">
 								<div class="form-group">
 									<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" /><?php echo $this->lang->line('save');?></button>
 									<?php  if($level != "Nurse"){?>
@@ -701,9 +723,9 @@ $(document).ready(function(){
 									<?php } ?>
 								</div>
 							</div>
-							<div class="col-md-4">	
+							<div class="col-md-4">
 								<input type="hidden" name="appointment_id" value="<?=$appointment_id;?>"/>
-								<?php if ($appointment_id != NULL) { 
+								<?php if ($appointment_id != NULL) {
 									$time = explode(":", $start_time); ?>
 									<!--<div class="form-group">
 										<a class="btn btn-primary btn-sm square-btn-adjust" href='<?//=base_url() . "index.php/appointment/change_status/" . $appointment_id . "/Complete";?>'><?php //echo $this->lang->line('complete');?></a>
@@ -711,7 +733,7 @@ $(document).ready(function(){
 								<?php } ?>
 							</div>
 						</div>
-						
+
 					</div>
 					<?php echo form_close(); ?>
 				</div>
@@ -720,10 +742,10 @@ $(document).ready(function(){
 				<div class="panel-heading expand-collapse-header">
 					<i class="fa fa-arrow-circle-up"></i>
 					<?php echo $this->lang->line('visits');?> <?php echo $this->lang->line('toggle_display');?>
-				</div>	
+				</div>
 				<div class="panel-body expand-collapse-content">
 					<div >
-						<table class="table table-striped table-bordered table-hover" id="visit_table">			
+						<table class="table table-striped table-bordered table-hover" id="visit_table">
 						<thead>
 							<tr>
 								<th style="display:none;"></th>
@@ -738,7 +760,7 @@ $(document).ready(function(){
 								<th><?php echo $this->lang->line('edit');?></th>
 							</tr>
 						</thead>
-						<?php $i = 1; ?>     
+						<?php $i = 1; ?>
 						<tbody>
 						<?php if ($visits) { ?>
 						<?php foreach ($visits as $visit) { ?>
@@ -750,7 +772,7 @@ $(document).ready(function(){
 								$flag = FALSE;
 								foreach ($visit_diseases as $visit_disease) {
 									if($visit_disease['visit_id'] == $visit['visit_id']){
-										if ($flag == FALSE) {                    
+										if ($flag == FALSE) {
 											echo "Diagnosis : ";
 											echo $visit_disease['disease_name'];
 											$flag = TRUE;
@@ -758,7 +780,7 @@ $(document).ready(function(){
 											echo " ," . $visit_disease['disease_name'];
 										}
 									}
-									
+
 								}
 								?>
 								<br/>
@@ -766,7 +788,7 @@ $(document).ready(function(){
 								$flag = FALSE;
 								foreach ($visit_treatments as $visit_treatment) {
 									if ($visit_treatment['visit_id'] == $visit['visit_id'] && $visit_treatment['type'] == 'treatment') {
-										if ($flag == FALSE) {   
+										if ($flag == FALSE) {
 											echo "Treatments : ";
 											echo $visit_treatment['particular'];
 											$flag = TRUE;
@@ -785,11 +807,11 @@ $(document).ready(function(){
 										<a target="_blank" class="btn btn-xs btn-primary square-btn-adjust" href="<?= site_url('prescription/add_prescription') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('add') . ' ' . $this->lang->line('prescription');?></a></br>
 									<?php } ?>
 								<?php } ?>
-								<?php 
+								<?php
 								$flag = FALSE;
 								foreach ($visit_lab_tests as $visit_lab_test) {
 									if ($visit_lab_test['visit_id'] == $visit['visit_id']) {
-										if ($flag == FALSE) {   
+										if ($flag == FALSE) {
 											echo "<strong>Lab Tests :</strong> ";
 											$flag = TRUE;
 										} else {
@@ -800,7 +822,7 @@ $(document).ready(function(){
 										}else{
 											echo $lab_test_name[$visit_lab_test['test_id']];
 										}
-										
+
 									}
 								}
 								?>
@@ -826,8 +848,8 @@ $(document).ready(function(){
 							</tr>
 							<?php $i++; ?>
 							<?php } ?>
-							
-							
+
+
 							<?php } ?>
 						</tbody>
 						<tfoot>
@@ -843,7 +865,7 @@ $(document).ready(function(){
 								<th style="text-align:right;"><?php echo $this->lang->line('total');?> :<?php echo currency_format($total_amount)?><br/>
 								<?php echo $this->lang->line('balance');?> :  <?php echo currency_format($bal_amount)?></th>
 								<th></th>
-								
+
 							</tr>
 						</tfoot>
 						</table>

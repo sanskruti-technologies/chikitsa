@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.8.7] - 2019-12-13
+### Changed
+- Bill Form Responsive
+- Upload only required languages to database
+
+
+## [0.8.6] - 2019-12-13
+### Changed
+- Minor Corrections
+
 ## [0.8.5] - 2019-11-19
 ### Changed
 - Language Changes

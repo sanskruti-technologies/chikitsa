@@ -1,8 +1,26 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript">
     $(document).ready(function(){
         $(".slidingDiv").hide();
         $(".show_hide").show();
- 
+
         $('.show_hide').click(function(){
             $(".slidingDiv").slideToggle();
         });
@@ -24,9 +42,9 @@
 </style>
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
-	
+
 	var unavailableDates = [
-	 <?php 
+	 <?php
 	 $dates = "";
 	 foreach($working_days as $working_day){
 		if($working_day['working_status'] == 'Non Working'){
@@ -38,7 +56,7 @@ $( window ).load(function() {
 	 }
 	 echo $dates;
 	 ?>];
-	 
+
 
 	function unavailable(date) {
 		dmy = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate();
@@ -48,7 +66,14 @@ $( window ).load(function() {
 			return [false, "", "Unavailable"];
 		}
 	}
-    $('#followup_date').datepicker({ dateFormat: '<?=$morris_date_format; ?>',beforeShowDay: unavailable,minDate: 0 }); 	
+   
+	$('#followup_date').datetimepicker({		
+		timepicker:false,
+		format: '<?=$def_dateformate; ?>',
+		scrollInput:false, 
+		scrollMonth:false,
+		scrollTime:false,
+	});   
 });
 </script>
 <?php
@@ -78,8 +103,8 @@ $time = explode(":", $t);
 					<?php echo $this->lang->line("follow_up");?>
 			</div>
 			<div class="panel-body">
-			<div class="form-group">        
-				
+			<div class="form-group">
+
 				<a class="btn btn-primary" href="<?php echo base_url() . '/index.php/patient/edit/' . $patient_id ."/followup"?> "><?php echo $this->lang->line("edit")." ".$this->lang->line("patient");?></a>
 			</div>
 
@@ -137,8 +162,8 @@ $time = explode(":", $t);
 						$y = date('Y',strtotime($followup['followup_date']));
 						$m = date('n',strtotime($followup['followup_date']));
 						$d = date('j',strtotime($followup['followup_date']));
-						if($this->session->userdata('category') == 'Doctor'){ 
-							if($doctor['doctor_id'] != $followup['doctor_id']){ 
+						if($this->session->userdata('category') == 'Doctor'){
+							if($doctor['doctor_id'] != $followup['doctor_id']){
 								break;
 							}
 						}
@@ -146,15 +171,15 @@ $time = explode(":", $t);
 						<tr>
 							<td><?=$i;?></td>
 							<td>
-							<?php if($this->session->userdata('category') == 'Doctor'){ 
+							<?php if($this->session->userdata('category') == 'Doctor'){
 									echo $doctor['name'];
 								  }else{?>
-								<?php foreach($doctors as $doctor) { 
-									if($doctor['doctor_id'] == $followup['doctor_id']){ 
+								<?php foreach($doctors as $doctor) {
+									if($doctor['doctor_id'] == $followup['doctor_id']){
 										echo $doctor['name'];
-									} 
-								} ?>	
-							<?php }?>			
+									}
+								} ?>
+							<?php }?>
 							</td>
 							<?php $followup_date = date($def_dateformate,strtotime($followup['followup_date'])); ?>
 							<td><?=$followup_date;?></td>

@@ -1,3 +1,22 @@
+
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <html>
     <head>
         <title></title>
@@ -6,11 +25,11 @@
         <link rel="stylesheet" href='<?= base_url() ?>css/style.css' type="text/css"/>
     </head>
     <body>
-	
+
 
         <div class="puchase_report">
 
-            <h3><?php echo $this->lang->line("bill")." ".$this->lang->line("report");?></h3>            
+            <h3><?php echo $this->lang->line("bill")." ".$this->lang->line("report");?></h3>
             <hr/>
 
             <table style="border: 0;">
@@ -22,7 +41,7 @@
 						<th><?php echo $this->lang->line("bill")." ".$this->lang->line("no");?></th>
 						<th><?php echo $this->lang->line("amount");?></th>
 					</tr>
-                </thead>    
+                </thead>
                 <tbody>
                     <?php if($reports) {
                     foreach ($reports as $report) { ?>
@@ -30,13 +49,13 @@
                                     <td style="text-align: center;"><?php echo $report['display_id']; ?></td>
                                     <td style="text-align: center;"><?php echo $report['patient_name'] ?></td>
                                     <td style="text-align: center;"><?php echo $report['particular']; ?></td>
-                                    <td style="text-align: center"><?php echo $report['bill_id']; ?></td>                                    
+                                    <td style="text-align: center"><?php echo $report['bill_id']; ?></td>
                                     <td style="text-align: right;"><?php echo $report['amount']; ?></td>
                                 </tr>
-                     <?php           
+                     <?php
                         }
                     }else {
-                     ?>                     
+                     ?>
                                 <tr><td></td></tr>
                                 <tr><td></td></tr>
                                 <tr><td></td></tr>
@@ -46,7 +65,7 @@
                                     <td style="text-align: center;"></td>
                                     <td style="text-align: center;"></td>
                                     <td style="text-align: center;"><?php echo $this->lang->line("no_data_found");?></td>
-                                    <td style="text-align: center"></td>                                    
+                                    <td style="text-align: center"></td>
                                     <td style="text-align: right;"></td>
                                 </tr>
                     <?php

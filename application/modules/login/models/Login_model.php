@@ -1,4 +1,21 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 
 class Login_model extends CI_Model {
 
@@ -6,11 +23,11 @@ class Login_model extends CI_Model {
         parent::__construct();
 		$this->load->database();
     }
-    
-    public function get_current_version(){	
+
+    public function get_current_version(){
 		$query = $this->db->get('version');
-		$row = $query->row();        
-		return $row->current_version;       
+		$row = $query->row();
+		return $row->current_version;
     }
     function login($username, $password) {
         $this->db->where("username", $username);
@@ -27,7 +44,7 @@ class Login_model extends CI_Model {
 		$this->db->where("username", $username);
         $query = $this->db->get("users");
 		if ($query->num_rows() > 0) {
-			$row = $query->row();        
+			$row = $query->row();
 			return $row->is_active;
 		}else{
 			return FALSE;
@@ -54,7 +71,7 @@ class Login_model extends CI_Model {
 			$result = $query->row_array();
 			return $result["password"];
         }
-        
+
 	}
 }
 

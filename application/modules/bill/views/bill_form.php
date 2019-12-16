@@ -1,4 +1,20 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
 	$total = ($particular_total + $fees_total + $treatment_total + $item_total + $session_total);
 	$time_interval = $time_interval*60;
 	$patient_name = "";
@@ -37,7 +53,7 @@ $(window).load(function(){
 		var tax_rate = $('option:selected', $("#bill_tax_rate")).attr('tax_rate');
 		$("#bill_tax_amount").val(tax_rate);
 	});
-	
+
 	<?php if (in_array("stock",$active_modules)) { ?>
 		var items_list=[<?php $i = 0;
 		foreach ($items as $item) {
@@ -49,14 +65,14 @@ $(window).load(function(){
 			autoFocus: true,
 			source: items_list,
 			minLength: 1,//search after one characters
-			
+
 			select: function(event,ui){
 				//do something
 				$("#item_amount").val(ui.item ? ui.item.amount : '');
 				$("#available_quantity").val(ui.item ? ui.item.available_quantity : '');
 				$("#item_id").val(ui.item ? ui.item.item_id : '');
 				$("#item_quantity").val(1);
-				
+
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
@@ -67,7 +83,7 @@ $(window).load(function(){
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#item_id").val('');
 					$("#item_amount").val('');
@@ -78,8 +94,8 @@ $(window).load(function(){
 		});
 	<?php } ?>
 	var list_fees=[];
-	
-	<?php if(isset($fees)){ 
+
+	<?php if(isset($fees)){
 		$list_fees_array = array();
 		foreach ($doctors as $doc) {
 			$list_fees_array[$doc['doctor_id']] = array();
@@ -90,16 +106,16 @@ $(window).load(function(){
 		}
 		echo "list_fees = ".json_encode($list_fees_array).";";
 	?>
-	
+
 	$("#fees_detail").autocomplete({
 		autoFocus: true,
 		source: list_fees["3"],
 		minLength: 1,//search after one characters
-		
+
 		select: function(event,ui){
 			//do something
 			$("#fees_amount").val(ui.item ? ui.item.amount : '');
-			
+
 		},
 		change: function(event, ui) {
 			 if (ui.item == null) {
@@ -108,16 +124,16 @@ $(window).load(function(){
 			}
 		},
 		response: function(event, ui) {
-			if (ui.content.length === 0) 
+			if (ui.content.length === 0)
 			{
 				$("#fees_amount").val('');
 				$("#fees_detail").val('');
 			}
 		}
-	}); 
+	});
 
 	<?php }	?>
-	<?php 
+	<?php
 	$tax_rate_name[0] = "";
 	$tax_rate_array[0] = 0;
 	if (in_array("treatment",$active_modules)) {?>
@@ -131,13 +147,13 @@ $(window).load(function(){
 			autoFocus: true,
 			source: list_treatment,
 			minLength: 1,//search after one characters
-			
+
 			select: function(event,ui){
 				//do something
 				$("#treatment_price").val(ui.item ? ui.item.amount : '');
 				$("#treatment_rate_name").val(ui.item ? ui.item.tax_rate_name : '');
 				$("#treatment_rate").val(ui.item ? ui.item.treatment_rate : '');
-				
+
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
@@ -148,7 +164,7 @@ $(window).load(function(){
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#treatment_price").val('');
 					$("#treatment").val('');
@@ -156,7 +172,7 @@ $(window).load(function(){
 					$("#treatment_rate").val('');
 				}
 			}
-		});   
+		});
 	<?php } ?>
 	    var patient=[<?php $i = 0;
 			foreach ($patients as $patient) {
@@ -193,8 +209,8 @@ $(window).load(function(){
 					$("#ssn_id").val('');
 				}
 			}
-		});   
-		
+		});
+
 		var searcharrdispname=[<?php $i = 0;
 		foreach ($patients as $patient) {
 			if ($i > 0) {
@@ -215,7 +231,7 @@ $(window).load(function(){
 			   $("#phone_number").val(ui.item ? ui.item.num : '');
 			   	$("#ssn_id").val(ui.item ? ui.item.ssn_id : '');
 			},
-			change: function(event, ui) 
+			change: function(event, ui)
 			{
 				if (ui.item == null) {
 					$("#patient_id").val('');
@@ -225,9 +241,9 @@ $(window).load(function(){
 					$("#email_id").val('');
 				}
 			},
-			response: function(event, ui) 
+			response: function(event, ui)
 			{
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#phone_number").val('');
@@ -236,7 +252,7 @@ $(window).load(function(){
 					$("#email_id").val('');
 				}
 			}
-		});  
+		});
 		var search_ssn_id=[<?php $i = 0;
 		foreach ($patients as $patient) {
 			if ($i > 0) {
@@ -266,7 +282,7 @@ $(window).load(function(){
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#phone_number").val('');
@@ -275,7 +291,7 @@ $(window).load(function(){
 					$("#ssn_id").val('');
 				}
 			}
-		});  
+		});
 		var searcharrmob=[<?php $i = 0;
 		foreach ($patients as $patient) {
 			if ($i > 0) {
@@ -305,7 +321,7 @@ $(window).load(function(){
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#patient_id").val('');
 					$("#phone_number").val('');
@@ -314,8 +330,8 @@ $(window).load(function(){
 					$("#ssn_id").val('');
 				}
 			}
-		});  
-		
+		});
+
 		//Doctor AutoComplete
 		var doctor=[<?php $i = 0;
 			foreach ($doctors as $doc) {
@@ -334,30 +350,30 @@ $(window).load(function(){
 				$("#fees_section").show();
 				var doctor_id = $('#doctor_id').val();
 				$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
-				
+
 				var new_treatment_list = [];
 				var doctor_department = $("#doctor_department").val();
-				$.each(list_treatment , function(index, treatment) { 
+				$.each(list_treatment , function(index, treatment) {
 				  var treatement_departments = treatment.departments.split(',');
 				  var doctor_departments = doctor_department.split(',');
-				  $.each(doctor_departments , function(i, doctor_department) { 
+				  $.each(doctor_departments , function(i, doctor_department) {
 					if(treatement_departments.indexOf(doctor_department) > -1){
 						found = false;
 						if(new_treatment_list.length > 0){
-							$.each(new_treatment_list , function(index, new_treatment) { 
+							$.each(new_treatment_list , function(index, new_treatment) {
 								if (new_treatment.value == treatment.value){
 									found = true;
 								}
 							});
 						}
 						if(!found){
-							new_treatment_list.push(treatment); 
+							new_treatment_list.push(treatment);
 						}
 					}
 				  });
 				});
 				$( "#treatment" ).autocomplete('option', 'source', new_treatment_list);
-				
+
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
@@ -375,7 +391,7 @@ $(window).load(function(){
 					$("#fees_section").hide();
 				}
 			}
-		});   
+		});
 	<?php if(!isset($doctor_id) || $doctor_id == NULL){ ?>
 		$("#fees_section").hide();
 	<?php }else{ ?>
@@ -387,14 +403,14 @@ $(window).load(function(){
 				var doctor_id = $('#doctor_id').val();
 				$( "#fees_detail" ).autocomplete('option', 'source', list_fees[doctor_id]);
 	<?php 	}?>
-	
+
 	$('#bill_date').datetimepicker({
 		timepicker:false,
 		format: '<?=$def_dateformate; ?>',
 		scrollMonth:false,
 		scrollTime:false,
 		scrollInput:false,
-	}); 
+	});
 	$('#bill_time').datetimepicker({
 		datepicker:false,
 		step:<?=$time_interval;?>,
@@ -407,61 +423,65 @@ $(window).load(function(){
 		scrollMonth:false,
 		scrollTime:false,
 		scrollInput:false,
-	}); 
+	});
 	<?php if (in_array("lab",$active_modules)) { ?>
 		var list_lab_test=[<?php $i = 0;
 			foreach ($lab_tests as $lab_test) {
 				if ($i > 0) { echo ",";}
-				echo '{value:"' . $lab_test['test_name'] . '",amount:"' . $lab_test['test_charges'] .'"}';
+				echo '{value:"' . $lab_test['test_name'] . '",amount:"' . $lab_test['test_charges'] .'",test_id:"'.$lab_test['test_id'].'"}';
 				$i++;
 			}?>];
 		$("#lab_test").autocomplete({
 			autoFocus: true,
 			source: list_lab_test,
 			minLength: 1,//search after one characters
-			
+
 			select: function(event,ui){
 				//do something
 				$("#test_price").val(ui.item ? ui.item.amount : '');
+				$("#lab_test_id").val(ui.item ? ui.item.test_id : '');
 			},
 			change: function(event, ui) {
 				 if (ui.item == null) {
 					$("#test_price").val('');
+					$("#lab_test_id").val('');
 					$("#lab_test").val('');
 				}
 			},
 			response: function(event, ui) {
-				if (ui.content.length === 0) 
+				if (ui.content.length === 0)
 				{
 					$("#test_price").val('');
 					$("#lab_test").val('');
+					$("#lab_test_id").val('');
 				}
 			}
-		});   
+		});
 	<?php } ?>
 });
 </script>
-
 <div id="page-inner">
 	<div class="row">
-		<div class="col-md-12">		
+		<div class="col-md-12">
 			<div class="panel panel-primary">
-			<div class="panel-heading">
-				<?=$this->lang->line("new")." ".$this->lang->line("bill");?>
+			<div class="panel-heading clearfix">
+				<div class="row table-responsive-30">
+					<div class="col-md-4 clearfix"><h2><?=$this->lang->line("new")." ".$this->lang->line("bill");?></h2></div>
+                </div>
 			</div>
 			<div class="panel-body">
 				<?php echo form_open('bill/edit/'.$bill_id); ?>
 				<div class="form-group">
 					<?php if($bill_id != 0){?>
-					<a class="btn btn-primary square-btn-adjust" target="_blank" href="<?php echo site_url("bill/print_receipt/" . $bill_id); ?>"><?php echo $this->lang->line("print")." ".$this->lang->line("receipt");?></a>
-					<a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("payment/insert/" .$patient_id . "/bill"); ?>"><?php echo $this->lang->line("bill")." ".$this->lang->line("payment");?></a>
-					<a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("patient/visit/" .$patient_id); ?>">Back to Visit</a>
-					<a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("bill/index"); ?>">Back to Bills</a>
+					<a class="btn btn-primary square-btn-adjust" target="_blank" href="<?php echo site_url("bill/print_receipt/" . $bill_id); ?>"><i class="fa fa-print"></i>&nbsp;<?php echo $this->lang->line("receipt");?></a>
+					<a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("payment/insert/" .$patient_id . "/bill"); ?>"><i class="fa fa-money"></i>&nbsp;<?php echo $this->lang->line("bill")." ".$this->lang->line("payment");?></a>
+					<a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("patient/visit/" .$patient_id); ?>"><i class="fa fa-arrow-left"></i>&nbsp;Back to Visit</a>
+					<a class="btn btn-primary  square-btn-adjust" href="<?php echo site_url("bill/index"); ?>"><i class="fa fa-arrow-left"></i>&nbsp;Back to Bills</a>
 					<?php if (in_array("alert", $active_modules)) {	?>
-					    <a class="btn btn-primary square-btn-adjust" href="<?php echo site_url("patient/email_bill/" . $bill_id."/".$patient_id ); ?>">Email Bill</a>
+						<a class="btn btn-primary  square-btn-adjust" href="<?php echo site_url("patient/email_bill/" . $bill_id."/".$patient_id ); ?>"><i class="fa fa-envelope"></i>&nbsp;Email Bill</a>
 					<?php } ?>
-					<?php 
-						
+					<?php
+
 						$bill_date = date($def_dateformate,strtotime($bill['bill_date']));
 						$bill_time = date($def_timeformate,strtotime($bill['bill_time']));
 					}else{
@@ -471,19 +491,18 @@ $(window).load(function(){
 					<span class="alert-danger"><?php echo validation_errors(); ?></span>
 				</div>
 				<div>
-					<input type="hidden" name="bill_id" value="<?=$bill_id?>"/> 
+					<input type="hidden" name="bill_id" value="<?=$bill_id?>"/>
 					<div class="col-md-12">
 						<div class="panel panel-default">
 								<div class="panel-heading">
 									<?= $this->lang->line('search')." ".$this->lang->line('patient');?>
 								</div>
-								<div class="panel-body">
+								<div class="panel-body table-responsive-60">
 									<div class="col-md-3">
 									<label for="display_id"><?php echo $this->lang->line('patient_id');?></label>
 									<input type="hidden" name="patient_id" id="patient_id" value="<?=$patient_id; ?>">
-										<?php if(isset($visit_id))
-												{ ?>
-												<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control" readonly/>	
+										<?php if(isset($visit_id)){ ?>
+												<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control" readonly/>
 											<?php	}else { ?>
 												<input type="text" name="display_id" id="display_id" value="<?=$display_id; ?>" class="form-control"/>
 											<?php } ?>
@@ -491,7 +510,7 @@ $(window).load(function(){
 									<div class="col-md-3">
 										<label for="ssn_id"><?php echo $this->lang->line('ssn_id');?></label>
 										<?php if(isset($visit_id)){ ?>
-												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control" readonly/>	
+												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control" readonly/>
 											<?php }else { ?>
 												<input type="text" name="ssn_id" id="ssn_id" value="<?=$ssn_id; ?>" class="form-control"/>
 											<?php } ?>
@@ -500,7 +519,7 @@ $(window).load(function(){
 										<label for="patient"><?php echo $this->lang->line('patient_name');?></label>
 										<?php if(isset($visit_id))
 												{ ?>
-												<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name; ?>" class="form-control" readonly/>	
+												<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name; ?>" class="form-control" readonly/>
 											<?php	}else { ?>
 												<input type="text" name="patient_name" id="patient_name" value="<?=$patient_name; ?>" class="form-control"/>
 											<?php } ?>
@@ -510,7 +529,7 @@ $(window).load(function(){
 										<label for="phone"><?php echo $this->lang->line('mobile');?></label>
 										<?php if(isset($visit_id))
 												{ ?>
-												<input type="text" name="phone_number" id="phone_number" value="<?=$phone_number; ?>" class="form-control" readonly/>	
+												<input type="text" name="phone_number" id="phone_number" value="<?=$phone_number; ?>" class="form-control" readonly/>
 											<?php	}else { ?>
 												<input type="text" name="phone_number" id="phone_number" value="<?=$phone_number; ?>" class="form-control"/>
 											<?php } ?>
@@ -519,9 +538,9 @@ $(window).load(function(){
 							</div>
 						<div class="form-group col-md-6">
 							<label for="patient_name"><?php echo $this->lang->line("doctor");?></label>
-							<?php if(isset($visit_id))
-									{ $doctor_id=$doctor['doctor_id'];?>
-									<input type="text" name="doctor_name" id="doctor_name" value="<?=$doctor_name; ?>" class="form-control" readonly/>	
+							<?php if(isset($visit_id)){
+									 $doctor_id=$doctor['doctor_id'];?>
+									<input type="text" name="doctor_name" id="doctor_name" value="<?=$doctor_name; ?>" class="form-control" readonly/>
 									<input type="hidden" name="doctor_id" id="doctor_id" value="<?= $doctor_id ?>"/>
 									<input type="hidden" name="doctor_department" id="doctor_department" value="<?=$doctor_department;?>" />
 								<?php	}else { ?>
@@ -536,126 +555,98 @@ $(window).load(function(){
 					<div class="col-md-12">
 						<div class="form-group col-md-6">
 							<label for="bill_date"><?php echo $this->lang->line("date");?></label>
-							<?php if(isset($visit_id))
-									{ ?>
-									<input type="text" name="bill_date" id="" value="<?=$bill_date; ?>" class="form-control" readonly/>	
+							<?php if(isset($visit_id)){
+									 ?>
+									<input type="text" name="bill_date" id="" value="<?=$bill_date; ?>" class="form-control" readonly/>
 								<?php	}else { ?>
 									<input type="text" name="bill_date" id="bill_date" value="<?=$bill_date; ?>" class="form-control"/>
 								<?php } ?>
-									
+
 							<?php echo form_error('bill_date','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="form-group col-md-6">
 							<label for="bill_time"><?php echo $this->lang->line("time");?></label>
 							<?php if(isset($visit_id))
 									{ ?>
-									<input type="text" name="bill_time" id="" value="<?=$bill_time; ?>" class="form-control" readonly/>	
+									<input type="text" name="bill_time" id="" value="<?=$bill_time; ?>" class="form-control" readonly/>
 								<?php	}else { ?>
 									<input type="text" name="bill_time" id="bill_time" value="<?=$bill_time; ?>" class="form-control"/>
 								<?php } ?>
-							
+
 							<?php echo form_error('bill_time','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 					</div>
-						
+
 				</div>
 			</div>
 			</div>
+
 					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<?php echo $this->lang->line("bill");?>
-						</div>
-						<div class="panel-body">
+						<div class="panel-body table-responsive-60">
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("particular");?>
-										</div>
-										<div class="col-md-2">
-											<?php echo $this->lang->line("amount");?>
-										</div>
-										<?php if($tax_type == "item"){?>
-										<div class="col-md-2">
-											<?php echo $this->lang->line("tax");?>
-										</div>
-										<div class="col-md-3">
-											<?php echo $this->lang->line("rate");?>
-										</div>
-										<?php } ?>
-										<div class="col-md-3">
-											
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
 											<input type="hidden" name="action" value="particular">
 											<input name="particular" id="particular" class="form-control" value=""/>
 										</div>
 										<div class="col-md-2">
+											<?php echo $this->lang->line("amount");?>
 											<input type="text" name="particular_amount" id="particular_amount" class="form-control" id="amount"/>
 										</div>
 										<?php if($tax_type == "item"){?>
-										
+
 										<div class="col-md-2">
+											<?php echo $this->lang->line("tax");?>
 											<select name="tax_id" class="form-control" id="bill_tax_rate">
 												<?php foreach($tax_rates as $tax_rate){?>
 													<option tax_rate="<?=$tax_rate['tax_rate'];?>" value="<?=$tax_rate['tax_id'];?>"><?=$tax_rate['tax_rate_name'];?></option>
 												<?php } ?>
 											</select>
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-3">
+											<?php echo $this->lang->line("rate");?>
 											<input type="text" style="text-align:right;" name="tax_amount" id="tax_amount" class="form-control" readonly />
 										</div>
 										<?php } ?>
-										
+
 										<div class="col-md-2">
+											<br/>
 											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="particular" /><?php echo $this->lang->line("add");?></button>
+										
 										</div>
-									</div>						
+									</div>
 								</div>
-								
+
 								<?php if (in_array("stock",$active_modules)) { ?>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("item");?>
-										</div>
-										<div class="col-md-2">
-											<?php echo $this->lang->line("quantity");?>
-										</div>
-										<div class="col-md-2">
-											<?php echo $this->lang->line("available");?>
-										</div>
-										<div class="col-md-2">
-											<?php echo $this->lang->line("amount");?>
-										</div>
-										<div class="col-md-3">
-											
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
 											<input type="hidden" name="action" value="item">
 											<input type="hidden" name="item_id" id="item_id" value="">
 											<input name="item_name" id="item_name" class="form-control" value=""/>
 										</div>
 										<div class="col-md-2">
+											<?php echo $this->lang->line("quantity");?>
 											<input type="text" name="item_quantity" id="item_quantity" class="form-control" />
 										</div>
 										<div class="col-md-2">
+											<?php echo $this->lang->line("available");?>
 											<input type="text" name="available_quantity" id="available_quantity" class="form-control" readonly="readonly" />
+										
 										</div>
 										<div class="col-md-2">
+											<?php echo $this->lang->line("amount");?>
 											<input type="text" name="item_amount" id="item_amount" class="form-control" />
+										
 										</div>
 										<div class="col-md-3">
+											<br/>
 											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="item" /><?php echo $this->lang->line("add");?></button>
+										
 										</div>
-									</div>						
+									</div>
 								</div>
 								<?php }?>
 								<?php if (in_array("doctor",$active_modules)) {?>
@@ -664,166 +655,120 @@ $(window).load(function(){
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("fees");?>
-										</div>
-										<div class="col-md-3">
-											<?php echo $this->lang->line("amount");?>
-										</div>
-										<div class="col-md-3">
-											
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
 											<input type="hidden" name="action" value="fees">
 											<input name="fees_detail" id="fees_detail" class="form-control" value=""/>
 										</div>
 										<div class="col-md-3">
+											<?php echo $this->lang->line("amount");?>
 											<input type="text" name="fees_amount" id="fees_amount" class="form-control" id="amount"/>
+										
 										</div>
 										<div class="col-md-3">
+											<br/>
 											<button class="btn btn-primary  square-btn-adjust" type="submit" name="submit" value="fees" /><?php echo $this->lang->line("add");?></button>
 										</div>
-									</div>						
-								</div>
+									</div>
 								</div>
 								
+								</div>
+
 								<?php }?>
 								<?php if (in_array("treatment",$active_modules)) {?>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("treatment");?>
+											<input type="hidden" name="action" value="treatment">
+											<input name="treatment" id="treatment" class="form-control" value=""/>
+										
 										</div>
 										<div class="col-md-2">
 											<?php echo $this->lang->line("amount");?>
+											<input type="text" name="treatment_price" id="treatment_price" class="form-control"/>
+										
 										</div>
 										<?php if($tax_type == "item"){?>
 										<div class="col-md-2">
 											<?php echo $this->lang->line("tax_rate_name");?>
+											<input type="text" name="treatment_rate_name" readonly id="treatment_rate_name" class="form-control" />
+										
 										</div>
 										<div class="col-md-2">
 											<?php echo $this->lang->line("rate");?>
+											<input type="text" style="text-align:right;" name="treatment_rate" id="treatment_rate" readonly class="form-control"  />
+										
 										</div>
 										<?php } ?>
 										<div class="col-md-3">
-											
+											<br/>
+											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="treatment" /><?php echo $this->lang->line("add");?></button>
+										
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
-											<input type="hidden" name="action" value="treatment">
-											<input name="treatment" id="treatment" class="form-control" value=""/>
-										</div>
-										<div class="col-md-2">
-											<input type="text" name="treatment_price" id="treatment_price" class="form-control"/>
-										</div>
-										<?php if($tax_type == "item"){?>
-										<div class="col-md-2">
-											<input type="text" name="treatment_rate_name" readonly id="treatment_rate_name" class="form-control" />
-										</div>
-										<div class="col-md-2">
-											<input type="text" style="text-align:right;" name="treatment_rate" id="treatment_rate" readonly class="form-control"  />
-										</div>
-										<?php }?>
-										<div class="col-md-3">
-											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="treatment" /><?php echo $this->lang->line("add");?></button>
-										</div>
-									</div>						
-								</div>
+								
 								<?php }?>
 								<?php if (in_array("lab",$active_modules)) {?>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("lab_test");?>
+											<input type="hidden" name="action" value="lab_test">
+											<input type="hidden" id="lab_test_id" name="lab_test_id" class="form-control" value=""/>
+											<input name="lab_test" id="lab_test" class="form-control" value=""/>
+										
 										</div>
 										<div class="col-md-2">
 											<?php echo $this->lang->line("amount");?>
+											<input type="text" name="test_price" id="test_price" class="form-control"/>
+										
 										</div>
 										<?php if($tax_type == "item"){?>
 										<div class="col-md-2">
 											<?php echo $this->lang->line("tax_rate_name");?>
+											<input type="text" name="lab_test_rate_name" readonly id="lab_test_rate_name" class="form-control" />
+										
 										</div>
 										<div class="col-md-2">
 											<?php echo $this->lang->line("rate");?>
+											<input type="text" style="text-align:right;" name="lab_test_rate" id="lab_test_rate" readonly class="form-control"  />
+										
 										</div>
 										<?php } ?>
 										<div class="col-md-3">
-											
+											<br/>
+											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="lab_test" /><?php echo $this->lang->line("add");?></button>
+										
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
-											<input type="hidden" name="action" value="lab_test">
-											<input name="lab_test" id="lab_test" class="form-control" value=""/>
-										</div>
-										<div class="col-md-2">
-											<input type="text" name="test_price" id="test_price" class="form-control"/>
-										</div>
-										<?php if($tax_type == "item"){?>
-										<div class="col-md-2">
-											<input type="text" name="lab_test_rate_name" readonly id="lab_test_rate_name" class="form-control" />
-										</div>
-										<div class="col-md-2">
-											<input type="text" style="text-align:right;" name="lab_test_rate" id="lab_test_rate" readonly class="form-control"  />
-										</div>
-										<?php } ?>
-										<div class="col-md-3">
-											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="lab_test" /><?php echo $this->lang->line("add");?></button>
-										</div>
-									</div>						
-								</div>
+								
 								<?php } ?>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("discount");?>
+											<input name="discount" id="discount" class="form-control" value=""/>
 										</div>
 										<div class="col-md-3">
 											<?php if (in_array("doctor", $active_modules)) { ?>
 											<?php echo $this->lang->line("foc");?>
-											<?php } ?> 
-										</div>
-									</div>
-								</div>
-								
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
-											<input name="discount" id="discount" class="form-control" value=""/> 					
+											<input type="checkbox" name="foc" id="foc" class="form-control" value=""/>
+											<?php } ?>
 										</div>
 										<div class="col-md-3">
-											<?php if (in_array("doctor", $active_modules)) { ?>
-											<input type="checkbox" name="foc" id="foc" class="form-control" value=""/> 					
-											<?php } ?> 
-										</div>
-										<div class="col-md-3">
+											<br/>
 											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="discount" /><?php echo $this->lang->line("add");?></button>
 										</div>
 									</div>
 								</div>
 								<?php if($tax_type == "bill"){?>
-										
+
+
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="col-md-3">
 											<?php echo $this->lang->line("tax");?>
-										</div>
-										<div class="col-md-3">
-											<?php echo $this->lang->line("percentage");?>
-										</div>
-									</div>
-								</div>
-								
-								<div class="form-group">
-									<div class="col-md-12">
-										<div class="col-md-3">
 											<select name="bill_tax_rate" class="form-control" id="bill_tax_rate">
 												<?php foreach($tax_rates as $tax_rate){?>
 													<option value="<?=$tax_rate['tax_id'];?>" tax_rate="<?=$tax_rate['tax_rate'];?>"><?=$tax_rate['tax_rate_name'];?></option>
@@ -831,9 +776,11 @@ $(window).load(function(){
 											</select>
 										</div>
 										<div class="col-md-3">
+											<?php echo $this->lang->line("percentage");?>
 											<input type="text" style="text-align:right;" name="bill_tax_amount" id="bill_tax_amount" class="form-control" readonly />
 										</div>
 										<div class="col-md-3">
+											<br/>
 											<button class="btn btn-primary square-btn-adjust" type="submit" name="submit" value="tax" /><?php echo $this->lang->line("add");?></button>
 										</div>
 									</div>
@@ -842,19 +789,14 @@ $(window).load(function(){
 							<?php echo form_close(); ?>
 						</div>
 					</div>
-						
-						
+
+
 					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<?php echo $this->lang->line("bill");?>
-						</div>
-						<div class="panel-body">
-							<div class="table-responsive">
+						<div class="panel-body table-responsive-25">
 								<?php $this->load->view('bill/bill_table'); ?>
-							</div>
+							
 						</div>
 					</div>
-				</div>
 			</div>
 		</div>
 	</div>

@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript">
 function readURL(input) {
 	if (input.files && input.files[0]) {//Check if input has files.
@@ -14,10 +32,10 @@ function readURL(input) {
 }
 
 $(window).load(function(){
-	$('.datetimepicker').datetimepicker({		
+	$('.datetimepicker').datetimepicker({
 		timepicker:false,
 		format: '<?=$def_dateformate; ?>',
-		scrollInput:false, 
+		scrollInput:false,
 		scrollMonth:false,
 		scrollTime:false,
 	});
@@ -26,35 +44,35 @@ $(window).load(function(){
 		var contact_detail_count = parseInt( $( "#contact_detail_count" ).val());
 		contact_detail_count = contact_detail_count + 1;
 		$( "#contact_detail_count" ).val(contact_detail_count);
-		
+
 		var contact_detail = "<div class='col-md-12' style='padding-left:0;'><div class='col-md-3'><div class='radio'><label><input type='radio' name='default' value='"+contact_detail_count+"'>Default</label></div></div><div class='col-md-3' style='padding-left:0;'><select name='contact_type[]' class='form-control'><option value='mobile'>Mobile</option><option value='office'>Office</option><option value='residence'>Residence</option></select></div><div class='col-md-3'><input type='input' name='contact_detail[]' value='' class='form-control'/></div><div class='col-md-3'><a href='#' id='delete_contact_detail"+contact_detail_count+"' class='btn btn-danger btn-sm square-btn-adjust'>Delete</a></div></div>";
 		$( "#contact_detail_list" ).append(contact_detail);
-		
-		$("#delete_contact_detail"+contact_detail_count).click(function(e) {			
+
+		$("#delete_contact_detail"+contact_detail_count).click(function(e) {
 			e.preventDefault();
 			$(this).parent().parent().remove();
 		});
 	});
 	<?php if (in_array("alert", $active_modules)) { ?>
-	$('.email_alert').change(function() {	
+	$('.email_alert').change(function() {
 		if($(this).prop("checked")){
 			$(this).parent().parent().siblings().prop('checked', true);
 			$(this).parent().parent().parent().parent().siblings().prop('checked', true);
 		}
 	});
-	$('.sms_alert').change(function() {	
+	$('.sms_alert').change(function() {
 		if($(this).prop("checked")){
 			$(this).parent().parent().siblings().prop('checked', true);
 			$(this).parent().parent().parent().parent().siblings().prop('checked', true);
 		}
 	});
 	<?php } ?>
-	<?php 
+	<?php
 		$i=1;
 		if(!empty($contact_details)){
 			foreach($contact_details as $contact_detail){
-				?>	
-				$("#delete_contact_detail<?=$i;?>").click(function() {			
+				?>
+				$("#delete_contact_detail<?=$i;?>").click(function() {
 					$(this).parent().parent().remove();
 				});
 				<?php
@@ -71,15 +89,15 @@ $(window).load(function(){
 			var dateArray = dateString.split("-");
 			var d = new Date(dateArray[0], dateArray[1], dateArray[2]);
 			var newDateString = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
-		} 
+		}
 		return newDateString;
 	}
 	function calculate_age() {
 		if($('#dob').val() != ""){
 			var dateString = $('#dob').val();
-		
+
 		dateString = convertDateFormat(dateString);
-		
+
 		var now = new Date();
 		var today = new Date(now.getYear(),now.getMonth(),now.getDate());
 		var yearNow = now.getYear();
@@ -88,7 +106,7 @@ $(window).load(function(){
 
 		var dateArray = dateString.split("-");
 		var dob = new Date(dateArray[0], dateArray[1]-1, dateArray[2]);
-			
+
 
 		var yearDob = dob.getYear();
 		var monthDob = dob.getMonth();
@@ -152,15 +170,15 @@ $(window).load(function(){
 
 			$('#age').val(age.years);
 		}
-		
-			
+
+
 	}
-	
+
 	calculate_age();
-	
+
 	$('#dob').change(function(){
 		calculate_age();
-	});	
+	});
 	$('#reference_by').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
 		var reference_add_option  = optionSelected.attr('reference_add_option');
@@ -173,21 +191,21 @@ $(window).load(function(){
 			$('#reference_details').val('');
 		}
 	});
-	
-	
+
+
 });
 $(document).ready(function(){
 	var optionSelected = $("option:selected", this);
 	var reference_add_option  = optionSelected.attr('reference_add_option');
 	var placeholder  = optionSelected.attr('reference_placeholder');
-	
+
 	if(reference_add_option == 1){
 		$('#reference_details').parent().show();
 		$("#reference_details").attr("placeholder", placeholder);
 	}else{
 		$('#reference_details').parent().hide();
 	}
-});		
+});
 </script>
 <?php
 	if(isset($patient)){
@@ -202,7 +220,7 @@ $(document).ready(function(){
 		$ssn_id = set_value('ssn_id',$patient['ssn_id']);
 		$gender = set_value('gender',$patient['gender']);
 		$patient_reference_by = $patient['reference_by'];
-		$patient_reference_by_detail = $patient['reference_by_detail'];		
+		$patient_reference_by_detail = $patient['reference_by_detail'];
 	}else{
 		$age =  set_value('age',"");
 		$blood_group =  set_value('blood_group',"");
@@ -216,7 +234,7 @@ $(document).ready(function(){
 		$patient_reference_by_detail = "";
 	}
 	if(isset($contacts)){
-		$contact_id = $contacts['contact_id']; 
+		$contact_id = $contacts['contact_id'];
 		$contact_title = set_value('title',$contacts['title']);
 		$contact_first_name = $contacts['first_name'];
 		$contact_middle_name = set_value('middle_name',$contacts['middle_name']);
@@ -247,7 +265,7 @@ $(document).ready(function(){
 		$contact_address_line_2 = set_value('address_line_2','');
 		$contact_city = set_value('city','');
 		$contact_state = set_value('state','');
-		$contact_postal_code = set_value('postal_code',''); 
+		$contact_postal_code = set_value('postal_code','');
 		$contact_country = set_value('country','');
 	}
 	function is_enabled($patient_alerts,$alert_name,$is_enabled){
@@ -300,7 +318,7 @@ $(document).ready(function(){
 					<?php }?>
 					<div class="col-md-12">
 						<div class="col-md-1">
-							<label for="first_name"><?php echo $this->lang->line('name');?></label> 
+							<label for="first_name"><?php echo $this->lang->line('name');?></label>
 						</div>
 						<div class="col-md-2">
 							<input type="input" name="title" placeholder="Title" class="form-control" value="<?php echo $contact_title ?>"/>
@@ -311,7 +329,7 @@ $(document).ready(function(){
 							<?php echo form_error('first_name','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="col-md-3">
-							<input type="input" name="middle_name" placeholder="Middle Name" class="form-control" value="<?php echo $contact_middle_name ?>"/>						
+							<input type="input" name="middle_name" placeholder="Middle Name" class="form-control" value="<?php echo $contact_middle_name ?>"/>
 							<?php echo form_error('middle_name','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="col-md-3">
@@ -340,7 +358,7 @@ $(document).ready(function(){
 								<?php echo form_error('display_name','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="gender"><?php echo $this->lang->line('gender');?></label> 
+								<label for="gender"><?php echo $this->lang->line('gender');?></label>
 								<input type="radio" name="gender" value="male" <?php if($gender == 'male'){echo "checked='checked'";}?>/><?php echo $this->lang->line("male");?>
 								<input type="radio" name="gender" value="female" <?php if($gender == 'female'){echo "checked='checked'";}?>/><?php echo $this->lang->line("female");?>
 								<input type="radio" name="gender" value="other" <?php if($gender == 'other'){echo "checked='checked'";}?>/><?php echo $this->lang->line("other");?>
@@ -376,13 +394,13 @@ $(document).ready(function(){
 								<select name="reference_by" class="form-control" id="reference_by">
 									<option></option>
 									<?php foreach($references as $reference){?>
-										<?php 
+										<?php
 										$selected = "";
 										if($patient['reference_by'] == $reference['reference_option']){
-											$selected = "selected";	
+											$selected = "selected";
 										}else{
 											if($reference['reference_option'] == "Doctor:"){
-													$selected = "selected";		
+													$selected = "selected";
 											}
 										}
 										//echo $reference['reference_option'];
@@ -403,15 +421,15 @@ $(document).ready(function(){
 							<div class="form-group">
 							<a href="#" id="add_contact_detail" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('add_more_contact_number');?></a>
 							</div>
-							<?php 
+							<?php
 								$count = 0;
 								if(isset($contact_details)){
 									$count = count($contact_details);
 								}
 							?>
 							<input type="hidden" id="contact_detail_count" value="<?=$count;?>"/>
-							
-							
+
+
 							<?php if(!empty($contact_details)){?>
 								<?php $i=1; ?>
 								<?php foreach($contact_details as $contact_detail){ ?>
@@ -451,11 +469,11 @@ $(document).ready(function(){
 									<input type="input" name="contact_detail[]" value="" placeholder="Contact Number"  class="form-control"/>
 								</div>
 								<div class="col-md-1">
-									
+
 								</div>
 								</div>
 							<?php } ?>
-							
+
 							<?php echo form_error('contact_detail[]','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
@@ -463,8 +481,8 @@ $(document).ready(function(){
 								<input type="input" name="email" class="form-control" value="<?php  echo $contact_email; ?>"/><br/>
 								<?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
 							</div>
-							
-							
+
+
 						</div>
 						<div class="col-md-6">
 							<div class="form-group image_wrapper">
@@ -481,13 +499,13 @@ $(document).ready(function(){
 								<?php echo form_error('userfile','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="type"><?php echo $this->lang->line('addresstype');?></label> 
+								<label for="type"><?php echo $this->lang->line('addresstype');?></label>
 								<select name="type" class="form-control">
 									<option></option>
 									<?php if(isset($contacts)){ ?>
 									<option value="Home" <?php if ($contacts['type'] == "Home") { echo "selected"; } ?>><?php echo $this->lang->line('home');?></option>
 									<option value="Office" <?php if ($contacts['type'] == "Office") { echo "selected"; } ?>><?php echo $this->lang->line('office');?></option>
-									<?php }else{ ?>	
+									<?php }else{ ?>
 									<option value="Home" selected><?php echo $this->lang->line('home');?></option>
 									<option value="Office" ><?php echo $this->lang->line('office');?></option>
 									<?php } ?>
@@ -495,41 +513,41 @@ $(document).ready(function(){
 								<?php echo form_error('type','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="type"><?php echo $this->lang->line('address_line_1');?></label> 
+								<label for="type"><?php echo $this->lang->line('address_line_1');?></label>
 								<input type="input"  class="form-control" name="address_line_1" value="<?php echo $contact_address_line_1; ?>"/>
 								<?php echo form_error('address_line_1','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="type"><?php echo $this->lang->line('address_line_2');?></label> 
+								<label for="type"><?php echo $this->lang->line('address_line_2');?></label>
 								<input type="input" class="form-control" name="address_line_2" value="<?php echo $contact_address_line_2; ?>"/>
 								<?php echo form_error('address_line_2','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="city"><?php echo $this->lang->line('city');?></label> 
+								<label for="city"><?php echo $this->lang->line('city');?></label>
 								<input type="input" class="form-control" name="city" value="<?php echo $contact_city; ?>"/>
 								<?php echo form_error('city','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="state"><?php echo $this->lang->line('state');?></label> 
+								<label for="state"><?php echo $this->lang->line('state');?></label>
 								<input type="input" class="form-control" name="state" value="<?php echo $contact_state; ?>"/>
 								<?php echo form_error('state','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="postal_code"><?php echo $this->lang->line('postal_code');?></label> 
+								<label for="postal_code"><?php echo $this->lang->line('postal_code');?></label>
 								<input type="input" class="form-control" name="postal_code" value="<?php echo $contact_postal_code; ?>"/>
 								<?php echo form_error('postal_code','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 							<div class="form-group">
-								<label for="country"><?php echo $this->lang->line('country');?></label> 
+								<label for="country"><?php echo $this->lang->line('country');?></label>
 								<input type="input" class="form-control" name="country" value="<?php echo $contact_country; ?>"/>
 								<?php echo form_error('country','<div class="alert alert-danger">','</div>'); ?>
-							</div>    
-							
+							</div>
+
 						</div>
 					</div>
 					<?php if (in_array("history", $active_modules)){
 						if (file_exists(APPPATH."modules/history/views/display_fields".EXT)){
-								$this->load->view('history/display_fields'); 
+								$this->load->view('history/display_fields');
 							}else{?>
 								<div class="col-md-12">
 							<div class="col-md-6">
@@ -538,14 +556,14 @@ $(document).ready(function(){
 									<h3><?=$section['section_name'];?></h3>
 									<?php $section_id = $section['section_id'];?>
 									<?php foreach($section_fields as $field){?>
-										<?php 
+										<?php
 										if(isset($patient_history_details[$field['field_id']])){
 											$value = $patient_history_details[$field['field_id']];
 										}else{
 											$value = "";
 										}?>
 										<div class="form-group">
-											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label> 
+											<label for="history_<?=$field['field_id'];?>"><?=$field['field_label'];?></label>
 										<?php if($field['field_type'] == "text"){?>
 											<input type="input" class="form-control" name="history_<?=$field['field_id'];?>" value="<?=$value?>"/>
 										<?php }elseif($field['field_type'] == "date"){ ?>
@@ -555,8 +573,8 @@ $(document).ready(function(){
 												<?php foreach($field_options as $field_option){ ?>
 													<?php if($field_option['field_id'] == $field['field_id']){?>
 													<option value="<?=$field_option['option_value'];?>" <?php if($field_option['option_value'] == $value ){echo "selected";}?>><?=$field_option['option_label'];?></option>
-													<?php } ?> 
-												<?php } ?> 
+													<?php } ?>
+												<?php } ?>
 											</select>
 										<?php }elseif($field['field_type'] == "checkbox"){ ?>
 											<?php foreach($field_options as $field_option){ ?>
@@ -564,10 +582,10 @@ $(document).ready(function(){
 													<label class="checkbox">
 														<input type="checkbox" name="history_<?=$field['field_id'];?>[]" value="<?=$field_option['option_value'];?>" <?php if(strpos($value,$field_option['option_value']) !== FALSE ){echo "checked";}?> /><?=$field_option['option_label'];?>
 													</label>
-												<?php } ?> 
-											<?php } ?> 
+												<?php } ?>
+											<?php } ?>
 										<?php }elseif($field['field_type'] == "radio"){ ?>
-											
+
 											<?php foreach($field_options as $field_option){ ?>
 												<?php if($field_option['field_id'] == $field['field_id']){?>
 													<div class="radio">
@@ -575,9 +593,9 @@ $(document).ready(function(){
 															<input type="radio" name="history_<?=$field['field_id'];?>" id="history_<?=$field['field_id'];?>" value="<?=$field_option['option_value'];?>" checked=""><?=$field_option['option_label'];?>
 														</label>
 													</div>
-												<?php } ?> 
-											<?php } ?> 
-										<?php } ?> 
+												<?php } ?>
+											<?php } ?>
+										<?php } ?>
 											<?php echo form_error($field['field_id'],'<div class="alert alert-danger">','</div>'); ?>
 										</div>
 									<?php } ?>
@@ -591,13 +609,13 @@ $(document).ready(function(){
 					<div class="col-md-6">
 						<h4><?=$this->lang->line('patient_wise_alert_settings');?></h4>
 						<div class="form-group">
-							<?php 
+							<?php
 							foreach($alerts as $alert_level1){
 								if(!isset($alert_level1['parent_alert']) || $alert_level1['parent_alert'] == ''){
 								?>
 									<div class="checkbox">
 										<label>
-											<input type="checkbox"  name="<?=$alert_level1['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alert_level1['alert_name'];?>" <?=is_enabled($patient_alerts,$alert_level1['alert_name'],$alert_level1['is_enabled']);?>> <?=$alert_level1['alert_label'];?> 
+											<input type="checkbox"  name="<?=$alert_level1['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alert_level1['alert_name'];?>" <?=is_enabled($patient_alerts,$alert_level1['alert_name'],$alert_level1['is_enabled']);?>> <?=$alert_level1['alert_label'];?>
 											<?php //Level 2
 												$i=0;
 												$alerts_names=array();
@@ -608,7 +626,7 @@ $(document).ready(function(){
 														foreach($alerts as $alert_level3){
 															if($alert_level3['parent_alert'] == $alert_level2['alert_name']){
 																$required_module = $alert_level3['required_module'];
-																if(in_array($required_module, $active_modules) || $required_module == '') { 
+																if(in_array($required_module, $active_modules) || $required_module == '') {
 																	if($alert_level3['alert_label']=="To Patient"){
 																		$alerts_names[$i]=$alert_level3['alert_name'];
 																		$flag=true;
@@ -621,10 +639,10 @@ $(document).ready(function(){
 															?>
 															<div class="checkbox">
 																<label>
-																	<input type="checkbox"  name="<?=$alert_level2['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alerts_names[$i];?>" <?=	is_enabled($patient_alerts,$alerts_names[$i],$alert_level2['is_enabled']); ?>> <?=$alert_level2['alert_label'];?> 
+																	<input type="checkbox"  name="<?=$alert_level2['alert_type'];?>_alert[]" class="<?=$alert_level1['alert_type'];?>_alert" value="<?=$alerts_names[$i];?>" <?=	is_enabled($patient_alerts,$alerts_names[$i],$alert_level2['is_enabled']); ?>> <?=$alert_level2['alert_label'];?>
 																</label>
 															</div>
-														<?php } 
+														<?php }
 													}
 													$i++;
 												}

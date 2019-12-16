@@ -1,4 +1,22 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
+
 	function inttotime12($tm,$time_format) {
 		//if ($tm >= 13) {  $tm = $tm - 12; }
 		$hr = intval($tm);
@@ -8,7 +26,7 @@
 		$time = date($time_format, strtotime($time));
 		return $time;
 	}
-?>		
+?>
 
 			<!----start-content----->
 			<div class="content">
@@ -19,7 +37,7 @@
 						<h4><?php echo $this->lang->line('appointment') .' '. $this->lang->line('detail');?></h4>
 					</div>
 					<div class="grid_4_of_4 contact-form">
-						<?php 
+						<?php
 							if($verify){
 								echo form_open('frontend/verify_code/'.$doctor_id.'/'.$book_date.'/'.$book_time.'/'.$appointment_reason);
 							}else{
@@ -49,23 +67,23 @@
 										<input type="text" name="end_time" id="end_time" value="<?=inttotime12($end_time,$def_timeformate);?>" readonly />
 									</div>
 								</div>
-							</div>			
+							</div>
 							<div class="boxs">
 								<div class="section group">
 									<div class="grid_1_of_4 images_1_of_4">
 										<label><?php echo $this->lang->line('appointment_reason');?>:</label>
 										<input type="text" name="appointment_reason" id="appointment_reason" value="<?= urldecode ($appointment_reason);?>" readonly />
-									</div>	
+									</div>
 									<div class="grid_1_of_4 images_1_of_4">
 										<label><?php echo $this->lang->line('charges');?>:</label>
 										<input type="text" name="charges" id="charges" value="<?=$charges;?>" readonly />
-									</div>	
-									
-							<?php 
+									</div>
+
+							<?php
 							if($verify){ ?>
-							</div>	
+							</div>
 						</div>
-							
+
 						<div class="boxs">
 							<div class="section group">
 								<div class="grid_1_of_4 images_1_of_4">
@@ -75,16 +93,16 @@
 								</div>
 								<div class="grid_1_of_4 images_1_of_4">
 									<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('verify');?></button>
-								</div>								
+								</div>
 							<?php }else{
-							if($logged_in){ 
+							if($logged_in){
 								if(count($patients) > 1){
 									//print_r($patients);
 									?>
 									<div class="section group">
 										<div class="grid_4_of_4 contact-form">
 											<label><?php echo $this->lang->line('select_patient');?>:</label>
-										
+
 											<table class="Patient_detail">
 												<thead>
 													<tr>
@@ -105,14 +123,14 @@
 											</table>
 										</div>
 									</div>
-									</div>	
 									</div>
-								
+									</div>
+
 									<div class="boxs">
 									<div class="section group">
 									<div class="grid_1_of_4 images_1_of_4">
 										<?php if($enable_ccavenue){?>
-											<?php 
+											<?php
 												//Unique Transaction Id
 												$transaction_id = 1;
 											?>
@@ -125,7 +143,7 @@
 									</div>
 							<?php }else{
 									?>
-									</div>	
+									</div>
 								</div>
 								<div class="boxs">
 									<div class="section group">
@@ -133,18 +151,18 @@
 										<label><?php echo $this->lang->line('patient');?>:</label>
 										<input type="hidden" name="patient_id" id="patient_id" value="" readonly />
 										<input type="text" name="patient_name" id="patient_name" value="<?=$user_name;?>" readonly />
-									</div>	
+									</div>
 									<div class="grid_1_of_4 images_1_of_4">
 										<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('book').' '.$this->lang->line('appointment');?></button>
 									</div>
 									<?php } ?>
-									
+
 							<?php } } ?>
 								</div>
 							</div>
-						<?php echo form_close(); ?>    	
+						<?php echo form_close(); ?>
 					</div>
-				</div>				
+				</div>
 			<div class="clear"> </div>
 			<div class="wrap">
 			<div class="services">
@@ -153,27 +171,27 @@
 				<div class="service-content grid_1_of_4 images_1_of_4 contact-form">
 					<h4><?php echo $this->lang->line('new') . ' ' . $this->lang->line('registration');?></h4>
 					<?php echo form_open('frontend/register_patient/'.$doctor_id.'/'.$book_date.'/'.$book_time.'/'.$appointment_reason) ?>
-								
+
 							<label><?php echo $this->lang->line('name');?></label>
-							
+
 							<input type="text" id="first_name" name="first_name" placeholder="First Name"/>
 							<?php echo form_error('first_name','<div class="alert alert-danger">','</div>'); ?>
 							<input type="text" id="middle_name" name="middle_name" placeholder="Middle Name"/>
 							<?php echo form_error('middle_name','<div class="alert alert-danger">','</div>'); ?>
 							<input type="text" id="last_name" name="last_name" placeholder="Last Name"/>
 							<?php echo form_error('last_name','<div class="alert alert-danger">','</div>'); ?>
-							  
+
 							<label><?php echo $this->lang->line('email');?></label>
 							<input type="text" id="email" name="email" placeholder="Email-Id"/>
 							<?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
-							
+
 							<label><?php echo $this->lang->line('password');?></label>
 							<input type="password" id="password" name="password" placeholder="Enter Password"/>
 							<?php echo form_error('password','<div class="alert alert-danger">','</div>'); ?>
-								
+
 							<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('register');?></button>
-															
-					<?php echo form_close(); ?>  
+
+					<?php echo form_close(); ?>
 				</div>
 				<div class="services-sidebar grid_1_of_4 images_1_of_4 contact-form">
 					<h4><?php echo $this->lang->line('login');?></h4>
@@ -188,16 +206,16 @@
 						<input type="password" id="login_password" name="login_password" placeholder="Enter Password"/>
 						<?php echo form_error('login_password','<div class="alert alert-danger">','</div>'); ?>
 						<button type="submit" name="submit" class="make_appointment_button"><?php echo $this->lang->line('login');?></button>
-					<?php echo form_close(); ?>  
+					<?php echo form_close(); ?>
 				</div>
 				<?php } ?>
 				</div>
 			</div>
 			</div>
-			
-			
+
+
 			</div>
-			
+
 			<!----End-content----->
 		</div>
 		<!---End-wrap---->

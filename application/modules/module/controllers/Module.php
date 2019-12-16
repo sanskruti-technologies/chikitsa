@@ -1,4 +1,21 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 class Module extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -108,14 +125,13 @@ class Module extends CI_Controller {
 					}
 
 					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, 'http://sanskruti.net/chikitsa/');
+					curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
 					curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
 
 					$response = curl_exec($ch);
 					curl_close($ch);
-
 					$data = json_decode($response, TRUE);
 					$module_license_status[$i]['license_status'] = $data['license'];
 					if($data['license'] == 'valid'){
@@ -135,7 +151,17 @@ class Module extends CI_Controller {
         } else {
 			$data['def_dateformate'] = $this->settings_model->get_date_formate();
 
-			$this->load->view('templates/header');
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+			$header_data['clinic_id'] = $clinic_id;
+			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+			$header_data['active_modules'] = $this->module_model->get_active_modules();
+			$header_data['user_id'] = $user_id;
+			$header_data['user'] = $this->admin_model->get_user($user_id);
+			$header_data['login_page'] = get_main_page();
+			$header_data['software_name']= $this->settings_model->get_data_value("software_name");
+			
+			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('add_module',$data);
 			$this->load->view('templates/footer');
@@ -475,13 +501,14 @@ class Module extends CI_Controller {
 		$parameters['license'] = $module['license_key'];
 		$parameters['url'] = base_url();
 
+
 		$encoded = "";
 		foreach($parameters as $name => $value) {
 			$encoded .= urlencode($name).'='.urlencode($value).'&';
 		}
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://sanskruti.net/chikitsa/');
+		curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
@@ -489,13 +516,13 @@ class Module extends CI_Controller {
 
 		$response = curl_exec($ch);
 		curl_close($ch);
+
 		$data = json_decode($response, TRUE);
-		//print_r($data);
 		$download_link = $data['download_link'];
 
 		$destination = "./uploads/".$module_name.".zip";
 		copy($download_link, $destination);
-		//echo "Module Downloaded";
+
 		$this->unzip_module($module_name);
 		$this->change_log($module_name);
 	}

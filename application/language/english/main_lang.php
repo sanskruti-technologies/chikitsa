@@ -1,12 +1,12 @@
 <?php
 	//Application Details
+	$lang['app_name'] = "Chikitsa";
 	$lang['app_tagline'] = "Patient Management System";
 	$lang['main_title'] = "Chikitsa - Patient Management System";
 	$lang['cmp_version'] = "Chikitsa Version";
 	$lang['cmp_name'] = "Sanskruti Technologies";
 	$lang['about_chikitsa'] = "About Chikitsa";
 
-	//Form Headers
 	$lang['sign_in'] = "Sign In";
 	//Labels
 	$lang['5min'] = "5 Min";
@@ -58,6 +58,7 @@
 	$lang['add_reference_by'] = "Add Reference By";
 	$lang['add_refund'] = "Add Refund";
 	$lang['add_user'] = "Add User";
+	$lang['add_bottom_section'] = "Add Bottom Section";
 	$lang['add_fee'] = "Add Fee";
 	$lang['add_extension'] = "Add Extensions";
 	$lang['add_patient'] = "Add Patient";
@@ -129,12 +130,12 @@
 	$lang['bank_payments'] = "Bank Payments";
 	$lang['bank_receipt'] = "Bank Receipt";
 	$lang['bank_receipts'] = "Bank Receipts";
+	$lang['barcode'] = "Barcode";
 	$lang['bed'] = "Bed";
 	$lang['before'] = "Before";
 	$lang['beds'] = "Beds";
 	$lang['bill'] = "Bill";
 	$lang['bills'] = "Bills";
-	$lang['bill'] = "Bill";
 	$lang['bill_amount'] = "Billed Amount";
 	$lang['bill_no'] = "Bill No";
 	$lang['bill_details'] = "Bill Details";
@@ -256,7 +257,7 @@
 	$lang['days'] = "Days";
 	$lang['deactivate'] = "Deactivate";
 	$lang['deallocate'] = "Deallocate";
-	$lang['degrees'] = "degrees";
+	$lang['degrees'] = "Degrees";
 	$lang['delete'] = "Delete";
 	$lang['delete_item'] = "Delete Item";
 	$lang['delete_supplier'] = "Delete Sullpier";
@@ -313,7 +314,6 @@
 	$lang['edit_test'] = "Edit Test";
 	$lang['email'] = "Email";
 	$lang['email_log'] = "Email Log";
-	$lang['email_alert_name'] = "Email Alert Name";
 	$lang['email_alert_name'] = "Email Alert Name";
 	$lang['email_id'] = "Email ID";
 	$lang['email_bill'] = "Email Bill";
@@ -843,6 +843,7 @@
 	$lang['types'] = "Types";
 	$lang['template_name'] = "Template Name";
 
+	$lang['upload'] = "Upload";
 	$lang['upload_extension'] = "Upload Extensions";
 	$lang['update'] = "Update";
 	$lang['updates'] = "Updates";
@@ -977,6 +978,9 @@
 	$lang['unzip_file'] = "Unzipping the zip file<br/>";
 
 	$lang['no_services'] = "No Services added. Add a Service.";
+	
+	$lang['extension_requires'] = "This extension requires %1$s %2$s";
+	$lang['compatible_version'] = "Compatible with this version of %1$s";
 
 	$lang['australian_currency'] = "Australian Dollar (AUD)";
 	$lang['brazilian_currency'] = "Brazilian Real (BRL)";

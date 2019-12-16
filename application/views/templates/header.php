@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <!DOCTYPE html>
 <?php
 	if(!isset($level)){
@@ -69,7 +87,7 @@
     <head>
         <title><?= $clinic['clinic_name'] .' - ' .$clinic['tag_line'];?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon" type="image/png" href="<?= base_url() ?>/favicon.png"/>
+		<link rel="shortcut icon"  href="<?= base_url() ?>/favicon.ico"/>
 
         <!-- BOOTSTRAP STYLES-->
 		<link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet" />

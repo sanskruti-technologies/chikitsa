@@ -1,7 +1,25 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <html>
     <head>
-        <title>Chikitsa - Patient Management System</title>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+        <title>Install Script</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
 
         <!-- BOOTSTRAP STYLES-->
@@ -10,7 +28,7 @@
 		<link href="./assets/css/font-awesome.min.css" rel="stylesheet" />
 		<!-- CUSTOM STYLES-->
 		<link href="./assets/css/custom.min.css" rel="stylesheet" />
-		
+
 		<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
 		<!-- JQUERY SCRIPTS -->
 		<script src="./assets/js/jquery-1.11.3.min.js"></script>
@@ -19,8 +37,8 @@
 		<!-- METISMENU SCRIPTS -->
 		<script src="./assets/js/jquery.metisMenu.min.js"></script>
 		  <!-- CUSTOM SCRIPTS -->
-		<script src="./assets/js/custom.min.js"></script>		
-		
+		<script src="./assets/js/custom.min.js"></script>
+
 		<style>
 			#myProgress {
 				width: 100%;
@@ -33,17 +51,17 @@
 			}
 		</style>
     </head>
-	<?php 
-	$lan_file_array = array('arabic','english','french','gujarati','italiano');
+	<?php
+	//$lan_file_array = array('arabic','english','french','gujarati','italiano');
 		error_reporting(E_ERROR);
-		
+
 		global $latest_version;
 		global $display_message;
 		global $flag;
 		$flag="false";
-		
 
-		$latest_version = "0.8.5";
+
+		$latest_version = "0.8.7";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.
@@ -65,7 +83,7 @@
 			$base_url = str_replace("/install.php","",currentUrl($_SERVER));
 			$base_url = str_replace("///","/",$base_url);
 			$config_file = "./application/config/config.php";
-			
+
 			$line_array = file($config_file);
 			for ($i = 0; $i < count($line_array); $i++) {
 				if (strstr($line_array[$i], "'base_url'")) {
@@ -86,7 +104,7 @@
 					if ( $entry == '.' || $entry == '..' ) {
 						continue;
 					}
-					$Entry = $source . '/' . $entry; 
+					$Entry = $source . '/' . $entry;
 					if ( is_dir( $Entry ) ) {
 						full_copy( $Entry, $target . '/' . $entry );
 						continue;
@@ -98,7 +116,7 @@
 			}else {
 				copy( $source, $target );
 			}
-		} 
+		}
 		function is_database_file_new(){
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
@@ -106,7 +124,7 @@
 				if (strpos($line_array[$i],"array(") !== false) {
 					return TRUE;
 				}
-				
+
 			}
 			return FALSE;
 		}
@@ -138,7 +156,7 @@
 			 return true;
 		}
 		function get_server_old() {
-			// Edit config/database.php file 
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
 
@@ -153,7 +171,7 @@
 			}
 		}
 		function get_username_old() {
-			// Edit config/database.php file 
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
 
@@ -168,7 +186,7 @@
 			}
 		}
 		function get_password_old() {
-			// Edit config/database.php file 
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
 
@@ -212,16 +230,16 @@
 		}
 		function correct_database_file(){
 			//Need to change the format of database file
-			
+
 			$server = get_server_old();
 			$dbname = get_database_old();
 			$mysql_username = get_username_old();
 			$mysql_password = get_password_old();
 			$dbprefix = get_dbprefix_old();
-			
+
 			$sample_database_file = "application/config/sample-database.php";
 			$line_array = file($sample_database_file);
-			
+
 			for ($i = 0; $i < count($line_array); $i++) {
 
 				if (strstr($line_array[$i], "'hostname' => ")) {
@@ -241,18 +259,18 @@
 				}
 			}
 			file_put_contents($sample_database_file, $line_array);
-			
+
 			$database_file = "application/config/database.php";
 			rename($sample_database_file,$database_file);
 		}
 		function display_information($message) {
 			global $display_message;
 			global $flag;
-			$display_message = $display_message . $message . "<br/>";   
+			$display_message = $display_message . $message . "<br/>";
 			if($message=="You have latest version of application installed."){
 				$flag=true;
 			}
-				
+
 		}
 		function application_url(){
             /* Get Page Url */
@@ -265,17 +283,17 @@
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
             } else {
                 $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-            }        
-            $pageURL = explode("/", $pageURL);        
+            }
+            $pageURL = explode("/", $pageURL);
             $base_path = '';
             for($i=0; $i < (sizeof($pageURL)-1); $i++){
                 $base_path .= $pageURL[$i] . "/";
             }
             return $base_path;
-		
+
 		}
 		function get_server() {
-			// Edit config/database.php file 
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
 
@@ -290,7 +308,7 @@
 			}
 		}
 		function get_username() {
-			// Edit config/database.php file 
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
 
@@ -305,7 +323,7 @@
 			}
 		}
 		function get_password() {
-			// Edit config/database.php file 
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
 			$line_array = file($database_file);
 
@@ -448,12 +466,12 @@
 			$sql = "SHOW TABLES LIKE '".$dbprefix."version';";
             $result = mysqli_query($con,$sql);
 			if((mysqli_num_rows($result))==0){
-				return FALSE;	
-			}else{		
+				return FALSE;
+			}else{
 				return TRUE;
 			}
 		}
-		
+
 		function display_form($message){
 			if($message != ""){
 				display_error($message);
@@ -465,7 +483,7 @@
 					<div class="col-md-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<strong>Install Chikitsa : Setup Database</strong>  
+								<strong>Install Chikitsa : Setup Database</strong>
 							</div>
 							<div class="panel-body">
 							<form method='post' action='install.php' >
@@ -494,14 +512,49 @@
 								<span class="input-group-addon">MySQL Password</span>
 								<input type="text" class="form-control" name="password" placeholder="MySQL Password" />
 							</div>
+								
+							<div class="form-group input-group">
+								<span class="input-group-addon">Select Language To Load</span>
+							</div>
+							<div class="col-md-12">
+									<div class='col-md-3'>
+										<label>
+											<input type='checkbox' name="language_check[]"  value="english" checked>English
+										</label>
+									</div>
+									<div class='col-md-3'>
+										<label>
+										<input type="checkbox"  name="language_check[]" value="arabic" /> Arabic
+										</label>
+									</div>
+									<div class='col-md-3'>
+										<label>
+										<input type="checkbox"  name="language_check[]" value="french" /> French
+										</label>
+									</div>
+								
+									<div class='col-md-3'>
+										<label>
+										<input type="checkbox"  name="language_check[]" value="gujarati" /> Gujarati
+										</label>
+									</div>
+									<div class='col-md-3'>
+										<label>
+										<input type="checkbox"  name="language_check[]" value="italiano" /> Italiano
+										</label>
+									</div>
+								</div>
 							<button type="submit" name="submit" class="btn btn-success"/>Install</button>
+
+							</div>
+
 						</form>
 						</div>
 						</div>
 					</div>
 				</div>
 			<?php
-		}	
+		}
 		function display_system_admin_form($message,$server,$username,$password,$database,$dbprefix){
 			if($message != ""){
 				display_error($message);
@@ -511,7 +564,7 @@
 							<div class="col-md-12">
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<strong>Install Chikitsa : Create System Administrator User</strong>  
+										<strong>Install Chikitsa : Create System Administrator User</strong>
 									</div>
 									<div class="panel-body">
 									<form method='post' action='install.php' >
@@ -548,12 +601,12 @@
 				<div class="col-md-12">
 					<div class="col-md-6" style="margin:0 auto;">
 					<h1> Chikitsa : Install</h1>
-					<?php 
+					<?php
 					if (!isset($_REQUEST["step"])) {
-						// Check if application is installled or not      
+						// Check if application is installled or not
 						if (is_installed()) {
-							
-							
+
+
 							/************************************************************
 							** Check the database file
 							*************************************************************/
@@ -568,17 +621,17 @@
 							$password = get_password();
 							$dbname = get_database();
 							$dbprefix = get_dbprefix();
-							
-							// Connect to Server 
+
+							// Connect to Server
 							$conn = new Database;
 							echo $conn->Connection($server, $username, $password);
 							$con = $conn->get_Connection();
-							$con->set_charset("UTF8");	
-							// Select Database 
+							$con->set_charset("UTF8");
+							// Select Database
 							mysqli_select_db($con , $dbname);
 							if(mysqli_num_rows(mysqli_query($con , "SHOW TABLES LIKE '".$dbprefix."version'"))==1) {
 								$sql = "Select current_version from " . $dbprefix . "version;";
-								
+
 								$result = mysqli_query($con,$sql);
 								if (!$result) {
 									$current_version = '0.0.1';
@@ -589,21 +642,21 @@
 								display_information("Current Version :" . $current_version);
 								if ($current_version == $latest_version) {
 									display_information("You have latest version of application installed.");
-									
+
 								} else {
 									$current_version_int = (int)str_replace(".","",$current_version);
-									
+
 									$latest_version_int = (int)str_replace(".","",$latest_version);
-									
+
 									for($index = $current_version_int+1;$index <= $latest_version_int; $index++){
 										$sql_file_name =  'sql/'.str_pad($index,3,"0",STR_PAD_LEFT).'.sql';
-										
+
 										$current_version = str_pad($index-1,3,"0",STR_PAD_LEFT);
-										$current_version = implode('.',str_split($current_version)); 
-										
+										$current_version = implode('.',str_split($current_version));
+
 										$new_version = str_pad($index,3,"0",STR_PAD_LEFT);
-										$new_version = implode('.',str_split($new_version)); 
-										
+										$new_version = implode('.',str_split($new_version));
+
 										if ($index == 12){ // 0.1.2
 											//Delete not required files
 											delete_file("application/language/english/ck_lang.php");
@@ -614,10 +667,10 @@
 											delete_file("application/models/settings_model.php");
 											delete_file("application/models/stock_model.php");
 											delete_file("application/modules_core/admin/views/admin_login.php");
-											delete_file("application/modules_core/admin/views/admin_signin_fail.php");	
-											delete_file("application/modules_core/admin/views/welcome.php");		
-											delete_file("application/modules_core/appointment/views/addfromfollowup.php");		
-											delete_file("application/modules_core/appointment/views/editAvailableApp.php");		
+											delete_file("application/modules_core/admin/views/admin_signin_fail.php");
+											delete_file("application/modules_core/admin/views/welcome.php");
+											delete_file("application/modules_core/appointment/views/addfromfollowup.php");
+											delete_file("application/modules_core/appointment/views/editAvailableApp.php");
 											delete_file("application/modules_core/appointment/views/edit.php");
 											delete_file("application/modules_core/appointment/views/add.php");
 											delete_file("application/modules_core/appointment/views/addApp.php");
@@ -652,15 +705,16 @@
 										if($index == 73){
 											delete_folder("application/modules/main");
 										}
-										
+
 										display_information("Upgrading from ".$current_version." to ".$new_version);
-										$sqls = file($sql_file_name);	
+										$sqls = file($sql_file_name);
 										$count = count($sqls);
-										
+
 										if($index >=  79){
-											
+
 											$language_sqls = array();
 											//Language Files
+											$lan_file_array = array('arabic','english','french','gujarati','italiano','spanish');
 											foreach($lan_file_array as $language){
 												$language_sqls[$language] = array();
 												$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data WHERE l_name='".$language."';";
@@ -684,13 +738,13 @@
 													}
 												}
 											}
-										}	
-										
+										}
+
 										?>
 										<script type="text/javascript">
 											$(document).ready(function () {
 												$("#continue_form").hide();
-												$("#step").html("Creating Tables");
+												$("#step").html("");
 												$("#progress").val(0);
 												var install_sqls = <?php echo json_encode($sqls); ?>;
 												var language_sqls = [];
@@ -704,7 +758,7 @@
 															$("#install_logs").val(result);
 															var $textarea = $("#install_logs");
 															$textarea.scrollTop($textarea[0].scrollHeight);
-															
+
 														}
 														progress = parseInt($("#progress").val());
 														progress = progress + 1;
@@ -712,46 +766,52 @@
 														var total_queries = <?=$count;?>;
 														$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
 														if(progress == total_queries){
+															<?php if($index >=  79){ ?>
 															$("#step").html("Loading Language File");
 															var index = $("#index").val();
+															<?php if(!empty($lan_file_array)){ ?>
 															var languages = <?php echo json_encode($lan_file_array); ?>;
 															language = languages[index];
-															
+
 															read_language_files(language);
-															
+
+															<?php }else{ ?>
+															$("#step").html("Installation Complete");
+															$("#continue_form").show();
+															<?php }} ?>
 														}
 													}});
 												});
-												
+
 												function read_language_files(language){
 													$("#step").html("Loading Language File : "+language);
 													$("#progress").val(0);
 													var install_sqls = language_sqls[language];
-													
+
 													jQuery.each( install_sqls, function( i, sql) {
-														
+
 														$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$dbname;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
 															if(result != ''){
 																result =  $("#install_logs").val() + result + '\n';
 																$("#install_logs").val(result);
 																var $textarea = $("#install_logs");
 																$textarea.scrollTop($textarea[0].scrollHeight);
-																
+
 															}
 															progress = parseInt($("#progress").val());
 															progress = progress + 1;
 															$("#progress").val(progress);
-															
+
 															var total_queries = language_sqls[language].length;
 															console.log(language);
 															console.log(total_queries);
 															$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
 															if(progress == total_queries){
 																var index = parseInt($("#index").val());
-																index++; 
+																index++;
 																$("#index").val(index);
 																var languages = <?php echo json_encode($lan_file_array); ?>;
-																										
+
 																if(index < languages.length){
 																	language = languages[index];
 																	read_language_files(language)
@@ -759,30 +819,30 @@
 																	$("#step").html("Updating Language Files");
 																	update_language_file();
 																}
-																
+
 															}
 														}});
 													});
-													
-													
+
+
 												}
-												
-												
+
+
 												function update_language_file(){
 													$.ajax({url: "update_language_file.php", data: { server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$database;?>',dbprefix:'<?=$dbprefix;?>'},success: function(){
 															console.log("done");
 															$("#step").html("Installation Complete");
-															$("#continue_form").show();													
+															$("#continue_form").show();
 														}
 													});
 												}
-												
+
 											});
 										</script>
-									
-										
+
+
 										<?php
-									
+
 									}
 									?>
 									<div id="myProgress">
@@ -798,13 +858,13 @@
 								<div class="alert alert-info" style="margin-top: 20px; padding: 0.7em;">
 									<?php echo $display_message;?>
 								</div>
-								<?php 
+								<?php
 								$base_url = str_replace("/install.php","",currentUrl($_SERVER));
 			                    $base_url = str_replace("///","/",$base_url);
-								
-								
+
+
 								?>
-								<div class="form_style" id="continue_form" style="display:none">
+								<div class="form_style" id="continue_form" >
 									<input type="hidden" id="index" value="0" />
 									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo $base_url."/index.php/login/cleardata";?>">Continue to Application</a>
 								</div>
@@ -818,7 +878,7 @@
 							** Step 1 - Ask for MySQL Credentials
 							*************************************************************/
 							$message="";
-							
+
 							display_form($message);
 						}
 					}elseif ($_REQUEST["step"] == 2) {
@@ -831,21 +891,26 @@
 						$password = $_POST["password"];
 						$dbname = $_POST["dbname"];
 						$dbprefix = $_POST["tableprefix"];
+						$lan_file_array = $_POST["language_check"];
+						if(sizeof($lan_file_array)==0){
+							$lan_file_array[]='english';
+						}
 						
+
 						if (isset($_POST["createdb"]))
 							$createdb = 1;
 						else
 							$createdb = 0;
-						
+
 						$conn = new Database;
 						$error_message = $conn->Connection($server, $username, $password);
 						if($error_message != FALSE){
 							display_form($error_message);
 							exit;
 						}
-						
+
 						$con = $conn->get_Connection();
-						
+
 						// Create Database
 						if ($createdb == 1){
 							//Does the database exists?
@@ -857,14 +922,14 @@
 								echo $conn->CreateDatabase($dbname);
 							}
 						}else{
-							
+
 							if(!does_database_exist($server, $username, $password,$dbname)){
 								$error_message = "Database does not exists. Cannot Install";
 								display_form($error_message);
 								exit;
 							}
 						}
-						
+
 						$link = mysqli_select_db($con,$dbname);
 						if (!$link) {
 							$error_message = 'Not connected : ' . mysqli_error($con);
@@ -882,15 +947,15 @@
 						  <div id="myBar"></div>
 						</div>
 						<br/>
-						
+
 						<span id="step">Installation Logs</span>
 						<textarea id="install_logs" class="form-control" rows=10 style="background:#eee;" readonly>
 						</textarea>
-						
+
 						<form id='continue_form' method='post' action='install.php' >
 							<input type="hidden" name="step" value="3" />
 							<input type="hidden" id="index" value="0" />
-							
+
 							<div class="form_style">
 								<input type="hidden" name="server" value="<?=$server;?>" />
 								<input type="hidden" name="username" value="<?=$username;?>" />
@@ -899,7 +964,7 @@
 								<input type="hidden" name="dbprefix" value="<?=$dbprefix;?>" />
 								<input class="btn btn-success square-btn-adjust" type="submit" value="Continue" />
 							</div>
-						</form>	
+						</form>
 						<?php
 						//Move folders to uploads
 						if ($latest_version == "0.7.0"){ //0.7.0
@@ -908,9 +973,9 @@
 							folder_move("profile_picture", "uploads/profile_picture");
 							folder_move("restore_backup", "uploads/restore_backup");
 						}
-						
+
 						$sql_file_name = 'sql/install.sql';
-						$sqls = file($sql_file_name);	
+						$sqls = file($sql_file_name);
 						$count = count($sqls);
 						$language_sqls = array();
 						//Language Files
@@ -935,10 +1000,10 @@
 								}
 							}
 						}
-						
-						
-						
-						
+
+
+
+
 						?>
 						<script type="text/javascript">
 						$("#continue_form").hide();
@@ -956,7 +1021,7 @@
 									$("#install_logs").val(result);
 									var $textarea = $("#install_logs");
 									$textarea.scrollTop($textarea[0].scrollHeight);
-									
+
 								}
 								progress = parseInt($("#progress").val());
 								progress = progress + 1;
@@ -969,42 +1034,42 @@
 									var languages = <?php echo json_encode($lan_file_array); ?>;
 									language = languages[index];
 									read_language_files(language);
-									
+
 									//$("#continue_form").show();
 								}
 							}});
 						});
-						
-						
+
+
 						function read_language_files(language){
 							$("#step").html("Loading Language File : "+language);
 							$("#progress").val(0);
 							var install_sqls = language_sqls[language];
-							
+
 							jQuery.each( install_sqls, function( i, sql) {
-								
+
 								$.ajax({url: "install_functions.php", data: { action: 'install_sql' , sql :sql,server: '<?=$server;?>', username: '<?=$username;?>', password: '<?=$password;?>',dbname:'<?=$dbname;?>',dbprefix:'<?=$dbprefix;?>'}, success: function(result){
 									if(result != ''){
 										result =  $("#install_logs").val() + result + '\n';
 										$("#install_logs").val(result);
 										var $textarea = $("#install_logs");
 										$textarea.scrollTop($textarea[0].scrollHeight);
-										
+
 									}
 									progress = parseInt($("#progress").val());
 									progress = progress + 1;
 									$("#progress").val(progress);
-									
+
 									var total_queries = language_sqls[language].length;
 									$("#myBar").width(parseInt(progress/total_queries*100)+ '%');
 									if(progress == total_queries){
 										var index = parseInt($("#index").val());
-										index++; 
+										index++;
 										$("#index").val(index);
 										var languages = <?php echo json_encode($lan_file_array); ?>;
 										console.log(index);
 										console.log(languages.length);
-										
+
 										if(index < languages.length){
 											language = languages[index];
 											read_language_files(language)
@@ -1012,14 +1077,14 @@
 											$("#step").html("Installation Complete");
 											$("#continue_form").show();
 										}
-										
+
 									}
 								}});
 							});
-							
+
 						}
 						</script>
-						<?php 
+						<?php
 					}elseif ($_REQUEST["step"] == 3) {
 						/************************************************************
 						** Step 3 - Ask for System administrator Username and Password
@@ -1041,19 +1106,19 @@
 						$server = $_POST["server"];
 						$mysql_username = $_POST["mysql_username"];
 						$mysql_password = $_POST["mysql_password"];
-						
-						
+
+
 						if($_POST["password"] != $_POST["confirm_password"]){
 							$message = "Confirm Password Mismatch";
 							display_system_admin_form($message,$server,$mysql_username,$mysql_password,$dbname,$dbprefix);
 							exit;
 						}
-						
-						// Edit config/database.php file 
+
+						// Edit config/database.php file
 						$sample_database_file = "application/config/sample-database.php";
 						$database_file = "application/config/database.php";
 						rename($sample_database_file,$database_file);
-						
+
 						$line_array = file($database_file);
 
 						for ($i = 0; $i < count($line_array); $i++) {
@@ -1075,20 +1140,20 @@
 							}
 						}
 						file_put_contents($database_file, $line_array);
-						
-						// Edit config/config.php file 
+
+						// Edit config/config.php file
 						$sample_config_file = "application/config/sample-config.php";
 						$config_file = "application/config/config.php";
 						rename($sample_config_file,$config_file);
 						set_base_url();
-						// Connect to Server 
+						// Connect to Server
 						$conn = new Database;
 						$error_message = $conn->Connection($server, $mysql_username, $mysql_password);
 						if($error_message != FALSE){
 							display_error($error_message);
 						}
 						$con = $conn->get_Connection();
-											
+
 						$link = mysqli_select_db($con, $dbname );
 						if (!$link) {
 							$error_message = 'Not connected : ' . mysqli_error($con);
@@ -1100,7 +1165,7 @@
 							$message = "Error : " . mysqli_error($con);
 							display_system_admin_form($message,$server,$mysql_username,$mysql_password,$dbname,$dbprefix);
 						}else{
-							
+
 							$sql = "UPDATE ".$dbprefix."version SET current_version='$latest_version';";
 							//echo $sql;
 							if (!mysqli_query($con,$sql)) {
@@ -1119,6 +1184,6 @@
 				</div>
 			</div>
 		</div>
-		
+
     </body>
 </html>

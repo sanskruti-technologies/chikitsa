@@ -1,4 +1,22 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
+<?php
 class Settings extends CI_Controller {
     function __construct() {
         parent::__construct();
@@ -6,7 +24,7 @@ class Settings extends CI_Controller {
         $this->load->model('settings_model');
 		$this->load->model('module/module_model');
 		$this->load->model('admin/admin_model');
-        
+
 		$this->load->helper('url');
 		$this->load->helper('currency_helper');
         $this->load->helper('form');
@@ -14,19 +32,19 @@ class Settings extends CI_Controller {
 		$this->load->helper('file');
 		$this->load->helper('unzip_helper');
 		$this->load->helper('mainpage');
-		
+
 		$this->lang->load('main');
-        
+
 		$this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->helper('time');
 		$this->load->helper('date');
-		
+
     }
 	public function edit_language($language) {
-		$clinic_id = $this->session->userdata('clinic_id'); 
-		$user_id = $this->session->userdata('user_id'); 
-			
+		$clinic_id = $this->session->userdata('clinic_id');
+		$user_id = $this->session->userdata('user_id');
+
 		$header_data['clinic_id'] = $clinic_id;
 		$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 		$header_data['active_modules'] = $this->module_model->get_active_modules();
@@ -39,8 +57,8 @@ class Settings extends CI_Controller {
 		$this->load->view('templates/menu');
 		$this->load->view('edit_language',$data);
 		$this->load->view('templates/footer');
-			
-			
+
+
 	}
 	public function save_language(){
 		$this->settings_model->edit_language_data();
@@ -49,19 +67,101 @@ class Settings extends CI_Controller {
 		$l_name = $this->input->post('l_name');
 		$l_name=rtrim($l_name);
 				$language_file = "./application/language/$l_name/main_lang.php";
-				$line_array = file($language_file);	
-					
+				$line_array = file($language_file);
+
 				for ($i = 0; $i < count($line_array); $i++) {
 					if (strstr($line_array[$i], '$lang[\''.$index.'\'] = ')) {
 						$line_array[$i] = '$lang[\''.$index.'\'] = "'.$language.'";' . "\r\n";
 					}
 				}
 				file_put_contents($language_file, $line_array);
-				
+
 				$main_lang_file = "./application/language/$l_name/main_lang.php";
 				rename($language_file,$main_lang_file);
-			
+
 		echo $index;
+	}
+	public function add_language(){
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+        }else {
+			
+            $this->form_validation->set_rules('language_name', $this->lang->line('language')." ".$this->lang->line('name'), 'trim|required');
+            if ($this->form_validation->run() === FALSE) {
+                $this->change_settings();
+            } else {
+				$language_name=$this->input->post('language_name');
+				
+				//if language is same as folder language
+				$data['language_folders']=directory_map('./application/language/');	
+				$data['folder']=array_keys($data['language_folders']);
+					foreach($data['folder'] as $row)
+					{
+						$row=substr($row, 0, -1);
+						if(strlen($row)>1){
+							$folder_name[$row]=$row;
+						}
+					}
+				$data['languages']=$this->settings_model->get_language_name();
+				$result_language=array_diff($folder_name,$data['languages']);
+				
+				if(in_array ($language_name, $result_language)){
+					$destination='application/language/'.$language_name.'/main_lang.php';
+					$flag=true;
+				}else{
+				$flag=true;
+		
+				//create folder
+				mkdir('./application/language/' . $language_name, 0777, TRUE);
+			
+				//copy index.htnl file
+				$index_src='application/language/english/index.html';
+				$index_destination='application/language/'.$language_name.'/index.html';
+				if(!copy($index_src,$index_destination)){
+					echo "failed to copy";
+					$flag=false;
+				}
+				//copy main_lang.php file
+				$src='application/language/english/main_lang.php';
+				$destination='application/language/'.$language_name.'/main_lang.php';
+				if(!copy($src,$destination)){
+					echo "failed to copy ";
+					$flag=false;
+				}
+					
+				}
+				
+				
+					
+					if($flag==true){
+					include($destination);
+					$language_array=$lang;
+					$this->settings_model->save_language_data($language_name,$language_array);
+					//print_r($lang);
+					
+					 $this->change_settings();
+				}
+			}	
+		
+        }
+	}
+	public function upload_language() {
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+        }else {
+			
+            $this->form_validation->set_rules('language', $this->lang->line('language'), 'required');
+			if ($this->form_validation->run() === FALSE) {
+                $this->change_settings();
+            }else {
+				$language_name=$this->input->post('language');
+				$destination='application/language/'.$language_name.'/main_lang.php';
+				include($destination);
+					$language_array=$lang;
+					$this->settings_model->save_language_data($language_name,$language_array);
+					$this->change_settings();
+			}
+        }
 	}
 	/** File Upload for Clinic Logo Image */
 	public function do_logo_upload() {
@@ -86,12 +186,12 @@ class Settings extends CI_Controller {
             redirect('login/index');
         } else {
 			$active_modules = $this->module_model->get_active_modules();
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-				
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			if (in_array("centers", $active_modules)) {
 				$data['clinics'] = $this->settings_model->get_all_clinics();
-				
+
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
@@ -99,7 +199,7 @@ class Settings extends CI_Controller {
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
 				$data['def_timeformate']=$this->settings_model->get_time_formate();
-						
+
 				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('centers/all_centers',$data);
@@ -114,41 +214,41 @@ class Settings extends CI_Controller {
 					$data['active_modules'] = $this->module_model->get_active_modules();
 					$data['center'] = $this->settings_model->get_clinic_settings($clinic_id);
 					$data['def_timeformate']=$this->settings_model->get_time_formate();
-									
+
 					$header_data['clinic_id'] = $clinic_id;
 					$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 					$header_data['active_modules'] = $this->module_model->get_active_modules();
 					$header_data['user_id'] = $user_id;
 					$header_data['user'] = $this->admin_model->get_user($user_id);
 					$header_data['login_page'] = get_main_page();
-						
+
 					$this->load->view('templates/header',$header_data);
 					$this->load->view('templates/menu');
 					$this->load->view('settings/clinic', $data);
 					$this->load->view('templates/footer');
 				} else {
 					$this->settings_model->save_clinic_settings();
-					$file_upload = $this->do_logo_upload(); 
-					
+					$file_upload = $this->do_logo_upload();
+
 					//Error uploading the file
 					if(isset($file_upload['error']) && $file_upload['error']!='<p>You did not select a file to upload.</p>'){
-						$data['error'] = $file_upload['error'];		
+						$data['error'] = $file_upload['error'];
 					}elseif(isset($file_upload['file_name'])){
 						$file_name = $file_upload['file_name'];
-						$this->settings_model->update_clinic_logo($file_name);	
+						$this->settings_model->update_clinic_logo($file_name);
 					}
 					$data['active_modules'] = $this->module_model->get_active_modules();
 					$data['center'] = $this->settings_model->get_clinic_settings();
 					$data['def_timeformate']=$this->settings_model->get_time_formate();
-					
-				
+
+
 					$header_data['clinic_id'] = $clinic_id;
 					$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 					$header_data['active_modules'] = $this->module_model->get_active_modules();
 					$header_data['user_id'] = $user_id;
 					$header_data['user'] = $this->admin_model->get_user($user_id);
 					$header_data['login_page'] = get_main_page();
-						
+
 					$this->load->view('templates/header',$header_data);
 					$this->load->view('templates/menu');
 					$this->load->view('settings/clinic', $data);
@@ -166,10 +266,10 @@ class Settings extends CI_Controller {
 				return FALSE;
 			}
 		}
-		
+
 	}
 	public function remove_clinic_logo(){
-		$this->settings_model->remove_clinic_logo();	
+		$this->settings_model->remove_clinic_logo();
 		$this->clinic();
 	}
     public function working_days() {
@@ -178,23 +278,23 @@ class Settings extends CI_Controller {
         } else {
 			$data['def_dateformate']=$this->settings_model->get_date_formate();
 			$data['def_timeformate']=$this->settings_model->get_time_formate();
-		
+
 			$data['working_days'] = $this->settings_model->get_working_days();
 			$data['all_working_days'] = $this->settings_model->get_all_working_days();
 			$data['exceptional_days'] = $this->settings_model->get_exceptional_days();
 			$data['clinics'] = $this->settings_model->get_all_clinics();
 			$active_modules = $this->module_model->get_active_modules();
 			$data['active_modules'] = $active_modules;
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-					
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-				
+
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('settings/working_days',$data);
@@ -216,9 +316,9 @@ class Settings extends CI_Controller {
 			$this->form_validation->set_rules('working_date', $this->lang->line('working_date'), 'required');
 			$this->form_validation->set_rules('working_status', $this->lang->line('working_status'), 'required');
             if ($this->form_validation->run() === FALSE) {
-				
+
 			}else{
-				$this->settings_model->save_exceptional_days();	
+				$this->settings_model->save_exceptional_days();
 			}
 			$this->working_days();
 		}
@@ -233,10 +333,10 @@ class Settings extends CI_Controller {
             if ($this->form_validation->run() === FALSE) {
 				$this->edit_exceptional_days($uid);
 			}else{
-				$this->settings_model->update_exceptional_days($uid);	
+				$this->settings_model->update_exceptional_days($uid);
 				$this->working_days();
 			}
-			
+
 		}
 	}
 	public function delete_exceptional_days($uid){
@@ -257,7 +357,7 @@ class Settings extends CI_Controller {
         if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			
+
             $this->form_validation->set_rules('left_pad', $this->lang->line('left_pad'), 'required');
             $this->form_validation->set_rules('currency_symbol', $this->lang->line('currency_symbol'), 'required');
             if ($this->form_validation->run() === FALSE) {
@@ -278,18 +378,30 @@ class Settings extends CI_Controller {
 			$data['enable_ad']=$this->settings_model->get_data_value('enable_ad');
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
 			$data['default_language']= $this->settings_model->get_data_value("default_language");
-			$data['languages']=directory_map('./application/language/');		
+			$data['languages']=$this->settings_model->get_language_name();	
+			$data['language_folders']=directory_map('./application/language/');	
+			$data['folder']=array_keys($data['language_folders']);
+				foreach($data['folder'] as $row)
+				{
+					$row=substr($row, 0, -1);
+					if(strlen($row)>1){
+						$folder_name[$row]=$row;
+					}
+				}
+			$result_language=array_diff($folder_name,$data['languages']);
+			$data['result_language']=$result_language;
+			//print_r($result_language);
 			$data['invoice'] = $this->settings_model->get_invoice_settings();
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-				
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-				
+
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('settings',$data);
@@ -305,16 +417,16 @@ class Settings extends CI_Controller {
             redirect('login/index');
         } else {
 			$data['tax_rates'] = $this->settings_model->get_tax_rates();
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-				
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-				
+
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('tax_rates',$data);
@@ -328,17 +440,17 @@ class Settings extends CI_Controller {
 			$this->form_validation->set_rules('tax_rate_name', $this->lang->line("tax_rate")." ".$this->lang->line("name"), 'required');
 			$this->form_validation->set_rules('tax_rate', $this->lang->line("tax_rate")." ".$this->lang->line("percentage"), 'required');
 			if ($this->form_validation->run() === FALSE) {
-					
-				$clinic_id = $this->session->userdata('clinic_id'); 
-				$user_id = $this->session->userdata('user_id'); 
-					
+
+				$clinic_id = $this->session->userdata('clinic_id');
+				$user_id = $this->session->userdata('user_id');
+
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
 				$header_data['user_id'] = $user_id;
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
-				
+
 				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('tax_rate_form');
@@ -358,17 +470,17 @@ class Settings extends CI_Controller {
 			$this->form_validation->set_rules('tax_rate', $this->lang->line("tax_rate")." ".$this->lang->line("percentage"), 'required');
 			if ($this->form_validation->run() === FALSE) {
 				$data['tax_rate'] = $this->settings_model->get_tax_rate($tax_id);
-				
-				$clinic_id = $this->session->userdata('clinic_id'); 
-				$user_id = $this->session->userdata('user_id'); 
-					
+
+				$clinic_id = $this->session->userdata('clinic_id');
+				$user_id = $this->session->userdata('user_id');
+
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
 				$header_data['user_id'] = $user_id;
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
-				
+
 				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('tax_rate_form',$data);
@@ -385,7 +497,7 @@ class Settings extends CI_Controller {
 		$this->tax_rates();
 	}
 	public function get_tax_rate_name(){
-		
+
 	}
 	public function enable_ad(){
 		$this->settings_model->set_data_value("enable_ad", $this->input->post('enable_ad'));
@@ -406,7 +518,7 @@ class Settings extends CI_Controller {
 			}
 		}
 		file_put_contents($config_file, $line_array);
-			
+
 		//$this->change_settings();
 		redirect('settings/change_settings');
 	}
@@ -434,18 +546,18 @@ class Settings extends CI_Controller {
 			$data['enable_sync'] = $this->settings_model->get_data_value('enable_sync');
 			$data['sync_status'] = $this->settings_model->get_data_value('sync_status');
 			$data['online_url'] = $this->settings_model->get_data_value('online_url');
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-					
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-					
+
 			$this->load->view('templates/header',$header_data);
-				
+
 			$this->load->view('templates/menu');
 			$this->load->view('settings/backup',$data);
 			$this->load->view('templates/footer');
@@ -455,10 +567,10 @@ class Settings extends CI_Controller {
 		$db_prefix =  $this->db->dbprefix;
 		// Load the DB utility class
 		$this->load->dbutil();
-				
+
 		$tables = $this->db->list_tables();
 		$tables_array = array();
-		
+
 		$dbprefix =  $this->db->dbprefix;
 		$prefix_length = strlen($dbprefix);
 		foreach($tables as $table){
@@ -466,7 +578,7 @@ class Settings extends CI_Controller {
 				$tables_array[] = $table;
 			}
 		}
-					
+
 		$prefs = array(
 			'tables'        => $tables_array,			    // Array of tables to backup.
 			'ignore'        => array(),                     // List of tables to omit from the backup
@@ -481,13 +593,13 @@ class Settings extends CI_Controller {
 		// Load the file helper and write the file to your server
 		$this->load->helper('file');
 		write_file('chikitsa-backup.sql', $backup);
-		
+
 		$data = $db_prefix;
 		$db_prefix_file = "prefix.txt";
 		write_file($db_prefix_file, $data);
-		
+
 		//Take Backup of Profile Pictures
-		
+
 		$this->load->library('zip');
 		$this->zip->read_file('chikitsa-backup.sql');
 		$this->zip->read_dir('uploads/images');
@@ -498,12 +610,12 @@ class Settings extends CI_Controller {
 		$this->zip->read_dir('uploads/themes');
 
 
-	
-		
+
+
 		$this->zip->read_file($db_prefix_file);
-		
+
 		$this->zip->download('chikitsa-backup.zip');
-		
+
 		$this->backup();
 	}
 	public function do_upload() {
@@ -524,48 +636,48 @@ class Settings extends CI_Controller {
             redirect('login/index');
         } else {
 			//Upload File
-			$file_upload = $this->do_upload(); 
+			$file_upload = $this->do_upload();
 			$filename = $file_upload['file_name'];
 			$filname_without_ext = pathinfo($filename, PATHINFO_FILENAME);
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-				
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-								
-							
-							
+
+
+
 			if(isset($file_upload['error'])){
-				$data['error'] = $file_upload['error'];		
+				$data['error'] = $file_upload['error'];
 				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('settings/backup',$data);
 				$this->load->view('templates/footer');
 			}elseif($file_upload['file_ext']!='.zip'){
-				$data['error'] = "The file you are trying to upload is not a .zip file. Please try again.";		
+				$data['error'] = "The file you are trying to upload is not a .zip file. Please try again.";
 				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('settings/backup',$data);
 				$this->load->view('templates/footer');
 			}else{
-				$data['file_upload'] = $file_upload;	
+				$data['file_upload'] = $file_upload;
 				//Unzip
 				$full_path = $file_upload['full_path'];
 				$file_path = $file_upload['file_path'];
 				$raw_name = $file_upload['raw_name'];
-				
-				$return_code = unzip($full_path,$file_path);			
+
+				$return_code = unzip($full_path,$file_path);
 				if($return_code === TRUE){
 					//Check prefix
 					$allow_restore = FALSE;
-					
+
 					$prefix_file_name = $file_path . '/prefix.txt';
 					if (file_exists($prefix_file_name)) {
-						$backup_prefix = file_get_contents($prefix_file_name);	
+						$backup_prefix = file_get_contents($prefix_file_name);
 						$current_prefix = $this->db->dbprefix;
 						if($backup_prefix == $current_prefix){
 							$allow_restore = TRUE;
@@ -575,15 +687,15 @@ class Settings extends CI_Controller {
 					}else{
 						$allow_restore = TRUE;
 					}
-					
+
 					if($allow_restore){
-						
+
 						//execute sql file
 						$sql_file_name = $file_path . '/chikitsa-backup.sql';
-						
-						$file_content = file_get_contents($sql_file_name);	
+
+						$file_content = file_get_contents($sql_file_name);
 						$query_list = explode(";\n", $file_content);
-						
+
 						foreach($query_list as $query){
 							//Remove Comments like # # Commment #
 							$pos1 = strpos($query,"#\n# ");
@@ -636,16 +748,16 @@ class Settings extends CI_Controller {
             redirect('login/index');
         } else {
 			$data['reference_by'] = $this->settings_model->get_reference_by();
-			$clinic_id = $this->session->userdata('clinic_id'); 
-			$user_id = $this->session->userdata('user_id'); 
-				
+			$clinic_id = $this->session->userdata('clinic_id');
+			$user_id = $this->session->userdata('user_id');
+
 			$header_data['clinic_id'] = $clinic_id;
 			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 			$header_data['active_modules'] = $this->module_model->get_active_modules();
 			$header_data['user_id'] = $user_id;
 			$header_data['user'] = $this->admin_model->get_user($user_id);
 			$header_data['login_page'] = get_main_page();
-			
+
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('settings/reference_by',$data);
@@ -658,9 +770,9 @@ class Settings extends CI_Controller {
         } else {
 			$this->form_validation->set_rules('reference_option', $this->lang->line('option'), 'required');
 			if ($this->form_validation->run() === FALSE) {
-				$clinic_id = $this->session->userdata('clinic_id'); 
-				$user_id = $this->session->userdata('user_id'); 
-				
+				$clinic_id = $this->session->userdata('clinic_id');
+				$user_id = $this->session->userdata('user_id');
+
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
@@ -682,19 +794,19 @@ class Settings extends CI_Controller {
             redirect('login/index');
         } else {
 			$this->form_validation->set_rules('reference_option', $this->lang->line('option'), 'required');
-			
+
 			if ($this->form_validation->run() === FALSE) {
 				$data['reference'] = $this->settings_model->get_reference($reference_id);
-				$clinic_id = $this->session->userdata('clinic_id'); 
-				$user_id = $this->session->userdata('user_id'); 
-				
+				$clinic_id = $this->session->userdata('clinic_id');
+				$user_id = $this->session->userdata('user_id');
+
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
 				$header_data['active_modules'] = $this->module_model->get_active_modules();
 				$header_data['user_id'] = $user_id;
 				$header_data['user'] = $this->admin_model->get_user($user_id);
 				$header_data['login_page'] = get_main_page();
-				
+
 				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('settings/reference_by_form',$data);
@@ -720,7 +832,7 @@ class Settings extends CI_Controller {
 			$rows = $this->settings_model->get_all_rows($table);
 			$columns = $this->settings_model->get_columns($table);
 			$this->send_row_online($dbprefix,$table,$columns,$rows);
-			
+
 			//$this->settings_model->add_sync_log("online","insert",$table,$row_count);
 		}
 	}
@@ -741,18 +853,18 @@ class Settings extends CI_Controller {
 			if($row_count > 1000) break; //To avoid heavy traffic
 		}
 		$data_string = json_encode($all_data);
-		
+
 		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                         
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Content-Type: application/json',
 			'Content-Length: ' . strlen($data_string))
 		);
 		$response = curl_exec($ch);
 		curl_close($ch);
-		
+
 		$oXML = new SimpleXMLElement($response);
 		foreach($oXML->row as $row){
 			//echo $row->table_name." ". $row->primary_key." ". $row->primary_id." ".$row->status."\n";
@@ -761,31 +873,31 @@ class Settings extends CI_Controller {
 				$this->db->query($query);
 			}
 		}
-		
+
 	}
 	public function receive_data_online(){
 		$xml = new SimpleXMLElement('<xml/>');
-		
+
 		$dbprefix = $this->db->dbprefix;
-		
+
 		$result = json_decode(file_get_contents('php://input'), true);
 		foreach($result as $row){
 			$table_name = str_replace($row['dbprefix'],$dbprefix,$row['table_name']);
-			
+
 			$columns = $this->settings_model->get_columns($table_name);
-			
-			$primary_key = $row['primary_id'];			
+
+			$primary_key = $row['primary_id'];
 			$primary_id = $row[$row['primary_id']];
-			
-			$xml_row = $xml->addChild('row');	
+
+			$xml_row = $xml->addChild('row');
 			$xml_row->addChild('table_name', $table_name);
 			$xml_row->addChild('primary_key', $primary_key);
 			$xml_row->addChild('primary_id', $primary_id);
-			
+
 			unset($row['table_name']);
 			unset($row['dbprefix']);
 			unset($row['primary_id']);
-			
+
 			if($row['sync_status'] == NULL){
 				$columns = implode(",", $columns);
 				$values =  implode("','", $row);
@@ -807,6 +919,6 @@ class Settings extends CI_Controller {
 		Header('Content-type: text/xml');
 		print($xml->asXML());
 	}
-	
+
 }
 ?>

@@ -173,6 +173,8 @@ $(window).load(function(){
 				}
 			}
 		});
+	<?php }else{ ?>
+		var list_treatment=[];
 	<?php } ?>
 	    var patient=[<?php $i = 0;
 			foreach ($patients as $patient) {
@@ -581,6 +583,7 @@ $(window).load(function(){
 			</div>
 			</div>
 
+            <div class="col-md-12">
 					<div class="panel panel-primary">
 						<div class="panel-body table-responsive-60">
 								<div class="form-group">

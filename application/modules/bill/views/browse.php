@@ -144,8 +144,9 @@ $( window ).load(function() {
 						href="<?php echo base_url()."index.php/payment/insert/".$bill['patient_id']."/payment" ?>"
 						class="btn btn-primary square-btn-adjust"
 					>
-							<i class="fa fa-money"></i>
+							<i class="fa fa-money"></i>&nbsp;<?php echo $this->lang->line("payment");?>
 					</a>
+									<!--a href="<?= site_url('bill/delete_bill/'.$bill['bill_id']);?>" class="btn btn-danger square-btn-adjust confirmDelete"><?php echo $this->lang->line("delete");?></a-->
 									</td>
 								</tr>
 								<?php $i++;

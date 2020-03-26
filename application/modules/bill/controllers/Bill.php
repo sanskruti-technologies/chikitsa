@@ -39,7 +39,7 @@ class Bill extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('export');
 
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
 	public function index() {
 		// Check If user has logged in or not
@@ -135,6 +135,7 @@ class Bill extends CI_Controller {
 			$data['treatment_total'] = 0;
 			$data['lab_test_total'] = 0;
 			$data['item_total'] = 0;
+			$data['room_total'] = 0;
 			$data['bill_details'] = array();
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
 			$data['tax_rates'] = $this->settings_model->get_tax_rates();
@@ -167,6 +168,14 @@ class Bill extends CI_Controller {
 			return FALSE;
 		} else {
 			return TRUE;
+		}
+	}
+	public function delete_bill($bill_id){
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index/');
+        } else {
+			 $this->bill_model->delete_bill($bill_id);
+			$this->index();
 		}
 	}
 	public function edit($bill_id){
@@ -640,6 +649,7 @@ class Bill extends CI_Controller {
 			$doctor = $this->doctor_model->get_doctor_doctor_id($doctor_id);
 			$doctor_name = $doctor['title']." ".$doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
 			$template = str_replace("[doctor_name]", $doctor_name, $template);
+			$template = str_replace("[reference_by]", $doctor_name, $template);
 
 			//Bill Details
 			$bill_details = $this->bill_model->get_bill_detail($bill_id);
@@ -684,6 +694,7 @@ class Bill extends CI_Controller {
 				if($patient_detail == 'patient_name'){
 					$patient_name = $patient['first_name']." ".$patient['middle_name']." ".$patient['last_name'];
 					$template = str_replace("[patient_name]",$patient_name, $template);
+					$template = str_replace("[patient_id]",$patient_id, $template);
 				}elseif($patient_detail == 'patient_address'){
 					$patient_address = "<strong>(".$addresses['type'].")</strong><br/>".$addresses['address_line_1']."<br/>".$addresses['address_line_2']."<br/>".$addresses['area']."<br/>".$addresses['city'] . "," . $addresses['state'] . " " . $addresses['postal_code'] . "<br/>" . $addresses['country'];
 					$template = str_replace("[$patient_detail]", $patient_address, $template);

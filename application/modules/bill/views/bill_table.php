@@ -135,7 +135,7 @@
 						<td>
 							<?php if($bill_detail['type'] != 'session'){ ?>
 
-								<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/".$called_from."/". $bill_detail['bill_detail_id'] . "/" . $bill_id . "/" . $visit_id . "/" . $patient_id); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+								<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/".$called_from."/". $bill_detail['bill_detail_id'] . "/" . $bill_id . "/" . $visit_id . "/" . $patient_id); ?>"><i class="fa fa-trash" aria-hidden="true"></i> &nbsp;<?php echo $this->lang->line("delete");?></a>
 							<?php } ?>
 						</td>
 						<?php } ?>
@@ -237,7 +237,7 @@
 
 						<?php if($edit_bill){ ?>
 						<td>
-						<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/" .$called_from ."/".$bill_detail['bill_detail_id'] . "/" . $bill_detail['bill_id'] . "/" . $visit_id. "/".$patient_id); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+						<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_detail_table/" .$called_from ."/".$bill_detail['bill_detail_id'] . "/" . $bill_detail['bill_id'] . "/" . $visit_id. "/".$patient_id); ?>"><i class="fa fa-trash" aria-hidden="true"></i> &nbsp;<?php echo $this->lang->line("delete");?></a>
 						</td>
 						<?php } ?>
 
@@ -258,7 +258,7 @@
 
 						<?php
 							if($bill_detail['type'] != 'session'){ ?>
-							<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_discount/" . $bill_id . "/" . $visit_id . "/" . $patient_id."/".$called_from); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+							<a class="btn btn-sm btn-danger square-btn-adjust confirmDelete"  href="<?php echo site_url("patient/delete_bill_discount/" . $bill_id . "/" . $visit_id . "/" . $patient_id."/".$called_from); ?>"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;<?php echo $this->lang->line("delete");?></a>
 						<?php } ?>
 					</td>
 					<?php } ?>

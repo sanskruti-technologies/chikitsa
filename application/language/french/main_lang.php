@@ -63,6 +63,7 @@
 	$lang['add_fee'] = "Ajouter des frais";
 	$lang['add_extension'] = "Ajouter des extensions";
 	$lang['add_patient'] = "Ajouter un patient";
+	$lang['add_payment'] = "Ajouter un paiement";
 	$lang['add_another_medicine'] = "Ajouter un autre médicament";
 	$lang['added_date'] = "Date d'ajout";
 	$lang['address'] = "Adresse";
@@ -145,6 +146,9 @@
 	$lang['bills_payments'] = "Paiement";
 	$lang['bill_number'] = "Numéro de facture";
 	$lang['bill_no'] = "Bill No.";
+	$lang['bill_type'] = "Type de facture";
+	$lang['back_to_payment'] = "Retour au paiement";
+	$lang['back_to_appointment']= "Retour au Rendez-vous";
 	$lang['bill_report'] = "Rapport de facture";
 	$lang['body'] = "Corps";
 	$lang['book'] = "Livre";
@@ -186,6 +190,7 @@
 	$lang['change'] = "Changement";
 	$lang['change_center'] = "Centre de changement";
 	$lang['change_language'] = "Changer de langue";
+	$lang['change_profile'] = "Change de profil";
 	$lang['change_timezone'] = "Changer le fuseau horaire";
 	$lang['change_template'] = "Changer de modèle";
 	$lang['charges'] = "Des charges";
@@ -242,7 +247,8 @@
 	$lang['column_1_content'] = "Colonne 1 - Contenu";
 	$lang['contact_us'] = "Contactez nous";
 	$lang['ccavenue'] = "CCAvenue";
-	$lang['cancelled_appoinment_by_patient'] = "En cas d'annulation du rendez-vous par le patient, le remboursement devra être fait manuellement";
+	$lang['copy'] = "Copie";	
+	$lang['cancelled_appoinment_by_patient'] = "En cas d annulation du rendez-vous par le patient, le remboursement devra être fait manuellement";
 
 	$lang['dr_ac_name'] = "Dr. A / c Nom";
 	$lang['dose'] = "Dose";
@@ -314,7 +320,6 @@
 	$lang['edit_test'] = "Modifier le test";
 	$lang['email'] = "Email";
 	$lang['email_log'] = "Journal de messagerie";
-	$lang['email_alert_name'] = "Nom de l'alerte email";
 	$lang['email_alert_name'] = "Nom de l'alerte email";
 	$lang['email_id'] = "Email ID";
 	$lang['email_bill'] = "Email Bill";
@@ -448,6 +453,7 @@
 	$lang['last'] = "Dernier";
 	$lang['lab_tests'] = "Tests de laboratoire";
 	$lang['lab_reports'] = "Rapports de laboratoire";
+	$lang['lab_instructions'] = "Instructions de laboratoire";
 	$lang['lab_test'] = "Test de laboratoire";
 	$lang['length_invoice'] = "Longueur du numéro de facture";
 	$lang['login'] = "s'identifier";
@@ -473,8 +479,6 @@
 	$lang['menu_access'] = "Accès au menu";
 	$lang['medicine_name'] = "Nom du médicament";
 	$lang['medicines'] = "Médicaments";
-	$lang['middle'] = "Milieu";
-	$lang['medicines'] = "Des médicaments";
 	$lang['middle'] = "Milieu";
 	$lang['mobile'] = "Mobile";
 	$lang['mobile_no'] = "Mobile Non";
@@ -887,7 +891,6 @@
 	$lang['website_url'] = "URL de site web";
 	$lang['working'] = "Travail";
 	$lang['working_days'] = "Jours de travail";
-	$lang['website_url'] = "URL de site web";
 	$lang['non_working'] = "Ne fonctionne pas";
 	$lang['we_provide'] = "Nous fournissons";
 	$lang['year'] = "Year";
@@ -982,14 +985,14 @@
 
 	$lang['no_services'] = "Aucun service ajouté. Ajouter un service.";
 
+	$lang['extension_requires'] = 'Cette extension nécessite %1$s %2$s';
+	$lang['compatible_version'] = 'Compatible avec cette version de %1$s';
+
 	$lang['australian_currency'] = "Dollar australien (AUD)";
 	$lang['brazilian_currency'] = "Réal Brésilien (BRL)";
 	$lang['canadian_currency'] = "Dollar canadien (CAD)";
 	$lang['czech_currency'] = "Couronne tchèque (CZK)";
 	$lang['danish_currency'] = "Couronne danoise (DKK)";
-	$lang['canadian_currency'] = "Canadian Dollar (CAD)";
-	$lang['czech_currency'] = "Czech Koruna (CZK)";
-	$lang['danish_currency'] = "Danish Krone (DKK)";
 	$lang['euro_currency'] = "Euro (EUR)";
 	$lang['hong_kong_currency'] = "Dollar de Hong Kong (HKD)";
 	$lang['hungarian_currency'] = "Forint hongrois (HUF)";

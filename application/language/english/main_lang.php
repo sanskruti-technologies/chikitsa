@@ -62,6 +62,7 @@
 	$lang['add_fee'] = "Add Fee";
 	$lang['add_extension'] = "Add Extensions";
 	$lang['add_patient'] = "Add Patient";
+	$lang['add_payment'] = "Add Payment";
 	$lang['add_another_medicine'] = "Add Another Medicine";
 	$lang['added_date'] = "Added Date";
 	$lang['address'] = "Address";
@@ -145,6 +146,8 @@
 	$lang['bill_number'] = "Bill Number";
 	$lang['bill_no'] = "Bill No.";
 	$lang['bill_type'] = "Bill Type";
+	$lang['back_to_payment'] = "Back to Payments";
+	$lang['back_to_appointment']= "Back to Appointments";
 	$lang['bill_report'] = "Bill Detail Report";
 	$lang['body'] = "Body";
 	$lang['book'] = "Book";
@@ -186,6 +189,7 @@
 	$lang['change'] = "Change";
 	$lang['change_center'] = "Change Center";
 	$lang['change_language'] = "Change Language";
+	$lang['change_profile'] = "Change Profile";
 	$lang['change_timezone'] = "Change Time Zone";
 	$lang['change_template'] = "Change Template";
 	$lang['charges'] = "Charges";
@@ -242,6 +246,7 @@
 	$lang['column_1_content'] = "Column 1 - Content";
 	$lang['contact_us'] = "Contact Us";
 	$lang['ccavenue'] = "CCAvenue";
+	$lang['copy'] = "Copy";
 	$lang['cancelled_appoinment_by_patient'] = "In case of appointment cancellation by Patient, refund will have to be done manually";
 
 	$lang['dr_ac_name'] = "Dr. A/c Name";
@@ -447,6 +452,7 @@
 	$lang['last'] = "Last";
 	$lang['lab_tests'] = "Lab Tests";
 	$lang['lab_reports'] = "Lab Reports";
+	$lang['lab_instructions'] = "Lab instructions";
 	$lang['lab_test'] = "Lab Test";
 	$lang['length_invoice'] = "Length of Invoice Number";
 	$lang['login'] = "Login";
@@ -979,8 +985,8 @@
 
 	$lang['no_services'] = "No Services added. Add a Service.";
 	
-	$lang['extension_requires'] = "This extension requires %1$s %2$s";
-	$lang['compatible_version'] = "Compatible with this version of %1$s";
+	$lang['extension_requires'] = 'This extension requires %1$s %2$s';
+	$lang['compatible_version'] = 'Compatible with this version of %1$s';
 
 	$lang['australian_currency'] = "Australian Dollar (AUD)";
 	$lang['brazilian_currency'] = "Brazilian Real (BRL)";

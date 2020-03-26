@@ -8,6 +8,7 @@
 	$lang['cmp_name'] = "Sanskruti Technologies";
 	$lang['about_chikitsa'] = "Acerca de Chikitsa";
 
+	//Form Headers
 	$lang['sign_in'] = "Iniciar sesión";
 
 	//Labels
@@ -64,7 +65,6 @@
 	$lang['add_fee'] = "Agregar Cuota/Valor";
 	$lang['add_extension'] = "Add Extensions";
 	$lang['add_patient'] = "Agregar Paciente";
-	$lang['add_payment'] = "Agregar pago";
 	$lang['add_another_medicine'] = "Agregar otro Medicamento";
 	$lang['added_date'] = "Fecha agregada";
 	$lang['address'] = "Dirección";
@@ -148,8 +148,6 @@
 	$lang['bill_number'] = "Nfúmero de actura";
 	$lang['bill_no'] = "Factura No.";
 	$lang['bill_type'] = "Tipo de factura";
-	$lang['back_to_payment'] = "Volver a Pagos";
-	$lang['back_to_appointment']= "Volver a las citas";
 		$lang['bill_report'] = "Informe detallado de facturas";
 	$lang['body'] = "Cuerpo";
 	$lang['book'] = "Libro";
@@ -191,7 +189,6 @@
 	$lang['change'] = "Change";
 	$lang['change_center'] = "Change Center";
 	$lang['change_language'] = "Change Language";
-	$lang['change_profile'] = "Cambiar el perfil";
 	$lang['change_timezone'] = "Change Time Zone";
 	$lang['change_template'] = "Change Template";
 	$lang['charges'] = "Charges";
@@ -248,7 +245,6 @@
 	$lang['column_1_content'] = "Column 1 - Content";
 	$lang['contact_us'] = "Contáctanos";
 	$lang['ccavenue'] = "CCAvenue";
-	$lang['copy'] = "Copiar";
 	$lang['cancelled_appoinment_by_patient'] = "In caso of appointment cancellation by Patiente, reembolso will have to be done manually";
 
 	$lang['dr_ac_name'] = "Dr. A/c Name";
@@ -291,7 +287,6 @@
 	$lang['doctors'] = "Doctores";
 	$lang['doctor_name'] = "Nombre del Doctor";
 	$lang['doctor_share'] = "Doctor Share";
-	$lang['doctor_availability'] = "Disponibilidad del doctor";
 	$lang['doctor_detail'] = "Información del Doctor";
 	$lang['doctor_bonus_report'] = "Doctor Bonus Report";
 	$lang['doctor_inavailability'] = "Indisponibilidad del Doctor";
@@ -454,7 +449,6 @@
 	$lang['last'] = "Último";
 	$lang['lab_tests'] = "Análisis de Laboratorio";
 	$lang['lab_reports'] = "Reportes de Laboratorio";
-	$lang['lab_instructions'] = "Instrucciones de laboratorio";
 	$lang['lab_test'] = "Análisis de Laborario";
 	$lang['length_invoice'] = "Length of Invoice Number";
 	$lang['login'] = "Login";
@@ -815,6 +809,7 @@
 	$lang['template_content'] = "Contenido de la Plantilla";
 	$lang['thanks'] = "El bienestar de nuestros niños no tiene precio; cuídalos";
 	$lang['time'] = "Hora";
+	$lang['test'] = "Análisis";
 	$lang['timestamp'] = "Timestamp";
 	$lang['timings'] = "Tiempos";
 	$lang['time_format'] = "Formato de tiempo";
@@ -986,8 +981,8 @@
 
 	$lang['no_services'] = "No Services added. Add a Service.";
 
-	$lang['extension_requires'] = 'Esta extensión requiere %1$s %2$s';
-	$lang['compatible_version'] = 'Compatible con esta versión de %1$s';
+	$lang['extension_requires'] = "Esta extensión requiere %1$s %2$s";
+	$lang['compatible_version'] = "Compatible con esta versión de %1$s";
 
 	$lang['australian_currency'] = "Australian Dollar (AUD)";
 	$lang['brazilian_currency'] = "Brazilian Real (BRL)";

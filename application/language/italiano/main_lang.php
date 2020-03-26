@@ -7,13 +7,12 @@
 	$lang['cmp_name'] = "Tanti Saluti";
 	$lang['about_chikitsa'] = "Informazione";
   
-	//Form Headers
 	$lang['sign_in'] = "Entra qui";
 	
 	//Labels
 	$lang['5min'] = "5 Min";
 	$lang['7min'] = "7 Min";
-$lang['15min'] = "15 min";
+    $lang['15min'] = "15 min";
 	$lang['30min'] = "30 Min";
 	$lang['1hr'] = "1 Ora";
 
@@ -64,6 +63,7 @@ $lang['15min'] = "15 min";
 	$lang['add_fee'] = "Aggiungi tariffa";
 	$lang['add_extension'] = "Aggiungi estensioni";
 	$lang['add_patient'] = "Aggiungi paziente";
+	$lang['add_payment'] = "aggiungi pagamento";
 	$lang['add_another_medicine'] = "Aggiungi un'altra medicina";	
 	$lang['added_date'] = "Data aggiunta";
 	$lang['address'] = "Indirizzo";
@@ -78,6 +78,7 @@ $lang['15min'] = "15 min";
 	$lang['admin_log_in'] = "Login amministratore";
 	$lang['after'] = "Dopo";
 	$lang['afternoon_time'] = "Pomeriggio";
+	$lang['afternoon_time'] = "ora del pomeriggio";
 	$lang['afternoon'] = "A";
 	$lang['age'] = "Eta";
 	$lang['alerts'] = "avvisi";
@@ -147,6 +148,8 @@ $lang['15min'] = "15 min";
 	$lang['bill_number'] = "Numero di Bill";
 	$lang['bill_no'] = "Bill No.";
 	$lang['bill_type'] = "Tipo di fattura";	
+	$lang['back_to_payment'] = "torna al pagamento";
+	$lang['back_to_appointment']= "torna all'appuntamento";
 	$lang['bill_report'] = "Rapporto Conto";
 	$lang['body'] = "Corpo";
 	$lang['book'] = "Libro";
@@ -188,6 +191,7 @@ $lang['15min'] = "15 min";
 	$lang['change'] = "Cambia";
 	$lang['change_center'] = "Change Center";
 	$lang['change_language'] = "Cambia Lingua";
+	$lang['change_profile'] = "Cambia profilo";
 	$lang['change_timezone'] = "Cambia fuso orario";
 	$lang['change_template'] = "Cambia modello";
 	$lang['charges'] = "Addebiti";
@@ -244,6 +248,7 @@ $lang['15min'] = "15 min";
 	$lang['column_1_content'] = "Colonna 1 - Contenuto";
 	$lang['contact_us'] = "Contattaci";
 	$lang['ccavenue'] = "CCAvenue";
+	$lang['copy'] = "Copia";
 	$lang['cancelled_appoinment_by_patient'] = "In caso di cancellazione dell'appuntamento da parte del paziente, il rimborso dovrà essere effettuato manualmente";
 		
 	$lang['dr_ac_name'] = "Dr. A / c Nome";
@@ -449,6 +454,7 @@ $lang['15min'] = "15 min";
 	$lang['last'] = "Ultimo";
 	$lang['lab_tests'] = "Test di laboratorio";
 	$lang['lab_reports'] = "Rapporti di laboratorio";
+	$lang['lab_instructions'] = "Istruzioni di laboratorio";
 	$lang['lab_test'] = "Test di laboratorio";
 	$lang['length_invoice'] = "Lunghezza del numero di fattura";
 	$lang['login'] = "Accesso";
@@ -981,8 +987,8 @@ $lang['15min'] = "15 min";
 	
 	$lang['no_services'] = "Nessun servizio aggiunto. Aggiungi un servizio.";	
 
-	$lang['extension_requires'] = "Questa estensione richiede %1$s %2$s";
-	$lang['compatible_version'] = "Compatibile con questa versione di %1$s";
+	$lang['extension_requires'] = 'Questa estensione richiede %1$s %2$s';
+	$lang['compatible_version'] = 'Compatibile con questa versione di %1$s';
 
 	$lang['australian_currency'] = "Dollaro australiano(AUD)";
 	$lang['brazilian_currency'] = "Real brasiliano (BRL)";

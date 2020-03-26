@@ -95,14 +95,14 @@
 		<link href="<?= base_url() ?>assets/css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" />
 		<!-- FONTAWESOME STYLES-->
 		<link href="<?= base_url() ?>assets/css/font-awesome.min.css" rel="stylesheet" />
-        
+        <!-- CUSTOM STYLES-->
+		<link href="<?= base_url() ?>assets/css/custom.min.css" rel="stylesheet" />
 		<!-- CHIKITSA STYLES-->
 		<link href="<?= base_url() ?>assets/css/chikitsa.min.css" rel="stylesheet" />
 		<!-- TABLE STYLES-->
 		<link href="<?= base_url() ?>assets/js/dataTables/dataTables.bootstrap.min.css" rel="stylesheet" />
 		<link href="<?= base_url() ?>assets/js/dataTables/responsive.dataTables.min.css" rel="stylesheet" />
 
-		
 		<!-- JQUERY SCRIPTS -->
 		<script src="<?= base_url() ?>assets/js/jquery-1.11.3.min.js"></script>
 		<!-- JQUERY UI SCRIPTS -->
@@ -135,11 +135,7 @@
 		<script src="<?= base_url() ?>assets/js/sketch.min.js"></script>
 		<!-- CUSTOM SCRIPTS -->
 		<script src="<?= base_url() ?>assets/js/custom.min.js"></script>
-		<!-- CUSTOM STYLES-->
-		<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
-		<?php if($this->session->userdata('prefered_language') == 'arabic'){?>
-		<link href="<?= base_url() ?>assets/css/rtl.css" rel="stylesheet" />
-		<?php }?>
+
 		<link rel="stylesheet" href="<?= base_url() ?>assets/js/jsTree/themes/default/style.min.css" />
 		<script src="<?= base_url() ?>assets/js/jsTree/jstree.min.js"></script>
     </head>
@@ -167,7 +163,7 @@
 					</a>
 				<?php }  ?>
             </div>
-			<div class="header_tag_line">
+			<div style="color: white;float:left;font-size: 16px;margin-left:25px;">
                     <h4><?php if($clinic['tag_line'] == NULL){
 								echo $this->lang->line('tag_line');
 							  }else {
@@ -176,7 +172,7 @@
 					</h4>
             </div>
 			<div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-				<?php echo $this->lang->line('welcome');?>, <?=$user['name']; ?>
+				Welcome, <?=$user['name']; ?>
 				<?php
 					$new_messages = $this->menu_model->new_messages_count();
 					if($new_messages > 0){
@@ -188,7 +184,7 @@
 				<?php if (in_array("centers", $active_modules)) { ?>
 				<a href="<?=site_url("centers/change_center"); ?>" class="btn btn-primary square-btn-adjust">Change Center</a>
 				<?php } ?>
-				<a href="<?=site_url("admin/change_profile"); ?>" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('change_profile');?></a>
+				<a href="<?=site_url("admin/change_profile"); ?>" class="btn btn-primary square-btn-adjust">Change Profile</a>
 				<a href="<?= site_url("login/logout"); ?>" class="btn btn-danger square-btn-adjust"><?php echo $this->lang->line('log_out');?></a>
 			</div>
         </nav>

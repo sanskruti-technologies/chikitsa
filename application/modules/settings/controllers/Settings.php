@@ -33,12 +33,12 @@ class Settings extends CI_Controller {
 		$this->load->helper('unzip_helper');
 		$this->load->helper('mainpage');
 
-		$this->lang->load('main');
-
 		$this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->helper('time');
 		$this->load->helper('date');
+
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
 
     }
 	public function edit_language($language) {
@@ -128,16 +128,31 @@ class Settings extends CI_Controller {
 					echo "failed to copy ";
 					$flag=false;
 				}
+					//copy other files 
+					$other_language_file=directory_map('./system/language/english');
+					//print_r($other_language_file);
+					for($i=0;$i<sizeof($other_language_file);$i++){
+						$src='system/language/english/'.$other_language_file[$i];
+						$destination='application/language/'.$language_name.'/'.$other_language_file[$i];
+						if(!copy($src,$destination)){
+							echo "failed to copy ";
+							$flag=false;
+						}	
 					
 				}
 				
+				}
 				
 					
 					if($flag==true){
+						$language_file=directory_map('./application/language/'.$language_name);		
+						
+						for($i=0;$i<sizeof($language_file);$i++){
+							$destination='application/language/'.$language_name.'/'.$language_file[$i];
 					include($destination);
 					$language_array=$lang;
 					$this->settings_model->save_language_data($language_name,$language_array);
-					//print_r($lang);
+						}
 					
 					 $this->change_settings();
 				}
@@ -152,15 +167,19 @@ class Settings extends CI_Controller {
 			
             $this->form_validation->set_rules('language', $this->lang->line('language'), 'required');
 			if ($this->form_validation->run() === FALSE) {
-                $this->change_settings();
+               
             }else {
 				$language_name=$this->input->post('language');
-				$destination='application/language/'.$language_name.'/main_lang.php';
+				$language_file=directory_map('./application/language/'.$language_name);		
+				
+				for($i=0;$i<sizeof($language_file);$i++){
+					$destination='application/language/'.$language_name.'/'.$language_file[$i];
 				include($destination);
 					$language_array=$lang;
 					$this->settings_model->save_language_data($language_name,$language_array);
-					$this->change_settings();
 			}
+			}
+			$this->change_settings();
         }
 	}
 	/** File Upload for Clinic Logo Image */

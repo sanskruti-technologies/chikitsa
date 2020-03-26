@@ -83,7 +83,7 @@
 					?>
 
 					<div class="col-md-1">
-						<input type="submit" name="submit" class="btn btn-primary square-btn-adjust btn-sm" value="Save">
+						<input type="submit" name="submit" class="btn btn-primary square-btn-adjust btn-sm" value="<?php echo $this->lang->line('save');?>">
 					</div>
 					<?php echo form_close(); ?>
 				</div>

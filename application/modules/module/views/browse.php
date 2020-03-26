@@ -24,6 +24,21 @@ $(window).load(function() {
 	$('.confirmClearData').click(function(){
 		return confirm("<?=$this->lang->line('areyousure_cleardata');?>");
 	});
+	$('#show_alert').click(function(event) {
+		event.preventDefault();
+		<?php if($show_nag_screen == 'screen2' && !empty($non_licence_activated_plugins)){?>
+		$( "#nag_screen_modal" ).modal('toggle');	
+		<?php } ?>
+	});	
+	$('#activate_plugins').click(function(event) {
+		event.preventDefault();
+		$( "#nag_screen_modal" ).modal('toggle');
+	});	
+	$('#update').click(function(event) {
+		event.preventDefault();
+		var url = $( "#show_alert" ).attr("href");
+		setTimeout(function(){ window.location.replace(url);}, 500);
+	});	
 } )
 </script>
 <div id="page-inner">
@@ -61,7 +76,7 @@ $(window).load(function() {
 					$current_version_int = (int)str_replace(".","",$current_version);
 					$latest_version_int =  (int)str_replace(".","",$latest_version);
 					if($current_version_int < $latest_version_int){ ?>
-						<a href="<?=site_url("module/dowload_chikitsa/".$download_link."/".$latest_version);?>" class="btn btn-success square-btn-adjust"><?=$software_name;?> <?=$latest_version;?> <?=$this->lang->line('chikitsa_new_version_available');?></a>
+						<a id="show_alert" href="<?=site_url("module/dowload_chikitsa/".$download_link."/".$latest_version);?>" class="btn btn-success square-btn-adjust"><?=$software_name;?> <?=$latest_version;?> <?=$this->lang->line('chikitsa_new_version_available');?></a>
 				<?php } ?>
 
 			</div>
@@ -123,5 +138,32 @@ $(window).load(function() {
 				</div>
 			<?php } ?>
 		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="nag_screen_modal" tabindex="-1" role="dialog" aria-labelledby="myNagScreenLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title" id="myNagScreenLabel">Activate Plugins</h4>
+		</div>
+		<div class="modal-body">
+			<p>Your following extensions are not activated.</p>
+			<ul>
+			<?php foreach($non_licence_activated_plugins as $non_licence_activated_plugin){ ?>
+				<li><?=$non_licence_activated_plugin['module_display_name'];?></li>
+			<?php } ?>
+			</ul>
+			<div class="alert alert-danger">If you upgrade now, they might stop working</div> 
+		</div>
+		<div class="modal-footer">
+			<a href="https://chikitsa.net/plugin-policy/" target="_blank" class="btn btn-primary activate_plugins" >Know More</a>
+			<a id="activate_plugins" class="btn btn-primary activate_plugins" >Activate First</a>
+			<a id="update" class="btn btn-danger remind_later" >Update Anyway</a>
+		</div>
+	</div>
 	</div>
 </div>

@@ -128,6 +128,25 @@ class Module_model extends CI_Model {
 		}
 		return implode(",",$required_modules_list);
 	}
+	function non_licence_activated_plugins(){
+		$this->db->where('license_status !=', 'active');
+		$query=$this->db->get('modules');
+		//echo $this->db->last_query();
+		$result = $query->result_array();
+		return $result;
+	}
+	function get_nag_screen(){
+		$screen = "";
+		$remind_date = $this->settings_model->get_data_value('remind_date');
+		$today = date('Y-m-d');
+		$end_of_warning = date('2020-03-19');
+		if(strtotime($end_of_warning) <= strtotime($today) && strtotime($remind_date) <= strtotime($today)){
+			$screen = "screen2";
+		}elseif(strtotime($remind_date) <= strtotime($today)){
+			$screen = "screen1";
+		}
+		return $screen;
+	}
 }
 
 ?>

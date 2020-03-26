@@ -35,7 +35,13 @@ class Module extends CI_Controller {
         $this->load->library('form_validation');
 		$this->load->library('session');
 
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
+    }
+	public function reminde_later(){
+		$this->settings_model->set_data_value('remind_date', date("Y-m-d", strtotime("+1 day")));
+	}
+	public function do_not_remind(){
+		$this->settings_model->set_data_value('remind_date', date("2099-12-31"));
     }
     public function index($message_type = NULL,$message = NULL) {
 		//Check if user has logged in
@@ -46,12 +52,13 @@ class Module extends CI_Controller {
 			$data['message']=$message;
 			$data['message_type']=$message_type;
 			$data['connection_message'] = NULL;
-
-			if($this->check_for_updates()=== FALSE){
+			$data['show_nag_screen'] = $this->module_model->get_nag_screen();
+			$data['non_licence_activated_plugins'] = $this->module_model->non_licence_activated_plugins();
+ 			$updates = $this->check_for_updates();
+			if($updates === FALSE){
 				$data['connection_message'] = "Cannot connect to Extension Server.Please check your internet connection.";
 			}else{
-				$data['module_license_status'] = $this->check_for_updates();
-
+				$data['module_license_status'] = $updates;
 			}
 			$data['software_name'] = $this->menu_model->get_data_value('software_name');
 			$clinic_id = $this->session->userdata('clinic_id');
@@ -75,13 +82,26 @@ class Module extends CI_Controller {
             redirect('login/index');
         } else {
 			$module_license_status = array();
-
+	        $today = date('Y-m-d');
+    	    $yesterday = date('Y-m-d', strtotime('-1 days'));
 			$doc = new DOMDocument();
+
+      //Check Local XML file
+      if ($doc->load( base_url("about_chikitsa/$today.xml") ) === false){
+        $this->load->helper('download');
+  			// read file contents
+  			$data = file_get_contents("https://chikitsa.net/chikitsa.xml");
+  			write_file('./about_chikitsa/'.$today.'.xml', $data);
+  			//Delete yesterday's file
+  			unlink('./about_chikitsa/'.$yesterday.'.xml');
+        $this->check_valid_license();
 			if($doc->load( "https://chikitsa.net/chikitsa.xml" ) === false){
 				return FALSE;
-			}else{
-				//xml file loading here
 
+  			}
+      }
+
+				//xml file loading here
 				$modules = $this->module_model->get_modules();
 				$i = 0;
 				foreach($modules as $module) {
@@ -107,8 +127,18 @@ class Module extends CI_Controller {
 							}
 						}
 					}
+				}
+				return $module_license_status;
 
-
+		}
+	}
+  public function check_valid_license(){
+    $modules = $this->module_model->get_modules();
+    $i = 0;
+    foreach($modules as $module) {
+      //Check for updates
+      $module_name = $module['module_name'];
+      $module_license_status[$i]['module_name'] = $module_name;
 
 				//Check if License is Valid
 				//http://YOURSITE.com/?edd_action=check_license&item_id=8&license=cc22c1ec86304b36883440e2e84cddff&url=http://licensedsite.com
@@ -141,9 +171,6 @@ class Module extends CI_Controller {
 					}
 					$i++;
 				}
-				return $module_license_status;
-			}
-		}
 	}
 	public function add(){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {

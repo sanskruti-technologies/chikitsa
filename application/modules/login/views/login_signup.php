@@ -23,8 +23,10 @@
 		<link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet" />
 		<!-- FONTAWESOME STYLES-->
 		<link href="<?= base_url() ?>assets/css/font-awesome.min.css" rel="stylesheet" />
+		<!-- chikitsa STYLES-->
+		<link href="<?= base_url() ?>assets/css/chikitsa.min.css" rel="stylesheet" />
 		<!-- CUSTOM STYLES-->
-		<link href="<?= base_url() ?>assets/css/custom.min.css" rel="stylesheet" />
+		<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
 	</head>
 	<body>
 		<div class="container">
@@ -53,6 +55,7 @@
 						<?php if(isset($error)) { ?><div class="alert alert-danger"><?=$error;?></div><?php } ?>
 						<?php if(isset($message)) { ?><div class="alert alert-info"><?=$message;?></div><?php } ?>
 						<div class="panel-body">
+							
 							<?php echo form_open('login/valid_signin'); ?>
 							<div class="form-group input-group">
 								<span class="input-group-addon"><i class="fa fa-tag"></i></span>

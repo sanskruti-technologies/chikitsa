@@ -23,8 +23,10 @@
 		<link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet" />
 		<!-- FONTAWESOME STYLES-->
 		<link href="<?= base_url() ?>assets/css/font-awesome.min.css" rel="stylesheet" />
+		<!-- chikitsa STYLES-->
+		<link href="<?= base_url() ?>assets/css/chikitsa.min.css" rel="stylesheet" />
 		<!-- CUSTOM STYLES-->
-		<link href="<?= base_url() ?>assets/css/custom.min.css" rel="stylesheet" />
+		<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
 	</head>
 	<body>
 		<div class="container">

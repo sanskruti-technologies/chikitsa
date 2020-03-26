@@ -24,6 +24,8 @@
 		<link href="<?= base_url() ?>assets/css/bootstrap.css" rel="stylesheet" />
 		<!-- FONTAWESOME STYLES-->
 		<link href="<?= base_url() ?>assets/css/font-awesome.css" rel="stylesheet" />
+		<!-- chikitsa STYLES-->
+		<link href="<?= base_url() ?>assets/css/chikitsa.min.css" rel="stylesheet" />
 		<!-- CUSTOM STYLES-->
 		<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
 	</head>

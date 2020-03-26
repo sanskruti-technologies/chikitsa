@@ -36,9 +36,9 @@ class login extends CI_Controller {
 
 		$this->load->library('session');
 
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
-	function currentUrl($server){
+	public function currentUrl($server){
 		//Figure out whether we are using http or https.
 		$http = 'http';
 		//If HTTPS is present in our $_SERVER array, the URL should
@@ -75,7 +75,7 @@ class login extends CI_Controller {
 			redirect($base_url.'/install.php', 'refresh');
 		}
     }
-  	function login_page(){
+  	public function login_page(){
 		$level = $this->session->userdata('category');
 		if($level == 'Patient'){
 			return '/frontend/my_account';
@@ -144,6 +144,7 @@ class login extends CI_Controller {
 						$userdata["user_name"] = $result->username;
 						$userdata["category"] = $result->level;
 						$userdata["id"] = $result->userid;
+						$userdata["prefered_language"] = $result->prefered_language;
 						$userdata["logged_in"] = TRUE;
 						$clinic = $this->settings_model->get_clinic_settings(1);
 						$userdata["clinic_code"] = $clinic['clinic_code'];

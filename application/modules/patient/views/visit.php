@@ -16,6 +16,9 @@
     along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
 */
 ?>
+<?php 
+	$time_interval = (int)$time_interval;
+?>
 <script type="text/javascript" charset="utf-8">
     $(window).load(function() {
 		$(".expand-collapse-header").click(function () {
@@ -72,7 +75,7 @@
 		});
 		$('#visit_date').change(function() {
 			var startdate = $('#visit_date').val();
-			var add_day=<?php echo $clinic_settings['next_followup_days']; ?> ;
+			var add_day=<?=$clinic_settings['next_followup_days']; ?>;
 			var formate_followup = moment(startdate,'DD MM YYYY').add(add_day, 'days').format('DD-MM-YYYY');
 			console.log(formate_followup);
 			$('#followup_date').val(formate_followup);
@@ -298,7 +301,10 @@ $(document).ready(function(){
 					<?php echo $this->lang->line('new')." ".$this->lang->line('visit'). " " . $this->lang->line('toggle_display');?>
 				</div>
 				<div class="panel-body expand-collapse-content">
-					<?php echo form_open('patient/visit/' . $patient_id,$appointment_id); ?>
+					<?php echo form_open_multipart('patient/visit/' . $patient_id,$appointment_id); ?>
+					<?php if(isset($file_error)){ ?>
+					<div class='alert alert-danger'><?=$file_error;?></div>
+					<?php }?> 
 					<div class="col-md-12">
 						<input type="hidden" name="patient_id" value="<?= $patient_id; ?>"/>
 						<input type="hidden" name="session_date_id" value="<?=$session_date_id; ?>"/>
@@ -441,7 +447,9 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</div>
-						<?php } ?>
+						<?php }else{
+							$visit_diseases=array();
+						} ?>
 						<?php if (in_array("treatment", $active_modules)) { ?>
 						<div class="col-md-12">
 							<div class="col-md-4">
@@ -525,6 +533,11 @@ $(document).ready(function(){
 									});
 								</script>
 							</div>
+							<div class="col-md-12">
+								<label><?php echo $this->lang->line('lab_instructions');?></label>
+								<textarea rows="2" cols="100" class="form-control" name="lab_instructions"></textarea>
+							</div>
+							
 						</div>
 						<?php } ?>
 						<?php if (in_array("prescription", $active_modules)) { ?>
@@ -655,7 +668,7 @@ $(document).ready(function(){
 							</div>
 						<?php } ?>
 						<?php if (in_array("prescription", $active_modules)){
-							if (file_exists(APPPATH."views/log/display_fields.".EXT)){
+							if (file_exists(APPPATH."modules/history/views/display_fields".EXT)){
 								$this->load->view('history/display_fields');
 							}else{?>
 								<div class="col-md-12">
@@ -809,6 +822,7 @@ $(document).ready(function(){
 								<?php } ?>
 								<?php
 								$flag = FALSE;
+								if(isset($visit_lab_tests)){
 								foreach ($visit_lab_tests as $visit_lab_test) {
 									if ($visit_lab_test['visit_id'] == $visit['visit_id']) {
 										if ($flag == FALSE) {
@@ -824,6 +838,7 @@ $(document).ready(function(){
 										}
 
 									}
+								}
 								}
 								?>
 								</td>
@@ -842,7 +857,7 @@ $(document).ready(function(){
 								<td>
 									<center>
 										<a class="btn btn-sm btn-primary square-btn-adjust" href="<?= site_url('patient/edit_visit') . "/" . $visit['visit_id'] . "/" . $visit['patient_id']; ?>"><?php echo $this->lang->line('edit');?></a>
-										<a class="btn btn-sm btn-primary square-btn-adjust" href="<?= site_url('history/print_visit_history') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print').' '.$this->lang->line('history');?></a>
+										<a target="_blank" class="btn btn-sm btn-primary square-btn-adjust" href="<?= site_url('patient/print_visit_history') . "/" . $visit['visit_id']; ?>"><?php echo $this->lang->line('print').' '.$this->lang->line('history');?></a>
 									</center>
 								</td>
 							</tr>

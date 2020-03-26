@@ -679,7 +679,7 @@ class Patient_model extends CI_Model {
 		$data['amount'] = $amount;
 		$adjust_amount = $amount - $previous_amount;
 		$this->db->update('bill_detail', $data,array('bill_detail_id' => $bill_detail_id));
-		echo $this->db->last_query()."<br/>";
+		//echo $this->db->last_query()."<br/>";
 
 		$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount + ? where bill_id = ?;";
         $this->db->query($sql, array($adjust_amount, $bill_id));
@@ -957,7 +957,7 @@ class Patient_model extends CI_Model {
 
 		$sql = "update " . $this->db->dbprefix('bill') . " set sync_status = 0,total_amount = total_amount - ?,due_amount = due_amount - ?,tax_amount = tax_amount - ? where bill_id = ?;";
         $this->db->query($sql, array($total_amount,$due_amount,$tax_amount, $bill_id));
-		echo $this->db->last_query()."<br/>";
+		//echo $this->db->last_query()."<br/>";
 
 		//Adjust Payment
 		$this->update_payment($bill_id,$due_amount);

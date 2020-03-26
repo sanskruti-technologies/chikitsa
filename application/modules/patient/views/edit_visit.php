@@ -141,7 +141,10 @@ if(isset($visit)){
 			</div>
 			<span class="err"><?php echo validation_errors(); ?></span>
 			<div class="panel-body">
-			<?php echo form_open('patient/edit_visit/'. $visit_id . "/" . $patient_id) ?>
+			<?php echo form_open_multipart('patient/edit_visit/'. $visit_id . "/" . $patient_id) ?>
+			<?php if(isset($file_error)){ ?>
+			<div class='alert alert-danger'><?=$file_error;?></div>
+			<?php }?> 
 			<input type="hidden" name="appointment_id" value="<?=$appointment_id;?>" />
 			<div class="form-group">
 				<label for="visit_doctor"><?php echo $this->lang->line("doctor");?></label>
@@ -183,11 +186,13 @@ if(isset($visit)){
 				<textarea class="form-control" name="notes" rows=7><?= $visit['notes'] ?></textarea>
 				<?php echo form_error('notes','<div class="alert alert-danger">','</div>'); ?>
 			</div>
+			<?php if (in_array("prescription", $active_modules)) { ?>
 			<div class="form-group">
 				 <label for="patient_notes"><?php echo $this->lang->line("notes_for_patient");?></label>
 				<textarea class="form-control" name="patient_notes" rows=7><?= $visit['patient_notes'] ?></textarea>
 				<?php echo form_error('patient_notes','<div class="alert alert-danger">','</div>'); ?>
 			</div>
+			<?php } ?>
 			<?php if (in_array("treatment", $active_modules)) { ?>
 			<div class="form-group">
 				 <label for="visit_treatment" ><?php echo $this->lang->line("treatment");?></label>
@@ -333,7 +338,7 @@ if(isset($visit)){
 			</div>
 			<?php }?>
 			<?php if (in_array("history", $active_modules)){
-				if (file_exists(APPPATH."views/log/display_fields.".EXT)){
+				if (file_exists(APPPATH."modules/history/views/display_fields".EXT)){
 					$this->load->view('history/display_fields');
 				}else{?>
 					<div class="col-md-12">

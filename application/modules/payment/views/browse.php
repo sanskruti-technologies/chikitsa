@@ -18,7 +18,7 @@
 ?>
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
-	$("#patient_table").dataTable({
+	$("#payment_table").dataTable({
 		"pageLength": 50
 	});
 	$('.confirmDelete').click(function(){
@@ -56,7 +56,7 @@ function get_cases($payment_cases,$payment_id){
 				</div>
 				<div class="panel-body table-responsive-25">
 					<div class="table-responsive ">
-						<table class="display responsive nowrap" style="width:100%" id="payment_table">
+						<table class="table table-striped table-bordered table-hover" 	 id="payment_table" >
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("sr_no");?></th>

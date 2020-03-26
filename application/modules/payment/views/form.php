@@ -527,15 +527,14 @@
 							<input type="hidden" name="patient_id" id="patient_id" value="<?= $patient_id; ?>" />
 							<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
 					</div>
-					<div class="row">
-						<div class="table-responsive table-responsive-10">
-							<table class="display responsive nowrap" style="width:100%" id="bill_table">
+					<div class="col-md-12">
+						<div class="table-responsive">
+							<table class="display responsive nowrap table table-striped table-bordered table-hover" style="width:100%" id="bill_table">
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("bill_no");?></th>
 									<th style="text-align:right;"><?php echo $this->lang->line("due_amount");?></th>
 									<th style="text-align:right;"><?php echo $this->lang->line("payment_adjustement");?></th>
-                                    <th style="text-align:right;"><?php echo $this->lang->line("edit");?></th>
 								</tr>
 							</thead>
 							<?php if(isset($payment)){ //Edit Mode ?>
@@ -564,13 +563,12 @@
 										<?php
 										$adjust_amount = currency_format($bill['adjust_amount']);
 										$total_adjust_amount = $total_adjust_amount + $bill['adjust_amount'];
-										if($currency_postfix) $adjust_amount = $adjust_amount . $currency_postfix;
-
+										if($currency_postfix){
+											$adjust_amount = $adjust_amount . $currency_postfix;
+										}
 										?>
-										<td style="text-align:right;" class="adjust_amount" amount="<?=$bill['adjust_amount'];?>" ><?=$adjust_amount;?><input type="hidden" name="adjust_amount[]" value="<?=$bill['adjust_amount'];?>" /></td>
-                                            <td class="text-right">
-                                                <a href="<?=site_url('bill/edit/'.$bill['bill_id']);?>" class="btn btn-primary btn-sm square-btn-adjust editbt"><i class="fa fa-pencil-square"></i></a>
-
+										<td style="text-align:right;" class="adjust_amount" amount="<?=$bill['adjust_amount'];?>" ><?=$adjust_amount;?>
+											<input type="hidden" name="adjust_amount[]" value="<?=$bill['adjust_amount'];?>" />
                                             </td>
 										</tr>
 								<?php }
@@ -668,7 +666,7 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<?php if(!isset($payment)){ ?>
-								<input class="btn btn-primary square-btn-adjust" type="submit" id="save_payment" value="Add Payment" name="submit" />
+								<input class="btn btn-primary square-btn-adjust" type="submit" id="save_payment" value="<?php echo $this->lang->line('add_payment');?>" name="submit" />
 							<?php }else{ ?>
 								<input class="btn btn-primary square-btn-adjust" type="submit" value="Update Payment" name="submit" />
 							<?php } ?>
@@ -679,8 +677,8 @@
 						<div class="table-responsive-25">
 						<div class="col-md-12">
 							<div class="form-group">
-									<a href="<?=site_url("payment/index"); ?>" class="btn btn-primary square-btn-adjust" >Back to Payments</a>
-									<a href="<?=site_url("appointment/index"); ?>" class="btn btn-primary square-btn-adjust" >Back to Appointments</a>
+									<a href="<?=site_url("payment/index"); ?>" class="btn btn-primary square-btn-adjust" ><?php echo $this->lang->line('back_to_payment');?></a>
+									<a href="<?=site_url("appointment/index"); ?>" class="btn btn-primary square-btn-adjust" ><?php echo $this->lang->line('back_to_appointment');?></a>
 									
 								</div>
 							</div>

@@ -37,7 +37,7 @@ class Payment extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('session');
 
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
     public function index() {
 		//Check if user has logged in

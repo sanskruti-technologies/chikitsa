@@ -42,7 +42,7 @@ class Patient extends CI_Controller {
 		$this->load->library('export');
 
 		$this->load->database();
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
 	/** Browse all patients*/
     public function index(){
@@ -131,11 +131,13 @@ class Patient extends CI_Controller {
 	}
 	/** File Upload for Patient Profile Image */
 	public function do_upload() {
+		$config = array();
         $config['upload_path'] = './uploads/profile_picture/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['overwrite'] = TRUE;
 		$config['file_name'] = $this->input->post('contact_id');
 		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
 		if (!$this->upload->do_upload()) {
 			$error = array('error' => $this->upload->display_errors());
 			return $error;
@@ -151,16 +153,8 @@ class Patient extends CI_Controller {
 		$this->edit($patient_id,$called_from);
 	}
 	/** Edit Patient Details */
-	public function edit($patient_id=NULL,$called_from) {
-		//Check if user has logged in
-		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
-            redirect('login/index');
-        } else {
-			$this->form_validation->set_rules('first_name', $this->lang->line('first_name'), 'callback_validate_name');
-            $this->form_validation->set_rules('last_name', $this->lang->line('last_name'), 'callback_validate_name');
-			$this->form_validation->set_rules('email', $this->lang->line('email'), 'valid_email');
-
-			if ($this->form_validation->run() === FALSE) {
+	function display_patient_edit_form($patient_id=NULL,$error_data = NULL,$called_from = NULL){
+		$data = $error_data;
 				$contact_id = $this->patient_model->get_contact_id($patient_id);
 				$data['called_from']=$called_from;
 				$data['patient_id'] = $patient_id;
@@ -204,45 +198,42 @@ class Patient extends CI_Controller {
 				$this->load->view('templates/menu');
 				$this->load->view('form', $data);
 				$this->load->view('templates/footer');
+	}
+	public function edit($patient_id=NULL,$called_from = NULL) {
+		//Check if user has logged in
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+			} else {
+			$this->form_validation->set_rules('first_name', $this->lang->line('first_name'), 'callback_validate_name');
+            $this->form_validation->set_rules('last_name', $this->lang->line('last_name'), 'callback_validate_name');
+			$this->form_validation->set_rules('email', $this->lang->line('email'), 'valid_email');
+
+			if ($this->form_validation->run() === FALSE) {
+				$this->display_patient_edit_form($patient_id,array());
 			} else {
 				$patient_id = $this->input->post('patient_id');
-
 				$file_upload = $this->do_upload();
 				//Error uploading the file
 				if(isset($file_upload['error']) && $file_upload['error']!='<p>You did not select a file to upload.</p>'){
-					$contact_id = $this->patient_model->get_contact_id($patient_id);
-					$data['patient_id'] = $patient_id;
-					$data['patient'] = $this->patient_model->get_patient_detail($patient_id);
-					$this->patient_model->update_reference_by($patient_id);
-					$data['contacts'] = $this->contact_model->get_contacts($contact_id);
-					$data['address'] = $this->contact_model->get_contact_address($contact_id);
-					$data['emails'] = $this->contact_model->get_contact_email($contact_id);
-					$data['def_dateformate'] = $this->settings_model->get_date_formate();
 					$data['error'] = $file_upload['error'];
-					$data['references'] = $this->settings_model->get_reference_by();
-					$clinic_id = $this->session->userdata('clinic_id');
-					$user_id = $this->session->userdata('user_id');
-					$header_data['clinic_id'] = $clinic_id;
-					$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-					$header_data['active_modules'] = $this->module_model->get_active_modules();
-					$header_data['user_id'] = $user_id;
-					$header_data['user'] = $this->admin_model->get_user($user_id);
-					$header_data['login_page'] = get_main_page();
-                    $header_data['software_name']= $this->settings_model->get_data_value("software_name");
-
-
-					$this->load->view('templates/header',$header_data);
-					$this->load->view('templates/menu');
-					$this->load->view('form', $data);
-					$this->load->view('templates/footer');
+					display_patient_edit_form($patient_id,$data);
 				} else {
 					if(isset($file_upload['file_name'])){
 						$file_name = $file_upload['file_name'];
 					}else{
 						$file_name = NULL;
 					}
+					$active_modules = $this->module_model->get_active_modules();
 					//Save the details
 					if(isset($patient_id) && $patient_id!=NULL){
+						//Upload Files
+						if (in_array("history", $active_modules)) {
+							$this->load->model('history/history_model');
+							$fields = $this->history_model->get_patient_history_details($patient_id);
+							$file_uploads = $this->do_history_upload(-1,$fields);
+							
+						}
+						//update patient
 						$this->contact_model->update_contact($file_name);
 						$contact_id = $this->patient_model->get_contact_id($patient_id);
 						$this->contact_model->update_contact_details($contact_id);
@@ -250,9 +241,11 @@ class Patient extends CI_Controller {
 						$this->patient_model->update_reference_by($patient_id);
 						$this->patient_model->update_patient_data($patient_id);
 						$this->patient_model->update_display_id();
-						$active_modules = $this->module_model->get_active_modules();
+						
 						if (in_array("history", $active_modules)) {
-							$this->load->model('history/history_model');
+							foreach($file_uploads as $file_name => $file_upload){	
+								$this->history_model->update_patient_history_file_details($patient_id,$file_name,$file_upload);
+							}
 							$this->history_model->update_patient_history_details($patient_id);
 						}
 						if (in_array("alert", $active_modules)) {
@@ -270,7 +263,12 @@ class Patient extends CI_Controller {
 							redirect('patient/visit/' . $patient_id);
 						}
 					}else{
-						$this->patient_model->update_reference_by($patient_id);
+						//Insert new patient
+						if (in_array("history", $active_modules)) {
+							$this->load->model('history/history_model');
+							$file_id = $this->history_model->get_next_id();
+							$file_uploads = $this->do_history_upload($file_id,array());
+						}
 						$contact_id = $this->contact_model->insert_contact();
 						$timezone = $this->settings_model->get_time_zone();
 						if (function_exists('date_default_timezone_set'))
@@ -281,13 +279,18 @@ class Patient extends CI_Controller {
 						if (in_array("account", $active_modules)) {
 							$this->load->model('account/account_model');
 							$this->account_model->insert_account_for_patient($contact_id);
+							
 						}
+						$this->patient_model->update_reference_by($patient_id);
 						$this->contact_model->insert_contact_details($contact_id);
 						$this->contact_model->update_profile_image($file_name,$contact_id);
 						$active_modules = $this->module_model->get_active_modules();
 						if (in_array("history", $active_modules)) {
 							$this->load->model('history/history_model');
 							$this->history_model->add_patient_history_details($patient_id);
+							foreach($file_uploads as $file_name => $file_upload){	
+								$this->history_model->update_patient_history_file_details($patient_id,$file_name,$file_upload);
+							}
 						}
 						if (in_array("alert", $active_modules)) {
 							$this->load->model('alert/alert_model');
@@ -497,6 +500,20 @@ class Patient extends CI_Controller {
             if ($this->form_validation->run() === FALSE) {
 
             }else {
+				$validation_error = FALSE;
+				if (in_array("history", $active_modules)) {
+					$this->load->model('history/history_model');
+					$file_id = $this->history_model->get_next_id();
+					$fields = $this->history_model->get_patient_history_details($patient_id);
+					$file_uploads = $this->do_history_upload($file_id,$fields);
+					foreach($file_uploads as $file_name => $file_upload){	
+						if(isset($file_upload['error']) && $file_upload['error']!='<p>You did not select a file to upload.</p>'){
+							$data['file_error'] = $file_upload['error'];
+							$validation_error = TRUE;
+						}
+					}
+				}
+				if(!$validation_error){
 		        $visit_id = $this->patient_model->insert_visit();
 				$data['bill_id'] = $this->bill_model->get_bill_id($visit_id);
 				$appointment_id=$this->input->post('appointment_id');
@@ -505,9 +522,15 @@ class Patient extends CI_Controller {
 				$doctor_id = $this->input->post('doctor');
 				$bill_id = $this->bill_model->create_bill($visit_id, $patient_id,0,$doctor_id);
 
+					if (in_array("history", $active_modules)) {
+						foreach($file_uploads as $file_name => $file_upload){	
+							$this->history_model->update_visit_history_file_details($visit_id,$file_name,$file_upload);
+						}
+						$this->history_model->update_visit_history_details($visit_id);
+					}
 				if (in_array("treatment", $active_modules)) {
 					$this->load->model('treatment/treatment_model');
-					if ( method_exists($this->treatment_model,'add_visit_treatment')){
+						if (method_exists($this->treatment_model,'add_visit_treatment')){
 						$this->treatment_model->add_visit_treatment($visit_id);
 					}
 					if($this->input->post('treatment')){
@@ -518,7 +541,7 @@ class Patient extends CI_Controller {
 						}
 					}
 				}
-				if (in_array("lab", $active_modules)) {
+					if (in_array("lab", $active_modules)){
 					$this->load->model('lab/lab_model');
 					$this->lab_model->add_test_visit($visit_id);
 					$lab_tests = $this->input->post('lab_test[]');
@@ -541,14 +564,11 @@ class Patient extends CI_Controller {
 				if($this->input->post('followup_date')!== NULL){
 					$this->patient_model->change_followup_detail($patient_id,$doctor_id);
 				}
-				if (in_array("history", $active_modules)) {
-					$this->load->model('history/history_model');
-					$this->history_model->update_visit_history_details($visit_id);
-				}
 				$level = $this->session->userdata('category');
 				if($level != "Nurse"){
 					$this->appointment_model->change_status($appointment_id,"Complete");
 				}
+            }
             }
 
 			$data['patient_id'] = $patient_id;
@@ -663,6 +683,38 @@ class Patient extends CI_Controller {
 		}
 	}
 	/** Edit Visit */
+	public function do_history_upload($file_id,$fields) {
+		$config = array();
+        $config['upload_path'] = './uploads/history_files/';
+		$config['overwrite'] = TRUE;
+		$config['allowed_types'] = '*';
+		$file_upload = array();
+		foreach($_FILES as $file_name => $file_details){
+			if (strpos($file_name, 'history_') !== false) {
+				if($file_id == -1){
+					$file_field_id = str_replace("history_","",$file_name);
+					foreach($fields as $field_id => $field){
+						if($field_id == $file_field_id){
+							$file_id = $field['history_id'];
+						}
+					}
+				}
+				$ext = pathinfo($file_details['name'], PATHINFO_EXTENSION);
+				$config['file_name'] = $file_name."_".$file_id.".".$ext;
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($file_name)) {
+					$error = array('error' => $this->upload->display_errors());
+					$file_upload[$file_name] = $error;
+				} else {
+					$data = array('upload_data' => $this->upload->data());
+					$file_upload[$file_name] = $data['upload_data'];
+				}
+			}
+		}
+		return $file_upload;
+    }
     public function edit_visit($visit_id, $patient_id = NULL,$appointment_id =NULL ) {
 		//Check if user has logged in
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
@@ -672,6 +724,68 @@ class Patient extends CI_Controller {
 			$this->form_validation->set_rules('visit_date', $this->lang->line('visit_date'), 'required');
 			$this->form_validation->set_rules('visit_time', $this->lang->line('visit_time'), 'required');
             if ($this->form_validation->run() === FALSE) {
+				$this->display_edit_visit_form($visit_id,$patient_id,$appointment_id);
+			} else {
+				$active_modules = $this->module_model->get_active_modules();
+				$validation_error = FALSE;
+				if (in_array("history", $active_modules)) {
+					$this->load->model('history/history_model');
+					$fields = $this->history_model->get_visit_history_details($visit_id);
+					$file_uploads = $this->do_history_upload(-1,$fields);
+					foreach($file_uploads as $file_name => $file_upload){	
+						if(isset($file_upload['error']) && $file_upload['error']!='<p>You did not select a file to upload.</p>'){
+							$data['file_error'] = $file_upload['error'];
+							$validation_error = TRUE;
+						}
+					}
+				}
+					if($validation_error){
+						$this->display_edit_visit_form($visit_id,$patient_id,$appointment_id,$data);
+					}else{
+						
+						if (in_array("history", $active_modules)) {
+							$this->load->model('history/history_model');
+							foreach($file_uploads as $file_name => $file_upload){	
+								$this->history_model->update_visit_history_file_details($visit_id,$file_name,$file_upload);
+							}
+							$this->history_model->update_visit_history_details($visit_id);
+						}
+						
+						$this->patient_model->edit_visit_data($visit_id);
+						
+						if($this->input->post('submit') == "save_complete"){
+							$appointment_id = $this->input->post('appointment_id');
+							$this->appointment_model->change_status($appointment_id,"Complete");
+						}
+						if (in_array("history", $active_modules)) {
+							$this->load->model('history/history_model');
+							$this->history_model->update_visit_history_details($visit_id);
+						}
+						if (in_array("prescription", $active_modules)){
+							$patient_id = $this->patient_model->get_patient_id($visit_id);
+							$this->load->model('prescription/prescription_model');
+							$this->prescription_model->update_prescription($visit_id,$patient_id);
+						}
+						if (in_array("lab", $active_modules)) {
+							$this->load->model('lab/lab_model');
+							$this->lab_model->add_test_visit($visit_id);
+							$bill_id = $this->patient_model->get_bill_id($visit_id);
+							$lab_tests = $this->input->post('lab_test[]');
+							foreach($lab_tests as $test_id){
+								if(!$this->lab_model->is_test_added($visit_id, $test_id)){
+									$lab_test = $this->lab_model->get_test($test_id);
+									$this->bill_model->add_bill_item('lab_test', $bill_id, $lab_test['test_name'], 1, $lab_test['test_charges'], $lab_test['test_charges'], NULL, NULL, NULL);
+								}
+							}
+						}
+						redirect('patient/visit/' . $patient_id);
+					
+				}
+			}
+        }
+    }
+	function display_edit_visit_form($visit_id,$patient_id = NULL,$appointment_id = NULL ,$error_data = NULL){
+		$data = $error_data;
 				$level = $this->session->userdata('category');
 				$data['level'] = $level;
 				$data['visit'] = $this->patient_model->get_visit_data($visit_id);
@@ -713,7 +827,7 @@ class Patient extends CI_Controller {
 					}
 					$data['field_options'] = $this->history_model->get_field_options_by_display_in("visits");
 					$data['field_name'] = $this->history_model->get_field_names();
-					$data['visit_history_details'] = $this->history_model->get_visit_history_details($visit_id);
+			$data['patient_history_details'] = $this->history_model->get_visit_history_details($visit_id);
 				}
 				if (in_array("prescription", $active_modules)){
 					$this->load->model('prescription/prescription_model');
@@ -750,38 +864,6 @@ class Patient extends CI_Controller {
 				$this->load->view('templates/menu');
                 $this->load->view('edit_visit', $data);
                 $this->load->view('templates/footer');
-            } else {
-				$active_modules = $this->module_model->get_active_modules();
-                $this->patient_model->edit_visit_data($visit_id);
-
-				if($this->input->post('submit') == "save_complete"){
-					$appointment_id = $this->input->post('appointment_id');
-					$this->appointment_model->change_status($appointment_id,"Complete");
-				}
-				if (in_array("history", $active_modules)) {
-					$this->load->model('history/history_model');
-					$this->history_model->update_visit_history_details($visit_id);
-				}
-				if (in_array("prescription", $active_modules)){
-					$patient_id = $this->patient_model->get_patient_id($visit_id);
-					$this->load->model('prescription/prescription_model');
-					$this->prescription_model->update_prescription($visit_id,$patient_id);
-				}
-				if (in_array("lab", $active_modules)) {
-					$this->load->model('lab/lab_model');
-					$this->lab_model->add_test_visit($visit_id);
-					$bill_id = $this->patient_model->get_bill_id($visit_id);
-					$lab_tests = $this->input->post('lab_test[]');
-					foreach($lab_tests as $test_id){
-						if(!$this->lab_model->is_test_added($visit_id, $test_id)){
-							$lab_test = $this->lab_model->get_test($test_id);
-							$this->bill_model->add_bill_item('lab_test', $bill_id, $lab_test['test_name'], 1, $lab_test['test_charges'], $lab_test['test_charges'], NULL, NULL, NULL);
-						}
-					}
-				}
-				redirect('patient/visit/' . $patient_id);
-            }
-        }
     }
 	public function check_available_stock($required_stock, $item_id) {
 		if ($this->module_model->is_active('stock')){
@@ -1181,6 +1263,7 @@ class Patient extends CI_Controller {
 				if($patient_detail == 'patient_name'){
 					$patient_name = $patient['first_name']." ".$patient['middle_name']." ".$patient['last_name'];
 					$template = str_replace("[patient_name]",$patient_name, $template);
+					$template = str_replace("[patient_id]",$patient_id, $template);
 				}else{
 					$template = str_replace("[$patient_detail]", $patient[$patient_detail], $template);
 				}
@@ -1192,6 +1275,7 @@ class Patient extends CI_Controller {
 			$doctor = $this->doctor_model->get_doctor_doctor_id($doctor_id);
 			$doctor_name = $doctor['title'].' '.$doctor['first_name'].' '.$doctor['middle_name'].' '.$doctor['last_name'];
 			$template = str_replace("[doctor_name]",$doctor_name, $template);
+			$template = str_replace("[reference_by]",$doctor_name, $template);
 
 			$particular_table = "";
 			$item_table = "";
@@ -1553,7 +1637,7 @@ class Patient extends CI_Controller {
 			if($called_from == "visit"){
 				$this->visit($patient_id, $visit_id);
 			}else{
-				$this->bill($visit_id, $patient_id);
+        		redirect('bill/edit/'.$bill_id);
 			}
         }
 	}
@@ -1752,6 +1836,33 @@ class Patient extends CI_Controller {
 			$data['patient_report']=  $result;
 			$this->load->view('patient/print_report', $data);
 		}
+	}
+function print_visit_history($visit_id){
+    $patient_id = $this->patient_model->get_patient_id($visit_id);
+    $data['patient'] = $this->patient_model->get_patient_detail($patient_id);
+    $data['contact'] = $this->contact_model->get_contact_address($data['patient']['contact_id']);
+    $data['visit'] = $this->patient_model->get_visit_data($visit_id);
+    $data['def_dateformate'] = $this->settings_model->get_date_formate();
+    $data['def_timeformate'] = $this->settings_model->get_time_formate();
+    $data['doctor'] = $this->doctor_model->get_doctor_details($data['visit']['doctor_id']);
+    $data['clinic'] = $this->settings_model->get_clinic_settings();
+    $active_modules = $this->module_model->get_active_modules();
+   
+    if (in_array("history", $active_modules)) {
+          $this->load->model('history/history_model');
+  		$data['section_master'] = $this->history_model->get_section_by_display_in("visits");
+  		$data['section_fields'] = $this->history_model->get_fields_by_display_in("visits");
+  		$data['section_conditions'] = $this->history_model->get_conditions_by_display_in("visits");
+  		$data['field_options'] = $this->history_model->get_field_options_by_display_in("visits");
+  		$data['patient_history_details'] = $this->history_model->get_visit_history_details($visit_id);
+  		$data['section_patient_master'] = $this->history_model->get_section_by_display_in("patient_detail");
+  		$data['section_patient_fields'] = $this->history_model->get_fields_by_display_in("patient_detail");
+  		$data['section_patient_conditions'] = $this->history_model->get_conditions_by_display_in("patient_detail");
+  		$data['field_patient_options'] = $this->history_model->get_field_options_by_display_in("patient_detail");
+  		$data['patient_detail_field_history'] = $this->history_model->get_patient_history_details_by_patient_id($patient_id);
+    }
+
+		$this->load->view('print_fields',$data);
 	}
 }
 ?>

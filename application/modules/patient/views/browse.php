@@ -83,7 +83,7 @@
 
 										</div>
 										<div class="modal-footer">
-											<input id="add_inquiry_submit" type="submit" name="submit" value="Save" class="btn btn-primary" data-dismiss="modal"/>
+											<input id="add_inquiry_submit" type="submit" name="submit" value="<?php echo $this->lang->line('save');?>" class="btn btn-primary" data-dismiss="modal"/>
 											<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('close');?></button>
 										</div>
 										<?php echo form_close(); ?>

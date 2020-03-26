@@ -151,7 +151,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<input class="btn btn-primary btn-sm square-btn-adjust" type="submit" id="save_issue_refund" value="Save" name="submit" />
+					<input class="btn btn-primary btn-sm square-btn-adjust" type="submit" id="save_issue_refund" value="<?php echo $this->lang->line('save');?>" name="submit" />
 					<a href="<?=site_url('payment/issue_refund');?>" class="btn btn-primary btn-sm square-btn-adjust"><?php echo $this->lang->line('back');?></a>
 				</div>
 			</div>

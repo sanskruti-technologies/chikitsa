@@ -2,6 +2,23 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.0] - 2020-02-18
+### Added
+- User wise Prefered Language
+
+
+## [0.8.9] - 2019-01-02
+### Changed
+- For Custom Detail 0.0.3	
+- Bill Bugs Solved
+
+## [0.8.8] - 2019-12-18
+### Added
+- Use custom.css for customizing css
+- Module Page faster
+
+### Changed
+- Treatment List problem solved
 
 ## [0.8.7] - 2019-12-13
 ### Changed

@@ -18,7 +18,7 @@
 */
 
 
-	//$lan_file_array=array('arabic','english','french','gujarati','italiano');
+	//$lan_file_array=array('arabic','english','french','gujarati','italiano','spanish');
 	$lan_file_array=array('english');
 	//$action =  $_REQUEST['action'];
 	//if($action == 'install_sql'){

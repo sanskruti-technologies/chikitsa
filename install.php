@@ -52,7 +52,7 @@
 		</style>
     </head>
 	<?php
-	//$lan_file_array = array('arabic','english','french','gujarati','italiano');
+	//$lan_file_array = array('arabic','english','french','gujarati','italiano','spanish');
 		error_reporting(E_ERROR);
 
 		global $latest_version;
@@ -61,7 +61,7 @@
 		$flag="false";
 
 
-		$latest_version = "0.8.7";
+		$latest_version = "0.9.1";
 		$display_message = "";
 		function currentUrl($server){
 			//Figure out whether we are using http or https.
@@ -543,6 +543,11 @@
 										<input type="checkbox"  name="language_check[]" value="italiano" /> Italiano
 										</label>
 									</div>
+									<div class='col-md-3'>
+										<label>
+										<input type="checkbox"  name="language_check[]" value="spanish" /> Spanish
+										</label>
+									</div>
 								</div>
 							<button type="submit" name="submit" class="btn btn-success"/>Install</button>
 
@@ -726,7 +731,10 @@
 													}
 												}
 												$lang = array();
-												include_once("./application/language/$language/main_lang.php");
+													//add all files in to database
+													$language_file=directory_map('./application/language/'.$language);		
+													for($i=0;$i<sizeof($language_file);$i++){
+														include_once("./application/language/$language/$language_file[$i]");
 												foreach($lang as $key =>$l){
 													if(!array_key_exists($key,$database_array)){
 														$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
@@ -737,6 +745,20 @@
 														//echo $query."<br/>";
 													}
 												}
+											}
+													
+												/*include_once("./application/language/$language/main_lang.php");
+												foreach($lang as $key =>$l){
+													if(!array_key_exists($key,$database_array)){
+														$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
+														if(mb_detect_encoding($query, "UTF-8", "UTF-8, ISO-8859-9") != "UTF-8"){
+															$query = utf8_encode($query);
+														}
+														$language_sqls[$language][]=$query;
+														//echo $query."<br/>";
+													}
+												}
+												*/
 											}
 										}
 
@@ -962,7 +984,7 @@
 								<input type="hidden" name="password" value="<?=$password;?>" />
 								<input type="hidden" name="dbname" value="<?=$dbname;?>" />
 								<input type="hidden" name="dbprefix" value="<?=$dbprefix;?>" />
-								<input class="btn btn-success square-btn-adjust" type="submit" value="Continue" />
+								<input class="btn btn-success square-btn-adjust" type="submit" id="continue" value="Continue" />
 							</div>
 						</form>
 						<?php
@@ -1019,9 +1041,10 @@
 								if(result != ''){
 									result =  $("#install_logs").val() + result + '\n';
 									$("#install_logs").val(result);
+									$("#continue").val('Ignore And Continue');
 									var $textarea = $("#install_logs");
 									$textarea.scrollTop($textarea[0].scrollHeight);
-
+									$("#continue_form").show();
 								}
 								progress = parseInt($("#progress").val());
 								progress = progress + 1;
@@ -1173,7 +1196,7 @@
 							}else{
 								?>
 								<div class="form_style">
-									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo application_url()."/index.php/login/cleardata";?>">Continue to Application</a>
+									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo application_url()."index.php/login/cleardata";?>">Continue to Application</a>
 								</div>
 								<?php
 							}

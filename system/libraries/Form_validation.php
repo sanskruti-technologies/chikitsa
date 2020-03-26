@@ -447,7 +447,7 @@ class CI_Form_validation {
 		}
 
 		// Load the language file containing error messages
-		$this->CI->lang->load('form_validation');
+		$this->CI->lang->load('form_validation',$this->CI->session->userdata('prefered_language'));
 
 		// Cycle through the rules for each field and match the corresponding $validation_data item
 		foreach ($this->_field_data as $field => &$row)

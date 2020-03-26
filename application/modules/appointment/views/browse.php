@@ -18,6 +18,7 @@
 ?>
 <!-- JQUERY SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/jquery-1.11.3.min.js"></script>
+<script src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 <!-- JQUERY UI SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
 <!-- BOOTSTRAP SCRIPTS -->
@@ -29,8 +30,16 @@
 <!-- CUSTOM SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/custom.min.js"></script>
 
+<script src="http://malsup.github.com/jquery.form.js"></script>
+
 <script type="text/javascript" charset="utf-8">	
 	$(window).load(function(){
+		<?php if($show_nag_screen == 'screen1' && !empty($non_licence_activated_plugins)){?>
+			 $( "#nag_screen_modal" ).modal('show');
+		<?php }?>
+		<?php if($show_nag_screen == 'screen2' && !empty($non_licence_activated_plugins)){?>
+			 $( "#nag_screen2_modal" ).modal('show');
+		<?php }?>
 		$(".todo").change(function() {
 			var element = $(this);
 			var id = $(this).val();
@@ -65,8 +74,34 @@
 				window.location='<?php echo base_url(); ?>index.php/appointment/index/'+dp.getFullYear()+'/'+month+'/'+dp.getDate();
 			}
 		}); 
+		$('#activate_plugins').click(function(event) {
+			event.preventDefault();
+			$.post( "<?=site_url('module/reminde_later')?>");
+			setTimeout(function(){ window.location.replace("<?=site_url('module/index');?>");}, 500);
 		
-		$("#add_inquiry_submit").click(function(event) {
+		});	
+		$('#remind_later').click(function(event) {
+			event.preventDefault();
+			$.post( "<?=site_url('module/reminde_later')?>");
+			$( "#nag_screen_modal" ).modal('toggle');
+		});	
+		$('#remind_later2').click(function(event) {
+			event.preventDefault();
+			$.post( "<?=site_url('module/reminde_later')?>");
+			$( "#nag_screen2_modal" ).modal('toggle');
+		});	
+		$('#do_not_remind').click(function(event) {
+			event.preventDefault();
+			$.post( "<?=site_url('module/do_not_remind')?>");
+			$( "#nag_screen2_modal" ).modal('toggle');
+		});	
+		$('#activate_plugins2').click(function(event) {
+			event.preventDefault();
+			$.post( "<?=site_url('module/reminde_later')?>");
+			setTimeout(function(){ window.location.replace("<?=site_url('module/index');?>");}, 500);
+		
+		});	
+		/*$("#add_inquiry_submit").click(function(event) {
 			event.preventDefault();
 			var first_name = $("#first_name").val();
 			var middle_name = $("#middle_name").val();
@@ -80,11 +115,44 @@
 				{
 					alert(data);
 				});
+		});*/
+			
+			
+			
+			
+			$("#add_inquiry_form").validate({
+				// Specify validation rules
+				rules: {
+				  // The key name on the left side is the name attribute
+				  // of an input field. Validation rules are defined
+				  // on the right side
+				  first_name: {	required: true,	},
+				  last_name: {	required: true,	},
+				  mobile_no: {	required: true,	}
+				},
+				// Specify validation error messages
+				messages: {
+				  first_name: { required: "Please Enter First Name" },
+				  last_name: { required: "Please Enter Last Name" },
+				  mobile_no: { required: "Please Mobile Number" },
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function(form) {
+					$(form).ajaxSubmit({
+						success: function(response) { 
+							$("#myModal").modal("hide"); 
+							alert(response);
+						}
 		});
+				}
+			  });
+			  
+			  
+
 		
 		function fetch_appointments(){
 			$.get('<?=site_url("appointment/ajax_appointments/".$appointment_date);?>', function(data, status){
-				console.log(data);
 				$('#appointments').html("");
 				var appointments = (JSON.parse(data));
 				var appointment = "";
@@ -134,10 +202,10 @@
 	global $holidays;
 	global $workingdays;
 	
-$day_of_week = date('l', strtotime($day . "-" . $month . "-" . $year));
-$g_day = $day;
-$g_month = $month;
-$g_year = $year;
+	$day_of_week = date('l', strtotime($day . "-" . $month . "-" . $year));
+	$g_day = $day;
+	$g_month = $month;
+	$g_year = $year;
 
 	if($doctor_active){
 		$doctor_inavailability = $inavailability;
@@ -251,16 +319,14 @@ $g_year = $year;
 		}
 		return $holiday_reason;
 }
-
-function is_half_day($i,$s_time,$e_time){
+	function is_half_day($i,$s_time,$e_time){
 	if(($i>=$s_time) && ($i<$e_time)){
 			return true;
 		}else{
 			return false;
 		}
 
-}
-
+	}
 ?>
 <div id="appointments"></div>
 <div id="page-inner">
@@ -536,7 +602,55 @@ function is_half_day($i,$s_time,$e_time){
 	</div>
 </div>
 
+<div class="modal fade" id="nag_screen_modal" tabindex="-1" role="dialog" aria-labelledby="myNagScreenLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title" id="myNagScreenLabel">Activate Plugins</h4>
+		</div>
+		<div class="modal-body">
+			<p>Your following extensions are not activated.</p>
+			<ul>
+			<?php foreach($non_licence_activated_plugins as $non_licence_activated_plugin){ ?>
+				<li><?=$non_licence_activated_plugin['module_display_name'];?></li>
+			<?php } ?>
+			</ul>
+			<p>Please activate them before 1st May.
+			They will stop working in future releases without activation.</p> 
+		</div>
+		<div class="modal-footer">
+			<a id="activate_plugins" class="btn btn-primary activate_plugins" >Go to Activation</a>
+			<a id="remind_later" class="btn btn-danger remind_later" >Remind Later</a>
+		</div>
+	</div>
+	</div>
+</div>
 
+<div class="modal fade" id="nag_screen2_modal" tabindex="-1" role="dialog" aria-labelledby="myNagScreenLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title" id="myNagScreenLabel">Do Not Upgrade</h4>
+		</div>
+		<div class="modal-body">
+			<p>You still have not activated following plugins.</p>
+			<ul>
+			<?php foreach($non_licence_activated_plugins as $non_licence_activated_plugin){ ?>
+				<li><?=$non_licence_activated_plugin['module_display_name'];?></li>
+			<?php } ?>
+			</ul>
+			<p>DO NOT UPGRADE CHIKITSA BEFORE ACTIVATING THEM OR THEY WILL STOP WORKING.</p> 
+		</div>
+		<div class="modal-footer">
+			<a id="activate_plugins2" class="btn btn-primary activate_plugins" >Go to Activation</a>
+			<a id="do_not_remind" class="btn btn-danger" >Do not Remind Again</a>
+			<a id="remind_later2" class="btn btn-warning remind_later" >Remind Later</a>
+		</div>
+	</div>
+	</div>
+</div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog">
@@ -545,12 +659,15 @@ function is_half_day($i,$s_time,$e_time){
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h4 class="modal-title" id="myModalLabel"><?=$this->lang->line('add_inquiry');?></h4>
 			</div>
-			<?php echo form_open(); ?>
+			<?php 
+			$attributes = array('id' => 'add_inquiry_form');
+			echo form_open(site_url('patient/add_inquiry'),$attributes);
+			?>
 			<div class="modal-body">
 					<div class="col-md-12"><label><?=$this->lang->line('name');?>:</label></div>
-					<div class="col-md-4"><input type="text" id="first_name" name="first_name" class="form-control" placeholder="first name"/></div>
-					<div class="col-md-4"><input type="text" id="middle_name" name="middle_name" class="form-control" placeholder="middle name"/></div>
-					<div class="col-md-4"><input type="text" id="last_name" name="last_name" class="form-control" placeholder="last name"/></div>
+					<div class="col-md-4"><input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name"/></div>
+					<div class="col-md-4"><input type="text" id="middle_name" name="middle_name" class="form-control" placeholder="Middle Name"/></div>
+					<div class="col-md-4"><input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name"/></div>
 
 
 					<div class="col-md-12"><label><?=$this->lang->line('email_id');?>:</label></div>
@@ -562,7 +679,7 @@ function is_half_day($i,$s_time,$e_time){
 
 			</div>
 			<div class="modal-footer">
-					<input id="add_inquiry_submit" type="submit" name="submit" value="Save" class="btn btn-primary" data-dismiss="modal"/>
+					<button type="submit" class="btn btn-primary" ><?=$this->lang->line('save');?></button>	
 					<button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->lang->line('close');?></button>
 			</div>
 			<?php echo form_close(); ?>

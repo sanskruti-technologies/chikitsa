@@ -42,11 +42,12 @@ class Appointment extends CI_Controller {
 		$this->load->helper('time');
 		$this->load->helper('mainpage_helper');
 
-		$this->lang->load('main');
-
         $this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->library('export');
+
+		
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
 
         $prefs = array(
             'show_next_prev' => TRUE,
@@ -269,7 +270,8 @@ class Appointment extends CI_Controller {
 			//Fetch Doctor Schedules
 			$doctor_active=$this->module_model->is_active("doctor");
 			$data['doctor_active']=$doctor_active;
-
+			$data['show_nag_screen'] = $this->module_model->get_nag_screen();
+			$data['non_licence_activated_plugins'] = $this->module_model->non_licence_activated_plugins();
 			if($doctor_active){
 				$this->load->model('doctor/doctor_model');
 				$data['doctors_data'] = $this->doctor_model->find_doctor();

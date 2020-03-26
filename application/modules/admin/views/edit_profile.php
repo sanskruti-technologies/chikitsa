@@ -53,6 +53,14 @@
 							<?php echo form_error('passconf','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="form-group">
+							<label for="prefered_language"><?php echo $this->lang->line('prefered_language');?></label>
+							<select name="prefered_language" class="form-control" >
+								<?php foreach ($languages as $key=>$language) { ?>
+								<option value="<?php echo $key; ?>" <?php if($user['prefered_language'] == $key) { ?>selected="selected"<?php } ?>><?php echo $key; ?></option>
+								<?php }?>
+							</select>
+						</div>
+						<div class="form-group">
 							<button type="submit" name="submit" class="btn btn-primary"><?php echo $this->lang->line('edit');?></button>
 						</div>
 					<?php echo form_close(); ?>

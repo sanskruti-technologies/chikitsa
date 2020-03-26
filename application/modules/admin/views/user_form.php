@@ -36,27 +36,27 @@
 			</div>
 			<?php 
 			if(isset($user)){
-				$level = $user['level']; 
-				$user_username = $user['username'];
-				$user_name = $user['name'];
-				$user_is_active = $user['is_active'];
-				$centers = $user['centers'];
-				$title = $contact['title'];
-				$first_name = $contact['first_name'];
-				$middle_name = $contact['middle_name'];
-				$last_name = $contact['last_name'];
+				$level =set_value('level',$user['level']); 
+				$user_username =set_value('username',$user['name']); 
+				//$user_name =set_value('user_name',$user['username']) ;
+				$user_is_active =set_value('user_is_active',1);
 				$edit = TRUE;
+				$centers =set_value('center',$user['centers']);
+				$title =set_value('title',$contact['title']) ;
+				$first_name =set_value('first_name',$contact['first_name']) ;
+				$middle_name =set_value('middle_name',$contact['middle_name']);
+				$last_name =set_value('last_name',$contact['last_name']);
 			}else{
-				$level = ""; 
-				$user_username = "";
-				$user_name = "";
-				$user_is_active = 1;
+				$level =set_value('level',""); 
+				$user_username =set_value('username',""); 
+				//$user_name =set_value('user_name',"") ;
+				$user_is_active =set_value('user_is_active',1);
 				$edit = FALSE;
-				$centers = "";
-				$title = "";
-				$first_name = "";
-				$middle_name = "";
-				$last_name = "";
+				$centers =set_value('center',"");
+				$title =set_value('title',"") ;
+				$first_name =set_value('first_name',"") ;
+				$middle_name =set_value('middle_name',"");
+				$last_name =set_value('last_name',"");
 			}
 			
 			$admin_name="admin";
@@ -142,6 +142,16 @@
 								<?php echo form_error('is_active','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 						</div>
+					</div>
+					<div class="col-md-12">
+					<div class="form-group">
+						<label for="prefered_language"><?php echo $this->lang->line('prefered_language');?></label>
+						<select name="prefered_language" class="form-control" >
+							<?php foreach ($languages as $key=>$language) { ?>
+							<option value="<?php echo $key; ?>" <?php if($user['prefered_language'] == $key) { ?>selected="selected"<?php } ?>><?php echo $key; ?></option>
+							<?php }?>
+						</select>
+					</div>
 					</div>
 					<?php if (in_array("centers", $active_modules)) { ?>
 					<div class="col-md-12">

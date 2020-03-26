@@ -36,7 +36,7 @@ class Admin extends CI_Controller {
 
 		$this->load->library('session');
 
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
 	/** Users*/
     public function users($message = NULL) {
@@ -158,6 +158,7 @@ class Admin extends CI_Controller {
             $this->form_validation->set_rules('passconf', $this->lang->line('passconf'), 'trim');
             if ($this->form_validation->run() == FALSE) {
                 $data['user'] = $this->admin_model->get_user_detail($uid);
+				$data['languages']=$this->settings_model->get_language_name();	
 				$contact_id = $data['user']['contact_id'];
                 $data['contact'] = $this->contact_model->get_contacts($contact_id);
 				$data['categories'] = $this->admin_model->find_category();
@@ -184,6 +185,7 @@ class Admin extends CI_Controller {
             } else {
                 $this->admin_model->edit_user_data($uid);
 				$data['user'] = $this->admin_model->get_user_detail($uid);
+				$data['languages']=$this->settings_model->get_language_name();	
 				$contact_id = $data['user']['contact_id'];
 				$title = $this->input->post('title');
 				$first_name = $this->input->post('first_name');
@@ -209,6 +211,7 @@ class Admin extends CI_Controller {
 
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 $data['user'] = $this->admin_model->get_user_detail($user_id);
+				$data['languages']=$this->settings_model->get_language_name();	
 				$clinic_id = $this->session->userdata('clinic_id');
 				$header_data['clinic_id'] = $clinic_id;
 				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
@@ -227,7 +230,7 @@ class Admin extends CI_Controller {
                     $this->form_validation->set_rules('name', $this->lang->line('name'), 'trim|required|min_length[5]|max_length[200]|xss_clean');
                     if ($this->form_validation->run() == FALSE) {
                         $data['user'] = $this->admin_model->get_user_detail($user_id);
-
+						$data['languages']=$this->settings_model->get_language_name();	
                			$clinic_id = $this->session->userdata('clinic_id');
 						$header_data['clinic_id'] = $clinic_id;
 						$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
@@ -252,6 +255,7 @@ class Admin extends CI_Controller {
                     $this->form_validation->set_rules('passconf', $this->lang->line('passconf'), 'trim|required');
                     if ($this->form_validation->run() == FALSE) {
                         $data['user'] = $this->admin_model->get_user_detail($user_id);
+						$data['languages']=$this->settings_model->get_language_name();	
                			$clinic_id = $this->session->userdata('clinic_id');
 						$header_data['clinic_id'] = $clinic_id;
 						$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);

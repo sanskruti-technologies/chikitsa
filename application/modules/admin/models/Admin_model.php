@@ -74,6 +74,8 @@ class Admin_model extends CI_Model {
 			'centers' => $center,
 			'contact_id' => $contact_id
         );
+		$data['prefered_language'] = $this->input->post('prefered_language');
+        
         $this->db->insert('users', $data);
 		return $this->db->insert_id();
     }
@@ -109,6 +111,8 @@ class Admin_model extends CI_Model {
 		
 		$data['centers'] = $center;
 		$data['sync_status'] = 0;
+		$data['prefered_language'] = $this->input->post('prefered_language');
+        
 		
         $this->db->where('userid', $id);
         $this->db->update('users', $data);
@@ -191,6 +195,7 @@ class Admin_model extends CI_Model {
 	}
     function change_profile($user_id){
         $data['name'] = $this->input->post('name');
+        $data['prefered_language'] = $this->input->post('prefered_language');
         $data['sync_status'] = 0;
         $this->db->where('userid', $user_id);
         $this->db->update('users', $data);

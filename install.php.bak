@@ -52,9 +52,8 @@
 		</style>
     </head>
 	<?php
+	//$lan_file_array = array('arabic','english','french','gujarati','italiano','spanish');
 		error_reporting(E_ERROR);
-		$system_path = 'system';
-		define('BASEPATH', str_replace('\\', '/', $system_path));
 
 		global $latest_version;
 		global $display_message;
@@ -79,17 +78,6 @@
 			//Finally, construct the full URL.
 			//Use the function htmlentities to prevent XSS attacks.
 			return $http . '://' . htmlentities($host) . htmlentities($requestUri);
-		}
-		function set_default_language($language_name){
-			$config_file = "./application/config/sample-config.php";
-
-			$line_array = file($config_file);
-			for ($i = 0; $i < count($line_array); $i++) {
-				if (strstr($line_array[$i], "'language'")) {
-					$line_array[$i] = '$config[\'language\'] = "'.$language_name.'/";'."\r\n";
-				}
-			}
-			file_put_contents($config_file, $line_array);
 		}
 		function set_base_url(){
 			$base_url = str_replace("/install.php","",currentUrl($_SERVER));
@@ -166,39 +154,6 @@
 			 closedir($dir_handle);
 			 rmdir($dirname);
 			 return true;
-		}
-		function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE){
-			if ($fp = @opendir($source_dir))
-			{
-				$filedata	= array();
-				$new_depth	= $directory_depth - 1;
-				$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
-				
-				while (FALSE !== ($file = readdir($fp)))
-				{
-					// Remove '.', '..', and hidden files [optional]
-					if ($file === '.' OR $file === '..' OR ($hidden === FALSE && $file[0] === '.'))
-					{
-						continue;
-					}
-					
-					is_dir($source_dir.$file) && $file .= DIRECTORY_SEPARATOR;
-						
-					if (($directory_depth < 1 OR $new_depth > 0) && is_dir($source_dir.$file))
-					{
-						$filedata[$file] = directory_map($source_dir.$file, $new_depth, $hidden);
-					}
-					else
-					{
-						$filedata[] = $file;
-					}
-				}
-					
-				closedir($fp);
-				return $filedata;
-			}
-
-			return FALSE;
 		}
 		function get_server_old() {
 			// Edit config/database.php file
@@ -338,35 +293,77 @@
 
 		}
 		function get_server() {
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
-			include $database_file;
-			return $db['default']['hostname'];
+			$line_array = file($database_file);
+
+			for ($i = 0; $i < count($line_array); $i++) {
+				if (strstr($line_array[$i], "'hostname' =>")) {
+					$server = str_replace("'hostname' =>", "", $line_array[$i]);
+					$server = str_replace("'", "", $server);
+					$server = str_replace(",", "", $server);
+					$server = trim($server);
+					return $server;
+				}
+			}
 		}
 		function get_username() {
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
-			include $database_file;
-			return $db['default']['username'];
+			$line_array = file($database_file);
+
+			for ($i = 0; $i < count($line_array); $i++) {
+				if (strstr($line_array[$i], "'username' => ")) {
+					$username = str_replace("'username' => ", "", $line_array[$i]);
+					$username = str_replace("'", "", $username);
+					$username = str_replace(",", "", $username);
+					$username = trim($username);
+					return $username;
+				}
+			}
 		}
 		function get_password() {
+			// Edit config/database.php file
 			$database_file = "application/config/database.php";
-			include $database_file;
-			return $db['default']['password'];
+			$line_array = file($database_file);
+
+			for ($i = 0; $i < count($line_array); $i++) {
+				if (strstr($line_array[$i], "'password' => ")) {
+					$password = str_replace("'password' => ", "", $line_array[$i]);
+					$password = str_replace("'", "", $password);
+					$password = str_replace(",", "", $password);
+					$password = trim($password);
+					return $password;
+				}
+			}
 		}
 		function get_database() {
 			$database_file = "application/config/database.php";
-			include $database_file;
-			return $db['default']['database'];
+			$line_array = file($database_file);
 
+			for ($i = 0; $i < count($line_array); $i++) {
+				if (strstr($line_array[$i], "'database' => ")) {
+					$database = str_replace("'database' => ", "", $line_array[$i]);
+					$database = str_replace("'", "", $database);
+					$database = str_replace(",", "", $database);
+					$database = trim($database);
+					return $database;
+				}
+			}
 		}
 		function get_dbprefix() {
 			$database_file = "application/config/database.php";
-			include $database_file;
-			return $db['default']['dbprefix'];
+			$line_array = file($database_file);
+
+			for ($i = 0; $i < count($line_array); $i++) {
+				if (strstr($line_array[$i], "'dbprefix' => ")) {
+					$dbprefix = str_replace("'dbprefix' => ", "", $line_array[$i]);
+					$dbprefix = str_replace("'", "", $dbprefix);
+					$dbprefix = str_replace(",", "", $dbprefix);
+					$dbprefix = trim($dbprefix);
+					return $dbprefix;
+				}
 			}
-		function get_default_language() {
-			$config_file = "application/config/config.php";
-			include $config_file;
-			return $config['language'];
 		}
 		class Database {
 
@@ -719,34 +716,14 @@
 										$count = count($sqls);
 
 										if($index >=  79){
+
 											$language_sqls = array();
-											$default_language = get_default_language();
-											$sql="SELECT DISTINCT l_name FROM ".$dbprefix."language_data";
-											if ($result = mysqli_query($con,$sql)){
-												while($row = mysqli_fetch_assoc($result)) {
-													$lan_file_array[] = $row['l_name'];
-													$language = $row['l_name'];
-													if($default_language == $language){
-														$is_default = 1;
-													}else{
-														$is_default = 0;
-													}
-													$query = "INSERT INTO ".$dbprefix."language_master (language_name,is_default,is_rtl) VALUES ('".$language."',".$is_default.",0)";
-													$language_sqls[$language] = array();
-													$language_sqls[$language][]=$query;
-												}
-											}
-											
-											
-
-
 											//Language Files
+											$lan_file_array = array('arabic','english','french','gujarati','italiano','spanish');
 											foreach($lan_file_array as $language){
-												
-												
+												$language_sqls[$language] = array();
 												$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data WHERE l_name='".$language."';";
 												$language_sqls[$language][]= $sql;
-												
 												$database_array=array();
 												if ($result = mysqli_query($con,$sql)){
 													while($row = mysqli_fetch_assoc($result)) {
@@ -757,11 +734,10 @@
 													//add all files in to database
 													$language_file=directory_map('./application/language/'.$language);		
 													for($i=0;$i<sizeof($language_file);$i++){
-													if($language_file[$i] != 'index.html'){
 														include_once("./application/language/$language/$language_file[$i]");
 												foreach($lang as $key =>$l){
 													if(!array_key_exists($key,$database_array)){
-																$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key','$l');";
+														$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
 														if(mb_detect_encoding($query, "UTF-8", "UTF-8, ISO-8859-9") != "UTF-8"){
 															$query = utf8_encode($query);
 														}
@@ -770,8 +746,19 @@
 													}
 												}
 											}
-												}
 													
+												/*include_once("./application/language/$language/main_lang.php");
+												foreach($lang as $key =>$l){
+													if(!array_key_exists($key,$database_array)){
+														$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
+														if(mb_detect_encoding($query, "UTF-8", "UTF-8, ISO-8859-9") != "UTF-8"){
+															$query = utf8_encode($query);
+														}
+														$language_sqls[$language][]=$query;
+														//echo $query."<br/>";
+													}
+												}
+												*/
 											}
 										}
 
@@ -901,7 +888,7 @@
 								?>
 								<div class="form_style" id="continue_form" >
 									<input type="hidden" id="index" value="0" />
-									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo $base_url."index.php/login/cleardata";?>">Continue to Application</a>
+									<a class="btn btn-success square-btn-adjust" title="Goto Application" href="<?php echo $base_url."/index.php/login/cleardata";?>">Continue to Application</a>
 								</div>
 								<?php
 							}else{
@@ -930,6 +917,7 @@
 						if(sizeof($lan_file_array)==0){
 							$lan_file_array[]='english';
 						}
+						
 
 						if (isset($_POST["createdb"]))
 							$createdb = 1;
@@ -1013,16 +1001,17 @@
 						$count = count($sqls);
 						$language_sqls = array();
 						//Language Files
-						$index = 0;
 						foreach($lan_file_array as $language){
-							$is_default = 0;
-							if($index == 0){
-								$is_default = 1;
-								set_default_language($language);
+							$language_sqls[$language] = array();
+							$lang = array();
+							include_once("./application/language/$language/main_lang.php");
+							$sql = "SELECT l_index,l_value FROM ".$dbprefix."language_data WHERE l_name='".$language."';";
+							$database_array=array();
+							if (mysqli_query($con,$sql)){
+								while($row = mysqli_fetch_assoc($result)) {
+									 $database_array[$row['l_index']] = $row['l_value'];
+								}
 							}
-							$query = "INSERT INTO ".$dbprefix."language_master (language_name,is_default) VALUES ('".$language."',".$is_default.")";
-							$language_sqls[$language][]=$query;
-							
 							foreach($lang as $key =>$l){
 								if(!array_key_exists($key,$database_array)){
 									$query="INSERT INTO ".$dbprefix."language_data (l_name,l_index,l_value) values('$language','$key',\"$l\");";
@@ -1032,7 +1021,6 @@
 									$language_sqls[$language][]=$query;
 								}
 							}
-							$index++;
 						}
 
 

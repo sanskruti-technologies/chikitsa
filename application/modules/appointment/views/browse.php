@@ -29,8 +29,7 @@
 <script src="<?= base_url() ?>assets/js/jquery.datetimepicker.min.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/custom.min.js"></script>
-
-<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="<?= base_url() ?>assets/js/jquery.form.js"></script>
 
 <script type="text/javascript" charset="utf-8">	
 	$(window).load(function(){
@@ -101,27 +100,11 @@
 			setTimeout(function(){ window.location.replace("<?=site_url('module/index');?>");}, 500);
 		
 		});	
-		/*$("#add_inquiry_submit").click(function(event) {
-			event.preventDefault();
-			var first_name = $("#first_name").val();
-			var middle_name = $("#middle_name").val();
-			var last_name = $("#last_name").val();
-			var email_id = $("#email_id").val();
-			var mobile_no = $("#mobile_no").val();
-			
-			$.post( "<?php echo base_url(); ?>index.php/patient/add_inquiry",
-				{first_name: first_name, middle_name: middle_name,last_name: last_name,email: email_id, phone_number:mobile_no},
-				function(data,status)
-				{
-					alert(data);
-				});
-		});*/
-			
-			
-			
 			
 			$("#add_inquiry_form").validate({
 				// Specify validation rules
+				errorClass: "alert alert-danger no_margin",
+				errorElement: "div",
 				rules: {
 				  // The key name on the left side is the name attribute
 				  // of an input field. Validation rules are defined
@@ -132,17 +115,16 @@
 				},
 				// Specify validation error messages
 				messages: {
-				  first_name: { required: "Please Enter First Name" },
-				  last_name: { required: "Please Enter Last Name" },
-				  mobile_no: { required: "Please Mobile Number" },
+				  first_name: { required: "<?=$this->lang->line('please_enter_first_name');?>" },
+				  last_name: { required: "<?=$this->lang->line('please_enter_last_name');?>" },
+				  mobile_no: { required: "<?=$this->lang->line('please_enter_mobile_number');?>" },
 				},
 				// Make sure the form is submitted to the destination defined
 				// in the "action" attribute of the form when valid
 				submitHandler: function(form) {
 					$(form).ajaxSubmit({
 						success: function(response) { 
-							$("#myModal").modal("hide"); 
-							alert(response);
+							$("#addInquiryModal").modal("hide");
 						}
 		});
 				}
@@ -303,7 +285,7 @@
 		//For Holidays
 		foreach($holidays as $holiday){
 			if($holiday['working_status'] == "Non Working")	{
-				if(strtotime($holiday['working_date']) == strtotime($today)){
+				if(strtotime($holiday['working_date']) <= strtotime($today) && strtotime($holiday['end_date']) >= strtotime($today)){
 					$holiday_reason = $holiday['working_reason'];
 				}
 			}elseif($holiday['working_status'] == "Half Day"){
@@ -349,7 +331,7 @@
 					<!--------------------------- Display Doctor's Screen  ------------------------------->
 					<?php if ($level == 'Doctor') {?>
 						<a href="<?=site_url('appointment/add');?>" class="btn square-btn-adjust btn-primary"><?=$this->lang->line('add_appointment');?></a>
-						<a href="#" class="btn square-btn-adjust btn-primary" data-toggle="modal" data-target="#myModal"><?=$this->lang->line('add_inquiry');?></a>
+						<a href="#" class="btn square-btn-adjust btn-primary" data-toggle="modal" data-target="#addInquiryModal"><?=$this->lang->line('add_inquiry');?></a>
 
 
 						<div class="table-responsive"  style='position:relative;height:500px;'>
@@ -425,7 +407,7 @@
 					<div class="table-responsive"  style='position:relative;overflow:scroll;height:500px;'>
 						<div class="col-md-4">
 						<a href="<?=site_url('appointment/add');?>" class="btn square-btn-adjust btn-primary"><?=$this->lang->line('add_appointment');?></a>
-						<a href="#" class="btn square-btn-adjust btn-primary" data-toggle="modal" data-target="#myModal"><?=$this->lang->line('add_inquiry');?></a>
+						<a href="#" class="btn square-btn-adjust btn-primary" data-toggle="modal" data-target="#addInquiryModal"><?=$this->lang->line('add_inquiry');?></a>
 						</div>
 						<table id="appointment_table" class="table table-condensed table-striped table-bordered table-hover dataTable no-footer"  >
 							<thead>
@@ -652,12 +634,12 @@
 	</div>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="addInquiryModal" tabindex="-1" role="dialog" aria-labelledby="addInquiryModalLabel" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title" id="myModalLabel"><?=$this->lang->line('add_inquiry');?></h4>
+				<h4 class="modal-title" id="addInquiryModalLabel"><?=$this->lang->line('add_inquiry');?></h4>
 			</div>
 			<?php 
 			$attributes = array('id' => 'add_inquiry_form');

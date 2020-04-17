@@ -215,7 +215,10 @@ class Bill extends CI_Controller {
 
 						$amount = $this->input->post('item_amount');
 						$quantity = $this->input->post('item_quantity');
-						$this->patient_model->add_bill_item($action, $bill_id, $item, $quantity, $amount*$quantity, $amount,$item_id);
+						
+						$tax_amount = 0;
+						$tax_id = 0;
+						$this->bill_model->add_bill_item($action, $bill_id, $item, $quantity, $amount*$quantity, $amount,$item_id,$tax_amount,$tax_id);
 						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'lab_test') {

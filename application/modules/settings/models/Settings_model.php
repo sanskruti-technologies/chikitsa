@@ -384,16 +384,22 @@ class Settings_model extends CI_Model {
 		$data['working_status'] = $this->input->post('working_status');
 		$data['working_reason'] = $this->input->post('working_reason');
 		$data['end_date'] =  date('Y-m-d',strtotime($this->input->post('end_date')));
+    if($this->input->post('start_time') != ''){
 		$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
+    }else{
+      $data['start_time'] = '00:00:00';
+    }
+    if($this->input->post('end_time') !== ''){
 		$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
-
+    }else{
+      $data['end_time'] = '23:59:59';
+    }
 		//check if any data exists for this date.
 		$query=$this->db->get_where('working_days',array('working_date' => $data['working_date']));
 		$row=$query->row();
 		if (!$row) {
 			//if data doesnot exist then insert it
 			$this->db->insert('working_days',$data);
-			//echo $this->db->last_query();
 		}else{
 			//If data exists then update it
 			$data['sync_status'] = 0;
@@ -416,17 +422,35 @@ class Settings_model extends CI_Model {
 		$query = $this->db->get_where('working_days',array('uid' => $uid));
         return $query->row_array();
 	}
+  public function get_language($language_id){
+    $query = $this->db->get_where('language_master',array('language_id' => $language_id));
+    return $query->row_array();
+  }
 	public function delete_exceptional_days($uid){
 		$this->db->delete('working_days', array('uid' => $uid));
 	}
+  public function delete_language_data($language_name){
+    $this->db->delete('language_data', array('l_name' => $language_name));
+  }
+  public function delete_language($language_id){
+    $this->db->delete('language_master', array('language_id' => $language_id));
+  }
 	function update_exceptional_days(){
 		//prepare data
 		$data['working_date'] = date('Y-m-d',strtotime($this->input->post('working_date')));
 		$data['end_date'] = date('Y-m-d',strtotime($this->input->post('end_date')));
 		$data['working_status'] = $this->input->post('working_status');
 		$data['working_reason'] = $this->input->post('working_reason');
+    if($this->input->post('start_time') != ''){
 		$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
+    }else{
+      $data['start_time'] = '00:00:00';
+    }
+    if($this->input->post('end_time') !== ''){
 		$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
+    }else{
+      $data['end_time'] = '23:59:59';
+    }
 		$data['sync_status'] = 0;
 		$uid = $this->input->post('uid');
 		$this->db->update('working_days',$data,array('uid' => $uid));
@@ -593,6 +617,60 @@ class Settings_model extends CI_Model {
 	public function delete_payment_method($payment_method_id){
 		$this->db->delete('payment_methods', array('payment_method_id' => $payment_method_id));
 	}
+  public function set_as_default($language_id){
+    $data['is_default'] = 0;
+    $this->db->update('language_master',$data);
+    $data['is_default'] = 1;
+    $this->db->update('language_master',$data,array('language_id' => $language_id));
+    $language = $this->get_language($language_id);
+    $language_name = $language['language_name'];
 
+    $config_file = "application/config/config.php";
+		$line_array = file($config_file);
+		for ($i = 0; $i < count($line_array); $i++) {
+			if (strstr($line_array[$i], "config['language']")) {
+				$line_array[$i] = '$config[\'language\'] = \'' . $language_name . '\';' . "\r\n";
+			}
+		}
+		file_put_contents($config_file, $line_array);
+  }
+  public function add_language(){
+    $data = array();
+
+    $data['language_name'] = $this->input->post('language_name');
+    if($this->input->post('rtl') !== NULL){
+      $data['is_rtl'] = $this->input->post('rtl');
+    }else{
+      $data['is_rtl'] = 0;
+    }
+
+
+    $this->db->insert('language_master',$data);
+    ///echo $this->db->last_query();
+  }
+  public function edit_language(){
+    $data = array();
+    $language_id = $this->input->post('language_id');
+    $data['language_name'] = $this->input->post('language_name');
+    if($this->input->post('rtl') !== NULL){
+      $data['is_rtl'] = $this->input->post('rtl');
+    }else{
+      $data['is_rtl'] = 0;
+    }
+    $this->db->update('language_master',$data,array('language_id'=>$language_id));
+    //echo $this->db->last_query();
+  }
+  function get_languages(){
+    $result = $this->db->get('language_master');
+    return $result->result_array();
+  }
+  function get_language_array(){
+    $languages = $this->get_languages();
+    $language_array = array();
+    foreach($languages as $language){
+      $language_array[] = $language['language_name'];
+    }
+    return $language_array;
+  }
 }
 ?>

@@ -56,20 +56,22 @@
         });
 	});
 </script>
+<?php if(isset($error)){?>
+	<div class="alert alert-danger">
+		<?=$error;?>
+	</div>
+<?php } ?>
 <div class="panel panel-primary">
 	<div class="panel-heading">
 
 			<h2><?=$this->lang->line("take_backup");?></h2>
 
 	</div>
+
 	<div class="panel-body">
 		<a class="btn btn-success square-btn-adjust" href="<?php echo site_url("settings/take_backup/"); ?>"><?php echo $this->lang->line('take_backup');?></a>
 		<br/><br/>
-		<?php if(isset($error)){?>
-			<div class="alert alert-danger">
-				<?=$error;?>
-			</div>
-		<?php } ?>
+
 
 	</div>
 </div>

@@ -31,7 +31,7 @@
 					</div>
 					<div class="col-md-12">
 						<div class="table-responsive">
-							<table class="table table-striped table-bordered table-hover" id="patient_table">
+							<table class="table table-striped table-bordered table-hover" id="reference_by_table">
 								<thead>
 									<tr>
 										<th><?php echo $this->lang->line("option");?></th>
@@ -58,5 +58,17 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
+<script type="text/javascript" charset="utf-8">
+$( window ).load(function() {
+
+	$('.confirmDelete').click(function(){
+		return confirm("<?=$this->lang->line('areyousure_delete');?>");
+	})
+
+    $("#reference_by_table").dataTable({
+		"pageLength": 50
+	});
+});
+</script>

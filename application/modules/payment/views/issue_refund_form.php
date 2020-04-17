@@ -89,7 +89,7 @@
 		$refund_date = date($def_dateformate,strtotime($refund['refund_date']));
 	}else{
 		$refund_amount = "";
-		$refund_date = "";
+		$refund_date = date($def_dateformate);
 		$refund_note = "";
 	}
 ?>
@@ -109,7 +109,7 @@
 			<?php echo form_open('payment/add_issue_refund/') ?>
 			<?php } ?>
 			<div class="col-md-12">
-				<label for="patient_name"><?php echo $this->lang->line('patient') . ' ' . $this->lang->line('name');?></label>
+				<label for="patient_name"><?php echo $this->lang->line('patient_name');?></label>
 				<?php if(isset($refund)){ //Edit Mode ?>
 					<input type="hidden" name="patient_id" id="patient_id" value="<?= $refund['patient_id']; ?>" />
 					<input name="patient_name" id="patient_name" type="text" disabled="disabled" class="form-control" value="<?= $patient_name;?>"/><br />

@@ -583,7 +583,6 @@
 										if($currency_postfix) $total_adjust_amount = $total_adjust_amount . $currency_postfix;
 								?>
 								<tr>
-                                    <td></td>
 									<td><?=$this->lang->line('patient_account');?></td>
 									<td style='text-align:right;'></td>
 									<td style='text-align:right;' id='in_account'><?=currency_format($in_account);?></td>
@@ -592,7 +591,6 @@
 							</tbody>
 							<tfoot id="bill_detail_footer">
 								<tr>
-                                    <th style="text-align:right;" ></th>
 									<th><?php echo $this->lang->line("total");?></th>
 									<th style="text-align:right;"><?=$total_due_amount;?><input type="hidden" name="total_due_amount" id="total_due_amount" value="<?=$ttl_due_amount;?>"/></th>
 									<th style="text-align:right;" id="total_payment_amount"><?=$total_adjust_amount;?></th>

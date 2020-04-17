@@ -36,14 +36,6 @@
 	foreach($result as $row){
 		$active_modules[]= $row['module_name'];
 	}
-
-	$language_name = $this->config->item('language');
-	if($this->session->userdata('prefered_language') !== NULL){
-		$language_name = $this->session->userdata('prefered_language') ;
-	}
-	$query = $this->db->get_where('language_master',array('language_name'=>$language_name));
-	$language_master = $query->row_array();
-	$is_rtl = $language_master['is_rtl'];
 ?>
 <html>
     <head>
@@ -68,7 +60,7 @@
 		<link href="<?= base_url() ?>assets/css/chosen.min.css" rel="stylesheet" />
 		<!-- Lightbox SCRIPTS-->
 		<link href="<?= base_url() ?>assets/css/lightbox.min.css" rel="stylesheet" />
-		<?php if($is_rtl == 1){?>
+		<?php if($this->session->userdata('prefered_language') == 'arabic'){?>
 		<link href="<?= base_url() ?>assets/css/rtl.css" rel="stylesheet" />
 		<?php }?>
 		 <!-- CUSTOM STYLES-->

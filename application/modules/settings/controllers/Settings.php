@@ -41,9 +41,21 @@ class Settings extends CI_Controller {
 		$this->lang->load('main',$this->session->userdata('prefered_language'));
 
     }
-	public function edit_language($language) {
+
+    public function delete_language($language_id){
+      $language = $this->settings_model->get_language($language_id);
+      $language_name = $language['language_name'];
+      $this->settings_model->delete_language($language_id);
+      $this->settings_model->delete_language_data($language_name);
+      $this->language();
+    }
+  	public function change_language_file($language) {
 		$clinic_id = $this->session->userdata('clinic_id');
 		$user_id = $this->session->userdata('user_id');
+
+    $data['l_name']=$language;
+		$data['language_array']=$this->settings_model->get_language_name_array($language);
+
 
 		$header_data['clinic_id'] = $clinic_id;
 		$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
@@ -51,16 +63,117 @@ class Settings extends CI_Controller {
 		$header_data['user_id'] = $user_id;
 		$header_data['user'] = $this->admin_model->get_user($user_id);
 		$header_data['login_page'] = get_main_page();
-		$data['l_name']=$language;
-		$data['language_array']=$this->settings_model->get_language_name_array($language);
+
 		$this->load->view('templates/header',$header_data);
 		$this->load->view('templates/menu');
 		$this->load->view('edit_language',$data);
 		$this->load->view('templates/footer');
+	}
+  public function upload_language_file(){
+    $clinic_id = $this->session->userdata('clinic_id');
+    $user_id = $this->session->userdata('user_id');
+    $header_data['clinic_id'] = $clinic_id;
+    $header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+    $header_data['active_modules'] = $this->module_model->get_active_modules();
+    $header_data['user_id'] = $user_id;
+    $header_data['user'] = $this->admin_model->get_user($user_id);
+    $header_data['login_page'] = get_main_page();
+    $language_name = $this->input->post('language_name');
+    $data['language_name'] = $language_name;
 
+    $this->settings_model->add_language();
 
+    $this->load->view('templates/header',$header_data);
+    $this->load->view('templates/menu');
+    $this->load->view('settings/add_language',$data);
+    $this->load->view('templates/footer');
+	}
+  public function set_as_default($language_id){
+    $this->settings_model->set_as_default($language_id);
+    redirect('settings/language');
 	}
 	public function save_language(){
+    if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+        redirect('login/index');
+    }else {
+       $language_id = $this->input->post('language_id');
+       if($language_id == 0){
+         //Add Language
+         $this->add_language();
+       }else{
+         //Edit Language
+          $this->edit_language();
+       }
+    }
+  }
+  public function edit_language(){
+    if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+        redirect('login/index');
+    }else {
+        //Add Language in table
+        $this->settings_model->edit_language();
+        $data['languages']=$this->settings_model->get_languages();
+        $language_name = $this->input->post('language_name');
+
+        $reload_language_file = $this->input->post('reload_language_file');
+        $file_copied = true;
+        if($reload_language_file){
+          $language_folders = directory_map('./application/language/');
+          $folders = array_keys($language_folders);
+
+          if(!in_array($language_name."\\",$folders,true)){
+
+            $message[] = "Creating Folder for $language_name";
+            mkdir('./application/language/' . $language_name, 0777, TRUE);
+            //Copy from English
+            $src = 'application/language/english/main_lang.php';
+  					$destination = 'application/language/'.$language_name.'/main_lang.php';
+
+            if(!copy($src,$destination)){
+  						$message[] = "Failed to Copy Language Files";
+  						$file_copied = false;
+  					}
+
+            $system_language_files = directory_map('./system/language/english');
+            foreach($system_language_files as $system_language_file){
+              $src = 'system/language/english/'.$system_language_file;
+  						$destination = 'application/language/'.$language_name.'/'.$system_language_file;
+  						if(!copy($src,$destination)){
+                  $message[] = "Failed to Copy System Language File $system_language_file";
+  								$file_copied = false;
+  						}
+            }
+          }
+
+  			  $data['language_name']=$language_name;
+  				$data['file_copied'] = $file_copied;
+          $data['language_array']=$this->settings_model->get_language_name_array($language_name);
+
+
+          $data['clinics'] = $this->settings_model->get_all_clinics();
+          $clinic_id = $this->session->userdata('clinic_id');
+          $user_id = $this->session->userdata('user_id');
+  				$header_data['clinic_id'] = $clinic_id;
+  				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+  				$header_data['active_modules'] = $this->module_model->get_active_modules();
+  				$header_data['user_id'] = $user_id;
+  				$header_data['user'] = $this->admin_model->get_user($user_id);
+  				$header_data['login_page'] = get_main_page();
+
+  				$data['def_timeformate']=$this->settings_model->get_time_formate();
+          $data['language_name'] = $this->input->post('language_name');
+
+  				$this->load->view('templates/header',$header_data);
+  				$this->load->view('templates/menu');
+  				$this->load->view('settings/reload_language',$data);
+  				$this->load->view('templates/footer');
+        }else{
+          $this->language();
+        }
+    }
+	}
+
+	public function save_language_data(){
 		$this->settings_model->edit_language_data();
 		$language = $this->input->post('language');
 		$index = $this->input->post('index');
@@ -85,80 +198,65 @@ class Settings extends CI_Controller {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         }else {
-			
             $this->form_validation->set_rules('language_name', $this->lang->line('language')." ".$this->lang->line('name'), 'trim|required');
             if ($this->form_validation->run() === FALSE) {
-                $this->change_settings();
-            } else {
-				$language_name=$this->input->post('language_name');
+            $this->language();
+        }else{
+            //Add Language in table
+            $this->settings_model->add_language();
+            $data['languages']=$this->settings_model->get_languages();
 				
-				//if language is same as folder language
-				$data['language_folders']=directory_map('./application/language/');	
-				$data['folder']=array_keys($data['language_folders']);
-					foreach($data['folder'] as $row)
-					{
-						$row=substr($row, 0, -1);
-						if(strlen($row)>1){
-							$folder_name[$row]=$row;
-						}
-					}
-				$data['languages']=$this->settings_model->get_language_name();
-				$result_language=array_diff($folder_name,$data['languages']);
+            $language_name = $this->input->post('language_name');
 				
-				if(in_array ($language_name, $result_language)){
-					$destination='application/language/'.$language_name.'/main_lang.php';
-					$flag=true;
-				}else{
-				$flag=true;
+            $language_folders = directory_map('./application/language/');
+            $folders = array_keys($language_folders);
+            $file_copied = true;
+            if(!in_array($language_name."\\",$folders,true)){
 		
-				//create folder
+              $message[] = "Creating Folder for $language_name";
 				mkdir('./application/language/' . $language_name, 0777, TRUE);
+              //Copy from English
+              $src = 'application/language/english/main_lang.php';
+							$destination = 'application/language/'.$language_name.'/main_lang.php';
 			
-				//copy index.htnl file
-				$index_src='application/language/english/index.html';
-				$index_destination='application/language/'.$language_name.'/index.html';
-				if(!copy($index_src,$index_destination)){
-					echo "failed to copy";
-					$flag=false;
-				}
-				//copy main_lang.php file
-				$src='application/language/english/main_lang.php';
-				$destination='application/language/'.$language_name.'/main_lang.php';
 				if(!copy($src,$destination)){
-					echo "failed to copy ";
-					$flag=false;
+								$message[] = "Failed to Copy Language Files";
+								$file_copied = false;
 				}
-					//copy other files 
-					$other_language_file=directory_map('./system/language/english');
-					//print_r($other_language_file);
-					for($i=0;$i<sizeof($other_language_file);$i++){
-						$src='system/language/english/'.$other_language_file[$i];
-						$destination='application/language/'.$language_name.'/'.$other_language_file[$i];
+
+              $system_language_files = directory_map('./system/language/english');
+              foreach($system_language_files as $system_language_file){
+                $src = 'system/language/english/'.$system_language_file;
+								$destination = 'application/language/'.$language_name.'/'.$system_language_file;
 						if(!copy($src,$destination)){
-							echo "failed to copy ";
-							$flag=false;
+                    $message[] = "Failed to Copy System Language File $system_language_file";
+										$file_copied = false;
 						}	
-					
 				}
-				
 				}
 				
 					
-					if($flag==true){
-						$language_file=directory_map('./application/language/'.$language_name);		
+					  $data['language_name']=$language_name;
+						$data['file_copied'] = $file_copied;
 						
-						for($i=0;$i<sizeof($language_file);$i++){
-							$destination='application/language/'.$language_name.'/'.$language_file[$i];
-					include($destination);
-					$language_array=$lang;
-					$this->settings_model->save_language_data($language_name,$language_array);
-						}
+            $data['clinics'] = $this->settings_model->get_all_clinics();
+            $clinic_id = $this->session->userdata('clinic_id');
+            $user_id = $this->session->userdata('user_id');
+    				$header_data['clinic_id'] = $clinic_id;
+    				$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+    				$header_data['active_modules'] = $this->module_model->get_active_modules();
+    				$header_data['user_id'] = $user_id;
+    				$header_data['user'] = $this->admin_model->get_user($user_id);
+    				$header_data['login_page'] = get_main_page();
+    				$data['def_timeformate']=$this->settings_model->get_time_formate();
 					
-					 $this->change_settings();
+            $data['language_name'] = $this->input->post('language_name');
+    				$this->load->view('templates/header',$header_data);
+    				$this->load->view('templates/menu');
+    				$this->load->view('settings/add_language',$data);
+    				$this->load->view('templates/footer');
 				}
 			}	
-		
-        }
 	}
 	public function upload_language() {
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
@@ -692,23 +790,19 @@ class Settings extends CI_Controller {
 				$return_code = unzip($full_path,$file_path);
 				if($return_code === TRUE){
 					//Check prefix
-					$allow_restore = FALSE;
+					$prefix_match = FALSE;
 
 					$prefix_file_name = $file_path . '/prefix.txt';
 					if (file_exists($prefix_file_name)) {
 						$backup_prefix = file_get_contents($prefix_file_name);
 						$current_prefix = $this->db->dbprefix;
+            			$database = $this->db->database;
 						if($backup_prefix == $current_prefix){
-							$allow_restore = TRUE;
-						}else{
-							$data['error'] = "Current database prefix and that in backup file are different.";
+							$prefix_match = TRUE;
 						}
 					}else{
-						$allow_restore = TRUE;
+						$prefix_match = TRUE;
 					}
-
-					if($allow_restore){
-
 						//execute sql file
 						$sql_file_name = $file_path . '/chikitsa-backup.sql';
 
@@ -726,14 +820,26 @@ class Settings extends CI_Controller {
 							//echo $query."<br/>";
 							$this->db->query($query);
 						}
+					if(!$prefix_match){
+            $query=$this->db->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$database' AND TABLE_NAME LIKE '%$backup_prefix%'");
+            $tables = $query->result();
+            foreach ($tables as $table) {
+              $old_table_name = $table->TABLE_NAME;
+              $table_name = substr($old_table_name,strlen($backup_prefix));
+              $new_table_name = $current_prefix.$table_name;
+              $query = "DROP TABLE $new_table_name";
+              $this->db->query($query);
+              $query = "ALTER TABLE $old_table_name  RENAME TO $new_table_name;";
+              $this->db->query($query);
+            }
+
+
+					}
 						//Move folders to their location
 						$this->move_folder("./restore_backup/profile_picture", "./profile_picture");
 						$this->move_folder("./restore_backup/patient_images", "./patient_images");
 						$data['message'] = "Backup Restored Successfully!";
 					}else{
-						$data['error'] = "Current database prefix and that in backup file are different.";
-					}
-				}else{
 					$data['error'] = $return_code;
 				}
 				$this->load->view('templates/header',$header_data);
@@ -939,5 +1045,35 @@ class Settings extends CI_Controller {
 		print($xml->asXML());
 	}
 
+  public function language(){
+    $clinic_id = $this->session->userdata('clinic_id');
+    $user_id = $this->session->userdata('user_id');
+    $header_data['clinic_id'] = $clinic_id;
+		$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
+		$header_data['active_modules'] = $this->module_model->get_active_modules();
+		$header_data['user_id'] = $user_id;
+		$header_data['user'] = $this->admin_model->get_user($user_id);
+		$header_data['login_page'] = get_main_page();
+    $language_array = $this->settings_model->get_language_array();
+    $languages = $this->settings_model->get_languages();
+    $data['languages'] = $languages;
+    $data['language_array'] = $language_array;
+    $language_folders = directory_map('./application/language/');
+    $folders = array_keys($language_folders);
+    $folder_names = array();
+    foreach($folders as $folder){
+      if($folder != 'index.html') {
+        $folder=substr($folder, 0, -1);
+        $folder_names[] = $folder;
+      }
+    }
+    $pending_folders = array_diff($folder_names, $language_array);
+    $data['pending_folders'] = $pending_folders;
+
+    $this->load->view('templates/header',$header_data);
+    $this->load->view('templates/menu');
+    $this->load->view('settings/language',$data);
+    $this->load->view('templates/footer');
+  }
 }
 ?>

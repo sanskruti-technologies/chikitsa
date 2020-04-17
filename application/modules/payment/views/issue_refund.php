@@ -16,6 +16,16 @@
     along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
 */
 ?>
+<script type="text/javascript" charset="utf-8">
+$( window ).load(function() {
+	$("#issue_refund_table").dataTable({
+		"pageLength": 50
+	});
+	$('.confirmDelete').click(function(){
+		return confirm('<?=$this->lang->line('areyousure_delete');?>');
+	});
+});
+</script>
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
@@ -31,7 +41,7 @@
 							</div>
 
 				<div class="table-responsive ">
-					<table class="table table-striped table-hover display responsive nowrap" id="patient_table">
+					<table class="table table-striped table-hover display responsive nowrap" id="issue_refund_table">
 						<thead>
 							<tr>
 								<th><?php echo $this->lang->line("sr_no");?></th>
@@ -69,4 +79,3 @@
 	</div>
 </div>
 </div>
-	

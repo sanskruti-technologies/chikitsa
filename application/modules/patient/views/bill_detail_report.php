@@ -333,7 +333,7 @@
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("sr_no");?></th>
-									<th><?php echo $this->lang->line("clinic")." ".$this->lang->line("name");?></th>
+									<!--th><?php echo $this->lang->line("clinic")." ".$this->lang->line("name");?></th-->
 									<th><?php echo $this->lang->line("bill")." ".$this->lang->line("date");?></th>
 
 									<th><?php echo $this->lang->line("doctor") . ' ' . $this->lang->line("name");?></th>
@@ -353,7 +353,7 @@
 							<?php foreach ($reports as $report) { ?>
 								<tr>
 									<td><?php echo $i; ?></td>
-									<td><?php echo $report['clinic_name']; ?></td>
+									<!--td><?php echo $report['clinic_name']; ?></td-->
 
 									<?php $bill_date = date($def_dateformate,strtotime($report['bill_date'])); ?>
 									<td><?php echo $bill_date; ?></td>
@@ -400,7 +400,7 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th></th>	
+									<!--th></th-->	
 									<th></th>									
 									<th></th>
 									<th></th>

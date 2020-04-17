@@ -80,6 +80,7 @@ class Admin extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
 				$data['message']="";
 				$data['categories'] = $this->admin_model->find_category();
+				$data['languages'] = $this->settings_model->get_languages();
 				$active_modules = $this->module_model->get_active_modules();
 				$data['active_modules'] = $active_modules;
 				if (in_array("centers", $active_modules)) {

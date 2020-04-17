@@ -300,7 +300,8 @@
 					<th style="text-align: left;" colspan="3" ><?php echo $this->lang->line("to_be_paid");?></th>
 					<?php } ?>
 
-					<th style="text-align: right;"><?= currency_format($total + $session_tax_total + $particular_tax_total + $treatment_tax_total-$discount-$paid_amount);if($currency_postfix) echo $currency_postfix; ?></th>
+					<?php $to_be_paid = $total + $tax_total + $session_tax_total + $particular_tax_total + $treatment_tax_total-$discount-$paid_amount;?>
+					<th style="text-align: right;"><?= currency_format($to_be_paid);if($currency_postfix) echo $currency_postfix; ?></th>
 					<?php if($edit_bill){ ?>
 					<td>&nbsp;</td>
 					<?php } ?>

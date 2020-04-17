@@ -38,6 +38,7 @@
 			if(isset($user)){
 				$level =set_value('level',$user['level']); 
 				$user_username =set_value('username',$user['name']); 
+				$prefered_language =set_value('username',$user['prefered_language']);
 				//$user_name =set_value('user_name',$user['username']) ;
 				$user_is_active =set_value('user_is_active',1);
 				$edit = TRUE;
@@ -57,6 +58,8 @@
 				$first_name =set_value('first_name',"") ;
 				$middle_name =set_value('middle_name',"");
 				$last_name =set_value('last_name',"");
+				$config_language = $this->config->item('language');
+				$prefered_language =set_value('prefered_language',$config_language);
 			}
 			
 			$admin_name="admin";
@@ -147,8 +150,8 @@
 					<div class="form-group">
 						<label for="prefered_language"><?php echo $this->lang->line('prefered_language');?></label>
 						<select name="prefered_language" class="form-control" >
-							<?php foreach ($languages as $key=>$language) { ?>
-							<option value="<?php echo $key; ?>" <?php if($user['prefered_language'] == $key) { ?>selected="selected"<?php } ?>><?php echo $key; ?></option>
+							<?php foreach ($languages as $language) { ?>
+							<option value="<?php echo $key; ?>" <?php if($prefered_language == $language['language_name']) { ?>selected="selected"<?php } ?>><?php echo $language['language_name']; ?></option>
 							<?php }?>
 						</select>
 					</div>

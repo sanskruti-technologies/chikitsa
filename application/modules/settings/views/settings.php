@@ -680,61 +680,6 @@ $(window).load(function() {
 					</div>
 				</div>
 				<div class="panel-body table-responsive-15" >
-				<?php echo form_open('settings/save_lang'); ?>
-					<div class="row" >
-						<div class="col-md-12">
-							<label for="default_language"><?php echo $this->lang->line('select_lang');?> </label>
-						</div>
-						<div class="col-md-8" >
-							<div class="form-group" >
-								<select name="default_language" class="form-control" >
-										<?php
-										foreach ($languages as $key=>$language) {
-										if ($key !== 0) {
-											$lang = $this->config->item('language');
-											$key = rtrim($key,'\\');
-											?>
-										<option value="<?php echo $key; ?>" <?php if($lang == $key) { ?>selected="selected"<?php } ?>><?php echo $key; ?></option>
-										<?php }}?>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-4" >
-							<div class="form-group" >
-								<input type="submit" name="submit" id="submit" class="btn btn-primary btn-sm square-btn-adjust" value="<?php echo $this->lang->line('save');?>" />
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group" >
-								<input type="submit" name="submit" id="submit" class="btn btn-primary btn-sm square-btn-adjust" value="<?php echo $this->lang->line('change')." ".$this->lang->line('language')." ".$this->lang->line('file');?>" />
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group" >
-								<input type="button" name="add_language" id="add_language" class="btn btn-primary btn-sm square-btn-adjust" value="<?php echo $this->lang->line('add')." ".$this->lang->line('new')." ".$this->lang->line('language');?>" />
-							</div>
-						</div>
-					</div>
-						<?php echo form_close(); ?>
-						<?php echo form_open('settings/upload_language'); ?>
-						<div class="col-md-12">
-							<label for="default_language"><?php echo $this->lang->line('select_lang')." ".$this->lang->line('to')." ".$this->lang->line('upload');?> </label> 
-						</div>
-							<div class="col-md-8">
-								<div class="form-group">
-									<select  class="form-control" name="language">
-										<?php foreach ($result_language as $key=>$language) { ?>
-											<option value="<?php echo $key; ?>" ><?php echo $key; ?></option>
-										<?php }?>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group" >
-									<input type="submit" name="submit" class="btn btn-primary btn-sm square-btn-adjust" value="<?php echo $this->lang->line('upload');?>" />
-								</div>
-					</div>
-				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_timezone'); ?>
 					<div class="row">
 						<div class="col-md-12">

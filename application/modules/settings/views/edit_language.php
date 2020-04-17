@@ -24,7 +24,7 @@ $(window).load(function(){
 		var l_name= $('#l_name').val();
 		$.ajax({
 			type: "POST",
-			url: "<?=site_url('settings/save_language/');?>",
+			url: "<?=site_url('settings/save_language_data/');?>",
 			data: {language:language,index:index,l_name:l_name},
 			success: function (result) {
 				console.log(result);
@@ -49,6 +49,8 @@ $(window).load(function(){
 				<?php echo $this->lang->line('language');?> <?php echo $this->lang->line('save_language_instructions');?>
 			</div>
 			<div class="panel-body">
+				<a class="btn btn-primary square-btn-adjust btn-sm" href="<?=site_url("settings/language/");?>"><?=$this->lang->line('back');?></a>
+
 				<table class="table table-striped table-bordered table-hover" id="language_table">
 					<thead>
 						<tr>

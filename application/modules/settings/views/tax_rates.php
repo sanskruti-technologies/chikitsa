@@ -63,7 +63,7 @@
 $( window ).load(function() {
 
 	$('.confirmDelete').click(function(){
-		return confirm(<?=$this->lang->line('areyousure_delete');?>);
+		return confirm("<?=$this->lang->line('areyousure_delete');?>");
 	})
 
     $("#tax_rate_table").dataTable({

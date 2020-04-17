@@ -1,7 +1,7 @@
 <?php
 	//Application Details
 	$lang['app_name'] = "Chikitsa";
-	$lang['title'] = "Système de gestion du patient";
+	$lang['app_tagline'] = "Syst�me de gestion des patients";
 	$lang['main_title'] = "Chikitsa - Système de gestion des patients";
 	$lang['cmp_version'] = "Version Chikitsa";
 	$lang['cmp_name'] = "Sanskruti Technologies";
@@ -34,6 +34,7 @@
 	$lang['amount'] = "Montant";
 	$lang['activate'] = "Activer";
 	$lang['add'] = "Ajouter";
+	$lang['add_condition']="Ajouter une condition";
 	$lang['additional_css'] = "CSS supplémentaire";
 	$lang['add_another_medicine'] = "Ajouter un autre médicament";
 	$lang['add_appointment'] = "Ajouter un rendez-vous";
@@ -55,10 +56,12 @@
 	$lang['add_as_medicine'] = "Ajouter comme médicament";
 	$lang['add_inquiry'] = "Ajouter une demande";
 	$lang['add_service'] = "Ajouter un service";
+	$lang['add_section']="Ajouter une section";
 	$lang['add_treatment'] = "Ajouter un traitement";
 	$lang['add_reference_by'] = "Ajouter une référence par";
 	$lang['add_refund'] = "Ajouter un remboursement";
 	$lang['add_user'] = "Ajouter un utilisateur";
+	$lang['add_language'] = "Ajouter une langue";
 	$lang['add_bottom_section'] = "Ajouter une section inférieure";
 	$lang['add_fee'] = "Ajouter des frais";
 	$lang['add_extension'] = "Ajouter des extensions";
@@ -92,6 +95,7 @@
 	$lang['allow_menu'] = "Autoriser les menus";
 	$lang['allow_center'] = "Autoriser les centres";
 	$lang['allocate'] = "Allouer";
+	$lang['allow_repeat'] = "Autoriser la r�p�tition";
 	$lang['all_sell'] = "Tout vendre";
 	$lang['stock_all_sell'] = "Tout vendre";
 	$lang['all_users'] = "Tous les utilisateurs";
@@ -191,6 +195,7 @@
 	$lang['change_center'] = "Centre de changement";
 	$lang['change_language'] = "Changer de langue";
 	$lang['change_profile'] = "Change de profil";
+	$lang['change_status_of_field'] ="Changer l'�tat du champ";
 	$lang['change_timezone'] = "Changer le fuseau horaire";
 	$lang['change_template'] = "Changer de modèle";
 	$lang['charges'] = "Des charges";
@@ -249,9 +254,12 @@
 	$lang['ccavenue'] = "CCAvenue";
 	$lang['copy'] = "Copie";	
 	$lang['cancelled_appoinment_by_patient'] = "En cas d annulation du rendez-vous par le patient, le remboursement devra être fait manuellement";
+	$lang['change_language_file'] = "Changer les mots dans le fichier de langue";
+	$lang['create_language_file'] = "Cr�er un nouveau fichier de langue";
 
 	$lang['dr_ac_name'] = "Dr. A / c Nom";
 	$lang['dose'] = "Dose";
+	$lang['does_not_has_value']="N'a pas de valeur"; 
 	$lang['day'] = "journée";
 	$lang['days'] = "journées";
 	$lang['daily'] = "du quotidien";
@@ -283,6 +291,7 @@
 	$lang['display'] = "Afficher";
 	$lang['display_google_ads'] = "Afficher les annonces Google";
 	$lang['display_name'] = "Afficher un nom";
+	$lang['display_in'] = "Afficher dans";	
 	$lang['discount_amount'] = "Montant de l'escompte";
 	$lang['discount_percentage'] = "Pourcentage d'escompte";
 	$lang['dob'] = "Date de naissance";
@@ -301,6 +310,7 @@
 	$lang['downloading_files'] = "Téléchargement de fichiers";
 	$lang['dr'] = "Dr.";
 	$lang['duration'] = "Durée";
+	$lang['duplicate']="Dupliquer";
 	$lang['description'] = "La description";
 	$lang['disease'] = "Maladie";
 	$lang['diseases'] = "Maladies";
@@ -314,6 +324,7 @@
 	$lang['end_time'] = "Heure de fin";
 	$lang['edit'] = "modifier";
 	$lang['edit_Contact'] = "Modifier le contact";
+	$lang['edit_section'] = "Modifier la section";
 	$lang['edit_treatment'] = "Modifier le traitement";
 	$lang['edit_user'] = "Modifier l'utilisateur";
 	$lang['edit_medicine_too'] = "Modifier la médecine aussi";
@@ -346,6 +357,7 @@
 	$lang['email_alert_time'] = "Heure d'alerte par courriel";
 	$lang['email_format'] = "Format Email";
 	$lang['edit_format'] = "Modifier le format";
+	$lang['edit_language'] = "Modifier la langue";
 
 	$lang['face'] = "Visage";
 	$lang['facebook'] = "Facebook";
@@ -358,7 +370,14 @@
 	$lang['first'] = "Premier";
 	$lang['first_name'] = "Prénom";
 	$lang['fields'] = "Des champs";
-	$lang['foc'] = "F.O.C.";
+	$lang['field_label']="�tiquette de champ";
+	$lang['field_options']="Option de champ";
+	$lang['field_order']="Ordre des champs";
+	$lang['field_name']="Nom de domaine";
+	$lang['field_type']="Field Type";
+	$lang['field_width']="Largeur de champ";
+	$lang['field_status']="Statut du champ";
+	$lang['foc'] = "Gratuit";
 	$lang['follow'] = "Suivre";
 	$lang['follow_up'] = "Suivre";
 	$lang['follow_ups'] = "Suivez les Ups";
@@ -395,7 +414,7 @@
 	$lang['general_settings'] = "réglages généraux";
 	$lang['group_by'] = "Par groupe";
 	$lang['group'] = "Groupe";
-
+	$lang['group_name'] = "Nom de groupe";
 
 	$lang['header'] = "Entête";
 	$lang['hidden'] = "Caché";
@@ -407,6 +426,7 @@
 	$lang['header_settings'] = "Paramètres d'en-tête";
 	$lang['home_settings'] = "Paramètres de la page d'accueil";
 	$lang['has_additional_details'] = "A des détails supplémentaires";
+	$lang['has_value']="A de la valeur";
 	$lang['heading'] = "Titre";
 	$lang['history'] = "L'histoire";
 	$lang['home_page_settings'] = "Paramètres de la page d'accueil";
@@ -417,6 +437,7 @@
 
 	$lang['invoice'] = "Facture d'achat";
 	$lang['id'] = "Id";
+	$lang['if_field'] ="If Field";
 	$lang['icon'] = "Icône";
 	$lang['inavailablity'] = "Invabilité";
 	$lang['install'] = "Installer";
@@ -425,7 +446,10 @@
 	$lang['invoice_settings'] = "Paramètres de facture";
 	$lang['instructions'] = "Instructions";
 	$lang['in_minutes'] = "en quelques minutes";
+	$lang['in_group'] = "En groupe";
 	$lang['is_active'] = "C'est actif";
+    $lang['is_checked'] = "Est v�rifi�";
+	$lang['is_unchecked'] ="Est d�coch�e";	
 	$lang['is_default'] = "Est par défaut";
 	$lang['item_name'] = "Nom de l'article";
 	$lang['item'] = "Article";
@@ -449,6 +473,7 @@
 	$lang['key'] = "Clé";
 
 	$lang['landline'] = "Landline";
+	$lang['languages'] = "Langages";
 	$lang['last_name'] = "Nom de famille";
 	$lang['last'] = "Dernier";
 	$lang['lab_tests'] = "Tests de laboratoire";
@@ -466,6 +491,7 @@
 	$lang['liabilities'] = "Passif";
 	$lang['list_master'] = "List Master";
 	$lang['language'] = "La langue";
+	$lang['language_name'] = "Nom de la langue";
 	$lang['latest'] = "Dernier";
 	$lang['link'] = "Lien";
 
@@ -555,6 +581,8 @@
 	$lang['password'] = "Mot de passe";
 	$lang['patient'] = "Patient";
 	$lang['patient_details'] = "Détail du patient";
+	$lang['patient_detail'] = "D�tails du patient";
+	$lang['patient_account'] = "Compte patient";
 	$lang['patients'] = "Les patients";
 	$lang['patient_id'] = "ID du patient";
 	$lang['patient_name'] = "Nom du patient";
@@ -613,6 +641,7 @@
 	$lang['pay'] = "Payer";
 	$lang['paypal'] = "Pay Pal";
 	$lang['prescribed_medicine'] = "Médecine prescrite";
+	$lang['prefered_language'] = "Langue pr�f�r�e";
 
 	$lang['quantity'] = "Quantité";
 
@@ -660,16 +689,22 @@
 	$lang['reject'] = "Rejeter";
 	$lang['reason_for_appointment'] = "Raison du rendez-vous";
 	$lang['required_quantity'] = "Quantité requise";
+	$lang['rtl'] = "RTL";
+	$lang['right_to_left'] = "Langue de droite � gauche";
+	$lang['reload_language_file'] = "Recharger le fichier de langue";
+	$lang['reload_language_file_instruction'] = "Cela �crasera les modifications du fichier de langue.";
 
 	$lang['sign_up'] = "S'inscrire";
 	$lang['slider_1'] = "Curseur 1";
 	$lang['slider_2'] = "Curseur 2";
 	$lang['slider_3'] = "Curseur 3";
 	$lang['slider'] = "Curseur";
+	$lang['section']="Section";
 	$lang['section_1'] = "Section 1";
 	$lang['section_2'] = "Section 2";
 	$lang['section_3'] = "Section 3";
 	$lang['section_4'] = "Section 4";
+	$lang['section_name']="Nom de la section";	
 	$lang['senderid'] = "Expéditeur ID";
 	$lang['save'] = "sauvegarder";
 	$lang['schedule'] = "Programme";
@@ -862,6 +897,7 @@
 	$lang['using'] = "En utilisant";
 	$lang['upcoming_appointments'] = "Nominations à venir";
 	$lang['unpacking_zip_package'] = "Déballage Emballage Zip";
+	$lang['upload_language_file'] = "Importer un fichier de langue existant";
 
 	$lang['vaccine'] = "Vaccin";
 	$lang['vaccines'] = "Les vaccins";
@@ -893,6 +929,7 @@
 	$lang['working_days'] = "Jours de travail";
 	$lang['non_working'] = "Ne fonctionne pas";
 	$lang['we_provide'] = "Nous fournissons";
+
 	$lang['year'] = "Year";
 
 	$lang['sunday'] = "dimanche";
@@ -988,12 +1025,17 @@
 	$lang['extension_requires'] = 'Cette extension nécessite %1$s %2$s';
 	$lang['compatible_version'] = 'Compatible avec cette version de %1$s';
 
+	$lang['please_enter_first_name'] = "Veuillez saisir votre pr�nom";
+	$lang['please_enter_last_name'] = "Veuillez saisir votre nom";
+	$lang['please_enter_mobile_number'] = "Veuillez saisir un num�ro de mobile";
+	$lang['please_enter_language_name'] = "Veuillez entrer le nom de la langue";
+
 	$lang['australian_currency'] = "Dollar australien (AUD)";
 	$lang['brazilian_currency'] = "Réal Brésilien (BRL)";
 	$lang['canadian_currency'] = "Dollar canadien (CAD)";
 	$lang['czech_currency'] = "Couronne tchèque (CZK)";
 	$lang['danish_currency'] = "Couronne danoise (DKK)";
-	$lang['euro_currency'] = "Euro (EUR)";
+    $lang['euro_currency'] = "Euro (EUR)";
 	$lang['hong_kong_currency'] = "Dollar de Hong Kong (HKD)";
 	$lang['hungarian_currency'] = "Forint hongrois (HUF)";
 	$lang['israeli_currency'] = "Nouveau sheqel israélien (ILS)";

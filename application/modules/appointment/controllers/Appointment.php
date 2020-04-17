@@ -46,7 +46,6 @@ class Appointment extends CI_Controller {
 		$this->load->library('session');
 		$this->load->library('export');
 
-		
 		$this->lang->load('main',$this->session->userdata('prefered_language'));
 
         $prefs = array(

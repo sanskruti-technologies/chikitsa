@@ -609,7 +609,7 @@ $(window).load(function(){
 										</div>
 										<div class="col-md-3">
 											<?php echo $this->lang->line("rate");?>
-											<input type="text" style="text-align:right;" name="tax_amount" id="tax_amount" class="form-control" readonly />
+											<input type="text" style="text-align:right;" name="tax_amount" id="bill_tax_amount" class="form-control" readonly />
 										</div>
 										<?php } ?>
 

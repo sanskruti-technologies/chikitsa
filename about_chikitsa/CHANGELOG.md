@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.1] - 2020-03-04
+### Added
+- Validation in Inquiry Form
+- Patient History Report
+- Separate Menu for Language Control
+- Support for RTL Languages
+### Changed
+- Datatable in Payment Page
+- Solved error in adding new language
+- Solved problem in adding multiple days in Exceptional Days 
+
+
 ## [0.9.0] - 2020-02-18
 ### Added
 - User wise Prefered Language

@@ -365,20 +365,20 @@
 
                                     <td style="text-align:right;"><?php
 											echo currency_format($report['total_amount'] + $report[$tax_type.'_tax_amount']);
-											if($currency_postfix) echo $currency_postfix;
+
 
 											$bill_amt=$bill_amt+$report['total_amount']+ $report[$tax_type.'_tax_amount'];
 										?></td>
 									<td style="text-align:right;"><?php
 											echo currency_format($report['pay_amount']);
-											if($currency_postfix) echo $currency_postfix;
+
 
 											$pay_amt=$pay_amt+$report['pay_amount'];
 										?>
 									</td>
 									<td style="text-align:right;"><?php
 											echo currency_format($report['total_amount'] + $report[$tax_type.'_tax_amount'] - $report['pay_amount']);
-											if($currency_postfix) echo $currency_postfix;
+
 
 											$due_amt=$due_amt+$report['total_amount'] + $report[$tax_type.'_tax_amount'] - $report['pay_amount'];
 										?></td>
@@ -406,9 +406,9 @@
 									<th></th>
 									<th></th>
 									<th></th>									
-									<th style="text-align:right;"><?php echo currency_format($bill_amt); if($currency_postfix) echo $currency_postfix; ?></th>
-									<th style="text-align:right;"><?php echo currency_format($pay_amt); if($currency_postfix) echo $currency_postfix; ?></th>
-									<th style="text-align:right;"><?php echo currency_format($due_amt); if($currency_postfix) echo $currency_postfix; ?></th>
+									<th style="text-align:right;"><?php echo currency_format($bill_amt);  ?></th>
+									<th style="text-align:right;"><?php echo currency_format($pay_amt);  ?></th>
+									<th style="text-align:right;"><?php echo currency_format($due_amt);  ?></th>
 								</tr>
 							</thead>
 						</table>

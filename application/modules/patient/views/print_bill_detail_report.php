@@ -53,7 +53,7 @@
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("sr_no");?></th>
-									<th><?php echo $this->lang->line("clinic_name");?></th>
+									<!--th><?php echo $this->lang->line("clinic_name");?></th-->
 									<th><?php echo $this->lang->line("bill")." ".$this->lang->line("date");?></th>
 
 									<th><?php echo $this->lang->line("doctor") . ' ' . $this->lang->line("name");?></th>
@@ -73,7 +73,7 @@
 							<?php foreach ($reports as $report) { ?>
 								<tr>
 									<td><?php echo $i; ?></td>
-									<td><?php echo $report['clinic_name']; ?></td>
+									<!--td><?php echo $report['clinic_name']; ?></td-->
 									<?php $bill_date = date($def_dateformate,strtotime($report['bill_date'])); ?>
 									<td><?php echo $bill_date; ?></td>
 
@@ -84,20 +84,20 @@
 
                                     <td style="text-align:right;"><?php
 											echo currency_format($report['total_amount']+$report[$tax_type.'_tax_amount']);
-											if($currency_postfix) echo $currency_postfix['currency_postfix'];
+											
 
 											$bill_amt=$bill_amt+$report['total_amount']+ $report[$tax_type.'_tax_amount'];
 										?></td>
 									<td style="text-align:right;"><?php
 											echo currency_format($report['pay_amount']);
-											if($currency_postfix) echo $currency_postfix['currency_postfix'];
+											
 
 											$pay_amt=$pay_amt+$report['pay_amount'];
 										?>
 									</td>
 									<td style="text-align:right;"><?php
 											echo currency_format($report['total_amount']+$report[$tax_type.'_tax_amount'] - $report['pay_amount']);
-											if($currency_postfix) echo $currency_postfix['currency_postfix'];
+											
 
 											$due_amt=$due_amt+$report['total_amount'] + $report[$tax_type.'_tax_amount']- $report['pay_amount'];
 										?></td>
@@ -119,15 +119,15 @@
 							<thead>
 								<tr>
 									<th></th>
+									<!--th></th-->
 									<th></th>
 									<th></th>									
 									<th></th>
 									<th></th>
 									<th></th>
-									<th></th>									
-									<th style="text-align:right;"><?php echo currency_format($bill_amt); if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
-									<th style="text-align:right;"><?php echo currency_format($pay_amt); if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
-									<th style="text-align:right;"><?php echo currency_format($due_amt); if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></th>
+									<th style="text-align:right;"><?php echo currency_format($bill_amt);  ?></th>
+									<th style="text-align:right;"><?php echo currency_format($pay_amt);  ?></th>
+									<th style="text-align:right;"><?php echo currency_format($due_amt);  ?></th>
 								</tr>
 							</thead>
 						</table>

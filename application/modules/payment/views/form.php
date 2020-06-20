@@ -83,11 +83,9 @@
 				foreach($bills as $bill){
 					$total_due_amount = $total_due_amount + $bill['due_amount'];
 					$bill_due_amount = currency_format($bill['due_amount']);
-					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;
 					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
 				}
 				$total_due_amount = currency_format($total_due_amount );
-				if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;
 				?>
 				];
 				var total_due_amount = 0;
@@ -290,7 +288,6 @@
 
 					$total_due_amount = $total_due_amount + $bill['due_amount'];
 					$bill_due_amount = currency_format($bill['due_amount']);
-					if($currency_postfix) $bill_due_amount = $bill_due_amount . $currency_postfix;
 					echo '["'.$bill['bill_id'].'", "'.$bill['patient_id'].'","'. $bill_due_amount.'","'. $bill['due_amount'].'"],';
 				}
 				?>
@@ -554,8 +551,7 @@
 												$due_amount = $bill['adjust_amount'];
 												$total_due_amount = $total_due_amount + $due_amount;
 												$due_amount = currency_format($due_amount);
-												if($currency_postfix)
-													$due_amount = $due_amount . $currency_postfix;
+
 											}
 										}
 										?>
@@ -563,8 +559,7 @@
 										<?php
 										$adjust_amount = currency_format($bill['adjust_amount']);
 										$total_adjust_amount = $total_adjust_amount + $bill['adjust_amount'];
-										if($currency_postfix){
-											$adjust_amount = $adjust_amount . $currency_postfix;
+										
 										}
 										?>
 										<td style="text-align:right;" class="adjust_amount" amount="<?=$bill['adjust_amount'];?>" ><?=$adjust_amount;?>
@@ -574,13 +569,11 @@
 								<?php }
 										$total_due_after_payment = $total_due_amount - $total_adjust_amount;
 										$total_due_after_payment = currency_format($total_due_after_payment);
-										if($currency_postfix) $total_due_after_payment = $total_due_after_payment . $currency_postfix;
 										$ttl_due_amount = $total_due_amount;
 										$total_due_amount = currency_format($total_due_amount);
-										if($currency_postfix) $total_due_amount = $total_due_amount . $currency_postfix;
 										$in_account = $payment['pay_amount']- $total_adjust_amount;
 										$total_adjust_amount = currency_format($total_adjust_amount);
-										if($currency_postfix) $total_adjust_amount = $total_adjust_amount . $currency_postfix;
+
 								?>
 								<tr>
 									<td><?=$this->lang->line('patient_account');?></td>

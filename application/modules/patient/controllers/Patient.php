@@ -1462,8 +1462,8 @@ class Patient extends CI_Controller {
 			$total_due_amount = $total_due_amount + $row['due_amount'];
 		}
 
-		$total_array['clinic_name'] = 'Total';
-		$total_array['bill_id'] = '';
+		//$total_array['clinic_name'] = 'Total';
+		$total_array['bill_id'] = 'Total';
 		$total_array['bill_date'] = '';
 		$total_array['doctor_name'] = '';
 		$total_array['patient_id'] = '';

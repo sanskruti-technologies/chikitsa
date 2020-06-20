@@ -31,6 +31,9 @@
 		if($payment_method['needs_cash_calc'] == 1){
 			$needs_cash_calc = "checked";
 		}
+		if($payment_method['payment_pending'] == 1){
+			$payment_pending = "checked";
+		}
 	}else{
 		$edit = FALSE;
 		$payment_method_name = set_value('payment_method_name','');
@@ -83,8 +86,8 @@
 					</div>
 				</div>
 					<div class="form-group">
-						<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
-						<a class="btn btn-info square-btn-adjust" href="<?=site_url('settings/payment_methods'); ?>"><?php echo $this->lang->line('back');?></a>
+						<button type="submit" name="submit" class="btn btn-primary square-btn-adjust" /><?php echo $this->lang->line('save');?></button>
+						<a class="btn btn-info square-btn-adjust" href="<?=site_url('payment/payment_methods'); ?>"><?php echo $this->lang->line('back');?></a>
 					</div>
 				<?php echo form_close(); ?>
 			</div>

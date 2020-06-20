@@ -27,7 +27,7 @@
 				<div class="panel-body">
 					<a href="<?= site_url("payment/insert_payment_method/");?>" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line("add")." ".$this->lang->line("payment_method");?></a>
 					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover" id="tax_rate_table">
+						<table class="table table-striped table-bordered table-hover" id="payment_methods_table">
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("sr_no");?></th>
@@ -61,10 +61,10 @@
 $( window ).load(function() {
 
 	$('.confirmDelete').click(function(){
-		return confirm(<?=$this->lang->line('areyousure_delete');?>);
+		return confirm("<?=$this->lang->line('areyousure_delete');?>");
 	})
 
-    $("#tax_rate_table").dataTable({
+    $("#payment_methods_table").dataTable({
 		"pageLength": 50
 	});
 });

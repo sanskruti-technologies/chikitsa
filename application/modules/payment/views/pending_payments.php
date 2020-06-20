@@ -80,7 +80,7 @@ function get_cases($payment_cases,$payment_id){
 									<td><?php echo $i; ?></td>
 									<td><?php echo $payment_date; ?></td>
 									<td><?php echo $payment['first_name'] . ' ' . $payment['middle_name'] . ' ' . $payment['last_name']; ?></td>
-									<td><?php echo currency_format($payment['pay_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
+									<td><?php echo currency_format($payment['pay_amount']); ?><?php  ?></td>
 									<td><?php echo ucfirst($payment['pay_mode']); ?><?php if($payment['pay_mode'] == "cheque") {echo "  ( ".$payment['cheque_no']." )";} ?></td>
 									<td><?=$payment['additional_detail'];?></td>
 									<?php if (in_array("snaap", $active_modules)) {	?>

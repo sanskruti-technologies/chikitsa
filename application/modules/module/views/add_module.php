@@ -41,6 +41,8 @@ $(window).load(function() {
 
 					$downloads = $doc->getElementsByTagName( "download" );
 					foreach( $downloads as $download ){
+						$module = $download->getElementsByTagName( "module" );
+            			$module_name = $module->item(0)->nodeValue;
 						$titles = $download->getElementsByTagName( "title" );
 						$title = $titles->item(0)->nodeValue;
 						$descriptions = $download->getElementsByTagName( "description" );
@@ -77,6 +79,7 @@ $(window).load(function() {
 							<span class='extension_last_updated'><?=$this->lang->line('last')." ".$this->lang->line('update').":";?><?=date($def_dateformate,strtotime($last_updated));?></span>
 							<div class='extension_is_compatible alert <?=$compatible_class;?>'><?=$is_compatible;?></div>
 							<a class="btn btn-primary square-btn-adjust" href='<?=$link;?>'><?=$this->lang->line('stock_purchase');?></a>
+							<a class="btn btn-primary square-btn-adjust" href="<?=site_url( "module/add_module_and_license/" . $module_name);?>" ><?=$this->lang->line('add_license_key');?></a>
 						</div>
 						<?php
 					}

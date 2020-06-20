@@ -195,9 +195,8 @@ class Settings_model extends CI_Model {
         return $query->row_array();
     }
     public function get_currency_postfix(){
-        $this->db->select('currency_postfix');
-        $query = $this->db->get('invoice');
-        return $query->row()->currency_postfix;
+
+        return "";
     }
     public function get_currency_symbol(){
         $this->db->select('currency_symbol');
@@ -209,6 +208,9 @@ class Settings_model extends CI_Model {
         $data['left_pad'] = $this->input->post('left_pad');
         $data['currency_symbol'] = $this->input->post('currency_symbol');
         $data['currency_postfix'] = $this->input->post('currency_postfix');
+        $data['number_of_decimal'] = $this->input->post('number_of_decimal');
+        $data['decimal_symbol'] = $this->input->post('decimal_symbol');
+        $data['thousands_separator'] = $this->input->post('thousands_separator');
 		$data['sync_status'] = 0;
         $this->db->update('invoice', $data, array('invoice_id' => 1));
     }

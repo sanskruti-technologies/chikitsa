@@ -481,6 +481,7 @@ class Settings extends CI_Controller {
                 $this->change_settings();
             } else {
                 $this->settings_model->save_invoice_settings();
+                $this->settings_model->set_data_value("tax_type", $this->input->post('tax_type'));
                 $this->change_settings();
             }
         }

@@ -94,7 +94,7 @@
 			?>
 
 			<li>
-				<a target="_blank" href="<?php echo $copyright_url;?>"><?php echo $copyright_text;?></a>
+				<a target="_blank" href="<?php echo $copyright_url;?>">© <?=date('Y');?> Sanskruti Technologies</a>
 				<a target="_blank" href="<?php echo site_url("admin/about"); ?>"><?php echo $software_name;?> <?php echo $version['current_version']; ?></a>
 			</li>
         </ul>

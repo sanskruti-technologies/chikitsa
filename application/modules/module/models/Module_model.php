@@ -147,6 +147,9 @@ class Module_model extends CI_Model {
 		}
 		return $screen;
 	}
+  function insert_module($data){
+    $this->db->insert('modules', $data);
+  }
 }
 
 ?>

@@ -192,8 +192,12 @@ class Payment_model extends CI_Model {
 		$total_payment = 0;
 		foreach($payments as $payment){
 			$payment_id = $payment['payment_id'];
+		    $pay = $this->get_payment($payment_id);
+      		if($pay['payment_status'] != 'rejected'){
 			$adjust_amount = $this->get_adjustment_amount($bill_id,$payment_id);
 			$total_payment = $total_payment + $adjust_amount;
+		}
+
 		}
 		return $total_payment;
 	}
@@ -272,6 +276,7 @@ class Payment_model extends CI_Model {
 
 	}
 	function get_adjustment_amount($bill_id,$payment_id){
+    $previous_adjust_amount = 0;
 		$this->db->where('payment_id', $payment_id);
 		$this->db->where('bill_id', $bill_id);
         $query = $this->db->get('bill_payment_r');

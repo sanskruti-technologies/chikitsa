@@ -819,9 +819,11 @@ class Patient_model extends CI_Model {
 		$tax_type = $this->get_data_value('tax_type');
 
 		if($tax_type == 'item'){
-			$this->db->select('clinic_name,bill_id,bill_date,doctor_name,display_id AS patient_id,CONCAT(IFNULL(first_name,"")," ",IFNULL(middle_name,"")," ",IFNULL(last_name,"")) AS patient_name,(total_amount + (IFNULL(item_tax_amount,"0"))) AS bill_amount,pay_amount as payment_amount, due_amount');
+			//$this->db->select('clinic_name,bill_id,bill_date,doctor_name,display_id AS patient_id,CONCAT(IFNULL(first_name,"")," ",IFNULL(middle_name,"")," ",IFNULL(last_name,"")) AS patient_name,(total_amount + (IFNULL(item_tax_amount,"0"))) AS bill_amount,pay_amount as payment_amount, due_amount');
+			$this->db->select('bill_id,bill_date,doctor_name,display_id AS patient_id,CONCAT(IFNULL(first_name,"")," ",IFNULL(middle_name,"")," ",IFNULL(last_name,"")) AS patient_name,(total_amount + (IFNULL(item_tax_amount,"0"))) AS bill_amount,pay_amount as payment_amount, due_amount');
 		}else{
-			$this->db->select('clinic_name,bill_id,bill_date,doctor_name,display_id AS patient_id,CONCAT(IFNULL(first_name,"")," ",IFNULL(middle_name,"")," ",IFNULL(last_name,"")) AS patient_name,(total_amount + (IFNULL(bill_tax_amount,"0"))) AS bill_amount,pay_amount as payment_amount, due_amount');
+			//$this->db->select('clinic_name,bill_id,bill_date,doctor_name,display_id AS patient_id,CONCAT(IFNULL(first_name,"")," ",IFNULL(middle_name,"")," ",IFNULL(last_name,"")) AS patient_name,(total_amount + (IFNULL(bill_tax_amount,"0"))) AS bill_amount,pay_amount as payment_amount, due_amount');
+			$this->db->select('bill_id,bill_date,doctor_name,display_id AS patient_id,CONCAT(IFNULL(first_name,"")," ",IFNULL(middle_name,"")," ",IFNULL(last_name,"")) AS patient_name,(total_amount + (IFNULL(bill_tax_amount,"0"))) AS bill_amount,pay_amount as payment_amount, due_amount');
 		}
 
 		if (empty($selected_doctor)) {

@@ -33,6 +33,7 @@
 	$lang['actions'] = "Actions";
 	$lang['amount'] = "Amount";
 	$lang['activate'] = "Activate";
+	$lang['available_quantity'] = "Available Quantity";
 	$lang['add'] = "Add";
 	$lang['add_condition']="Add Condition";
 	$lang['additional_css'] = "Additional CSS";
@@ -67,6 +68,7 @@
 	$lang['add_extension'] = "Add Extensions";
 	$lang['add_patient'] = "Add Patient";
 	$lang['add_payment'] = "Add Payment";
+	$lang['add_license_key'] = "Add License Key";
 	$lang['add_another_medicine'] = "Add Another Medicine";
 	$lang['added_date'] = "Added Date";
 	$lang['address'] = "Address";
@@ -307,6 +309,7 @@
 	$lang['doctor_schedule'] = "Doctor Schedule";
 	$lang['doctor_preferences'] = "Doctor Preferences";
 	$lang['download'] = "Download";
+	$lang['download_extension'] = "Download Extension";
 	$lang['downloading_files'] = "Downloading Files";
 	$lang['dr'] = "Dr.";
 	$lang['duration'] = "Duration";
@@ -315,6 +318,7 @@
 	$lang['disease'] = "Disease";
 	$lang['diseases'] = "Diseases";
 	$lang['diagnosed_diseases'] = "Diagnosed Disease";
+	$lang['decimal_symbol'] = "Decimal Symbol";
 
 	$lang['eraser'] = "Eraser";
 	$lang['erpnext_sync'] = "Erpnext Sync";
@@ -442,6 +446,8 @@
 	$lang['inavailablity'] = "Inavailablity";
 	$lang['install'] = "Install";
 	$lang['installing'] = "Installing";
+	$lang['invoice_number'] = "Invoice Number";
+	$lang['invoice_prefix'] = "Invoice Prefix";
 	$lang['invoice_details'] = "Invoice Details";
 	$lang['invoice_settings'] = "Invoice Settings";
 	$lang['instructions'] = "Instructions";
@@ -560,6 +566,7 @@
 	$lang['needs_cash_calc'] = "Needs Cash Calculator";
 	$lang['nurse'] = "Nurse";
 	$lang['no_prescription']="No Prescription Found";
+	$lang['number_of_decimal']="Decimal Places";
 
 	$lang['on'] = "On";
 	$lang['our'] = "Our";
@@ -884,6 +891,7 @@
 	$lang['this_payment_is_rejected'] = "This Payment is rejected";
 	$lang['types'] = "Types";
 	$lang['template_name'] = "Template Name";
+	$lang['thousands_separator'] = "Thousands Separator";
 
 	$lang['upload'] = "Upload";
 	$lang['upload_extension'] = "Upload Extensions";

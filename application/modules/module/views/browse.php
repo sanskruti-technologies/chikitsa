@@ -119,7 +119,17 @@ $(window).load(function() {
 									}
 								}
 
+              ?>
 
+							<?php }else{  ?>
+								<a href="#" class="btn btn-default square-btn-adjust"><?=$this->lang->line('file_missing');?></a>
+                <?php if($module['license_status'] == "active"){ ?>
+                  <a href="<?=site_url('module/download_extension/'. $module['module_name']);?>" class="btn btn-success square-btn-adjust"><?=$this->lang->line('download_extension');?></a>
+                <?php } ?>
+              <?php }  ?>
+
+
+              <?php
 								/**Check License Status************************************************/
 								if($module['license_key'] != ""){
 									if($module['license_status'] != "active"){?>
@@ -129,9 +139,6 @@ $(window).load(function() {
 								<?php }else{  ?>
 								<a href="<?=base_url() . "index.php/module/license_key/" . $module['module_name'];?>" class="btn btn-success square-btn-adjust"><?=$this->lang->line('add');?> <?=$this->lang->line('license_key');?></a>
 								<?php }  ?>
-							<?php }else{  ?>
-								<a href="#" class="btn btn-default square-btn-adjust"><?=$this->lang->line('file_missing');?></a>
-							<?php }  ?>
 
 						</div>
 					 </div>

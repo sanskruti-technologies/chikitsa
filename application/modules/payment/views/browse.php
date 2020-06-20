@@ -42,10 +42,8 @@ function get_cases($payment_cases,$payment_id){
 		<div class="col-md-12">
 			<!-- Advanced Tables -->
 			<div class="panel panel-primary">
-                <div class="panel-heading clearfix">
-					<div class="row">
-                        <div class="col-md-4 text-left nopadding"> <h2 class="titletable"><?php echo $this->lang->line("payment");?></h2></div>
-					</div>
+                <div class="panel-heading">
+                        <?php echo $this->lang->line("payment");?>
 				</div>
 				<div class="panel-body">
 					<div class="form-group"><a 	title="<?php echo $this->lang->line("add")." ".$this->lang->line("payment");?>"                        href="<?php echo base_url()."index.php/payment/insert/0/payment" ?>"
@@ -84,7 +82,7 @@ function get_cases($payment_cases,$payment_id){
 									<td><?php echo $i; ?></td>
 									<td><?php echo $payment_date; ?></td>
 									<td><?php echo $payment['first_name'] . ' ' . $payment['middle_name'] . ' ' . $payment['last_name']; ?></td>
-									<td style='text-align:right;'><?php echo currency_format($payment['pay_amount']); ?><?php if($currency_postfix) echo $currency_postfix; ?></td>
+									<td style='text-align:right;'><?php echo currency_format($payment['pay_amount']); ?></td>
 									<td><?php echo ucfirst($payment['pay_mode']); ?><?php if($payment['pay_mode'] == "cheque") {echo "  ( ".$payment['cheque_no']." )";} ?></td>
 									<?php if (in_array("snaap", $active_modules)) {	?>
 									<td><?php echo get_cases($payment_cases,$payment['payment_id']); ?></td>

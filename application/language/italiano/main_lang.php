@@ -7,6 +7,7 @@
 	$lang['cmp_name'] = "Tanti Saluti";
 	$lang['about_chikitsa'] = "Informazione";
   
+	//Form Headers
 	$lang['sign_in'] = "Entra qui";
 	
 	//Labels

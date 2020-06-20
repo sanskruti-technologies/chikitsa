@@ -359,6 +359,80 @@ class Module extends CI_Controller {
 			}
         }
 	}
+  public function add_module_and_license($module_name){
+      if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+      } else {
+            $data = array();
+            $doc = new DOMDocument();
+  					$doc->load( "http://chikitsa.net/chikitsa.xml" );//xml file loading here
+            $downloads = $doc->getElementsByTagName( "download" );
+  					foreach( $downloads as $download ){
+              $modules = $download->getElementsByTagName( "module" );
+              $module = $modules->item(0)->nodeValue;
+              if($module == $module_name){
+                $data['module_name'] = $module;
+
+                $titles = $download->getElementsByTagName( "title" );
+    						$title = $titles->item(0)->nodeValue;
+                $data['module_display_name'] = $title;
+
+                $descriptions = $download->getElementsByTagName( "description" );
+    						$description = $descriptions->item(0)->nodeValue;
+                $data['module_description'] = $description;
+
+                $data['module_status'] = 0;
+                $versions = $download->getElementsByTagName( "version" );
+                $version = $versions->item(0)->nodeValue;
+                $data['module_version'] = $version;
+                $data['module_version'] = $version;
+
+                $this->module_model->insert_module($data);
+                $this->license_key($module_name);
+              }
+            }
+
+      }
+  }
+  public function download_extension($module_name){
+        if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+        } else {
+
+          $module = $this->module_model->get_module_details_by_name($module_name);
+
+      		$parameters = array();
+      		$parameters['edd_action'] = 'get_version';
+      		$parameters['item_name'] = $module['module_display_name'];
+      		$parameters['license'] = $module['license_key'];
+      		$parameters['url'] = base_url();
+
+          $encoded = "";
+      		foreach($parameters as $name => $value) {
+      			$encoded .= urlencode($name).'='.urlencode($value).'&';
+      		}
+
+          $ch = curl_init();
+      		curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
+      		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+      		curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+
+
+      		$response = curl_exec($ch);
+      		curl_close($ch);
+
+          $data = json_decode($response, TRUE);
+      		$download_link = $data['download_link'];
+
+      		$destination = "./uploads/".$module_name.".zip";
+      		copy($download_link, $destination);
+
+      		$this->unzip_module($module_name);
+      		$this->change_log($module_name);
+          $this->index();
+        }
+  }
 	public function activate_license_key($module_name){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');

@@ -1,29 +1,72 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
+<?php
 class Settings_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
+	public function get_language_name(){
+		 $this->db->select('l_name');
+		 $this->db->group_by('l_name'); 
+		$query = $this->db->get('language_data');	
+		 foreach($query->result_array() as $row)
+		{
+		   $result[$row['l_name']] = $row['l_name'];
+		 
+		}
+		//print_r($result);
+		return $result;
+	}
 	
+	public function save_language_data($language_name,$language_array){
+		//echo "here==$language_name<br/><br/>";
+		//print_r($language_array);
+		foreach($language_array as $key =>$l){
+			$data['l_name']=$language_name;
+			$data['l_index']=$key;
+			$data['l_value']=$l;
+			$this->db->insert('language_data', $data);
+			//echo $this->db->last_query()."<br/>";
+		}
+
+	}
+
 	public function get_language_name_array($language){
 		$result=$this->db->get_where('language_data',array('l_name'=>$language));
 		$languages = $result->result_array();
 		//echo $this->db->last_query();
 		return $languages;
 	}
-	
+
 	public function edit_language_data()
 	{
 		$language = $this->input->post('language');
 		$index = $this->input->post('index');
 		$l_name = $this->input->post('l_name');
-		
+
 		$this->db->set('l_value', $language);
 		$this->db->where("l_index", $index);
 		$this->db->where('l_name',$l_name);
 		$this->db->update('language_data');
 		//echo $this->db->last_query();
 		//change mail_lang.php file
-		
+
 		//redirect("settings/edit_language/");
 		//redirect("settings/save_language/");
 	}
@@ -56,7 +99,7 @@ class Settings_model extends CI_Model {
 		return $clinic_array;
 	}
     public function save_clinic_settings() {
-		
+
         $data['clinic_name'] = $this->input->post('clinic_name');
 		$data['clinic_code'] = $this->input->post('clinic_code');
         $data['tag_line'] = $this->input->post('tag_line');
@@ -72,9 +115,9 @@ class Settings_model extends CI_Model {
 			$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
 			$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
 		}
-		
+
         $data['time_interval'] = $this->input->post('time_interval');
-        $data['next_followup_days'] = $this->input->post('next_followup_days');        
+        $data['next_followup_days'] = $this->input->post('next_followup_days');
 		$data['facebook'] = $this->input->post('facebook');
 		$data['twitter'] = $this->input->post('twitter');
 		$data['google_plus'] = $this->input->post('google_plus');
@@ -89,11 +132,11 @@ class Settings_model extends CI_Model {
 			$clinic_id = $this->db->insert_id();
 			//echo $this->db->last_query();
 			//Add Working days
-			
+
 			$working_days_array = array('7','1','2','3','4','5','6');
 			$working_days_string = implode(",", $working_days_array);
 			$this->set_data_value('working_days_'.$clinic_id, $working_days_string);
-				
+
 			return $clinic_id;
 		}
     }
@@ -145,27 +188,29 @@ class Settings_model extends CI_Model {
         }
         return $row['time_interval'];
     }
-	
+
 	//Invoice
     public function get_invoice_settings() {
         $query = $this->db->get('invoice');
         return $query->row_array();
     }
     public function get_currency_postfix(){
-        $this->db->select('currency_postfix');
-        $query = $this->db->get('invoice');
-        return $query->row()->currency_postfix;        
+
+        return "";
     }
     public function get_currency_symbol(){
         $this->db->select('currency_symbol');
         $query = $this->db->get('invoice');
-        return $query->row()->currency_symbol;        
+        return $query->row()->currency_symbol;
     }
     public function save_invoice_settings() {
         $data['static_prefix'] = $this->input->post('static_prefix');
         $data['left_pad'] = $this->input->post('left_pad');
         $data['currency_symbol'] = $this->input->post('currency_symbol');
         $data['currency_postfix'] = $this->input->post('currency_postfix');
+        $data['number_of_decimal'] = $this->input->post('number_of_decimal');
+        $data['decimal_symbol'] = $this->input->post('decimal_symbol');
+        $data['thousands_separator'] = $this->input->post('thousands_separator');
 		$data['sync_status'] = 0;
         $this->db->update('invoice', $data, array('invoice_id' => 1));
     }
@@ -190,10 +235,10 @@ class Settings_model extends CI_Model {
         $data['price'] = $this->input->post('treatment_price');
         $this->db->insert('treatments',$data);
     }
-    public function get_edit_treatment($id) {    
+    public function get_edit_treatment($id) {
         $this->db->where("id", $id);
         $query = $this->db->get("treatments");
-        return $query->row_array();    
+        return $query->row_array();
     }
     public function edit_treatment($id){
         $data['treatment'] = $this->input->post('treatment');
@@ -207,7 +252,7 @@ class Settings_model extends CI_Model {
     }
     public function get_visit_treatment($visit_id){
         $bill_id = $this->patient_model->get_bill_id($visit_id);
-        
+
         $query = $this->db->get_where('bill_detail', array('bill_id' => $bill_id));
        // echo $this->db->last_query();
 		return $query->result_array();
@@ -222,7 +267,7 @@ class Settings_model extends CI_Model {
 		$this->db->where('ck_key', $key);
 		$db_array['ck_value'] = $value;
 		$db_array['sync_status'] = 0;
-		$this->db->update('data', $db_array);	
+		$this->db->update('data', $db_array);
 	}
 	public function get_data_value($key){
 		$this->db->select('ck_value');
@@ -231,14 +276,14 @@ class Settings_model extends CI_Model {
 		if (!$row) {
 			return "";
 		}else{
-			return $row->ck_value;	
+			return $row->ck_value;
 		}
 	}
 	public function set_data_value($key, $value) {
 		$db_array['ck_key'] = $key;
 		$db_array['ck_value'] = $value;
-		
-		
+
+
 		$query=$this->db->get_where('data',array('ck_key'=>$key));
 		//echo $this->db->last_query();
 		$row=$query->row();
@@ -248,7 +293,7 @@ class Settings_model extends CI_Model {
 			//echo $this->db->last_query();
 		}else{
 			$db_array['sync_status'] = 0;
-			$this->db->update('data',$db_array,array('ck_key'=>$key));	
+			$this->db->update('data',$db_array,array('ck_key'=>$key));
 			//echo $this->db->last_query();
 		}
 	}
@@ -261,7 +306,7 @@ class Settings_model extends CI_Model {
 	public function save_timeformate($key, $value) {
 		$this->db->where('ck_key', $key);
 		$db_array = array('ck_value' => $value,'sync_status' => 0);
-		$this->db->update('data', $db_array);	
+		$this->db->update('data', $db_array);
 	}
 	public function get_date_formate(){
 	   $this->db->select('ck_value');
@@ -272,9 +317,15 @@ class Settings_model extends CI_Model {
 	public function get_morris_date_format(){
 		$date_format = $this->get_date_formate();
 		if($date_format == "d-m-Y"){
-			return 'dd-mm-yy';
+			return 'D-mm-YYYY';
 		}elseif($date_format == "Y-m-d"){
-			return 'yyyy-mm-dd';
+			return 'YYYY-mm-D';
+		}elseif($date_format == "m-d-Y"){
+			return 'mm-D-YYYY';
+		}elseif($date_format == "d m y"){
+			return 'D mm YY';
+		}elseif($date_format == "d M Y"){
+			return 'D MMM YYYY';
 		}
 	}
 	public function get_morris_time_format(){
@@ -290,7 +341,7 @@ class Settings_model extends CI_Model {
 	public function save_dateformate($key, $value) {
 		$this->db->where('ck_key', $key);
 		$db_array = array('ck_value' => $value,'sync_status' => 0);
-		$this->db->update('data', $db_array);	
+		$this->db->update('data', $db_array);
 	}
 	public function save_working_days(){
 		if($this->input->post('working_days')){
@@ -298,8 +349,8 @@ class Settings_model extends CI_Model {
 			$working_days_string = implode(",", $working_days_array);
 			$this->set_data_value('working_days', $working_days_string);
 		}
-		
-		
+
+
 		$clinics = $this->get_all_clinics();
 		foreach($clinics as $clinic){
 			if($this->input->post('working_days_'.$clinic['clinic_id'])){
@@ -334,7 +385,18 @@ class Settings_model extends CI_Model {
 		$data['working_date'] = date('Y-m-d',strtotime($this->input->post('working_date')));
 		$data['working_status'] = $this->input->post('working_status');
 		$data['working_reason'] = $this->input->post('working_reason');
-		//check if any data exists for this date. 
+		$data['end_date'] =  date('Y-m-d',strtotime($this->input->post('end_date')));
+    if($this->input->post('start_time') != ''){
+		$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
+    }else{
+      $data['start_time'] = '00:00:00';
+    }
+    if($this->input->post('end_time') !== ''){
+		$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
+    }else{
+      $data['end_time'] = '23:59:59';
+    }
+		//check if any data exists for this date.
 		$query=$this->db->get_where('working_days',array('working_date' => $data['working_date']));
 		$row=$query->row();
 		if (!$row) {
@@ -343,32 +405,58 @@ class Settings_model extends CI_Model {
 		}else{
 			//If data exists then update it
 			$data['sync_status'] = 0;
-			$this->db->update('working_days',$data,array('working_date'=>$data['working_date']));	
+			$this->db->update('working_days',$data,array('working_date'=>$data['working_date']));
 		}
+		//echo $this->db->last_query();
 	}
 	public function get_exceptional_days(){
+		//$this->db->order_by("uid", "desc");
 		$query = $this->db->get('working_days');
+		//echo $this->db->last_query();
         return $query->result_array();
 	}
 	public function get_exceptional_day_by_date($date){
 		$query = $this->db->get_where('working_days',array('working_date' => $date));
+		//echo $this->db->last_query();
         return $query->row_array();
 	}
 	public function get_exceptional_day($uid){
 		$query = $this->db->get_where('working_days',array('uid' => $uid));
         return $query->row_array();
 	}
+  public function get_language($language_id){
+    $query = $this->db->get_where('language_master',array('language_id' => $language_id));
+    return $query->row_array();
+  }
 	public function delete_exceptional_days($uid){
 		$this->db->delete('working_days', array('uid' => $uid));
-	}	
+	}
+  public function delete_language_data($language_name){
+    $this->db->delete('language_data', array('l_name' => $language_name));
+  }
+  public function delete_language($language_id){
+    $this->db->delete('language_master', array('language_id' => $language_id));
+  }
 	function update_exceptional_days(){
 		//prepare data
 		$data['working_date'] = date('Y-m-d',strtotime($this->input->post('working_date')));
+		$data['end_date'] = date('Y-m-d',strtotime($this->input->post('end_date')));
 		$data['working_status'] = $this->input->post('working_status');
 		$data['working_reason'] = $this->input->post('working_reason');
+    if($this->input->post('start_time') != ''){
+		$data['start_time'] = date('H:i:s',strtotime($this->input->post('start_time')));
+    }else{
+      $data['start_time'] = '00:00:00';
+    }
+    if($this->input->post('end_time') !== ''){
+		$data['end_time'] = date('H:i:s',strtotime($this->input->post('end_time')));
+    }else{
+      $data['end_time'] = '23:59:59';
+    }
 		$data['sync_status'] = 0;
 		$uid = $this->input->post('uid');
-		$this->db->update('working_days',$data,array('uid' => $uid));	
+		$this->db->update('working_days',$data,array('uid' => $uid));
+		//echo $this->db->last_query();
 	}
 	function get_reference_by(){
 		$query = $this->db->get('reference_by');
@@ -391,7 +479,7 @@ class Settings_model extends CI_Model {
 		$data['reference_add_option'] = $this->input->post('reference_add_option');
 		$data['placeholder'] = $this->input->post('placeholder');
 		$data['sync_status'] = 0;
-		$this->db->update('reference_by',$data,array('reference_id' => $reference_id));	
+		$this->db->update('reference_by',$data,array('reference_id' => $reference_id));
 	}
 	function delete_reference($reference_id){
 		$this->db->delete('reference_by', array('reference_id' => $reference_id));
@@ -425,7 +513,7 @@ class Settings_model extends CI_Model {
 		foreach($fields as $field){
 			$field_array[] = $field->name;
 		}
-		
+
 		return $field_array;
 	}
 	function get_primary_key($table){
@@ -438,7 +526,7 @@ class Settings_model extends CI_Model {
 	}
 	function get_all_rows($table){
 		$primary_key = $this->get_primary_key($table);
-		
+
 		$query = $this->db->query("SELECT * FROM $table WHERE IFNULL(sync_status,0) != 1 ORDER BY $primary_key  ASC;");
 		//echo $this->db->last_query();
 		return $query->result_array();
@@ -456,8 +544,8 @@ class Settings_model extends CI_Model {
 	public function edit_tax_rate($tax_id){
 		$data['tax_rate_name'] = $this->input->post('tax_rate_name');
 		$data['tax_rate'] = $this->input->post('tax_rate');
-		$this->db->update('tax_rates',$data,array('tax_id' => $tax_id));	
-		
+		$this->db->update('tax_rates',$data,array('tax_id' => $tax_id));
+
 		//echo $this->db->last_query();
 	}
 	public function get_tax_rate($tax_id){
@@ -490,9 +578,9 @@ class Settings_model extends CI_Model {
 	}
 	public function get_payment_method($payment_method_id){
 		$query = $this->db->get_where('payment_methods',array('payment_method_id' => $payment_method_id));
-        return $query->row_array();	
+        return $query->row_array();
 	}
-	
+
 	public function insert_payment_method(){
 		$data['payment_method_name'] = $this->input->post('payment_method_name');
 		if($this->input->post('has_additional_details')){
@@ -505,7 +593,7 @@ class Settings_model extends CI_Model {
 			$data['payment_pending'] = 1;
 		}
 		$data['additional_detail_label'] = $this->input->post('additional_detail_label');
-		
+
 		$this->db->insert('payment_methods',$data);
 	}
 	public function edit_payment_method($payment_method_id){
@@ -526,40 +614,65 @@ class Settings_model extends CI_Model {
 			$data['payment_pending'] = 0;
 		}
 		$data['additional_detail_label'] = $this->input->post('additional_detail_label');
-		$this->db->update('payment_methods',$data,array('payment_method_id' => $payment_method_id));	
+		$this->db->update('payment_methods',$data,array('payment_method_id' => $payment_method_id));
 	}
 	public function delete_payment_method($payment_method_id){
 		$this->db->delete('payment_methods', array('payment_method_id' => $payment_method_id));
 	}
-	public function get_list_master(){
-		$query = $this->db->get('list_master');
-        return $query->result_array();	
-	}
-	public function get_list($list_name){
-		$query = $this->db->get_where('list_master',array('list_name' => $list_name));
-        return $query->row_array();	
-	}
-	public function get_list_details($list_name){
-		$query = $this->db->get_where('list_detail',array('list_name' => $list_name));
-		//echo $this->db->last_query();
-        return $query->result_array();
-	}
-	public function get_list_detail($list_detail_id){
-		$query = $this->db->get_where('list_detail',array('list_detail_id' => $list_detail_id));
-        return $query->row_array();	
-	}
-	public function add_list_detail($list_name){
-		$data['list_col_1_value'] = $this->input->post('list_col_1');
-		$data['list_name'] = $list_name;
-		$this->db->insert('list_detail',$data);
-		//echo $this->db->last_query();
-	}
-	public function edit_list_master($list_detail_id){
-		$data['list_col_1_value'] = $this->input->post('list_col_1');
-		$this->db->update('list_detail',$data,array('list_detail_id' => $list_detail_id));	
-	}
-	public function delete_list_detail($list_detail_id){
-		$this->db->delete('list_detail', array('list_detail_id' => $list_detail_id));
-	}
+  public function set_as_default($language_id){
+    $data['is_default'] = 0;
+    $this->db->update('language_master',$data);
+    $data['is_default'] = 1;
+    $this->db->update('language_master',$data,array('language_id' => $language_id));
+    $language = $this->get_language($language_id);
+    $language_name = $language['language_name'];
+
+    $config_file = "application/config/config.php";
+		$line_array = file($config_file);
+		for ($i = 0; $i < count($line_array); $i++) {
+			if (strstr($line_array[$i], "config['language']")) {
+				$line_array[$i] = '$config[\'language\'] = \'' . $language_name . '\';' . "\r\n";
+			}
+		}
+		file_put_contents($config_file, $line_array);
+  }
+  public function add_language(){
+    $data = array();
+
+    $data['language_name'] = $this->input->post('language_name');
+    if($this->input->post('rtl') !== NULL){
+      $data['is_rtl'] = $this->input->post('rtl');
+    }else{
+      $data['is_rtl'] = 0;
+    }
+
+
+    $this->db->insert('language_master',$data);
+    ///echo $this->db->last_query();
+  }
+  public function edit_language(){
+    $data = array();
+    $language_id = $this->input->post('language_id');
+    $data['language_name'] = $this->input->post('language_name');
+    if($this->input->post('rtl') !== NULL){
+      $data['is_rtl'] = $this->input->post('rtl');
+    }else{
+      $data['is_rtl'] = 0;
+    }
+    $this->db->update('language_master',$data,array('language_id'=>$language_id));
+    //echo $this->db->last_query();
+  }
+  function get_languages(){
+    $result = $this->db->get('language_master');
+    return $result->result_array();
+  }
+  function get_language_array(){
+    $languages = $this->get_languages();
+    $language_array = array();
+    foreach($languages as $language){
+      $language_array[] = $language['language_name'];
+    }
+    return $language_array;
+  }
 }
 ?>

@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
@@ -9,7 +27,7 @@
 				<div class="panel-body">
 					<a href="<?= site_url("payment/insert_payment_method/");?>" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line("add")." ".$this->lang->line("payment_method");?></a>
 					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover" id="tax_rate_table">
+						<table class="table table-striped table-bordered table-hover" id="payment_methods_table">
 							<thead>
 								<tr>
 									<th><?php echo $this->lang->line("sr_no");?></th>
@@ -41,12 +59,12 @@
 </div>
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
-	
+
 	$('.confirmDelete').click(function(){
-		return confirm(<?=$this->lang->line('areyousure_delete');?>);
+		return confirm("<?=$this->lang->line('areyousure_delete');?>");
 	})
 
-    $("#tax_rate_table").dataTable({
+    $("#payment_methods_table").dataTable({
 		"pageLength": 50
 	});
 });

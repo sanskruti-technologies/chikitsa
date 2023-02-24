@@ -1,5 +1,20 @@
 <?php
+/*
+	This file is part of Chikitsa.
 
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
 class Admin_model extends CI_Model {
 
     function __construct() {
@@ -49,8 +64,8 @@ class Admin_model extends CI_Model {
 				$center = $this->session->userdata('clinic_id');
 			}
 		}
-		$name =  $this->input->post('title') . " " .$this->input->post('first_name'). " ".$this->input->post('middle_name'). " ".$this->input->post('last_name');
-		
+		$name = $this->input->post('title') . " " .$this->input->post('first_name'). " ".$this->input->post('middle_name'). " ".$this->input->post('last_name');
+		$data['is_active'] = $this->input->post('is_active');
         $data = array(
             'username' => $this->input->post('username'),
             'name' => $name,
@@ -59,6 +74,8 @@ class Admin_model extends CI_Model {
 			'centers' => $center,
 			'contact_id' => $contact_id
         );
+		$data['prefered_language'] = $this->input->post('prefered_language');
+        
         $this->db->insert('users', $data);
 		return $this->db->insert_id();
     }
@@ -94,6 +111,8 @@ class Admin_model extends CI_Model {
 		
 		$data['centers'] = $center;
 		$data['sync_status'] = 0;
+		$data['prefered_language'] = $this->input->post('prefered_language');
+        
 		
         $this->db->where('userid', $id);
         $this->db->update('users', $data);
@@ -176,6 +195,7 @@ class Admin_model extends CI_Model {
 	}
     function change_profile($user_id){
         $data['name'] = $this->input->post('name');
+        $data['prefered_language'] = $this->input->post('prefered_language');
         $data['sync_status'] = 0;
         $this->db->where('userid', $user_id);
         $this->db->update('users', $data);

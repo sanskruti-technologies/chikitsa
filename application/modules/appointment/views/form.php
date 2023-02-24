@@ -1,3 +1,21 @@
+<?php 
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <!--display on Click of Appointment page -->
 <?php
 	if(isset($doctor)){
@@ -502,13 +520,13 @@
 				}
 			}
 		});  
-		/*$('#appointment_date').datetimepicker({
+		$('#appointment_date').datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate; ?>',
 			scrollMonth:false,
 			scrollTime:false,
 			scrollInput:false,
-		}); */
+		}); 
 		 var unavailableDates = [
 		 <?php 
 		 $dates = "";
@@ -532,7 +550,6 @@
 				return [false, "", "Unavailable"];
 			}
 		}
-		$('#appointment_date').datepicker({ dateFormat: '<?=$morris_date_format; ?>',beforeShowDay: unavailable }); 	
 		$('#start_time').datetimepicker({
 			datepicker:false,
 			step:<?=$time_interval;?>,

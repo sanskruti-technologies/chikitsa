@@ -1,0 +1,24 @@
+body{
+	direction: rtl;
+}
+.navbar-header{
+	float:right;
+}
+.header_tag_line{
+	float:right;
+	margin-right:25px;
+}
+.header_welcome_message{
+	float: left;
+}
+.navbar-side{
+    width: 260px;
+    position: relative;
+    float: right;
+}
+
+#page-wrapper {
+    margin: 0 260px 0 0;
+    padding: 15px 30px;
+    min-height: 1200px;
+}

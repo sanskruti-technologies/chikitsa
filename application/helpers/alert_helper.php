@@ -129,7 +129,6 @@ function get_print_receipt($visit_id){
 	$CI->load->model('payment/payment_model');
 	$CI->load->model('settings/settings_model');
 	
-	$currency_postfix = $CI->settings_model->get_currency_postfix();
 	$def_dateformate = $CI->settings_model->get_date_formate();
 	$def_timeformate = $CI->settings_model->get_time_formate();
 	$invoice = $CI->settings_model->get_invoice_settings();

@@ -1,7 +1,6 @@
 <?php
 
-function get_currency_symbol()
-  {
+function get_number_format_settings(){
     //the database functions can not be called from within the helper
     //so we have to explicitly load the functions we need in to an object
     //that I will call ci. then we use that to access the regular stuff.
@@ -9,7 +8,7 @@ function get_currency_symbol()
     $ci->load->database();
     
     //select the required fields from the database
-    $ci->db->select('currency_symbol');
+    $ci->db->select('currency_symbol,number_of_decimal,decimal_symbol,thousands_separator,currency_postfix');
     
     //tell the db class the criteria
     $ci->db->where('invoice_id', 1);
@@ -20,20 +19,31 @@ function get_currency_symbol()
     foreach($query->result() as $row):
  
         //get the full name by concatinating the first and last names
-        $currencySymbol = $row->currency_symbol;
+        $number_format['currency_symbol'] = $row->currency_symbol;
+        $number_format['number_of_decimal'] = $row->number_of_decimal;
+        $number_format['decimal_symbol'] = $row->decimal_symbol;
+        $number_format['thousands_separator'] = $row->thousands_separator;
+        $number_format['currency_postfix'] = $row->currency_postfix;
  
     endforeach;
     
-    return $currencySymbol;
-  }
+    return $number_format;
+}
+
+
 
 //convert numbers to currency format
 if ( ! function_exists('currency_format'))
 {
   function currency_format($number)
   {
-    $currencySymbol = get_currency_symbol();
-    return $currencySymbol. number_format($number, 2, '.', ',');
+	$number_format = get_number_format_settings();
+    $currencySymbol = $number_format['currency_symbol'];
+    $decimalPlaces = $number_format['number_of_decimal'];
+    $decimalSymbol = $number_format['decimal_symbol'];
+    $thousandsSeparator = $number_format['thousands_separator'];
+    $currencyPostfix = $number_format['currency_postfix'];
+    return $currencySymbol. number_format($number, $decimalPlaces, $decimalSymbol, $thousandsSeparator).$currencyPostfix;
   }
 }
 

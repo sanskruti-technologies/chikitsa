@@ -1,3 +1,21 @@
+<?php 
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <!-- JQUERY SCRIPTS -->
 <script src="<?= base_url() ?>assets/js/jquery-1.11.3.js"></script>
 <!-- JQUERY UI SCRIPTS -->
@@ -18,27 +36,30 @@
 			</div>
 			<?php 
 			if(isset($user)){
-				$level = $user['level']; 
-				$user_username = $user['username'];
-				$user_name = $user['name'];
-				$user_is_active = $user['is_active'];
-				$centers = $user['centers'];
-				$title = $contact['title'];
-				$first_name = $contact['first_name'];
-				$middle_name = $contact['middle_name'];
-				$last_name = $contact['last_name'];
+				$level =set_value('level',$user['level']); 
+				$user_username =set_value('username',$user['name']); 
+				$prefered_language =set_value('username',$user['prefered_language']);
+				//$user_name =set_value('user_name',$user['username']) ;
+				$user_is_active =set_value('user_is_active',1);
 				$edit = TRUE;
+				$centers =set_value('center',$user['centers']);
+				$title =set_value('title',$contact['title']) ;
+				$first_name =set_value('first_name',$contact['first_name']) ;
+				$middle_name =set_value('middle_name',$contact['middle_name']);
+				$last_name =set_value('last_name',$contact['last_name']);
 			}else{
-				$level = ""; 
-				$user_username = "";
-				$user_name = "";
-				$user_is_active = 0;
+				$level =set_value('level',""); 
+				$user_username =set_value('username',""); 
+				//$user_name =set_value('user_name',"") ;
+				$user_is_active =set_value('user_is_active',1);
 				$edit = FALSE;
-				$centers = "";
-				$title = "";
-				$first_name = "";
-				$middle_name = "";
-				$last_name = "";
+				$centers =set_value('center',"");
+				$title =set_value('title',"") ;
+				$first_name =set_value('first_name',"") ;
+				$middle_name =set_value('middle_name',"");
+				$last_name =set_value('last_name',"");
+				$config_language = $this->config->item('language');
+				$prefered_language =set_value('prefered_language',$config_language);
 			}
 			
 			$admin_name="admin";
@@ -55,13 +76,6 @@
 				?>
 					<div class="col-md-12">
 						<div class="form-group">
-							<?php 
-							//if($level == 'Administrator') { 
-							if($user_username == $admin_name) { 						
-							?>
-							<label for="level"><?php echo $this->lang->line('category');?></label>
-							<input type="text" name="level" id="level" value="<?php echo $user['level']; ?>" readonly="readonly" class="form-control"/><br/>
-							<?php }else { ?>
 							<label for="level"><?php echo $this->lang->line('category');?></label>
 							<select name="level" class="form-control" >  <option></option>
 										<?php  foreach ($categories as $category) { ?>
@@ -71,7 +85,6 @@
 										<?php } ?>
 							</select>
 							<?php echo form_error('level','<div class="alert alert-danger">','</div>'); ?>
-							<?php } ?>
 						</div>
 					</div>
 					
@@ -123,15 +136,7 @@
 								<label for="is_active"><?php echo $this->lang->line('is_active');?></label> 
 							</div>
 							<div class="col-md-2">
-								<input type="checkbox" <?php //if($level=="Administrator"){
-									if($user_username == $admin_name) { 	
-									?> disabled="disabled" name="is_act" id="is_act"<?php }else{ ?>  name="is_active" id="is_active" <?php } ?> value="1" <?php if($user_is_active) echo "checked"; ?> class="form-control"/>
-								<?php //if($level=="Administrator"){
-									if($user_username == $admin_name) { 	
-									$active=1;
-									?>
-								<input name="is_active" type="hidden" id="is_active" value="<?php echo $user['is_active']; ?>"/>
-								<?php } ?>
+								<input type="checkbox" name="is_active" id="is_active" value="1" <?php if($user_is_active) echo "checked"; ?> class="form-control"/>
 							</div>
 							<div class="col-md-8">
 								&nbsp;
@@ -140,6 +145,16 @@
 								<?php echo form_error('is_active','<div class="alert alert-danger">','</div>'); ?>
 							</div>
 						</div>
+					</div>
+					<div class="col-md-12">
+					<div class="form-group">
+						<label for="prefered_language"><?php echo $this->lang->line('prefered_language');?></label>
+						<select name="prefered_language" class="form-control" >
+							<?php foreach ($languages as $language) { ?>
+							<option value="<?php echo $key; ?>" <?php if($prefered_language == $language['language_name']) { ?>selected="selected"<?php } ?>><?php echo $language['language_name']; ?></option>
+							<?php }?>
+						</select>
+					</div>
 					</div>
 					<?php if (in_array("centers", $active_modules)) { ?>
 					<div class="col-md-12">

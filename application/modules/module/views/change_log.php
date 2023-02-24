@@ -1,28 +1,55 @@
+<?php
+/*
+	This file is part of Chikitsa.
 
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="alert alert-success">
 				<div class="col-md-12">
-				<?php 
-					//$current_version = $this->config->item('current_version'); 
+				<?php
+					//$current_version = $this->config->item('current_version');
 					//$latest_version = $current_version;
+					$found = false;
 					$doc = new DOMDocument();
-					$doc->load( "http://sanskruti.net/chikitsa/modules/chikitsa.xml" );//xml file loading here
+					$doc->load( "https://chikitsa.net/chikitsa.xml" );//xml file loading here
+					echo "<h3>Changes in new version</h3>"
 					echo "<ul>";
 					$chikitsa = $doc->getElementsByTagName( "chikitsa" );
 					foreach( $chikitsa as $c ){
 						$download = $c->getElementsByTagName( "download" );
 						foreach( $download as $d ){
-							$change_log = $c->getElementsByTagName( "change_log" );
-							foreach( $change_log as $cl){
-								echo "<h3>{$node->nodeName}</h3>";
-								$changed = $d->getElementsByTagName( "changed" );
-								foreach($changed as $node) {
-								  echo "<br/><li> {$node->nodeValue} </li>";
+							$module = $d->getElementsByTagName( "module" );
+							foreach($module as $mn){
+								if($mn->nodeValue == $module_name){
+									$found = true;
+									$change_log = $d->getElementsByTagName( "change_log" );
+									foreach( $change_log as $cl){
+										$changed = $cl->getElementsByTagName( "changed" );
+										foreach($changed as $node) {
+										  echo "<br/><li> {$node->nodeValue} </li>";
+										}
+									}
+									break;
 								}
 							}
+							if($found) break;
 						}
+						if($found) break;
 					}
 					echo "</ul>";
 					?>

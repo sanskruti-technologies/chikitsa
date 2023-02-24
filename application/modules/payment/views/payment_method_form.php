@@ -1,3 +1,21 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <?php 
 	$has_additional_details = "";
 	$needs_cash_calc = "";
@@ -12,6 +30,9 @@
 		}
 		if($payment_method['needs_cash_calc'] == 1){
 			$needs_cash_calc = "checked";
+		}
+		if($payment_method['payment_pending'] == 1){
+			$payment_pending = "checked";
 		}
 	}else{
 		$edit = FALSE;
@@ -34,7 +55,7 @@
 				<?php echo form_open('payment/insert_payment_method') ?>
 				<?php } ?>
 				<div class="form-group">
-					<label for="payment_method_name"><?php echo $this->lang->line('payment_method')." ".$this->lang->line('name');?></label> 
+					<label for="payment_method_name"><?php echo $this->lang->line('payment_method')." ".$this->lang->line('name');?></label>
 					<input type="text" name="payment_method_name" id="payment_method_name" value="<?=$payment_method_name;?>" class="form-control"/>
 					<?php echo form_error('payment_method_name','<div class="alert alert-danger">','</div>'); ?>
 				</div>
@@ -65,7 +86,8 @@
 					</div>
 				</div>
 					<div class="form-group">
-						<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
+						<button type="submit" name="submit" class="btn btn-primary square-btn-adjust" /><?php echo $this->lang->line('save');?></button>
+						<a class="btn btn-info square-btn-adjust" href="<?=site_url('payment/payment_methods'); ?>"><?php echo $this->lang->line('back');?></a>
 					</div>
 				<?php echo form_close(); ?>
 			</div>
@@ -81,7 +103,7 @@
 <script src="<?= base_url() ?>/assets/js/dataTables/datetime-moment.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 $( window ).load(function() {
-	
+
 	$('.confirmDelete').click(function(){
 		return confirm("<?=$this->lang->line('areyousure_delete');?>");
 	});
@@ -98,7 +120,7 @@ $( window ).load(function() {
 		$("#additional_detail_label").parent().hide();
 	<?php } }?>
 	$('#has_additional_details').click(function(){
-		if($('#has_additional_details').is(":checked"))   
+		if($('#has_additional_details').is(":checked"))
 			$("#additional_detail_label").parent().show();
 		else
 			$("#additional_detail_label").parent().hide();

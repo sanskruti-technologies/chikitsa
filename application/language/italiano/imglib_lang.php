@@ -37,9 +37,9 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['imglib_source_image_required'] = 'È necessario specificare un'immagine sorgente nelle preferenze. ';
+$lang['imglib_source_image_required'] = 'È necessario specificare un\'immagine sorgente nelle preferenze. ';
 $lang['imglib_gd_required'] = 'È necessario il libreria di immagini GD per questa funzione.';
-$lang['imglib_gd_required_for_props'] = 'Il server deve supportare la libreria di immagini GD al fine di determinare le proprietà dell'immagine.';
+$lang['imglib_gd_required_for_props'] = 'Il server deve supportare la libreria di immagini GD al fine di determinare le proprietà dell\'immagine.';
 $lang['imglib_unsupported_imagecreate'] = 'Il server non supporta la funzione GD richiesto per elaborare questo tipo di immagine.';
 $lang['imglib_gif_not_supported'] = 'Immagini GIF spesso non sono supportati a causa di restrizioni di licenza. Potrebbe essere necessario usare JPG o PNG immagini al posto. ';
 $lang['imglib_jpg_not_supported'] = 'Immagini JPG non sono supportate.';
@@ -49,8 +49,8 @@ $lang['imglib_copy_error'] = 'È verificato un errore durante il tentativo di sos
 $lang['imglib_rotate_unsupported'] = 'Rotazione immagine non sembra essere supportato dal server.';
 $lang['imglib_libpath_invalid'] = 'Il percorso della libreria di immagini non è corretta. Si prega di impostare il percorso corretto nelle preferenze di immagine. ';
 $lang['imglib_image_process_failed'] = 'Elaborazione di immagini non è riuscita. Si prega di verificare che il server supporta il protocollo scelto e che il percorso per la libreria di immagini è corretto. ';
-$lang['imglib_rotation_angle_required'] = 'È richiesto un angolo di rotazione per ruotare l'immagine.';
-$lang['imglib_invalid_path'] = 'Il percorso per l'immagine non è corretto. ';
+$lang['imglib_rotation_angle_required'] = 'È richiesto un angolo di rotazione per ruotare l\'immagine.';
+$lang['imglib_invalid_path'] = 'Il percorso per l\'immagine non è corretto. ';
 $lang['imglib_copy_failed'] = 'La routine di copia immagine non è riuscita.';
 $lang['imglib_missing_font'] = 'Impossibile trovare un carattere da usare.';
-$lang['imglib_save_failed'] = 'Impossibile salvare l'immagine. Si prega di assicurarsi che l'immagine e la directory del file è scrivibile.';
+$lang['imglib_save_failed'] = 'Impossibile salvare l\'immagine. Si prega di assicurarsi che l\'immagine e la directory del file è scrivibile.';

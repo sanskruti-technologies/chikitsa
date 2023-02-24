@@ -1,9 +1,27 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">
 	$(window).load(function() {
 		$("#patient_since").datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
 			maxDate: 0,
@@ -11,18 +29,18 @@
 		$("#to_date").datetimepicker({
 			timepicker:false,
 			format: '<?=$def_dateformate;?>',
-			scrollInput:false, 
+			scrollInput:false,
 			scrollMonth:false,
 			scrollTime:false,
 			maxDate: 0,
 		});
-		
+
     });
 	$(document).ready(function () {
 		$("#select_all").click(function () {
 			$(".field_checkbox").prop('checked', $(this).prop('checked'));
 		});
-	
+
 		$("#patient_report").dataTable({
 			"pageLength": 50
 		});
@@ -38,7 +56,7 @@
 				<div class="panel-body">
 					<?php echo form_open('patient/patient_report'); ?>
 					<div class="col-md-12">
-					<div class="col-md-3">	
+					<div class="col-md-3">
 						<label for="reference" style="display:block;text-align:left;"><?=$this->lang->line('reference_by');?></label>
 						<select name="reference[]" id="reference" class="form-control" multiple="multiple">
 							<option></option>
@@ -58,7 +76,7 @@
 					<?php echo form_close(); ?>
 				</div>
 			</div>
-		</div>	
+		</div>
 		<div class="col-md-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">

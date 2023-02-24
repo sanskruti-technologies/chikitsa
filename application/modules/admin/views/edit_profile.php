@@ -1,3 +1,21 @@
+<?php 
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
@@ -33,6 +51,14 @@
 							<label for="passconf"><?php echo $this->lang->line('confirm_password');?></label>
 							<input type="password" class="form-control"  name="passconf" id="passconf" value=""/>
 							<?php echo form_error('passconf','<div class="alert alert-danger">','</div>'); ?>
+						</div>
+						<div class="form-group">
+							<label for="prefered_language"><?php echo $this->lang->line('prefered_language');?></label>
+							<select name="prefered_language" class="form-control" >
+								<?php foreach ($languages as $key=>$language) { ?>
+								<option value="<?php echo $key; ?>" <?php if($user['prefered_language'] == $key) { ?>selected="selected"<?php } ?>><?php echo $key; ?></option>
+								<?php }?>
+							</select>
 						</div>
 						<div class="form-group">
 							<button type="submit" name="submit" class="btn btn-primary"><?php echo $this->lang->line('edit');?></button>

@@ -1,4 +1,21 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 
 class login extends CI_Controller {
 
@@ -6,22 +23,22 @@ class login extends CI_Controller {
         parent::__construct();
 		$this->config->load('version');
         $this->load->library('form_validation');
-        
+
 		$this->load->helper('form');
 		$this->load->helper('url');
         $this->load->helper('security');
-		
+
 		$this->load->model('login_model');
 		$this->load->model('menu_model');
 		$this->load->model('module/module_model');
 		$this->load->model('settings/settings_model');
 		$this->load->model('admin/admin_model');
-		
+
 		$this->load->library('session');
 
-		$this->lang->load('main');
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
-	function currentUrl($server){
+	public function currentUrl($server){
 		//Figure out whether we are using http or https.
 		$http = 'http';
 		//If HTTPS is present in our $_SERVER array, the URL should
@@ -39,26 +56,26 @@ class login extends CI_Controller {
 	}
 	public function version_check() {
 		$current_version = $this->config->item('current_version');
-		$db_current_version = $this->login_model->get_current_version();		
+		$db_current_version = $this->login_model->get_current_version();
 		//Check Database and File Version of Chikitsa
 		if ($current_version == $db_current_version) {
 			//Is User logged In ?
 			if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
 				if($this->module_model->is_active('frontend')){
-					redirect('/frontend/index', 'refresh');	
+					redirect('/frontend/index', 'refresh');
 				}else{
-					redirect('/login/index', 'refresh');	
+					redirect('/login/index', 'refresh');
 				}
 			}else{
 				redirect('/appointment/index', 'refresh');
 			}
 		} else {
 			//Upgrade database to latest version
-			$base_url = $this->currentUrl($_SERVER);
-			redirect($base_url.'install.php', 'refresh');
+			$base_url  = $this->config->item('base_url');
+			redirect($base_url.'/install.php', 'refresh');
 		}
     }
-  	function login_page(){
+  	public function login_page(){
 		$level = $this->session->userdata('category');
 		if($level == 'Patient'){
 			return '/frontend/my_account';
@@ -68,13 +85,13 @@ class login extends CI_Controller {
 		foreach ($result_top_menu as $top_menu){
 			$id = $top_menu['id'];
 			$parent_name = $top_menu['menu_name'];
-			if($this->menu_model->has_access($top_menu['menu_name'],$level)){ 
+			if($this->menu_model->has_access($top_menu['menu_name'],$level)){
 				if($this->menu_model->is_module_active($top_menu['required_module'])){
 					$result_sub_menu = $this->menu_model->find_menu($parent_name,$level);
-					$rowcount= count($result_sub_menu);	
+					$rowcount= count($result_sub_menu);
 					if($rowcount != 0){
-						foreach ($result_sub_menu as $sub_menu){	
-							if($this->menu_model->has_access($sub_menu['menu_name'],$level)){ 
+						foreach ($result_sub_menu as $sub_menu){
+							if($this->menu_model->has_access($sub_menu['menu_name'],$level)){
 								if($this->menu_model->is_module_active($sub_menu['required_module'])){
 									return $sub_menu['menu_url'];
 								}
@@ -96,6 +113,7 @@ class login extends CI_Controller {
 			$active_modules = $this->module_model->get_active_modules();
 			$data['active_modules'] = $active_modules;
 			$data['clinic']=$this->settings_model->get_clinic_settings();
+	        $data['software_name']= $this->settings_model->get_data_value("software_name");
 			$this->load->view('login/login_signup',$data);
 		} else {
 			//Go to Appointment Page if logged in
@@ -115,7 +133,7 @@ class login extends CI_Controller {
             if($this->input->post('username')){
 				//Check Login details
 				$username = $this->input->post('username');
-								
+
 				$password = base64_encode($this->input->post('password'));
 				$result = $this->login_model->login($username, $password);
 				if(!empty($result)){
@@ -126,6 +144,7 @@ class login extends CI_Controller {
 						$userdata["user_name"] = $result->username;
 						$userdata["category"] = $result->level;
 						$userdata["id"] = $result->userid;
+						$userdata["prefered_language"] = $result->prefered_language;
 						$userdata["logged_in"] = TRUE;
 						$clinic = $this->settings_model->get_clinic_settings(1);
 						$userdata["clinic_code"] = $clinic['clinic_code'];
@@ -146,16 +165,16 @@ class login extends CI_Controller {
 					if (function_exists('date_default_timezone_set'))
 						date_default_timezone_set($timezone);
 					$current_time = date("Y-m-d H:i:s");
-					
+
 					$this->chat_model->change_status($user_id,$status, $current_time);
 				}
 				if($this->module_model->is_active("centers")){
-					redirect('login/select_options');	
+					redirect('login/select_options');
 				}else{
 					redirect($login_page, 'refresh');
 				}
 			} else {
-				
+
 				if($is_active){
 					$data['username'] = $this->input->post('username');
 					$data['level'] = $this->input->post('level');
@@ -163,6 +182,7 @@ class login extends CI_Controller {
 					$frontend_active=$this->module_model->is_active("frontend");
 					$data['frontend_active']=$frontend_active;
 					$data['clinic']=$this->settings_model->get_clinic_settings();
+		            $data['software_name']= $this->settings_model->get_data_value("software_name");
 					$this->load->view('login/login_signup',$data);
 				}else{
 					$data['username'] = $this->input->post('username');
@@ -171,6 +191,7 @@ class login extends CI_Controller {
 					$frontend_active=$this->module_model->is_active("frontend");
 					$data['frontend_active']=$frontend_active;
 					$data['clinic']=$this->settings_model->get_clinic_settings();
+                    $data['software_name']= $this->settings_model->get_data_value("software_name");
 					$this->load->view('login/login_signup',$data);
 				}
 			}
@@ -186,7 +207,7 @@ class login extends CI_Controller {
 			if (function_exists('date_default_timezone_set'))
 				date_default_timezone_set($timezone);
 			$current_time = date("Y-m-d H:i:s");
-			
+
 			$this->chat_model->change_status($user_id,$status, $current_time);
 		}
 		$this->session->sess_destroy();
@@ -201,6 +222,7 @@ class login extends CI_Controller {
 		$data['clinic']=$this->settings_model->get_clinic_settings();
 		$active_modules = $this->module_model->get_active_modules();
 		$data['active_modules'] = $active_modules;
+        $data['software_name']= $this->settings_model->get_data_value("software_name");
 		$this->load->view('login/login_signup',$data);
     }
 	public function forgot_password($instruction='reset_password_instructions',$error=NULL,$message=NULL){
@@ -214,6 +236,7 @@ class login extends CI_Controller {
 			$data['message']=$message;
 		}
 		$data['clinic']=$this->settings_model->get_clinic_settings();
+        $data['software_name']= $this->settings_model->get_data_value("software_name");
 		$this->load->view('forgot_password',$data);
 	}
 	public function send_forgot_password_email(){
@@ -227,25 +250,27 @@ class login extends CI_Controller {
 			redirect('alert/send_alert/forgot_password/'.$parameter_string.'/login/forgot_password/reset_password_instructions/X/check_confirmation_link');
 		}
 	}
-	function reset_password($email,$key,$instruction='enter_new_password'){
+	public function reset_password($email,$key,$instruction='enter_new_password'){
 		$data['instruction']=$instruction;
 		$data['clinic']=$this->settings_model->get_clinic_settings();
 		$frontend_active=$this->module_model->is_active("frontend");
 		$data['frontend_active']=$frontend_active;
+        $data['software_name']= $this->settings_model->get_data_value("software_name");
 		$this->load->view('reset_password',$data);
 	}
-	function select_options(){
+	public function select_options(){
 		$active_modules = $this->module_model->get_active_modules();
 		$data['active_modules'] = $active_modules;
 		$data['clinic']=$this->settings_model->get_clinic_settings();
 		if (in_array("centers", $active_modules)) {
-			$data['clinics'] = $this->admin_model->get_allowed_clinics();	
+			$data['clinics'] = $this->admin_model->get_allowed_clinics();
 		}else{
 			$data['clinics']=$this->settings_model->get_all_clinics();
 		}
+        $data['software_name']= $this->settings_model->get_data_value("software_name");
 		$this->load->view('login/select_options',$data);
 	}
-	function set_options(){
+	public function set_options(){
 		$this->session->set_userdata('clinic_id', $this->input->post('clinic_id'));
 		$login_page = $this->login_page();
 		redirect($login_page, 'refresh');

@@ -1,8 +1,26 @@
+<?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <script type="text/javascript" charset="utf-8">
 $(window).load(function() {
     $('.confirmDeactivate').click(function(){
 		return confirm(<?=$this->lang->line('areyousure_deactivate');?>);
-	});	
+	});
 } )
 </script>
 <div id="page-inner">
@@ -19,10 +37,12 @@ $(window).load(function() {
 			<div class="col-md-12">
 				<?php
 					$doc = new DOMDocument();
-					$doc->load( "http://sanskruti.net/chikitsa/modules/chikitsa.xml" );//xml file loading here
-					
+					$doc->load( "http://chikitsa.net/chikitsa.xml" );//xml file loading here
+
 					$downloads = $doc->getElementsByTagName( "download" );
 					foreach( $downloads as $download ){
+						$module = $download->getElementsByTagName( "module" );
+            			$module_name = $module->item(0)->nodeValue;
 						$titles = $download->getElementsByTagName( "title" );
 						$title = $titles->item(0)->nodeValue;
 						$descriptions = $download->getElementsByTagName( "description" );
@@ -37,19 +57,19 @@ $(window).load(function() {
 						$usd_price = $usd_prices->item(0)->nodeValue;
 						$chikitsa_version = $download->getElementsByTagName( "chikitsa_version" );
 						$required_version = $chikitsa_version->item(0)->nodeValue;
-						$current_version = $this->config->item('current_version'); 
-					
+						$current_version = $this->config->item('current_version');
+
 						$current_version_int = (int)str_replace(".","",$current_version);
 						$required_version_int =  (int)str_replace(".","",$required_version);
 						if($current_version_int < $required_version_int){
-							$is_compatible = "This extension requires Chikitsa $required_version";
+							$is_compatible = sprintf($this->lang->line('extension_requires'), $software_name, $required_version);
 							$compatible_class = "alert-danger";
 						}else{
-							$is_compatible = "Compatible with this version of Chikitsa";
+							$is_compatible = sprintf($this->lang->line('compatible_version'), $software_name);
 							$compatible_class = "alert-success";
 						}
-						
-						
+
+
 						?>
 						<div class="col-md-4 single-module">
 							<span class='image'><img src='<?=$image;?>'/></span>
@@ -59,13 +79,14 @@ $(window).load(function() {
 							<span class='extension_last_updated'><?=$this->lang->line('last')." ".$this->lang->line('update').":";?><?=date($def_dateformate,strtotime($last_updated));?></span>
 							<div class='extension_is_compatible alert <?=$compatible_class;?>'><?=$is_compatible;?></div>
 							<a class="btn btn-primary square-btn-adjust" href='<?=$link;?>'><?=$this->lang->line('stock_purchase');?></a>
+							<a class="btn btn-primary square-btn-adjust" href="<?=site_url( "module/add_module_and_license/" . $module_name);?>" ><?=$this->lang->line('add_license_key');?></a>
 						</div>
-						<?php 
+						<?php
 					}
 				?>
-				
+
 			</div>
-		
+
 		</div>
 	</div>
 </div>

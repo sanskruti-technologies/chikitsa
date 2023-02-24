@@ -1,19 +1,18 @@
 <?php
 	//Application Details
-$lang['app_name'] = "Chikitsa ";
+	$lang['app_name'] = "Chikitsa";
 	$lang['app_tagline'] = "نظام إدارة المرضى";
 	$lang['main_title'] = "Chikitsa - نظام إدارة المرضى";
 	$lang['cmp_version'] = "Chikitsa الإصدار";
 	$lang['cmp_name'] = "Sanskruti تكنولوجيز";
-$lang['about_chikitsa'] = "حول شيكانغا ";
-
+	$lang['about_chikitsa'] = "حول شيكانغا ";
 
 	$lang['sign_in'] = "تسجيل الدخول";
-	
+
 	//Labels
 	$lang['5min'] = "5 دقائق";
 	$lang['7min'] = "7 دقيقة";
-$lang['15min'] = "15 دقيقة ";
+	$lang['15min'] = "15 دقيقة";
 	$lang['30min'] = "30 دقيقة";
 	$lang['1hr'] = "ساعة واحدة";
 
@@ -35,18 +34,17 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['amount'] = "كمية";
 	$lang['activate'] = "تفعيل";
 	$lang['add'] = "إضافة";
+	$lang['add_condition']="إضافة شرط";
 	$lang['additional_css'] = "CSS إضافية";
 	$lang['add_another_medicine'] = "إضافة دواء آخر";
 	$lang['add_appointment'] = "إضافة موعد";
 	$lang['add_alerts'] = "إضافة تنبيهات";
-
 	$lang['add_slider'] = "أضف منزلق";
 	$lang['add_about_page_post'] = "إضافة حول نشر الصفحة";
 	$lang['add_footer_section'] = "إضافة قسم تذييل الصفحة";
 	$lang['add_footer_credit'] = "إضافة قسم الائتمان تذييل";
 	$lang['add_top_section'] = "إضافة القسم العلوي";
 	$lang['add_image'] = "إضافة صورة جديدة";
-
 	$lang['add_category'] = "إضافة فئة";
 	$lang['add_detail'] = "السماح لإضافة التفاصيل";
 	$lang['add_department'] = "إضافة قسم";
@@ -58,13 +56,17 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['add_as_medicine'] = "أضف كدواء";
 	$lang['add_inquiry'] = "إضافة رسالتك";
 	$lang['add_service'] = "أضف خدمة";
+	$lang['add_section']="إضافة قسم";
 	$lang['add_treatment'] = "أضف العلاج";
 	$lang['add_reference_by'] = "إضافة مرجع بواسطة";
 	$lang['add_refund'] = "إضافة رد";
 	$lang['add_user'] = "أضف المستخدم";
+	$lang['add_language'] = "إضافة لغة";
+	$lang['add_bottom_section'] = "إضافة القسم السفلي";
 	$lang['add_fee'] = "إضافة رسوم";
 	$lang['add_extension'] = "إضافة ملحقات";
 	$lang['add_patient'] = "أضف المريض";
+	$lang['add_payment'] = "نصف الدفع";
 	$lang['add_another_medicine'] = "إضافة دواء آخر";
 	$lang['added_date'] = "تاريخ الاضافة";
 	$lang['address'] = "عنوان";
@@ -84,7 +86,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['alerts'] = "التنبيهات";
 	$lang['alert_settings'] = "تنبيه الإعداد";
 	$lang['alert_sms_log'] = "سجل الرسائل القصيرة التنبيه";
-	$lang['alert_email_log'] = "سجل تنبيه البريد الإلكتروني";	
+	$lang['alert_email_log'] = "سجل تنبيه البريد الإلكتروني";
 	$lang['alert_time'] = "وقت التنبيه";
 	$lang['alerts'] = "التنبيهات";
 	$lang['alert_name'] = "اسم التنبيه";
@@ -93,6 +95,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['allow_menu'] = "السماح بالقوائم";
 	$lang['allow_center'] = "السماح للمراكز";
 	$lang['allocate'] = "تخصيص";
+	$lang['allow_repeat'] = "السماح بالتكرار";
 	$lang['all_sell'] = "كل بيع";
 	$lang['stock_all_sell'] = "كل بيع";
 	$lang['all_users'] = "جميع المستخدمين";
@@ -133,11 +136,12 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['bank_payments'] = "المدفوعات المصرفية";
 	$lang['bank_receipt'] = "إيصال البنك";
 	$lang['bank_receipts'] = "إيصالات البنك";
+	$lang['barcode'] = "الرمز الشريطي";
 	$lang['bed'] = "السرير";
 	$lang['before'] = "قبل";
 	$lang['beds'] = "سرير";
-	$lang['bills'] = "فواتير";
 	$lang['bill'] = "مشروع قانون";
+	$lang['bills'] = "فواتير";
 	$lang['bill_amount'] = "المبلغ المفوتر";
 	$lang['bill_no'] = "مشروع قانون لا";
 	$lang['bill_details'] = "تفاصيل الفاتورة";
@@ -145,7 +149,10 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['bill_date'] = "تاريخ الفاتورة";
     $lang['bills_payments'] = "دفع";
 	$lang['bill_number'] = "رقم الفاتوره";
+	$lang['bill_type'] = "نوع الفاتورة";
 	$lang['bill_no'] = "مشروع قانون لا.";
+	$lang['back_to_payment'] = "العودة إلى الدفع";
+	$lang['back_to_appointment']= "العودة إلى الموعد";
 	$lang['bill_report'] = "تقرير الفاتورة";
 	$lang['body'] = "الجسم";
 	$lang['book'] = "كتاب";
@@ -161,7 +168,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['bonus_percentage'] = "نسبة المكافأة";
 	$lang['bonus'] = "علاوة";
 	$lang['billed'] = "فاتورة";
-	
+
 	$lang['calendar'] = "التقويم";
 	$lang['cancel'] = "إلغاء";
 	$lang['cancelled'] = "ألغيت";
@@ -187,6 +194,8 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['change'] = "يتغيرون";
 	$lang['change_center'] = "مركز التغيير";
 	$lang['change_language'] = "غير اللغة";
+	$lang['change_profile'] = "تشانغ الشخصي";
+	$lang['change_status_of_field'] ="تغيير حالة الحقل";
 	$lang['change_timezone'] = "تغيير المنطقة الزمنية";
 	$lang['change_template'] = "تغيير قالب";
 	$lang['charges'] = "شحنة";
@@ -205,7 +214,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['clinic_landline'] = "عيادة الخط الأرضي";
 	$lang['clinic_note'] = "ملاحظة العيادة";
 	$lang['clinic_logo'] = "شعار العيادة";
-	$lang['clinic_name'] = "اسم العيادة";	
+	$lang['clinic_name'] = "اسم العيادة";
 	$lang['clinic_phone_1'] = "عيادة الهاتف 1";
 	$lang['clinic_phone_2'] = "عيادة هاتف 2";
 	$lang['clinic_start_time'] = "عيادة وقت البدء";
@@ -233,7 +242,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['contact_number'] = "رقم الاتصال";
 	$lang['cost_price'] = "سعر الكلفة";
 	$lang['country'] = "بلد";
-	$lang['curr_post'] = "Postfix العملة";
+	$lang['curr_post'] = "بوستفيكس العملة";
 	$lang['curr_pre'] = "بادئة العملة";
 	$lang['cr_ac_name'] = "كر. اسم المكيفات";
 	$lang['created_by'] = "صنع من قبل";
@@ -243,10 +252,14 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['column_1_content'] = "العمود 1 - المحتوى";
 	$lang['contact_us'] = "اتصل بنا";
 	$lang['ccavenue'] = "CCAvenue";
+	$lang['copy'] = "نسخ";
 	$lang['cancelled_appoinment_by_patient'] = "في حالة إلغاء الموعد من قبل المريض ، يجب أن يتم استرداد المبلغ يدويًا";
-		
+	$lang['change_language_file'] = "تغيير الكلمات في ملف اللغة";
+	$lang['create_language_file'] = "إنشاء ملف لغة جديد";
+	
 	$lang['dr_ac_name'] = "دكتور A / c الاسم";
 	$lang['dose'] = "جرعة";
+	$lang['does_not_has_value']="ليس له قيمة"; 
 	$lang['day'] = "يوم";
 	$lang['days'] = "أيام";
 	$lang['daily'] = "اليومي";
@@ -255,7 +268,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['date'] = "تاريخ";
 	$lang['dashboard'] = "لوحة القيادة";
 	$lang['date_format'] = "صيغة التاريخ";
-	$lang['days'] = "Days";
+	$lang['days'] = "أيام";
 	$lang['deactivate'] = "عطل";
 	$lang['deallocate'] = "إلغاء تخصيص";
 	$lang['degrees'] = "درجات";
@@ -278,6 +291,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['display'] = "عرض";
 	$lang['display_google_ads'] = "عرض إعلانات Google";
 	$lang['display_name'] = "اسم الaعرض";
+	$lang['display_in'] = "عرض في";
     $lang['discount_amount'] = "مقدار الخصم";
 	$lang['discount_percentage'] = "نسبة الخصم";
 	$lang['dob'] = "تاريخ الولادة";
@@ -285,6 +299,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['doctors'] = "الأطباء";
 	$lang['doctor_name'] = "اسم الطبيب";
 	$lang['doctor_share'] = "دكتور شارك";
+	$lang['doctor_availability'] = "طبيب في توافر";
 	$lang['doctor_detail'] = "طبيب التفاصيل";
 	$lang['doctor_bonus_report'] = "تقرير مكافأة الطبيب";
 	$lang['doctor_inavailability'] = "طبيب في توافر";
@@ -295,11 +310,13 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['downloading_files'] = "تحميل الملفات";
 	$lang['dr'] = "Dr.";
 	$lang['duration'] = "المدة الزمنية";
+	$lang['duplicate']="مكرر";
 	$lang['description'] = "وصف";
 	$lang['disease'] = "مرض";
 	$lang['diseases'] = "الأمراض";
 	$lang['diagnosed_diseases'] = "مرض تشخيصي";
-	
+
+	$lang['eraser'] = "مسترة";
 	$lang['erpnext_sync'] = "مزامنة Erpnext";
 	$lang['erpnext_url'] = "عنوان Erpnext";
 	$lang['enable_about_page'] = "تمكين حول الصفحة";
@@ -307,6 +324,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['end_time'] = "وقت النهاية";
 	$lang['edit'] = "تصحيح";
 	$lang['edit_Contact'] = "تحرير الاتصال";
+	$lang['edit_section'] = "تحرير القسم";
 	$lang['edit_treatment'] = "تعديل اaلعلاج";
 	$lang['edit_user'] = "تحرير العضو";
 	$lang['edit_medicine_too'] = "تحرير الطب أيضا";
@@ -320,9 +338,9 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['established_patient'] = "أنشئت المريض";
 	$lang['enter_details_to_login'] = "أدخل التفاصيل aلتسجيل الدخول ";
 	$lang['enter_email_address'] = "أدخل عنوان البريد الالكتروني ";
-	$lang['extracting'] = "Extracting";	
+	$lang['extracting'] = "Extracting";
 	$lang['extraction_failed'] = "فشل الاaستخراج";
-	$lang['extensions'] = "ملحقات";	
+	$lang['extensions'] = "ملحقات";
 	$lang['expenditure'] = "المصروفات";
 	$lang['experience'] = "تجربة";
 	$lang['exceptional_days'] = "أيام استثنائية";
@@ -339,6 +357,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['email_alert_time'] = "البريد الإلكتروني وقت التنبيه";
 	$lang['email_format'] = "تنسيق البريد الإلكتروني";
 	$lang['edit_format'] = "تحرير الشكل";
+	$lang['edit_language'] = "تحرير اللغة";
 
 	$lang['face'] = "وجه";
 	$lang['facebook'] = "الفيسبوك";
@@ -351,6 +370,13 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['first'] = "أول";
 	$lang['first_name'] = "الاسم الاول";
 	$lang['fields'] = "مجالات";
+	$lang['field_label']="تسمية الميدان";
+	$lang['field_options']="خيار المجال";
+	$lang['field_order']="مجال الطلب";
+	$lang['field_name']="اسم الحقل";
+	$lang['field_type']="نوع الحقل";
+	$lang['field_width']="عرض المجال";
+	$lang['field_status']="حالة الحقل";
 	$lang['foc'] = "F.O.C.";
 	$lang['follow'] = "إتبع";
 	$lang['follow_up'] = "متابعة";
@@ -379,7 +405,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['footer_section_2'] = "تذييل القسم 2";
 	$lang['footer_section_3'] = "تذييل القسم 3";
 	$lang['footer_section_4'] = "تذييل القسم 4";
-	
+
 	$lang['gender'] = "جنس";
 	$lang['gain'] = "ربح";
 	$lang['gallery'] = "صالة عرض";
@@ -388,7 +414,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['general_settings'] = "الاعدادات العامة";
 	$lang['group_by'] = "مجموعة من";
 	$lang['group'] = "مجموعة";
-	
+	$lang['group_name'] = "أسم المجموعة";
 
 	$lang['header'] = "رأس";
 	$lang['hidden'] = "مخفي";
@@ -400,15 +426,18 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['header_settings'] = "إعدادات الرأس";
 	$lang['home_settings'] = "إعدادات الصفحة الرئيسية";
 	$lang['has_additional_details'] = "لديه تفاصيل إضافية";
+	$lang['has_value']="له قيمة";
 	$lang['heading'] = "عنوان";
 	$lang['history'] = "التاريخ";
 	$lang['home_page_settings'] = "إعدادات الصفحة الرئيسية";
 	$lang['home_page_slider'] = "الصفحة الرئيسية المتزلج";
 	$lang['home_page_top_section'] = "الصفحة الرئيسية القسم العلوي";
 	$lang['home_page_bottom_section'] = "الصفحة الرئيسية القسم السفلي";
-	
+	$lang['half_day'] = "نصف يوم";
+		
 	$lang['invoice'] = "فاتورة";
 	$lang['id'] = "هوية شخصية";
+	$lang['if_field'] ="إذا الحقل";
 	$lang['icon'] = "أيقونة";
 	$lang['inavailablity'] = "عدم";
 	$lang['install'] = "التثبت";
@@ -417,7 +446,10 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['invoice_settings'] = "إعدادات الفاتورة";
 	$lang['instructions'] = "تعليمات";
 	$lang['in_minutes'] = "في دقائق";
+	$lang['in_group'] = "في مجموعة";
 	$lang['is_active'] = "هو نشط";
+	$lang['is_checked'] = "مفحوص";
+	$lang['is_unchecked'] ="لم يتم التحقق منه";
 	$lang['is_default'] = "هو الافتراضي";
 	$lang['item_name'] = "اسم العنصر";
 	$lang['item'] = "بند";
@@ -437,14 +469,16 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['jurisdiction'] = "تخضع لسلطة الاختصاص";
 	$lang['journal_voucher'] = "قسيمة يومية";
 	$lang['journal_vouchers'] = "قسائم اليومية";
-	
+
 	$lang['key'] = "مفتاح";
 
 	$lang['landline'] = "هاتف ارضي";
+	$lang['languages'] = "اللغات";
 	$lang['last_name'] = "الكنية";
 	$lang['last'] = "الاخير";
 	$lang['lab_tests'] = "فحوصات مخبرية";
 	$lang['lab_reports'] = "تقارير مختبر";
+	$lang['lab_instructions'] = "تعليمات المختبر";
 	$lang['lab_test'] = "اختبار مختبر";
 	$lang['length_invoice'] = "طول رقم الفاتورة";
 	$lang['login'] = "تسجيل الدخول";
@@ -457,11 +491,14 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['liabilities'] = "المطلوبات";
 	$lang['list_master'] = "قائمة ماجستير";
 	$lang['language'] = "لغة";
+	$lang['language_name'] = "اسم اللغة";
 	$lang['latest'] = "آخر";
 	$lang['link'] = "حلقة الوصل";
-	
+
 	$lang['male'] = "الذكر";
+	$lang['marker'] = "علامة";
 	$lang['marking'] = "العلامات";
+	$lang['marking_images'] = "بمناسبة الصور";
 	$lang['max_patient'] = "ماكس المرضى في وقت واحد";
 	$lang['medicine'] = "دواء";
 	$lang['medicine_store_bill'] = "فاتورة متجر الأدوية";
@@ -493,10 +530,11 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['maximum_footer_credits'] = "(لقد وصلت إلى الحد الأقصى لمشاركات رصيد تذييل الصفحة التي يمكن إضافتها)";
 	$lang['month'] = "شهر";
 	$lang['minimum_income'] = "الحد الأدنى للدخل";
-	
+
 	$lang['name'] = "اسم";
 	$lang['none'] = "لا شيء";
 	$lang['next_follow_up'] = "التالي متابعة بعد";
+	$lang['net_total'] = "صافي المجموع";
 	$lang['next_follow_date'] = "تاريخ المتابعة التالي";
 	$lang['news_title'] = "عنوان";
 	$lang['new'] = "الجديد";
@@ -522,7 +560,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['needs_cash_calc'] = "يحتاج حاسبة النقدية";
 	$lang['nurse'] = "ممرضة";
 	$lang['no_prescription']="لم يتم العثور على وصفة طبية";
-	
+
 	$lang['on'] = "على";
 	$lang['our'] = "لنا";
 	$lang['office'] = "مكتب. مقر. مركز";
@@ -533,7 +571,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['opening_stock'] = "فتح المخزون";
 	$lang['other'] = "آخر";
 	$lang['of_appoinment_time'] = "وقت التعيين";
-	
+
 	$lang['paid'] = "دفع";
 	$lang['page_title'] = "عنوان الصفحة";
 	$lang['paid_cash'] = "النقدية المدفوعة";
@@ -543,7 +581,9 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['password'] = "كلمه السر";
 	$lang['patient'] = "صبور";
 	$lang['patient_details'] = "تفاصيل المريض";
-	$lang['patients'] = "المرضى";	
+	$lang['patient_detail'] = "تفاصيل المريض";
+	$lang['patient_account'] = "حساب المريض";
+	$lang['patients'] = "المرضى";
 	$lang['patient_id'] = "رقم المريض";
 	$lang['patient_name'] = "اسم المريض";
 	$lang['patient_notes'] = "ملاحظات المريض";
@@ -601,10 +641,11 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['pay'] = "دفع";
 	$lang['paypal'] = "باي بال";
 	$lang['prescribed_medicine'] = "وصفه الطب";
+	$lang['prefered_language'] = "اللغة المفضلة";
 	
 	$lang['quantity'] = "كمية";
 
-	$lang['rate'] = "معدل";	
+	$lang['rate'] = "معدل";
 	$lang['reason'] = "السبب";
 	$lang['response'] = "استجابة";
 	$lang['rebrand'] = "اعادة تصنيف";
@@ -623,41 +664,47 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['renew_license'] = "تجديد الترخيص";
 	$lang['renew_license_to_update'] = "تجديد الترخيص للتحديث";
 	$lang['receive_fee'] = "الرسوم المستلمة مقابل الخدمات المهنية والرسوم الأخرى الخاصة بنا";
-	$lang['room'] = "مجال";	
+	$lang['room'] = "مجال";
 	$lang['rooms'] = "غرف";
 	$lang['rooms_categories'] = "فئات الغرف";
 	$lang['rooms_allocate'] = "تخصيص الغرف";
 	$lang['rooms_calendar'] = "غرف التقويم";
-	$lang['rooms_beds'] = "غرف / أسرة"; 
-	$lang['register'] = "تسجيل"; 
-	$lang['registration'] = "التسجيل"; 
-	$lang['reference_details'] = "تفاصيل المرجع"; 
-	$lang['resend_code'] = "أعد إرسال الرمز"; 
+	$lang['rooms_beds'] = "غرف / أسرة";
+	$lang['register'] = "تسجيل";
+	$lang['registration'] = "التسجيل";
+	$lang['reference_details'] = "تفاصيل المرجع";
+	$lang['resend_code'] = "أعد إرسال الرمز";
 	$lang['residence'] = "إقامة";
-	$lang['restore_backup'] = "استرجاع النسخة الاحتياطية"; 	
-	$lang['return'] = "إرجاع"; 
-	$lang['return_change'] = "العودة التغيير"; 	
-	$lang['return_date'] = "تاريخ العودة"; 
-	$lang['reference_by'] = "مرجع بواسطة"; 
-	$lang['room_charges'] = "تقارير غرفة الرسوم"; 
-	$lang['room_number'] = "رقم الغرفة"; 
-	$lang['refund_amount'] = "المبلغ المسترد"; 
-	$lang['refund_date'] = "تاريخ الاسترداد"; 
-	$lang['refund_note'] = "رد المبلغ"; 
-	$lang['refresh'] = "تحديث"; 
+	$lang['restore_backup'] = "استرجاع النسخة الاحتياطية";
+	$lang['return'] = "إرجاع";
+	$lang['return_change'] = "العودة التغيير";
+	$lang['return_date'] = "تاريخ العودة";
+	$lang['reference_by'] = "مرجع بواسطة";
+	$lang['room_charges'] = "تقارير غرفة الرسوم";
+	$lang['room_number'] = "رقم الغرفة";
+	$lang['refund_amount'] = "المبلغ المسترد";
+	$lang['refund_date'] = "تاريخ الاسترداد";
+	$lang['refund_note'] = "رد المبلغ";
+	$lang['refresh'] = "تحديث";
 	$lang['reject'] = "رفض";
 	$lang['reason_for_appointment'] = "سبب التعيين";
 	$lang['required_quantity'] = "الكمية المطلوبة";
+	$lang['rtl'] = "RTL";
+	$lang['right_to_left'] = "من اليمين إلى اللغة اليسرى";
+	$lang['reload_language_file'] = "إعادة تحميل ملف اللغة";
+	$lang['reload_language_file_instruction'] = "This will overwrite the changes from language file.";
 
 	$lang['sign_up'] = "سجل";
 	$lang['slider_1'] = "شريط التمرير 1";
 	$lang['slider_2'] = "شريط التمرير 2";
 	$lang['slider_3'] = "شريط التمرير 3";
 	$lang['slider'] = "المنزلق";
+	$lang['section']="الجزء";
 	$lang['section_1'] = "القسم 1";
 	$lang['section_2'] = "القسم 2";
 	$lang['section_3'] = "القسم 3";
 	$lang['section_4'] = "القسم 4";
+	$lang['section_name']="اسم القسم";
 	$lang['senderid'] = "هوية المرسل";
 	$lang['save'] = "حفظ";
 	$lang['schedule'] = "جدول";
@@ -676,6 +723,12 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['shortcode_patient_name'] = "[patient_name] - اسم المريض الكامل";
 	$lang['shortcode_patient_id'] = "[patient_id] - رقم المريض";
 	$lang['shortcode_clinic_name'] = "[clinic_name] - اسم العيادة";
+	$lang['shortcode_clinic_logo'] = "[clinic_logo] - عيادة شعار - يمكن وضعها في عيادة التفاصيل";
+	$lang['shortcode_clinic_address'] = "[clinic_address] - عنوان العيادة - يمكن وضعها في تفاصيل العيادة";
+	$lang['shortcode_clinic_landline'] = "[landline] - خط أرضي - يمكن تعيينه في عيادة التفاصيل";
+	$lang['shortcode_clinic_mobile'] = "[mobile] - المحمول - يمكن وضعها في عيادة التفاصيل";
+	$lang['shortcode_clinic_email'] = "[email] - البريد الإلكتروني - يمكن تعيينها في عيادة التفاصيل";
+	$lang['shortcode_tag_line'] = "[tag_line] - خط العلامة - يمكن ضبطه في عيادة التفاصيل";
 	$lang['shortcode_doctor_name'] = "[doctor_name] - اسم الطبيب";
 	$lang['shortcode_dose_time'] = "[dose_time] - صباح | الثلاثاء | الأربعاء";
 	$lang['shortcode_medicine_details'] = "[medicine_details] - جميع تفاصيل الطب في شكل الجدول";
@@ -686,14 +739,26 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['shortcode_bill'] = "[bill] - نسخة ميسرة من الفاتورة";
 	$lang['shortcode_appointment_reason'] = "[appointment_reason] - سبب التعيين";
 	$lang['shortcode_bill_id'] = "[bill_id] - معرف الفاتورة";
+	$lang['shortcode_bill_date'] = "[bill_date] - تاريخ الفاتورة";
+	$lang['shortcode_bill_time'] = "[bill_time] - وقت بيل";
 	$lang['shortcode_patient_email'] = "[patient_email] - عنوان الايميل";
-	$lang['shortcode_patient_phone_number'] = "[patient_phone_number] - رقم الهاتف";
+	$lang['shortcode_patient_id'] = "[patient_id] - رقم المريض";
+	$lang['shortcode_patient_name'] = "[patient_name] - اسم المريض";
+	$lang['shortcode_patient_age'] = "[age] - عمر المريض";
+	$lang['shortcode_patient_sex'] = "[sex] - الجنس المريض";
+	$lang['shortcode_visit_date'] = "[visit_date] - موعد زيارة";
+	$lang['shortcode_previous_due'] = "[previous_due] - المستحقات السابقة";
+	$lang['shortcode_total'] = "[total] - مجموع هذا بيل";
+	$lang['shortcode_paid_amount'] = "[paid_amount] - المبلغ المدفوع";
+$lang['shortcode_patient_phone_number'] = "[patient_phone_number] - رقم الهاتف";
 	$lang['shortcode_username'] = "[username] - سيتم استبدال اسم المستخدم";
 	$lang['shortcode_password'] = "[password] - سيتم استبداله بكلمة المرور";
 	$lang['shortcode_senderid'] = "[senderid] - سيتم استبدال معرف المرسل";
 	$lang['shortcode_mobileno'] = "[mobileno] - سيتم استبداله رقم الجوال المستلم";
 	$lang['shortcode_message'] = "[message] - سيتم استبدال الرسالة";
 	$lang['shortcode_template_id'] = "[template_id] - سيتم استبداله بمعرف القالب";
+	$lang['shortcode_bill_columns'] = "الأعمدة لعرضها في الجدول بيل";
+	$lang['shortcode_prescription_columns'] = "الأعمدة لعرضها في الجدول للحصول على وصفة طبية";
 	$lang['share_type'] = "نوع المشاركة";
 	$lang['sms_settings'] = "إعدادات الرسائل القصيرة";
 	$lang['smtp_instructions'] = "أدناه الحقول المطلوبة فقط لإرسال رسائل البريد الإلكتروني SMTP";
@@ -731,7 +796,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['stock'] = "مخزون";
 	$lang['stock_report'] = "تقرير الاسهم";
 	$lang['stock_all_sell'] = "كل بيع";
-	$lang['stock_item'] = "بند";	
+	$lang['stock_item'] = "بند";
 	$lang['stock_stock_report'] = "تقرير الاسهم";
 	$lang['submit'] = "خضع";
 	$lang['sub_total'] = "المجموع الفرعي";
@@ -761,7 +826,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['sms_template_id'] = "معرف قالب SMS";
 	$lang['sms_log'] = "سجل SMS";
 	$lang['save_and_bill'] = "حفظ وإنشاء بيل";
-	$lang['ssn_id'] = "Civil ID";
+	$lang['ssn_id'] = "رقم الأساس";
 	$lang['save_complete'] = "حفظ وكاملة";
 	$lang['set_alert_time'] = "ضبط وقت التنبيه";
 	$lang['slot'] = "فتحة";
@@ -807,6 +872,8 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['theme'] = "موضوع";
 	$lang['txn_id'] = "معرف TXN";
 	$lang['tax_rate_name'] = "اسم معدل الضريبة";
+	$lang['tax_rates'] = "معدلات الضريبة";
+	$lang['tax_report'] = "تقرير الضرائب";	
 	$lang['test_name'] = "اسم الاختبار";
 	$lang['test'] = "اختبار";
 	$lang['tests'] = "اختبارات";
@@ -816,7 +883,9 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['top_section_3'] = "الجزء العلوي 3";
 	$lang['this_payment_is_rejected'] = "تم رفض هذا الدفع";
 	$lang['types'] = "أنواع";
+	$lang['template_name'] = "اسم القالب";
 	
+	$lang['upload'] = "رفع";
 	$lang['upload_extension'] = "تحميل الإضافات";
 	$lang['update'] = "تحديث";
 	$lang['updates'] = "التحديثات";
@@ -828,7 +897,8 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['using'] = "عن طريق";
 	$lang['upcoming_appointments'] = "المواعيد القادمة";
 	$lang['unpacking_zip_package'] = "تفريغ حزمة البريدي";
-	
+	$lang['upload_language_file'] = "تحميل ملف لغة موجود";
+
 	$lang['vaccine'] = "لقاح";
 	$lang['vaccines'] = "لقاحات";
 	$lang['vaccine_master'] = "تلقيح";
@@ -847,7 +917,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['voucher_date'] = "تاريخ القسيمة";
 	$lang['view_prescription'] = "عرض وصفة طبية";
 	$lang['value'] = "القيمة";
-	
+
 	$lang['waiting'] = "انتظار";
 	$lang['waiting_in'] = "في انتظار";
 	$lang['welcome'] = "أهلا بك";
@@ -859,7 +929,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['working_days'] = "أيام العمل";
 	$lang['non_working'] = "غير العاملين";
 	$lang['we_provide'] = "نحن نقدم";
-	
+
 	$lang['year'] = "عام";
 
 	$lang['sunday'] = "الأحد";
@@ -869,12 +939,12 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['thursday'] = "الخميس";
 	$lang['friday'] = "يوم الجمعة";
 	$lang['saturday'] = "يوم السبت";
-	
+
 	$lang['your_username'] = "اسم المستخدم الخاص بك";
 	$lang['your_password'] = "كلمة السر خاصتك";
-	
-	$lang['rooms_beds'] = "غرف / أسرة"; 
-	$lang['room_numbers_for'] = "أرقام الغرف"; 
+
+	$lang['rooms_beds'] = "غرف / أسرة";
+	$lang['room_numbers_for'] = "أرقام الغرف";
 	$lang['no_of_beds'] = "عدد الأسرة";
 	$lang['daily_per_bed_charge']="تكلفة السرير الواحد (يوميًا)";
 	$lang['hourly_per_bed_charge']="تكلفة السرير (كل ساعة)";
@@ -893,7 +963,7 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['first_or_last']="الرجاء إدخال الاسم الأول أو اسم العائلة";
 	$lang['password_not_match']="كلمة المرور القديمة غير متطابقة";
 	$lang['irreversible_process']="|هذا هو عملية لا رجعة فيها. قد يسبب فقدان البيانات. كن حقا متأكدا حقا قبل استعادة البيانات.";
-	$lang['numbersof_days_between_two_appointments']="حدده للأيام الأساسية بين موعدين. اضبطه على 0 ، لتعطيل إعداد المتابعة التالية تلقائيًا.";			
+	$lang['numbersof_days_between_two_appointments']="حدده للأيام الأساسية بين موعدين. اضبطه على 0 ، لتعطيل إعداد المتابعة التالية تلقائيًا.";
 	$lang['calculation_purpose_only']="* هذه الحقول لغرض الحساب فقط. إضافة مبلغ الدفع الفعلي في حقل مبلغ الدفع.";
 	$lang['clickto_toggle_display'] ="(انقر لتبديل العرض)";
 	$lang['nobillsfound_for_selected_parameters'] = "لم يتم العثور على فواتير للمعلمات المحددة";
@@ -923,16 +993,20 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['non_working'] = "هذا هو يوم غير العمل";
 	$lang['time_booked'] = "تم حجز هذه المرة بالفعل مع أقصى عدد ممكن من المرضى!";
 	$lang['doctor_not_available'] = "الطبيب غير متوفر خلال هذا الوقت";
-	
+	$lang['image_for_compare'] = "يرجى اختيار الصور للمقارنة";
+	$lang['error_saving_image'] = "حدث خطأ ما أثناء محاولة حفظ الصورة.";
+	$lang['select_two'] = "يرجى اختيار اثنين فقط";
+	$lang['save_language_instructions'] = "(فقط قم بتغيير النص وانتقل إلى التالي للحفظ)";
+
 	$lang['reset_password_instructions'] = "الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني. ستتلقى رابطًا لإنشاء كلمة مرور جديدة عبر البريد الإلكتروني.";
 	$lang['no_email_registered'] = "لا يوجد مستخدم مسجل بهذا الاسم أو البريد الإلكتروني.";
 	$lang['check_confirmation_link'] = "تحقق من بريدك الالكتروني للحصول على رابط التأكيد.";
-	
+
 	$lang['appointment_payment_success'] = "تم سداد الدفعة بنجاح ، ونشكرك على حجز موعدك.";
 
 	$lang['paypal_cancel_salutation'] = "عزيزي المنتسب";
 	$lang['paypal_cancel_message'] = "نحن اسفون! تم إلغاء آخر معاملة لك.";
-	
+
 	$lang['file_missing'] = "مجلد مفقود";
 
 	$lang['sms_username_instruction'] = "أدخل اسم المستخدم المقدم من قبل مزود خدمة SMS API";
@@ -940,13 +1014,21 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['sms_senderid_instruction'] = "أدخل معرف المرسل الذي يوفره موفر واجهة برمجة تطبيقات SMS";
 	$lang['sms_countrycode_instruction'] = "احتفظ بها فارغة حتى لا تدرج رمز البلد في رقم الجوال";
 	$lang['sms_url_instruction'] = "أدخل عنوان URL المقدم من قبل موفر خدمة SMS API";
-	
+
 	$lang['updating_to_latest'] = "تحديث Chikitsa إلى أحدث نسخة. قد تستغرق هذه العملية عدة دقائق. <br/>";
 	$lang['donot_close_browser'] = "<strong> يرجى عدم إغلاق المتصفح حتى تكتمل العملية. </strong><br/>";
 	$lang['download_chikitsa'] = "يتم الآن تنزيل أحدث Chikitsa zip ... <br/>";
 	$lang['unzip_file'] = "فك ضغط ملف zip <br/>";
-	
+
 	$lang['no_services'] = "لم تتم إضافة خدمات. أضف خدمة";
+
+	$lang['extension_requires'] = '%1$s %2$s هذا التمديد يتطلب ';
+	$lang['compatible_version'] = '%1$s متوافق مع هذا الإصدار من ';
+	
+	$lang['please_enter_first_name'] = "يرجى إدخال الاسم الأول";
+	$lang['please_enter_last_name'] = "يرجى إدخال الاسم الأخير";
+	$lang['please_enter_mobile_number'] = "يرجى إدخال رقم الهاتف المحمول";
+	$lang['please_enter_language_name'] = "يرجى إدخال اسم اللغة";
 
 	$lang['australian_currency'] = "الدولار الأسترالي (AUD)";
 	$lang['brazilian_currency'] = "ريال برازيلي (BRL)";
@@ -985,12 +1067,5 @@ $lang['15min'] = "15 دقيقة ";
 	$lang['qatari_currency'] = "الريال القطري (ريال قطري)";
 	$lang['saudi_currency'] = "ريال سعودي (ريال سعودي)";
 	$lang['south_african_currency'] = "الراند الجنوب أفريقي (ZAR)";
-	
-	$lang['cal_sunday'] = 'الأحد';
-	$lang['cal_monday'] = 'الإثنين';
-	$lang['cal_tuesday'] = 'الثلاثاء';
-	$lang['cal_wednesday'] = 'الأربعاء';
-	$lang['cal_thursday'] = 'الخميس';
-	$lang['cal_friday'] = 'يوم الجمعة';
-	$lang['cal_saturday'] = 'يوم السبت';
+
 ?>

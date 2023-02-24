@@ -129,6 +129,46 @@ class Menu_model extends CI_Model {
 			return $row->ck_value;	
 		}
 	}
+  public function check_valid_license(){
+    $modules = $this->module_model->get_modules();
+    $i = 0;
+    foreach($modules as $module) {
+      //Check for updates
+      $module_name = $module['module_name'];
+      $module_license_status[$i]['module_name'] = $module_name;
+
+      //Check if License is Valid
+    //http://YOURSITE.com/?edd_action=check_license&item_id=8&license=cc22c1ec86304b36883440e2e84cddff&url=http://licensedsite.com
+
+      $parameters = array();
+      $parameters['edd_action'] = 'check_license';
+      $parameters['item_name'] = $module['module_display_name'];
+      $parameters['license'] = $module['license_key'];
+      $parameters['url'] = base_url();
+
+      $encoded = "";
+      foreach($parameters as $name => $value) {
+        $encoded .= urlencode($name).'='.urlencode($value).'&';
+      }
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+
+      $response = curl_exec($ch);
+      curl_close($ch);
+      $data = json_decode($response, TRUE);
+      $module_license_status[$i]['license_status'] = $data['license'];
+      if($data['license'] == 'valid'){
+        $this->module_model->activate_license($module_name);
+      }else{
+        $this->module_model->dectivate_license($module_name);
+      }
+      $i++;
+    }
+  }
 	public function get_updates_available(){
 		$updates_available = 0;
 		//Chikitsa Core Update
@@ -183,7 +223,7 @@ class Menu_model extends CI_Model {
 			// read file contents
 			$data = file_get_contents("https://chikitsa.net/chikitsa.xml");
 			write_file('./about_chikitsa/'.$today.'.xml', $data);
-			
+      $this->check_valid_license();
 			//Delete yesterday's file
 			unlink('./about_chikitsa/'.$yesterday.'.xml'); 
 		}

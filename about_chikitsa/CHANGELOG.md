@@ -2,6 +2,55 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.1] - 2020-03-04
+### Added
+- Validation in Inquiry Form
+- Patient History Report
+- Separate Menu for Language Control
+- Support for RTL Languages
+### Changed
+- Datatable in Payment Page
+- Solved error in adding new language
+- Solved problem in adding multiple days in Exceptional Days 
+
+
+## [0.9.0] - 2020-02-18
+### Added
+- User wise Prefered Language
+
+
+## [0.8.9] - 2019-01-02
+### Changed
+- For Custom Detail 0.0.3	
+- Bill Bugs Solved
+
+## [0.8.8] - 2019-12-18
+### Added
+- Use custom.css for customizing css
+- Module Page faster
+
+### Changed
+- Treatment List problem solved
+
+## [0.8.7] - 2019-12-13
+### Changed
+- Bill Form Responsive
+- Upload only required languages to database
+
+
+## [0.8.6] - 2019-12-13
+### Changed
+- Minor Corrections
+
+## [0.8.5] - 2019-11-19
+### Changed
+- Language Changes
+
+## [0.8.4] - 2019-10-02
+### Changed
+- Half Working Day
+- Backup before update
+
 
 ## [0.8.3] - 2019-08-08
 ### Changed

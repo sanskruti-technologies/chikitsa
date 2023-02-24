@@ -1,13 +1,30 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 	$timezone_list = array("Africa/Abidjan" => "Africa/Abidjan",
 							"Africa/Accra" => "Africa/Accra",
 							"Africa/Addis_Ababa" => "Africa/Addis_Ababa",
 							"Africa/Algiers" => "Africa/Algiers",
 							"Africa/Asmara" => "Africa/Asmara",
 							"Africa/Asmera" => "Africa/Asmera",
-							"Africa/Bamako" => "Africa/Bamako",	
+							"Africa/Bamako" => "Africa/Bamako",
 							"Africa/Bangui" => "Africa/Bangui",
-							"Africa/Banjul" => "Africa/Banjul",	
+							"Africa/Banjul" => "Africa/Banjul",
 							"Africa/Bissau" => "Africa/Bissau",
 							"Africa/Blantyre" => "Africa/Blantyre",
 							"Africa/Brazzaville" => "Africa/Brazzaville",
@@ -16,21 +33,21 @@
 							"Africa/Casablanca" => "Africa/Casablanca",
 							"Africa/Ceuta" => "Africa/Ceuta",
 							"Africa/Conakry" => "Africa/Conakry",
-							"Africa/Dakar" => "Africa/Dakar",	
+							"Africa/Dakar" => "Africa/Dakar",
 							"Africa/Dar_es_Salaam" => "Africa/Dar_es_Salaam",
 							"Africa/Djibouti" => "Africa/Djibouti",
 							"Africa/Douala" => "Africa/Douala",
 							"Africa/El_Aaiun" => "Africa/El_Aaiun",
-							"Africa/Freetown" => "Africa/Freetown",	
-							"Africa/Gaborone" => "Africa/Gaborone",	
+							"Africa/Freetown" => "Africa/Freetown",
+							"Africa/Gaborone" => "Africa/Gaborone",
 							"Africa/Harare" => "Africa/Harare",
 							"Africa/Johannesburg" => "Africa/Johannesburg",
 							"Africa/Juba" => "Africa/Juba",
 							"Africa/Kampala" => "Africa/Kampala",
-							"Africa/Khartoum" => "Africa/Khartoum",	
+							"Africa/Khartoum" => "Africa/Khartoum",
 							"Africa/Kigali" => "Africa/Kigali",
-							"Africa/Kinshasa" => "Africa/Kinshasa",	
-							"Africa/Lagos" => "Africa/Lagos",	
+							"Africa/Kinshasa" => "Africa/Kinshasa",
+							"Africa/Lagos" => "Africa/Lagos",
 							"Africa/Libreville" => "Africa/Libreville",
 							"Africa/Lome" => "Africa/Lome",
 							"Africa/Luanda" => "Africa/Luanda",
@@ -586,8 +603,8 @@
 													"d M Y" => "dd mon yyyy (".date('d M Y').")",
 													"m-d-Y" => "mm-dd-yyyy (".date('m-d-Y').")",
 													"Y-m-d" => "yyyy-mm-dd (".date('Y-m-d').")");
-						date_default_timezone_set($def_timezone);							
-						
+						date_default_timezone_set($def_timezone);
+
 						$timeformate_list = array(	"H:i" => "hh:mm (".date('H:i').")",
 													"H:i:s" => "HH:mm:ss (".date('H:i:s').")",
 													"h:i A" => "hh:mm AM (".date('h:i A').")",
@@ -597,13 +614,68 @@
         $left_pad = '';
         $currency_symbol = '';
         $currency_postfix = '';
+        $number_of_decimal = '';
+        $decimal_symbol = '';
+        $thousands_separator = '';
     }else{
         $static_prefix = $invoice['static_prefix'];
         $left_pad = $invoice['left_pad'];
         $currency_symbol = $invoice['currency_symbol'];
         $currency_postfix = $invoice['currency_postfix'];
+        $number_of_decimal = $invoice['number_of_decimal'];
+        $decimal_symbol = $invoice['decimal_symbol'];
+        $thousands_separator = $invoice['thousands_separator'];
     }
 ?>
+<script type="text/javascript" charset="utf-8">
+$(window).load(function() { 
+	$('#add_language').click(function(){
+		$('#language_modal').modal({show:true});
+	});	
+	
+	$("#language_name").focusout(function(){
+		var lan=$(this).val();
+		var languages = new Array();
+		var  json = <?php echo json_encode($languages); ?>;
+		languages = json;
+		for (var key in languages) {
+			if(lan==languages[key]){
+				alert(lan + " Language already exists");
+				document.getElementById("submit").disabled = true;
+				break;
+			}else{
+				document.getElementById("submit").disabled = false;
+			}
+		}
+	});
+	
+	
+});
+</script>
+<div class="modal fade" id="language_modal" tabindex="-1" role="dialog" aria-labelledby="prescribedLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="paymentLabel"><?php echo $this->lang->line('add')." ".$this->lang->line('new')." ".$this->lang->line('language');?></h4>
+			</div>
+			<?php echo form_open('settings/add_language'); ?>
+			<div class="modal-body">
+				<div class="col-md-8">
+					<div class="form-group">
+						<label for="language_name"><?= $this->lang->line('language');?></label> 
+						<input name="language_name" id="language_name" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo $this->lang->line('add');?>" />
+				<button type="button" class="btn btn-default btn-sm square-btn-adjust" data-dismiss="modal"><?= $this->lang->line('close');?></button>
+			</div>
+			<?php echo form_close(); ?>
+		</div>
+	</div>
+</div>
 <div id="page-inner">
 	<div class="row">
 		<div class="col-md-6">
@@ -611,43 +683,11 @@
 				<div class="panel-heading" >
 					<?php echo $this->lang->line('settings');?>
 				</div>
-				<div class="panel-body" >
-				<?php echo form_open('settings/save_lang'); ?>
-					<div class="col-md-12" >
-						<div class="col-md-12">
-							<label for="default_language"><?php echo $this->lang->line('select_lang');?> </label> 
-						</div>	
-						<div class="col-md-8" >
-							<div class="form-group" >
-								<select name="default_language" class="form-control" >
-										<?php 								
-										foreach ($languages as $key=>$language) { 
-										if ($key !== 0) {
-											$lang = $this->config->item('language');
-											$key = rtrim($key,'\\');
-											?>
-										<option value="<?php echo $key; ?>" <?php if($lang == $key) { ?>selected="selected"<?php } ?>><?php echo $key; ?></option>
-										<?php }}?>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-4" >
-							<div class="form-group" >
-								<input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo $this->lang->line('save');?>" />
-							</div> 
-						</div>
-						<div class="col-md-8" >
-							<div class="form-group" >
-								<input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo $this->lang->line('change')." ".$this->lang->line('language')." ".$this->lang->line('file');?>" />
-							</div>
-						</div>
-						
-					</div>
-				<?php echo form_close(); ?>
+				<div class="panel-body table-responsive-15" >
 				<?php echo form_open('settings/save_timezone'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
-							<label for="timezones"><?php echo $this->lang->line('time_zone');?></label> 
+							<label for="timezones"><?php echo $this->lang->line('time_zone');?></label>
 						</div>
 						<div class="col-md-8">
 							<div class="form-group" >
@@ -656,15 +696,15 @@
 						</div>
 						<div class="col-md-4">
 							<div class="form-group" >
-								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
-							</div> 
+								<button type="submit" name="submit" class="btn btn-primary btn-sm square-btn-adjust" /><?php echo $this->lang->line('save');?></button>
+							</div>
 						</div>
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_date_formate'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
-							<label for="timeformate"><?php echo $this->lang->line('date_format');?></label> 
+							<label for="timeformate"><?php echo $this->lang->line('date_format');?></label>
 						</div>
 						<div class="col-md-8" >
 							<div class="form-group" >
@@ -673,15 +713,15 @@
 						</div>
 						<div class="col-md-4" >
 							<div class="form-group" >
-								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
-							</div> 
+								<button type="submit" name="submit" class="btn btn-primary btn-sm square-btn-adjust" /><?php echo $this->lang->line('save');?></button>
+							</div>
 						</div>
 					</div>
 				<?php echo form_close(); ?>
 				<?php echo form_open('settings/save_time_formate'); ?>
-					<div class="col-md-12">
+					<div class="row">
 						<div class="col-md-12">
-							<label for="timeformate"><?php echo $this->lang->line('time_format');?></label> 
+							<label for="timeformate"><?php echo $this->lang->line('time_format');?></label>
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
@@ -690,79 +730,86 @@
 						</div>
 						<div class="col-md-4">
 							<div class="form-group" >
-								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
-							</div> 
-						</div>
-					</div>
-				<?php echo form_close(); ?>
-				<?php echo form_open('settings/tax_type'); ?>
-					<div class="col-md-12">
-						<div class="col-md-12">
-							<label for="tax_type"><?php echo $this->lang->line('tax');?></label> 
-						</div>
-						<?php 
-							if($tax_type == "item"){
-								$item = "checked = 'checked'";
-								$bill = "";
-							}else{
-								$item = "";
-								$bill = "checked = 'checked'";;
-							}
-						?>
-						<div class="col-md-8">
-							<div class="form-group">
-								<div class="radio">
-									<label>
-										<input type="radio" name="tax_type" id="item" value="item" <?=$item;?>><?php echo $this->lang->line('tax')." ".$this->lang->line('on')." ".$this->lang->line('individual')." ".$this->lang->line('item');?>
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="tax_type" id="bill" value="bill" <?=$bill;?>><?php echo $this->lang->line('tax')." ".$this->lang->line('on')." ".$this->lang->line('bill');?>
-									</label>
-								</div>
+								<button type="submit" name="submit" class="btn btn-primary btn-sm square-btn-adjust" /><?php echo $this->lang->line('save');?></button>
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="form-group" >
-								<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
-							</div> 
-						</div>
 					</div>
 				<?php echo form_close(); ?>
-				
+
+
 								</div>
 			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-						<?php echo $this->lang->line('invoice_details');?>
+					<?php echo $this->lang->line('invoice_details');?>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body table-responsive-15">
 				<?php echo form_open('settings/save_invoice') ?>
+					<h4><?php echo $this->lang->line('invoice_number');?></h4>
 						<div class="form-group">
-							 <label for="static_prefix"><?php echo $this->lang->line('static_prefix');?></label> 
+							 <label for="static_prefix"><?php echo $this->lang->line('invoice_prefix');?></label>
 							<input type="input" name="static_prefix" value="<?=$static_prefix; ?>" class="form-control"/>
 							<?php echo form_error('static_prefix','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="form-group">
-							<label for="left_pad"><?php echo $this->lang->line('length_invoice');?> </label> 
+							<label for="left_pad"><?php echo $this->lang->line('length_invoice');?> </label>
 							<input type="input" name="left_pad" value="<?=$left_pad; ?>" class="form-control"/>
 							<?php echo form_error('left_pad','<div class="alert alert-danger">','</div>'); ?>
 						</div>
+						<h4><?php echo $this->lang->line('currency');?></h4>
 						<div class="form-group">
-							<label for="currency_symbol"><?php echo $this->lang->line('curr_pre');?></label> 
+							<label for="currency_symbol"><?php echo $this->lang->line('curr_pre');?></label>
 							<input type="input" name="currency_symbol" value="<?=$currency_symbol; ?>" class="form-control"/>
 							<?php echo form_error('currency_symbol','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="form-group">
-							<label for="currency_postfix"><?php echo $this->lang->line('curr_post');?></label> 
+							<label for="currency_postfix"><?php echo $this->lang->line('curr_post');?></label>
 							<input type="input" name="currency_postfix" value="<?=$currency_postfix; ?>" class="form-control"/>
 							<?php echo form_error('currency_postfix','<div class="alert alert-danger">','</div>'); ?>
 						</div>
 						<div class="form-group">
-							<button type="submit" name="submit" class="btn btn-primary" /><?php echo $this->lang->line('save');?></button>
+							<label for="number_of_decimal"><?php echo $this->lang->line('number_of_decimal');?></label>
+							<input type="input" name="number_of_decimal" value="<?=$number_of_decimal; ?>" class="form-control"/>
+							<?php echo form_error('number_of_decimal','<div class="alert alert-danger">','</div>'); ?>
+						</div>
+						<div class="form-group">
+							<label for="decimal_symbol"><?php echo $this->lang->line('decimal_symbol');?></label>
+							<input type="input" name="decimal_symbol" value="<?=$decimal_symbol; ?>" class="form-control"/>
+							<?php echo form_error('decimal_symbol','<div class="alert alert-danger">','</div>'); ?>
+						</div>
+						<div class="form-group">
+							<label for="thousands_separator"><?php echo $this->lang->line('thousands_separator');?></label>
+							<input type="input" name="thousands_separator" value="<?=$thousands_separator; ?>" class="form-control"/>
+							<?php echo form_error('thousands_separator','<div class="alert alert-danger">','</div>'); ?>
+						</div>
+						<h4><?php echo $this->lang->line('tax');?></h4>
+							<div class="form-group">
+									<label for="tax_type"><?php echo $this->lang->line('tax');?></label>
+								<?php
+									if($tax_type == "item"){
+										$item = "checked = 'checked'";
+										$bill = "";
+									}else{
+										$item = "";
+										$bill = "checked = 'checked'";;
+									}
+								?>
+
+										<div class="radio">
+											<label>
+												<input type="radio" name="tax_type" id="item" value="item" <?=$item;?>><?php echo $this->lang->line('tax')." ".$this->lang->line('on')." ".$this->lang->line('individual')." ".$this->lang->line('item');?>
+											</label>
+										</div>
+										<div class="radio">
+											<label>
+												<input type="radio" name="tax_type" id="bill" value="bill" <?=$bill;?>><?php echo $this->lang->line('tax')." ".$this->lang->line('on')." ".$this->lang->line('bill');?>
+											</label>
+										</div>
+								</div>
+						<div class="form-group">
+							<button type="submit" name="submit" class="btn btn-primary btn-sm square-btn-adjust" /><?php echo $this->lang->line('save');?></button>
 						</div>
 				<?php echo form_close(); ?>
 				</div>

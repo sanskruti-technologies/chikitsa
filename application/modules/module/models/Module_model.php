@@ -1,4 +1,20 @@
 <?php
+/*
+	This file is part of Chikitsa.
+
+    Chikitsa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chikitsa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 class Module_model extends CI_Model {
 
@@ -42,11 +58,11 @@ class Module_model extends CI_Model {
 		$result =  $query->result_array();
 		$active_modules = array();
 		foreach($result as $row){
-			$active_modules[]= $row['module_name']; 
+			$active_modules[]= $row['module_name'];
 		}
 		return $active_modules;
     }
-	function is_active($module_name) {
+	function is_active($module_name){
 		$this->db->where('module_name', $module_name);
 		$this->db->select('module_status');
 		$query=$this->db->get('modules');
@@ -83,9 +99,9 @@ class Module_model extends CI_Model {
 	}
 	function check_required_modules($module_name){
 		$module = $this->get_module_details_by_name($module_name);
-		
+
 		$required_modules = explode(",",$module['required_modules']);
-		
+
 		foreach($required_modules as $required_module){
 			if($required_module !=""){
 				if(!$this->is_active($required_module)){
@@ -103,7 +119,7 @@ class Module_model extends CI_Model {
 			$doc = new DOMDocument();
 			$doc->load( "http://sanskruti.net/chikitsa/modules/".$required_module.".xml" );//xml file loading here
 			$download = $doc->getElementsByTagName( "download" );
-			
+
 			foreach( $download as $d ){
 				$t = $d->getElementsByTagName( "title" );
 				$title = $t->item(0)->nodeValue;
@@ -112,6 +128,28 @@ class Module_model extends CI_Model {
 		}
 		return implode(",",$required_modules_list);
 	}
+	function non_licence_activated_plugins(){
+		$this->db->where('license_status !=', 'active');
+		$query=$this->db->get('modules');
+		//echo $this->db->last_query();
+		$result = $query->result_array();
+		return $result;
+	}
+	function get_nag_screen(){
+		$screen = "";
+		$remind_date = $this->settings_model->get_data_value('remind_date');
+		$today = date('Y-m-d');
+		$end_of_warning = date('2020-03-19');
+		if(strtotime($end_of_warning) <= strtotime($today) && strtotime($remind_date) <= strtotime($today)){
+			$screen = "screen2";
+		}elseif(strtotime($remind_date) <= strtotime($today)){
+			$screen = "screen1";
+		}
+		return $screen;
+	}
+  function insert_module($data){
+    $this->db->insert('modules', $data);
+  }
 }
 
 ?>

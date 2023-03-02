@@ -27,9 +27,11 @@
 
 			//echo $sql."<br/>";
 			$con=mysqli_connect($server,$username,$password,$dbname);
+			if ($con -> connect_errno) {
+				echo "Failed to connect to MySQL: " . $con -> connect_error;
+				exit();
+			}
 			$con->set_charset("UTF8");
-
-
 			$dbprefix = $_REQUEST['dbprefix'];
 			$statement = str_replace("%dbprefix%",$dbprefix,$sql);
 			//echo "$statement";
@@ -39,6 +41,28 @@
 					echo "Error : ". $error . " occurred while executing ".$statement;
 				}
 			}
+			// Execute multi query
+			
+			/*if ($mysqli -> multi_query($statement)) {
+				$error = mysqli_error($con);
+				if (strpos($error, "Duplicate entry") === false) {
+					echo "Error : ". $error . " occurred while executing ".$statement;
+				}
+				do {
+					// Store first result set
+					if ($result = $mysqli -> store_result()) {
+						while ($row = $result -> fetch_row()) {
+							printf("%s\n", $row[0]);
+						}
+						$result -> free_result();
+					}
+					// if there are more result-sets, the print a divider
+					if ($mysqli -> more_results()) {
+						printf("-------------\n");
+					}
+					//Prepare next result set
+				} while ($mysqli -> next_result());
+			}*/
 			mysqli_close($con);
 		}
 

@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = "http://localhost/chikitsa/";
+$config['base_url'] = "http://localhost/chikitsa206";
 
 /*
 |--------------------------------------------------------------------------
@@ -528,4 +528,18 @@ $config['proxy_ips'] = '';
 |--------------------------------------------------------------------------
 |
 */
-$config['current_version'] = '0.7.7';
+$config['current_version'] = '2.0.6';
+
+
+/*
+|--------------------------------------------------------------------------
+| Chikitsa  Currency format
+|--------------------------------------------------------------------------
+|
+*/
+       
+$config['currencySymbol'] = 'Rs.';
+$config['decimalPlaces'] = '2';
+$config['decimalSymbol'] = '.';
+$config['thousandsSeparator'] = ',';
+$config['currencyPostfix'] = '';

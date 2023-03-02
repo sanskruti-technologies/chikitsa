@@ -1,5 +1,5 @@
-<?php
-/*
+<!DOCTYPE html>
+<!--
 	This file is part of Chikitsa.
 
     Chikitsa is free software: you can redistribute it and/or modify
@@ -14,190 +14,242 @@
 
     You should have received a copy of the GNU General Public License
     along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
-*/
-?>
-<!DOCTYPE html>
+-->
 <?php
+
 	if(!isset($level)){
+
 		$level = $this->session->userdata('category');
+
 	}
+
 	if(!isset($clinic_id)){
+
 		$clinic_id = 1;
+
 		if($this->session->userdata('clinic_id') != NULL ){
+
 			$clinic_id = $this->session->userdata('clinic_id');
+
 		}
+
 		$this->db->where('clinic_id', $clinic_id);
+
 		$query = $this->db->get('clinic');
+
 		$clinic = $query->row_array();
+
 	}
+
 	if(!isset($active_modules)){
+
 		//Active Modules
+
 		$this->db->where('module_status', 1);
+
 		$this->db->select('module_name');
+
 		$query=$this->db->get('modules');
+
 		$result =  $query->result_array();
+
 		$active_modules = array();
+
 		foreach($result as $row){
+
 			$active_modules[]= $row['module_name'];
+
 		}
+
 	}
+
+
 
 	if(!isset($user)){
+
 		$user_id = $_SESSION['id'];
+
 		$this->db->where('userid', $user_id);
+
 		$query = $this->db->get('users');
+
 		$user = $query->row_array();
+
 	}
+
+
 
 	if(!isset($login_page)){
+
 		$this->db->where('ck_key', 'login_page');
+
 		$query = $this->db->get('data');
+
 		$data = $query->row_array();
+
 		$login_page = $data['ck_value'];
 
+
+
 		$parent_name="";
+
 		$result_top_menu = $this->menu_model->find_menu($parent_name,$level);
+
 		foreach ($result_top_menu as $top_menu){
+
 			$id = $top_menu['id'];
+
 			$parent_name = $top_menu['menu_name'];
+
 			if($this->menu_model->has_access($top_menu['menu_name'],$level)){
+
 				if($this->menu_model->is_module_active($top_menu['required_module'])){
+
 					$result_sub_menu = $this->menu_model->find_menu($parent_name,$level);
+
 					$rowcount= count($result_sub_menu);
+
 					if($rowcount != 0){
+
 						foreach ($result_sub_menu as $sub_menu){
+
 							if($this->menu_model->has_access($sub_menu['menu_name'],$level)){
+
 								if($this->menu_model->is_module_active($sub_menu['required_module'])){
+
 									$login_page = $sub_menu['menu_url'];
+
 									break;
+
 								}
+
 							}
+
 						}
+
 					}else{
+
 						$login_page = $top_menu['menu_url'];
+
 						break;
+
 					}
+
 				}
+
 			}
+
 		}
+
 	}
+
+
 
 	$language_name = $this->config->item('language');
+
 	if($this->session->userdata('prefered_language') !== NULL){
+
 		$language_name = $this->session->userdata('prefered_language') ;
+
 	}
+
 	$query = $this->db->get_where('language_master',array('language_name'=>$language_name));
+
 	$language_master = $query->row_array();
+
 	$is_rtl = $language_master['is_rtl'];
+
 ?>
-<html>
+<html lang="en">
     <head>
-        <title><?= $clinic['clinic_name'] .' - ' .$clinic['tag_line'];?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon"  href="<?= base_url() ?>/favicon.ico"/>
+		<title><?= $clinic['clinic_name'] .' - ' .$clinic['tag_line'];?></title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Free & Open Source Software Chikitsa, Patient Management System is for Clinics and Hospital. Create Appointments , Maintain Patietn Records and Generate Bills.">
+		<meta name="author" content="Sanskruti Technologies">
 
-        <!-- BOOTSTRAP STYLES-->
-		<link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet" />
-		<!-- JQUERY UI STYLES-->
-		<link href="<?= base_url() ?>assets/css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" />
-		<!-- FONTAWESOME STYLES-->
-		<link href="<?= base_url() ?>assets/css/font-awesome.min.css" rel="stylesheet" />
-        
-		<!-- CHIKITSA STYLES-->
-		<link href="<?= base_url() ?>assets/css/chikitsa.min.css" rel="stylesheet" />
-		<!-- TABLE STYLES-->
-		<link href="<?= base_url() ?>assets/js/dataTables/dataTables.bootstrap.min.css" rel="stylesheet" />
-		<link href="<?= base_url() ?>assets/js/dataTables/responsive.dataTables.min.css" rel="stylesheet" />
+		<!--link rel="shortcut icon"  href="<?= base_url() ?>/favicon.ico"/-->
+		<link rel="shortcut icon"  href="<?= base_url() ?>/<?=$clinic['favicon_logo'] ?>"/>
 
-		
-		<!-- JQUERY SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/jquery-1.11.3.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
+		<title><?= $clinic['clinic_name'] .' - ' .$clinic['tag_line'];?></title>
+        <!-- Custom fonts for this template -->
+	    <link href="<?= base_url() ?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	    <!--<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">-->
 
-		<!-- JQUERY UI SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
-		<!-- BOOTSTRAP SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
-		<!-- METISMENU SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/jquery.metisMenu.min.js"></script>
-		<!-- DATA TABLE SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/dataTables/jquery.dataTables.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/dataTables/dataTables.bootstrap.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/dataTables/moment.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/dataTables/datetime-moment.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/dataTables/dataTables.responsive.min.js"></script>
-		<!-- TimePicker SCRIPTS-->
-		<script src="<?= base_url() ?>assets/js/jquery.datetimepicker.min.js"></script>
-		<link href="<?= base_url() ?>assets/js/jquery.datetimepicker.min.css" rel="stylesheet" />
-		<!-- CHOSEN SCRIPTS-->
-		<script src="<?= base_url() ?>assets/js/chosen.jquery.min.js"></script>
-		<link href="<?= base_url() ?>assets/css/chosen.min.css" rel="stylesheet" />
-		<!-- Lightbox SCRIPTS-->
-		<script src="<?= base_url() ?>assets/js/lightbox.min.js"></script>
-		<link href="<?= base_url() ?>assets/css/lightbox.min.css" rel="stylesheet" />
-		 <!-- MORRIS CHART STYLES-->
-		<link href="<?= base_url() ?>assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-		<!-- MORRIS CHART SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/morris/raphael-2.1.0.min.js"></script>
-		<script src="<?= base_url() ?>assets/js/morris/morris.min.js"></script>
-		<!-- Sketch SCRIPTS-->
-		<script src="<?= base_url() ?>assets/js/sketch.min.js"></script>
-		<!-- CUSTOM SCRIPTS -->
-		<script src="<?= base_url() ?>assets/js/custom.min.js"></script>
-		<!-- CUSTOM STYLES-->
-		<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
-		<?php if($is_rtl == 1){?>
+		<!-- Custom styles for this template -->
+		<link href="<?= base_url() ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
+
+		<!-- Custom styles for this page -->
+		<link href="<?= base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+		<link href="<?= base_url() ?>assets/vendor/datatables/responsive.dataTables.min.css" rel="stylesheet">
+
+		<!-- Schedule Master CSS -->
+		<!--link href="<?= base_url() ?>assets/vendor/schedule-template-master/css/style.css" rel="stylesheet"-->
+
+		<!-- Bootstrap core JavaScript-->
+		<script src="<?= base_url() ?>assets/vendor/jquery/jquery-1.11.3.min.js"></script>
+    <script src="<?= base_url() ?>assets/vendor/jquery/jquery-ui.min.js"></script>
+		<script src="<?= base_url() ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Core plugin JavaScript-->
+		<script src="<?= base_url() ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Custom scripts for all pages-->
+		<script src="<?= base_url() ?>assets/js/sb-admin-2.js"></script>
+		<!-- autocomplete -->
+		<link href="<?= base_url() ?>assets/vendor/css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet">
+
+
+
+
+		<!-- Page level custom scripts -->
+		<!--script src="<?= base_url() ?>assets/js/demo/datatables-demo.js"></script-->
+   
+    <!-- CHOSEN SCRIPTS-->
+    <script src="<?= base_url() ?>assets/vendor/chosen/chosen.jquery.min.js"></script>
+    <link href="<?= base_url() ?>assets/vendor/chosen/chosen.min.css" rel="stylesheet">
+	
+    <!-- Page level plugins -->
+    <script src="<?= base_url() ?>assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url() ?>assets/vendor/datatables/dataTables.responsive.min.js"></script>
+    <script src="<?= base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+	   <!-- Datetime Picker -->
+    <link href="<?= base_url() ?>assets/vendor/datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet">
+    <script src="<?= base_url() ?>assets/vendor/datetimepicker/jquery.datetimepicker.min.js"></script>
+    <script src="<?= base_url() ?>assets/vendor/moment.js" ></script>
+
+	<script src="<?= base_url() ?>assets/vendor/schedule-template-master/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+	<script src="<?= base_url() ?>assets/vendor/schedule-template-master/js/main.js"></script>
+	<!-- JQuery script -->
+	<script src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
+	
+	<!--Textarea -->
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/textarea/app.css" />
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/textarea/textarea.css" />
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/textarea/jodit.min.css" />
+	<script src="<?= base_url(); ?>assets/textarea/jodit.js"></script>
+
+	
+	<!-- Calender css -->
+	<link href="<?= base_url() ?>assets/vendor/calender/calender.css" rel="stylesheet"/>
+	
+	
+	<!-- CHIKITSA STYLES-->
+    <link href="<?= base_url() ?>assets/css/chikitsa.css" rel="stylesheet">
+	<?php if($is_rtl == 1){?>
 		<link href="<?= base_url() ?>assets/css/rtl.css" rel="stylesheet" />
-		<?php }?>
-		<link rel="stylesheet" href="<?= base_url() ?>assets/js/jsTree/themes/default/style.min.css" />
-		<script src="<?= base_url() ?>assets/js/jsTree/jstree.min.js"></script>
-    </head>
-    <body>
-        <div id="wrapper">
-		<nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-				<?php if($clinic['clinic_logo'] != NULL){  ?>
-					<a class="navbar-brand" style="padding:0px;background:#FFF;" href="<?= site_url($login_page); ?>">
-						<img src="<?php echo base_url().$clinic['clinic_logo']; ?>" alt="Logo"  height="60"  />
-					</a>
-				<?php  }elseif($clinic['clinic_name'] != NULL){  ?>
-					<a class="navbar-brand" href="<?= site_url($login_page); ?>">
-						<?= $clinic['clinic_name'];?>
-					</a>
-				<?php  } else { ?>
-					<a class="navbar-brand" href="<?= site_url($login_page); ?>">
-						<?= $software_name;?>
-					</a>
-				<?php }  ?>
-            </div>
-			<div class="header_tag_line">
-                    <h4><?php if($clinic['tag_line'] == NULL){
-								echo $this->lang->line('tag_line');
-							  }else {
-								echo $clinic['tag_line'];
-							  } ?>
-					</h4>
-            </div>
-			<div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-				<?php echo $this->lang->line('welcome');?>, <?=$user['name']; ?>
-				<?php
-					$new_messages = $this->menu_model->new_messages_count();
-					if($new_messages > 0){
-				?>
-				<a data-notifications="<?=$new_messages;?>" href="<?=site_url("chat/index"); ?>" class="btn btn-primary square-btn-adjust"><i class="fa fa-bell" aria-hidden="true"></i></a>
-				<?php } elseif($new_messages == 0) { ?>
-				<a href="<?=site_url("chat/index");?>" class="btn btn-primary square-btn-adjust"><i class="fa fa-bell" aria-hidden="true"></i></a>
-				<?php } ?>
-				<?php if (in_array("centers", $active_modules)) { ?>
-				<a href="<?=site_url("centers/change_center"); ?>" class="btn btn-primary square-btn-adjust">Change Center</a>
-				<?php } ?>
-				<a href="<?=site_url("admin/change_profile"); ?>" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('change_profile');?></a>
-				<a href="<?= site_url("login/logout"); ?>" class="btn btn-danger square-btn-adjust"><?php echo $this->lang->line('log_out');?></a>
-			</div>
-        </nav>
+	<?php }?>
+	<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
+
+	<!-- Sketch SCRIPTS-->
+	<script src="<?= base_url() ?>assets/js/sketch.min.js"></script>
+	
+		<!---script call-->
+		<script src="<?= base_url() ?>assets/js/angular.js"></script>
+
+		<script src="<?= base_url() ?>assets/js/dirPagination.js"></script>
+	</head>
+	<body id="page-top" class="sidebar-toggled">
+		<!-- Page Wrapper -->
+		<div id="wrapper">

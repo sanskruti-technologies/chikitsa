@@ -1,5 +1,4 @@
 <?php
-
 function get_number_format_settings(){
     //the database functions can not be called from within the helper
     //so we have to explicitly load the functions we need in to an object
@@ -7,28 +6,53 @@ function get_number_format_settings(){
     $ci=& get_instance();
     $ci->load->database();
     
+    
+
     //select the required fields from the database
+
     $ci->db->select('currency_symbol,number_of_decimal,decimal_symbol,thousands_separator,currency_postfix');
+
+    
     
     //tell the db class the criteria
     $ci->db->where('invoice_id', 1);
     
+    
+
     //supply the table name and get the data
     $query = $ci->db->get('invoice');
     
+    
+
     foreach($query->result() as $row):
  
+ 
+
         //get the full name by concatinating the first and last names
+
         $number_format['currency_symbol'] = $row->currency_symbol;
+
         $number_format['number_of_decimal'] = $row->number_of_decimal;
+
         $number_format['decimal_symbol'] = $row->decimal_symbol;
+
         $number_format['thousands_separator'] = $row->thousands_separator;
+
         $number_format['currency_postfix'] = $row->currency_postfix;
+
+ 
  
     endforeach;
     
+    
+
     return $number_format;
+
 }
+
+
+
+
 
 
 
@@ -37,13 +61,30 @@ if ( ! function_exists('currency_format'))
 {
   function currency_format($number)
   {
-	$number_format = get_number_format_settings();
+
+	/*$number_format = get_number_format_settings();
+
     $currencySymbol = $number_format['currency_symbol'];
+
     $decimalPlaces = $number_format['number_of_decimal'];
+
     $decimalSymbol = $number_format['decimal_symbol'];
+
     $thousandsSeparator = $number_format['thousands_separator'];
-    $currencyPostfix = $number_format['currency_postfix'];
-    return $currencySymbol. number_format($number, $decimalPlaces, $decimalSymbol, $thousandsSeparator).$currencyPostfix;
+
+	$currencyPostfix = $number_format['currency_postfix'];
+	
+	*/
+	$ci = get_instance(); // CI_Loader instance
+	
+	$currencySymbol = $ci->config->item('currencySymbol');
+	$decimalPlaces =  $ci->config->item('decimalPlaces');
+	$decimalSymbol = $ci->config->item('decimalSymbol');
+	$thousandsSeparator = $ci->config->item('thousandsSeparator');
+	$currencyPostfix =  $ci->config->item('currencyPostfix');
+
+		return $currencySymbol. number_format($number, $decimalPlaces, $decimalSymbol, $thousandsSeparator).$currencyPostfix;
+
   }
 }
 
@@ -83,6 +124,8 @@ function numberTowords($num){
 		9 => "Ninety" 
 		); 
 		
+		
+
 	$hundreds = array( 
 		"Hundred", 
 		"Thousand", 
@@ -125,5 +168,4 @@ function numberTowords($num){
 	return $rettxt; 
 
 }
- 
 ?>

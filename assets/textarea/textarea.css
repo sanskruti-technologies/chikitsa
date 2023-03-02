@@ -1,0 +1,22 @@
+#box 
+{
+	padding: 100px;
+	margin: 20px;
+	position: relative;
+	height: 500px;
+}
+.jodit-toolbar-button_image{
+	display:none !important;
+}
+.jodit-toolbar-button_video{
+	display:none !important;
+}
+.jodit-workplace{
+	min-height: 450px !important;
+}
+
+@media (max-width: 480px) {
+	#box {
+		padding: 0;
+	}
+}

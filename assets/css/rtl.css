@@ -1,24 +1,208 @@
 body{
+
 	direction: rtl;
-}
-.navbar-header{
-	float:right;
-}
-.header_tag_line{
-	float:right;
-	margin-right:25px;
-}
-.header_welcome_message{
-	float: left;
-}
-.navbar-side{
-    width: 260px;
-    position: relative;
-    float: right;
+
 }
 
+.navbar-header{
+
+	float:right;
+
+}
+
+.header_tag_line{
+
+	float:right;
+
+	margin-right:25px;
+
+}
+
+.navbar-nav{
+
+	float: left;
+
+}
+
+.navbar-side{
+
+    width: 260px;
+
+    position: relative;
+
+    float: right;
+
+}
+#PreviewImage{
+    float: right;
+    margin-bottom: 10px;
+}
+label,span{ 
+    float: right;
+}
+h4,h6{
+    text-align: right;
+}
+.child{
+    float: right;
+}
+.panel-heading{
+   
+}
+.close{
+    
+    margin-left: 0% !important;
+}
+.dataTables_filter{
+    float: left;
+}
+.dataTables_length, .dataTables_info{
+   float: right;
+}
+.chosen-container-multi{
+    float: right;
+}
 #page-wrapper {
+
     margin: 0 260px 0 0;
+
     padding: 15px 30px;
+
     min-height: 1200px;
+
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td{
+    text-align: right;
+}
+
+table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+    text-align: right;
+}
+.todo_img{
+    float: right;
+}
+.right{
+    float: right !important;
+    margin-bottom: 10px;
+}
+.sidebar-dark .nav-item .nav-link[data-toggle="collapse"]::after{
+    float: left;
+}
+.chosen-container-multi .chosen-drop .result-selected{
+    text-align: right;
+}
+.chosen-container .chosen-results li.active-result{
+    text-align: right;
+}
+.chosen-container-multi .chosen-choices li.search-field{
+    text-align: right;
+    float: right;
+}
+.chosen-container-multi .chosen-choices li.search-choice{
+    float: right;
+}
+.align_right{
+    
+}
+.sidebar-dark .nav-item .nav-link[data-toggle="collapse"]::after{
+    float: left;
+    padding-left: 10%;
+}
+.sidebar .nav-item .nav-link {
+    text-align: right !important;
+}
+.sidebar-dark .nav-item .nav-link i {
+    padding-right: 10%;
+    float: right;
+}
+.sidebar .nav-item .nav-link span {
+    padding-right: 10%;
+}
+.direction_left{
+    direction: ltr;
+}
+.dropdown-item{
+    text-align: right;
+    margin-bottom: 2px;
+}
+.text-align{
+    text-align: right !important;
+}
+.modal-footer{
+    justify-content: right;
+}
+table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+    border-right-width: 1px !important;
+}
+.sidebar .nav-item .collapse .collapse-inner .collapse-item, .sidebar .nav-item .collapsing .collapse-inner .collapse-item{
+    text-align: right;
+}
+.table thead th {
+    text-align: right;
+}
+.ui-widget-header{
+    float: right;
+}
+.ui-menu .ui-menu-item{
+    text-align: right;
+}
+.appointment_button {
+    margin-left: 52%;
+}
+.sidebar .nav-item .collapse{
+    left: 25% !important;
+}
+.alert-danger {
+    text-align: right;
+}
+.margin-button{
+    margin-left: 1%;
+}
+.block{
+    display: block;
+}
+.d-sm-flex {
+    display: flex !important;
+}
+/** Desktop Scheduler*/
+@media only screen and (min-width: 600px) {
+
+    .desktopLogo{
+        margin-right: -56px;
+    }
+    .sidebar-dark .nav-item .nav-link{
+        margin-right: -56px;
+    }
+    .navbar {
+        display: block;
+    }
+    .topbar .dropdown .dropdown-menu {
+        right: 0;
+    }
+}
+/**iPad*/
+@media only screen and (max-width: 768px) {
+	/*.radio label{
+		margin-top: 35%;
+	}*/
+    .topbar .dropdown .dropdown-menu {
+        right: -229%;
+    }
+}
+/**Mobile View*/
+@media only screen and (max-width: 600px) {
+    .sidebar-dark .nav-item .nav-link{
+        margin-right: -43px;
+    }
+    .sidebar.toggled{
+        padding: 0px;
+    }
+    .sidebar .nav-item .collapse{
+        right: calc(2.5rem + 4.5rem / 2);
+    }
+    .topbar .dropdown .dropdown-menu {
+        right: 45%;
+        width: 50%;
+    }
 }

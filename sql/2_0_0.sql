@@ -1,0 +1,12 @@
+ALTER TABLE %dbprefix%clinic ADD mobile_clinic_logo VARCHAR(255) NOT NULL AFTER clinic_logo; 
+UPDATE %dbprefix%clinic SET clinic_logo = '/uploads/images/logo.png' WHERE clinic_id = 1;
+UPDATE %dbprefix%navigation_menu SET menu_icon = 'fa-file' WHERE menu_name='reports' ;
+UPDATE %dbprefix%navigation_menu SET menu_icon = 'fa-money-bill' WHERE menu_name='payment' ;
+UPDATE %dbprefix%users SET prefered_language = 'english' WHERE userid = 1;
+ALTER TABLE %dbprefix%users ADD profile_image VARCHAR(500) NULL AFTER prefered_language; 
+UPDATE  %dbprefix%version SET current_version='2.0.0';
+UPDATE %dbprefix%data SET ck_value = 'https://chikitsa.net/' WHERE ck_data_id = 10; 
+UPDATE %dbprefix%data SET ck_value = 'https://chikitsa.net/support-tickets/' WHERE ck_data_id = 12; 
+CREATE OR REPLACE  VIEW  %dbprefix%view_doctor  AS select concat(ifnull(contacts.title,''),' ',convert(ifnull(contacts.first_name,'') using utf8mb4),' ',convert(ifnull(contacts.middle_name,'') using utf8mb4),' ',convert(ifnull(contacts.last_name,'') using utf8mb4)) AS name,users.centers AS centers,users.is_active AS is_active,contacts.title AS title,contacts.first_name AS first_name,contacts.middle_name AS middle_name,contacts.last_name AS last_name,doctor.doctor_id AS doctor_id,doctor.userid AS userid,users.is_deleted AS is_deleted,doctor.degree AS degree,doctor.specification AS specification,doctor.experience AS experience,doctor.joining_date AS joining_date,doctor.licence_number AS licence_number,doctor.department_id AS department_id,doctor.gender AS gender,doctor.description AS description,doctor.dob AS dob,doctor.contact_id AS contact_id from ((%dbprefix%doctor doctor join %dbprefix%contacts contacts on((contacts.contact_id = doctor.contact_id))) join %dbprefix%users users on((users.userid = doctor.userid))) where ((ifnull(doctor.is_deleted,0) <> 1) and (ifnull(users.is_deleted,0) <> 1));
+DELETE FROM %dbprefix%menu_access WHERE menu_name='new_inquiry';
+UPDATE %dbprefix%clinic SET mobile_clinic_logo = '/uploads/images/mobileLogo.png' WHERE clinic_id = 1;

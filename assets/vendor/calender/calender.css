@@ -1,0 +1,235 @@
+/**Mobile View*/
+@media only screen and (max-width: 600px) {
+	.mobileScheduler,.mobileLogo{
+		display:block;
+	}
+	.mobileLogo{
+		width: 100%;
+		margin-right: 25%;
+	}
+	#select_date{
+		width: 100%  !important;
+	}
+	.PreviewClinicLogo{
+		width: 100%;
+	}
+	.profile{
+		justify-content:right!important;
+	}
+	.desktopScheduler,.desktopLogo{
+		display:none;
+	}
+	.st_scheduler_desktop{
+		display:none;
+	}
+	$off_white:#fafafa;
+	$light_grey:#A39D9E;
+	*{
+	  box-sizing:border-box;
+	}
+	
+	body{
+	  background-color: $off_white;
+	}
+
+	.container{
+	  margin:100px auto;
+	  margin-left:15%;
+	  width:auto;
+	}
+
+	.light{
+	  background-color: #fff;
+	}
+	.dark{
+	  margin-left: 65px;
+	}
+
+	.calendar{
+	  width:370px;
+	  box-shadow: 0px 0px 35px -16px rgba(0,0,0,0.75);
+	  font-family: 'Roboto', sans-serif;
+	  padding: 20px 30px;
+	  color:#363b41;
+	  display: inline-block;
+	}
+ 
+	.calendar_header{
+	  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+	}
+
+	.header_copy{
+	  color:$light_grey;
+	  font-size:30px;
+	}
+	.calendar_plan{
+	  margin:20px 0 40px;
+	}
+	.schedulerHeader{
+	  width:90%;
+	  height: 80px;
+	  background-image: linear-gradient(-222deg, #4e73df, #4ea9b7);
+	  box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);
+	  padding: 20px -12px;
+	  color:#fff;
+	}
+	.cl_title{
+		margin:2px;
+	}
+	.cl_date{
+		padding:12px;
+	}
+	.cl_copy{
+	  display: inline-block;
+	}
+	.cl_add{
+	  display: inline-block;
+	  width: 30px;
+	  height:30px;
+	  border-radius:50%;
+	  background-color: #fff;
+	  cursor: pointer;
+	  margin:0 0 0 65px;
+	  color:#c2c2c2;
+	  padding: 11px 13px;
+	}
+	.calendar_events{
+	  color:$light_grey;
+	}
+	.ce_title{
+	  font-size:14px;
+	}
+
+	.ei_Dot,.ei_Title{
+	  display:inline-block;
+	}
+
+	.ei_Dot{
+	  border-radius:50%;
+	  width:10px;
+	  height: 10px;
+	  background-color: $light_grey;
+	  box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);
+	}
+	.dot_active{
+	  background-color: #4e73df;
+	}
+
+	.ei_Title{
+	  margin-left:10px;
+	  color:#363b41;
+	}
+
+	.ei_Copy{
+	  font-size:12px;
+	  margin-left:27px;
+	  color:#ffffff;
+	}
+
+	.dark{
+	  background-image: linear-gradient(-222deg, #646464, #454545);
+	  color:#fff;
+	  .header_title,.ei_Title,.ce_title{
+		color:#fff;
+	  }
+	  
+	}
+	.event_item{
+	  margin: 18px 0;
+	  padding:5px;
+	  cursor: pointer;
+	  
+	}
+	
+	/*.event_item:hover{
+		background-image: linear-gradient(-222deg, #FF8494, #ffa9b7);
+		box-shadow: 0px 0px 52px -18px rgba(0, 0, 0, 0.75);
+		.ei_Dot{
+		  background-color: #fff;
+		}
+		.ei_Copy,.ei_Title{
+		  color:#fff;
+		}
+	}*/
+	.fa-2x{
+		margin-top:-45px;
+		margin-left: -12px;
+	}
+	.ui-autocomplete{
+		color:#858796;
+		font-size:15px;
+	  	max-width: 240px !important;
+	}
+}
+/**iPad*/
+@media only screen and (max-width: 768px) {
+	/*.radio label{
+		margin-top: 35%;
+	}*/
+}
+/** Desktop Scheduler*/
+@media only screen and (min-width: 768px) {
+	.mobileScheduler,.mobileLogo{
+		display:none;
+	}
+	#select_date{
+		width:250px
+	}
+	.PreviewClinicLogo{
+		width: 20%;
+	}
+	.desktopScheduler,.desktopLogo{
+		display:block;
+	}
+	.profile{
+		justify-content:center!important;
+	}
+	.ce_title{
+	display:none;
+	}
+	.cl_copy{
+		display:none;
+	}
+	.container{
+		display:none;
+	}
+	.calendar{
+		display:none;
+	}
+	.createEvent{
+		display:block;
+		padding:1em;
+	}
+	.schedulerEvent{
+		/*display:block;*/
+		padding:.5em;
+		margin-left: 2px;
+		text-decoration: none !important;
+	}
+	.stBlockedTime{
+		background-color: lightgray;
+	}
+	/* Default Table Style */
+	.st_scheduler_desktop {
+	  color: grey;
+	  background: white;
+	  border: 1px solid lightgrey;
+	  border-collapse: collapse;
+	  width: 100%;
+	}
+	.st_Time{
+		padding: .5em;
+	}
+	.st_scheduler_desktop th{
+	  padding: .5em;
+	  border: 1px solid lightgrey;
+	}
+	.st_scheduler_desktop td{
+		border: 1px solid lightgrey;
+	}
+	.ui-autocomplete{
+		color:#858796;
+		font-size:15px;
+	  	max-width: 550px !important;
+	}
+}

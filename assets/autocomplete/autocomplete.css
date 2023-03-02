@@ -1,0 +1,8 @@
+
+.ui-widget-header {
+    border: 1px solid #fff;
+    background: #4e73df url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
+    color: #f0ecec;
+    font-weight: unset;
+    border-radius: 3px;
+}

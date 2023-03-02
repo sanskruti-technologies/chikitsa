@@ -36,14 +36,6 @@
 	foreach($result as $row){
 		$active_modules[]= $row['module_name'];
 	}
-
-	$language_name = $this->config->item('language');
-	if($this->session->userdata('prefered_language') !== NULL){
-		$language_name = $this->session->userdata('prefered_language') ;
-	}
-	$query = $this->db->get_where('language_master',array('language_name'=>$language_name));
-	$language_master = $query->row_array();
-	$is_rtl = $language_master['is_rtl'];
 ?>
 <html>
     <head>
@@ -68,9 +60,6 @@
 		<link href="<?= base_url() ?>assets/css/chosen.min.css" rel="stylesheet" />
 		<!-- Lightbox SCRIPTS-->
 		<link href="<?= base_url() ?>assets/css/lightbox.min.css" rel="stylesheet" />
-		<?php if($is_rtl == 1){?>
-		<link href="<?= base_url() ?>assets/css/rtl.css" rel="stylesheet" />
-		<?php }?>
 		 <!-- CUSTOM STYLES-->
 		<link href="<?= base_url() ?>assets/css/custom.css" rel="stylesheet" />
     </head>
@@ -137,7 +126,7 @@
 					</a>
 				<?php }  ?>
             </div>
-			<div class="header_tag_line">
+			<div style="color: white;float:left;font-size: 16px;margin-left:25px;">
                     <h4><?php if($clinic['tag_line'] == NULL){
 								echo $this->lang->line('tag_line');
 							  }else {
@@ -145,13 +134,13 @@
 							  } ?>
 					</h4>
             </div>
-			<div class="header_welcome_message" >
-				<?php echo $this->lang->line('welcome');?>, <?=$user['name']; ?>
+			<div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
+				Welcome, <?=$user['name']; ?>
 				<!--a data-notifications="10" href="<?=site_url("chat/index"); ?>" class="btn btn-primary square-btn-adjust"><i class="fa fa-bell" aria-hidden="true"></i></a-->
 				<?php if (in_array("centers", $active_modules)) { ?>
 				<a href="<?=site_url("centers/change_center"); ?>" class="btn btn-primary square-btn-adjust">Change Center</a>
 				<?php } ?>
-				<a href="<?=site_url("admin/change_profile"); ?>" class="btn btn-primary square-btn-adjust"><?php echo $this->lang->line('change_profile');?></a>
+				<a href="<?=site_url("admin/change_profile"); ?>" class="btn btn-primary square-btn-adjust">Change Profile</a>
 				<a href="<?= site_url("login/logout"); ?>" class="btn btn-danger square-btn-adjust"><?php echo $this->lang->line('log_out');?></a>
 			</div>
         </nav>

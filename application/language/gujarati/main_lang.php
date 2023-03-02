@@ -1,12 +1,14 @@
 <?php
+
 	//Application Details
 	$lang['app_name'] = "Chikitsa";
-	$lang['app_tagline'] = "પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
-	$lang['main_title'] = "ચિકિત્સા - પેશન્ટ મેનેજમેન્ટ સિસ્ટમ";
+	$lang['app_tagline'] = "ક્લિનિક મેનેજમેન્ટ સિસ્ટમ";
+	$lang['main_title'] = "ચિકિત્સા - ક્લિનિક મેનેજમેન્ટ સિસ્ટમ";
 	$lang['cmp_version'] = "ચિકિત્સા આવૃત્તિ";
 	$lang['cmp_name'] = "સંસ્કૃતિ ટેક્નોલોજીસ";
 	$lang['about_chikitsa'] = "ચિકિત્સા વિશે";
 
+	//Form Headers
 	$lang['sign_in'] = "સાઇન ઇન કરો";
 
 	//Labels
@@ -15,7 +17,14 @@
 	$lang['15min'] = "15 મિનિટ";
 	$lang['30min'] = "30 મીન";
 	$lang['1hr'] = "1 કલાક";
-
+	$lang['content_section'] = "સામગ્રી વિભાગ";
+	$lang['main_section'] = "મુખ્ય વિભાગ";
+	$lang['second_section'] = "બીજો વિભાગ";
+	$lang['third_section'] = "ત્રીજો વિભાગ";
+	$lang['background_color'] = "પૃષ્ઠભૂમિ રંગ";
+	$lang['title_color'] = "શીર્ષક રંગ";
+	$lang['text_color'] = "ટેક્સ્ટ રંગ";
+	$lang['about'] = "વિશે";
 	$lang['about'] = "વિશે";
 	$lang['about_settings'] = "સેટિંગ્સ વિશે";
 	$lang['about_page_settings'] = "વિશે પેજમાં સેટિંગ્સ";
@@ -33,6 +42,7 @@
 	$lang['actions'] = "ક્રિયાઓ";
 	$lang['amount'] = "રકમ";
 	$lang['activate'] = "સક્રિય";
+	$lang['available_quantity'] = "ઉપલબ્ધ જથ્થો";
 	$lang['add'] = "ઉમેરો";
 	$lang['add_condition']="શરત ઉમેરો";
 	$lang['additional_css'] = "વધારાની સીએસએસ";
@@ -63,10 +73,12 @@
 	$lang['add_user'] = "વપરાશકર્તાને ઉમેરો";
 	$lang['add_language'] = "ભાષા ઉમેરો";
 	$lang['add_bottom_section'] = "બોટમ વિભાગ ઉમેરો";
+
 	$lang['add_fee'] = "ફી ઉમેરો";
 	$lang['add_extension'] = "એક્સ્ટેન્શન્સ ઉમેરો";
 	$lang['add_patient'] = "પેશન્ટ ઉમેરો";
 	$lang['add_payment'] = "ચુકવણી ઉમેરો";
+	$lang['add_license_key'] = "લાઇસેંસ કી ઉમેરો";
 	$lang['add_another_medicine'] = "અન્ય દવા ઉમેરો";
 	$lang['added_date'] = "ઉમેરાયેલ તારીખ";
 	$lang['address'] = "સરનામું";
@@ -84,6 +96,7 @@
 	$lang['afternoon'] = "A";
 	$lang['age'] = "ઉંમર";
 	$lang['alerts'] = "ચેતવણીઓ";
+	$lang['enable_alerts'] ="ચેતવણીઓ સક્ષમ કરો";
 	$lang['alert_settings'] = "ચેતવણી સેટિંગ";
 	$lang['alert_sms_log'] = "ચેતવણી એસએમએસ લોગ";
 	$lang['alert_email_log'] = "ચેતવણી ઇમેઇલ લૉગ";
@@ -121,9 +134,12 @@
 	$lang['amount_in_account'] = "ખાતામાં રકમ";
 	$lang['approve'] = "મંજૂર";
 	$lang['additional_detail'] = "વધારાની વિગત";
+	$lang['all_items'] = "બધી વસ્તુઓ";
+	$lang['all_purchase'] = "બધી ખરીદી";
 
 	$lang['baby_teeth'] = "બેબી દાંત";
 	$lang['back'] = "પાછા";
+	$lang['batch'] = "બેચ";
 	$lang['backup'] = "બેકઅપ";
 	$lang['backup_restore'] = "બેકઅપ પુનઃસ્થાપિત કરો";
 	$lang['back_to'] = "પાછળ";
@@ -136,12 +152,12 @@
 	$lang['bank_payments'] = "બેન્ક ચુકવણીઓ";
 	$lang['bank_receipt'] = "બેંક રસીદ";
 	$lang['bank_receipts'] = "બેન્ક રસીદો";
-	$lang['barcode'] = "બારકોડ";	
+	$lang['barcode'] = "બારકોડ";
 	$lang['bed'] = "બેડ";
 	$lang['before'] = "પહેલાં";
-	$lang['beds'] = "પથારી";
- 	$lang['bills'] = "બિલ્સ";
+	$lang['beds'] = "બેડસ";
 	$lang['bill'] = "બિલ";
+ 	$lang['bills'] = "બિલ્સ";
 	$lang['bill_amount'] = "બિલ રકમ";
 	$lang['bill_no'] = "બિલ નં";
 	$lang['bill_details'] = "બિલ વિગતો";
@@ -161,15 +177,19 @@
 	$lang['bought_quantity'] = "ખરીદી જથ્થો";
 	$lang['browse'] = "બ્રાઉઝ";
 	$lang['blood_group'] = "બ્લડ ગ્રુપ";
+	$lang['book_appoinment'] = "બુક નિમણૂક";
 	$lang['bottom_section_1'] = "નીચે વિભાગ 1";
 	$lang['bottom_section_2'] = "નીચે ભાગ 2";
 	$lang['bottom_section_3'] = "નીચે ભાગ 3";
 	$lang['button'] = "બટન";
+	$lang['button_text'] = "બટન ટેક્સ્ટ";
+	$lang['button_url'] = "બટન URL";
 	$lang['bonus_percentage'] = "બોનસ ટકા";
 	$lang['bonus'] = "બોનસ";
 	$lang['billed'] = "બિલ";
 
-	$lang['calendar'] = "કેલેન્ડર";
+	$lang['calendar'] = "માસિક કૅલેન્ડર";
+	$lang['calendar_hours'] = "દૈનિક કૅલેન્ડર";
 	$lang['cancel'] = "રદ કરો";
 	$lang['cancelled'] = "રદ";
 	$lang['cash'] = "કેશ";
@@ -193,6 +213,7 @@
 	$lang['centers'] = "કેન્દ્રો";
 	$lang['change'] = "બદલો";
 	$lang['change_center'] = "સેન્ટર બદલો";
+	$lang['change_theme_color'] = "થીમ સેટિંગ્સ";
 	$lang['change_language'] = "ભાષા બદલો";
 	$lang['change_profile'] = "પ્રોફાઇલ બદલો";
 	$lang['change_status_of_field'] = "ક્ષેત્રની સ્થિતિ બદલો";
@@ -223,8 +244,10 @@
 	$lang['column_1'] = "કૉલમ 1";
 	$lang['column_2'] = "કૉલમ 2";
 	$lang['complete'] = "પૂર્ણ";
+	$lang['completed_appointment'] = "નિમણૂક પૂર્ણ થઈ";
 	$lang['completed_sessions'] = "પૂર્ણ સત્રો";
 	$lang['company'] = "કંપની";
+	$lang['company_information'] ="કંપની માહિતી";
 	$lang['compare'] = "તુલના";
 	$lang['content'] = "સામગ્રી";
 	$lang['contact'] = "સંપર્ક કરો";
@@ -253,13 +276,16 @@
 	$lang['contact_us'] = "અમારો સંપર્ક કરો";
 	$lang['ccavenue'] = "CCAvenue";
 	$lang['copy'] = "નકલ કરો";
+	$lang['ccavenue_settings'] = "સીસીએવેન્યુ સેટિંગ્સ";
 	$lang['cancelled_appoinment_by_patient'] = "દર્દી દ્વારા નિમણૂંક રદ કરવાના કિસ્સામાં, રિફંડ જાતે જ કરવું પડશે";
 	$lang['change_language_file'] = "ભાષા ફાઇલમાં શબ્દો બદલો";
 	$lang['create_language_file'] = "નવી ભાષા ફાઇલ બનાવો";
-	
-	$lang['dr_ac_name'] = "ડૉ. એ.સી.";
+	$lang['compare_image'] = "તુલના માટે ઓછામાં ઓછી બે છબીઓ આવશ્યક છે";
+
+
+	$lang['dr_ac_name'] = "ડો. એ / સી નામ";
 	$lang['dose'] = "ડોઝ";
-	$lang['does_not_has_value']="તેની કિંમત નથી"; 
+	$lang['does_not_has_value']="તેની કિંમત નથી";
 	$lang['day'] = "દિવસ";
 	$lang['days'] = "દિવસ";
 	$lang['daily'] = "દૈનિક";
@@ -307,6 +333,7 @@
 	$lang['doctor_schedule'] = "ડોક્ટર સૂચિ";
 	$lang['doctor_preferences'] = "ડોક્ટરની પસંદગી";
 	$lang['download'] = "ડાઉનલોડ ";
+	$lang['download_extension'] = "એક્સ્ટેંશન ડાઉનલોડ કરો";
 	$lang['downloading_files'] = "ડાઉનલોડ ફાઇલો ";
 	$lang['dr'] = "Dr.";
 	$lang['duration'] = "સમયગાળો";
@@ -315,6 +342,7 @@
 	$lang['disease'] = "રોગ";
 	$lang['diseases'] = "રોગો";
 	$lang['diagnosed_diseases'] = "નિદાન રોગ";
+	$lang['decimal_symbol'] = "દશાંશ પ્રતીક";
 
 	$lang['eraser'] = "ઇરેઝર";
 	$lang['erpnext_sync'] = "Erpnext Sync";
@@ -358,18 +386,25 @@
 	$lang['email_format'] = "ઇમેઇલ ફોર્મેટ";
 	$lang['edit_format'] = "ફોર્મેટ સંપાદિત કરો";
 	$lang['edit_language'] = "ભાષા સંપાદિત કરો";
+	$lang['enable_patient_account'] = "પેશન્ટ એકાઉન્ટ સક્ષમ કરો";
 
 	$lang['face'] = "ફેસ";
 	$lang['facebook'] = "ફેસબુક";
+	$lang['facebook_link'] = "ફેસબુક લિંક";
+	$lang['fax'] = "ફેક્સ";
 	$lang['fees'] = "ફી";
 	$lang['fees_detail'] = "ફી";
 	$lang['female'] = "સ્ત્રી";
 	$lang['file'] = "ફાઇલ";
+	$lang['file_size'] = "મહત્તમ ફાઇલ કદને મંજૂરી આપો (KB માં)";
+	$lang['file_type'] = "માન્ય ફાઇલ પ્રકારો";
+	$lang['file_type_msg'] = "jpeg|jpg|png વગેરે દ્વારા ફાઇલ પ્રકારોને અલગ કરો.";
 	$lang['file_content'] = "ફાઇલ સામગ્રી";
 	$lang['filter'] = "ફિલ્ટર";
 	$lang['first'] = "પ્રથમ";
 	$lang['first_name'] = "પ્રથમ નામ";
 	$lang['fields'] = "ક્ષેત્રો";
+	$lang['find_us_here']= "અમને અહીં શોધો";
 	$lang['field_label']="ફીલ્ડ લેબલ";
 	$lang['field_options']="ક્ષેત્ર વિકલ્પ";
 	$lang['field_order']="ક્ષેત્રનો ઓર્ડર";
@@ -379,6 +414,7 @@
 	$lang['field_status']="ક્ષેત્રની સ્થિતિ";
 	$lang['foc'] = "એફ.ઓ.સી .";
 	$lang['follow'] = "અનુસરો";
+	$lang['follow_on'] ="અનુસારવાનું ચાલુ રાખો";
 	$lang['follow_up'] = "ફોલોઅપ";
 	$lang['follow_ups'] = "ફોલોઅપ્સ";
 	$lang['footer_credits'] = "ફૂટર ક્રેડિટ્સ";
@@ -401,10 +437,12 @@
 	$lang['fixed_amount'] = "સ્થિર રકમ";
 	$lang['from_email'] = "ઇમેઇલ પ્રતિ";
 	$lang['featured'] = "ફીચર્ડ";
+	$lang['featured_image'] = "ફીચર્ડ છબી";
 	$lang['footer_section_1'] = "ફૂટર વિભાગ1";
 	$lang['footer_section_2'] = "ફૂટર વિભાગ  2";
 	$lang['footer_section_3'] = "ફૂટર વિભાગ  3";
 	$lang['footer_section_4'] = "ફૂટર વિભાગ  4";
+	$lang['favicon'] = "ફેવિકોન";
 
 	$lang['gender'] = "લિંગ";
 	$lang['gain'] = "લાભ";
@@ -415,7 +453,7 @@
 	$lang['group_by'] = "ગ્રુપ દ્વારા";
 	$lang['group'] = "ગ્રુપ";
 	$lang['group_name'] = "જૂથનું નામ";
-
+	$lang['gallery_setting_msg']="(તમે એડમિનિસ્ટ્રેશન > સેટિંગ્સ > ગેલેરીમાંથી માન્ય ફાઇલ પ્રકારો અને માન્ય ફાઇલ કદનું સંચાલન કરી શકો છો)";
 	$lang['header'] = "હેડર";
 	$lang['hidden'] = "છુપાયેલ";
 	$lang['home'] = "હોમ";
@@ -424,6 +462,7 @@
 	$lang['hourly_per_bed_charge']="બેડ દીઠ ચાર્જ ( કલાકના )";
 	$lang['html_content'] = "HTML સામગ્રી";
 	$lang['header_settings'] = "હેડર સેટિંગ્સ";
+	$lang['header_contact_number'] = "મથાળું સંપર્ક નંબર";
 	$lang['home_settings'] = "મુખ્ય પૃષ્ઠ સેટિંગ્સ";
 	$lang['has_additional_details'] = "વધારાની વિગતો છે";
 	$lang['has_value']="મૂલ્ય ધરાવે છે";
@@ -442,6 +481,8 @@
 	$lang['inavailablity'] = "અસફળતા";
 	$lang['install'] = "સ્થાપિત";
 	$lang['installing'] = "સ્થાપન કરી રહ્યા છીએ";
+	$lang['invoice_number'] = "બીલ નંબર";
+	$lang['invoice_prefix'] = "ભરતિયું ઉપસર્ગ";
 	$lang['invoice_details'] = "ભરતિયું વિગતો";
 	$lang['invoice_settings'] = "ભરતિયું સેટિંગ્સ";
 	$lang['instructions'] = "સૂચનાઓ";
@@ -455,9 +496,11 @@
 	$lang['item'] = "વસ્તુ";
 	$lang['item_number'] = "આઇટમ નંબર";
 	$lang['items'] = "વસ્તુઓ";
+	$lang['item_type'] = "આઇટમનો પ્રકાર";
 	$lang['import'] = "CSV આયાત કરો";
 	$lang['image'] = "છબી";
 	$lang['images'] = "છબીઓ";
+	$lang['image_id'] ="છબી આઈડી";
 	$lang['image_name'] = "છબી નામ";
 	$lang['image_path'] = "છબી પાથ";
 	$lang['income'] = "આવક";
@@ -476,10 +519,12 @@
 	$lang['languages'] = "ભાષાઓ";
 	$lang['last_name'] = "છેલ્લું નામ";
 	$lang['last'] = "છેલ્લા";
+	$lang['last_modified_date'] = "છેલ્લા ફેરફારની તારીખ";
 	$lang['lab_tests'] = "લેબ ટેસ્ટ";
 	$lang['lab_reports'] = "લેબ રિપોર્ટ્સ";
 	$lang['lab_instructions'] = "લેબ સૂચનો";
 	$lang['lab_test'] = "લેબ ટેસ્ટ";
+	$lang['latest_news'] = "તાજા સમાચાર";
 	$lang['length_invoice'] = "ભરતિયું સંખ્યાની  લંબાઈ";
 	$lang['login'] = "પ્રવેશ કરો";
 	$lang['login_yourself_to_get_access'] = "પ્રવેશ મેળવવા માટે સ્વયં પ્રવેશ કરો";
@@ -494,7 +539,8 @@
 	$lang['language_name'] = "ભાષા નામ";
 	$lang['latest'] = "નવીનતમ";
 	$lang['link'] = "લિંક";
-
+	$lang['link_text'] = "લિંક ટેક્સ્ટ";
+	$lang['link_url'] = "લિંક URL";
 	$lang['male'] = "પુરૂષ";
 	$lang['marker'] = "માર્કર";
 	$lang['marking'] = "નિશાન";
@@ -509,7 +555,7 @@
 	$lang['mobile'] = "મોબાઇલ";
 	$lang['mobile_no'] = "મોબાઈલ નંબર";
 	$lang['module'] = "મોડ્યુલ";
-	$lang['mode'] = "સ્થિતિ";
+	$lang['mode'] = "મોડ";
 	$lang['morning'] = "M";
 	$lang['mrp'] = "M.R.P.";
 	$lang['middle_name'] = "પિતાનું નામ";
@@ -521,6 +567,7 @@
 	$lang['media']="મીડિયા";
 	$lang['merchant_id']="વેપારી ID";
 	$lang['my_account']="મારું ખાતું";
+	$lang['make_appointment'] ="નિમણૂક કરો";
 	$lang['minimum_stock']="ન્યૂનતમ સ્ટોક આવશ્યક છે";
 	$lang['make_an_appointment'] = "મુલાકાત માટે સમય ફાળવો";
 	$lang['maximum_about_posts'] = "(તમે મહત્તમ પોસ્ટ્સ વિશે પહોંચી ગયા છો જેને ઉમેરી શકાય છે)";
@@ -530,12 +577,14 @@
 	$lang['maximum_footer_credits'] = "(તમે મહત્તમ ફૂટર ક્રેડિટ પોસ્ટ્સ પર પહોંચી ગયા છો જે ઉમેરી શકાય છે";
 	$lang['month'] = "માસ";
 	$lang['minimum_income'] = "ન્યૂનતમ આવક";
+	$lang['medical'] = "તબીબી";
 
 	$lang['name'] = "નામ";
 	$lang['none'] = "કોઈ નહીં";
 	$lang['next_follow_up'] = "આગળ ફોલોઅપ પછી";
 	$lang['net_total'] = "કુલ રકમ";
 	$lang['next_follow_date'] = "આગળ ફોલોઅપની તારીખ";
+	$lang['news_date'] = "સમાચાર તારીખ";
 	$lang['news_title'] = "શીર્ષક";
 	$lang['new'] = "નવું";
 	$lang['news'] = "સમાચાર";
@@ -548,6 +597,7 @@
 	$lang['news_setting'] = "સમાચાર પૃષ્ઠ સેટિંગ્સ";
 	$lang['night'] = "N";
 	$lang['no'] = "નં.";
+	$lang['non_working'] = "કામ કરતું નથી";
 	$lang['non_taxable_revenue'] = "બિન કરપાત્ર આવક";
 	$lang['no_of_beds'] = "બેડ્સ  ની સંખ્યા ";
 	$lang['not_available'] = "ઉપલબ્ધ નથી";
@@ -560,9 +610,14 @@
 	$lang['needs_cash_calc'] = "કેશ કેલ્ક્યુલેટરની જરૂર છે";
 	$lang['nurse'] = "નર્સ";
 	$lang['no_prescription']="કોઈ પ્રિસ્ક્રિપ્શન મળી નથી";
+	$lang['number_of_decimal']="દશાંશ સ્થાન";
+	$lang['no_image_for_comparision']="તુલના માટે કોઈ છબીઓ પસંદ નથી";
+	$lang['no_appointments_msg'] = "આ તારીખ માટે કોઈ નિમણૂક ઉપલબ્ધ નથી ";
 
 	$lang['on'] = "ચાલુ";
 	$lang['our'] = "અમારું";
+	$lang['our_team'] = "અમારી ટીમ";
+	$lang['our_services'] = "અમારી સેવાઓ";
 	$lang['office'] = "ઓફિસ";
 	$lang['office_branch'] = "ઓફિસ શાખા";
 	$lang['old_password'] = "જુનો પાસવર્ડ";
@@ -570,7 +625,7 @@
 	$lang['opening'] = "ખુલે છે";
 	$lang['opening_stock'] = "શેર ખુલે છે";
 	$lang['other'] = "અન્ય";
-	$lang['of_appoinment_time'] = "of appoinment time";
+	$lang['of_appoinment_time'] = "નિમણૂક સમય";
 
 	$lang['paid'] = "ચૂકવેલ";
 	$lang['page_title'] = "પૃષ્ઠ શીર્ષક";
@@ -599,6 +654,7 @@
 	$lang['payment_date'] = "ચુકવણી તારીખ";
 	$lang['payment_method'] = "ચુકવણી પદ્ધતિ";
 	$lang['payment_mode'] = "ચુકવણી સ્થિતિ";
+	$lang['payment_history'] = "ચૂકવણીનો ઇતિહાસ";
 	$lang['payment_status'] = "ચુકવણી સ્થિતિ";
 	$lang['paypal_settings'] = "PayPal સેટિંગ્સ";
 	$lang['paypal_business_email'] = "PayPal વ્યાપાર ઇમેઇલ";
@@ -613,12 +669,14 @@
 	$lang['posts'] = "પોસ્ટ્સ";
 	$lang['postal_code'] = "પોસ્ટ કોડ";
 	$lang['post_content'] = "પોસ્ટ સામગ્રી";
+	$lang['post_title'] = "પોસ્ટશીર્ષક";
+	$lang['post_type'] = "પોસ્ટ પ્રકાર";
 	$lang['print'] = "પ્રિંટ";
 	$lang['print_receipt'] = "પ્રિંટ રસીદ";
 	$lang['profile'] = "પ્રોફાઇલ";
 	$lang['progress'] = "પ્રગતિ";
 	$lang['prev_bal'] = "અગાઉનુ  બેલેન્સ";
-	$lang['prev_due'] = "અગાઉના કારણે";
+	$lang['prev_due'] = "અગાઉના કારણે"; 
  	$lang['preferred_size'] = "પ્રિફર્ડ કદ 260x60";
 	$lang['price'] = "ભાવ";
 	$lang['print_report'] = "પ્રિંટ રિપોર્ટ";
@@ -642,9 +700,16 @@
 	$lang['paypal'] = "PayPal";
 	$lang['prescribed_medicine'] = "નિયત દવા";
 	$lang['prefered_language'] = "પ્રાધાન્યવાળી ભાષા";
-
+	$lang['patient_account_msg'] = "(તમે ભરતિયું રકમ કરતાં વધુ ચુકવણી લઈ શકશો. પેશન્ટ એકાઉન્ટમાં વધારાની ચુકવણી જાળવવામાં આવશે. આ રકમનો ઉપયોગ આગલી વખતે બિલને સમાયોજિત કરવા માટે કરી શકાય છે)";
+	$lang['preferred_size_icon'] = " ફેવિકોન પ્રિફર્ડ કદ 16X16 ";
+	
 	$lang['quantity'] = "જથ્થો";
-
+	$lang['quantity_exceeds'] = "જરૂરી માત્રા ઉપલબ્ધ સ્ટોક કરતાં વધી ગઈ છે";
+	$lang['qrcode'] = "QRcode";
+	$lang['fixed'] = "ચોક્કસ";
+	$lang['variable'] = "ચલ";
+	$lang['in'] = "માં";
+	$lang['decimal_places'] = "દશાંશ સ્થાનો";
 	$lang['rate'] = "દર";
 	$lang['reason'] = "કારણ";
 	$lang['response'] = "પ્રતિભાવ";
@@ -664,6 +729,7 @@
 	$lang['renew_license'] = "લાયસન્સનું નવીકરણ કરો";
 	$lang['renew_license_to_update'] = "અપડેટ કરવા માટે લાઇસેંસનું નવીકરણ કરો";
 	$lang['receive_fee'] = "પ્રોફેશનલ સેવાઓ અને અમારા અન્ય ચાર્જીસ માટે ફી પ્રાપ્ત";
+	$lang['quantity_exceeds'] = "જરૂરી જથ્થો ઉપલબ્ધ સંગ્રહ કરતાં વધારે છે";
 	$lang['room'] = "રૂમ";
 	$lang['rooms'] = "રૂમ";
 	$lang['rooms_categories'] = "રૂમ શ્રેણીઓ";
@@ -675,6 +741,7 @@
 	$lang['reference_details'] = "સંદર્ભ વિગતો";
 	$lang['resend_code'] = "કોડ ફરીથી મોકલો";
 	$lang['residence'] = "નિવાસ";
+	$lang['restore'] = "પુનઃસ્થાપિત";
 	$lang['restore_backup'] = "બેકઅપ પુનઃસ્થાપિત કરો";
 	$lang['return'] = "પાછા આવો";
 	$lang['return_change'] = "રીટર્ન ચેન્જ";
@@ -682,6 +749,7 @@
 	$lang['reference_by'] = "સંદર્ભ દ્વારા";
 	$lang['room_charges'] = "રૂમ ચાર્જિસ રિપોર્ટ્સ";
 	$lang['room_number'] = "ઓરડા ક્રમાંક";
+	$lang['room_numbers_for'] = "માટે રૂમ નંબર્સ";
 	$lang['refund_amount'] = "પરત કરવાની રકમ";
 	$lang['refund_date'] = "રિફંડ તારીખ";
 	$lang['refund_note'] = "રીફંડ નોટ";
@@ -694,12 +762,14 @@
 	$lang['reload_language_file'] = "ભાષા ફાઇલ ફરીથી લોડ કરો";
 	$lang['reload_language_file_instruction'] = "આ ભાષા ફાઇલમાંથી થતા ફેરફારો પર ફરીથી લખાશે.";
 
+	$lang['slider_image'] = "સ્લાઇડર ચિત્ર";
 	$lang['sign_up'] = "સાઇન અપ કરો";
 	$lang['slider_1'] = "સ્લાઇડર 1";
 	$lang['slider_2'] = "સ્લાઇડર 2";
 	$lang['slider_3'] = "સ્લાઇડર 3";
 	$lang['slider'] = "સ્લાઇડર";
 	$lang['section']="વિભાગ";
+	$lang['second_section'] = "બીજો વિભાગ";
 	$lang['section_1'] = "વિભાગ 1";
 	$lang['section_2'] = "વિભાગ 2";
 	$lang['section_3'] = "વિભાગ 3";
@@ -713,6 +783,11 @@
 	$lang['second_number'] = "બીજું સંખ્યા";
 	$lang['select'] = "પસંદ કરો";
 	$lang['select_lang'] = "તમારી ભાષા પસંદ કરો";
+	$lang['select_currency'] = "ચલણ પસંદ કરો";
+	$lang['select_date'] = "તારીખ પસંદ કરો";
+	$lang['select_duration']= "સમયગાળો પસંદ કરો";
+	$lang['select_lang'] = "તમારી ભાષા પસંદ કરો";
+	$lang['select_media_image'] = "મીડિયા ચિત્ર પસંદ કરો";
 	$lang['select_time_zone'] = "તમારા ટાઈમઝોન પસંદ કરો";
 	$lang['select_all'] = "બધા પસંદ કરો";
 	$lang['select_mode'] = "મોડ પસંદ કરો";
@@ -758,12 +833,13 @@
 	$lang['shortcode_message'] = "[message] - સંદેશ દ્વારા બદલવામાં આવશે";
 	$lang['shortcode_template_id'] = "[template_id] - ઢાંચો ID દ્વારા બદલવામાં આવશે";
 	$lang['shortcode_bill_columns'] = "કોલમમાં બિલ માટે કોષ્ટકમાં પ્રદર્શિત કરવા";
-	$lang['shortcode_prescription_columns'] = "પ્રિસ્ક્રિપ્શન માટે કોષ્ટકમાં પ્રદર્શિત કરવા માટે કumnsલમ";
+	$lang['shortcode_prescription_columns'] = "પ્રિસ્ક્રિપ્શન માટે કોષ્ટકમાં પ્રદર્શિત કરવા માટે કૉલમ";
 	$lang['share_type'] = "શેર પ્રકાર";
 	$lang['sms_settings'] = "એસએમએસ સેટિંગ્સ";
 	$lang['smtp_instructions'] = "ફક્ત SMTP ઇમેઇલ્સ મોકલવા માટે આવશ્યક ";
 	$lang['services_settings'] = "સેવાઓ સેટિંગ્સ";
 	$lang['stock_sell'] = "વેચો";
+	$lang['stock_all_sell'] = "બધા વેચો";
 	$lang['sell_id'] = "વેચાણ આઈડી";
 	$lang['set'] = "સેટ કરો";
 	$lang['sell_amount'] = "વેચાણ રકમ";
@@ -810,6 +886,9 @@
 	$lang['support'] = "સપોર્ટ";
 	$lang['support_text'] = "આધાર લખાણ";
 	$lang['support_url'] = "સપોર્ટ URL";
+	$lang['select_doctor'] = "ડૉક્ટર ને પસંદ કરો";
+	$lang['select_beautician'] = "ડૉક્ટર ને પસંદ કરો";
+	$lang['select_a_Slot'] = "જગ્યા પસંદ કરો";
 	$lang['select_fields'] = "ક્ષેત્રો પસંદ કરો";
 	$lang['select_patient'] = "પેશન્ટ પસંદ કરો";
 	$lang['select_tax_rate'] = "કર દર પસંદ કરો";
@@ -817,19 +896,20 @@
 	$lang['stock_sell_report'] = "તમામ સેલ રિપોર્ટ";
 	$lang['total_sell_report'] = "કુલ વેચાણ રિપોર્ટ";
 	$lang['synchronize'] = "સિંક્રનાઇઝ કરો";
-	$lang['sms_url'] = "URL to send SMS";
-	$lang['smtp_host'] = "SMTP Host";
-	$lang['smtp_port'] = "SMTP Port";
+	$lang['sms_url'] = "એસએમએસ મોકલવા માટે URL";
+	$lang['smtp_host'] = "SMTP હોસ્ટ";
+	$lang['smtp_port'] = "SMTP પોર્ટ";
 	$lang['sms_alert_time'] = "એસએમએસ ચેતવણી સમય";
 	$lang['sms_format'] = "એસએમએસ ફોર્મેટ";
-	$lang['sms_template_id'] = "SMS Template ID";
-	$lang['sms_template_id'] = "SMS Template ID";
-	$lang['sms_log'] = "SMS Log";
+	$lang['sms_template_id'] = "એસએમએસ ટેમ્પ્લેટ ID";
+	$lang['sms_template_id'] = "એસએમએસ Templateાંચો ID";
+	$lang['sms_log'] = "એસએમએસ લોગ";
 	$lang['save_and_bill'] = "સેવ અને બિલ બનાવો";
 	$lang['ssn_id'] = "આધાર નંબર";
 	$lang['save_complete'] = "સાચવો અને પૂર્ણ કરો";
 	$lang['set_alert_time'] = "ચેતવણી ચેતવણી સેટ કરો";
 	$lang['slot'] = "સ્લોટ";
+	$lang['stock_reports'] = "સ્ટોક રિપોર્ટ";
 
 	$lang['to'] = "માટે";
 	$lang['total_appointments'] = "કુલ નિમણૂંક";
@@ -856,10 +936,13 @@
 	$lang['time_zone'] = "સમય ઝોન";
 	$lang['time_interval'] = "સમય અંતરાલ";
 	$lang['title'] = "શીર્ષક";
+	$lang['title_color'] = "શીર્ષક રંગ";
 	$lang['to_admin_panel'] = " એડમિન પેનલ પર";
 	$lang['to_date'] = "આજ સુધી";
+	$lang['to_time'] = "તે સમયે";
 	$lang['to_be_paid'] = "ચૂકવણી કરવામાં";
 	$lang['total'] = "કુલ";
+	$lang['total_sell_report'] = "કુલ વેચાણ અહેવાલ";
 	$lang['total_due_after_payment'] = "ચુકવણી પછી કુલ રકમ";
 	$lang['transport'] = "ટ્રાન્સપોર્ટ";
 	$lang['treatment'] = "સારવાર";
@@ -869,21 +952,26 @@
 	$lang['treatment_charges'] = "સારવાર ચાર્જિસ /ફી";
 	$lang['type'] = "પ્રકાર";
 	$lang['twitter'] = "ટ્વીટર";
+	$lang['twitter_link'] = "ટ્વિટર લિંક";
 	$lang['theme'] = "થીમ";
 	$lang['txn_id'] = "TXN ID";
 	$lang['tax_rate_name'] = "કર દર નામ";
-    $lang['tax_rates'] = "કર દર";
+    	$lang['tax_rates'] = "કર દર";
 	$lang['tax_report'] = "કર રિપોર્ટ";
   	$lang['test_name'] = "પરીક્ષણ નામ";
+
 	$lang['test'] = "પરીક્ષણ";
 	$lang['tests'] = "પરીક્ષણ";
 	$lang['text'] = "ટેક્સ્ટ";
+	$lang['text_color'] = "ટેક્સ્ટ રંગ";
+	$lang['third_section'] = "ત્રીજો વિભાગ";
 	$lang['top_section_1'] = "ટોચ વિભાગ 1";
 	$lang['top_section_2'] = "ટોચ વિભાગ 2";
 	$lang['top_section_3'] = "ટોચ વિભાગ 3";
 	$lang['this_payment_is_rejected'] = "આ ચુકવણી નકારવામાં આવે છે";
 	$lang['types'] = "પ્રકારો";
-	$lang['template_name'] = "Template Name";
+	$lang['template_name'] = "ટેમ્પલેટ નામ";
+	$lang['thousands_separator'] = "હજારો વિભાજક";
 
 	$lang['upload'] = "અપલોડ કરો";
 	$lang['upload_extension'] = "અપલોડ એક્સ્ટેન્શન્સ";
@@ -899,6 +987,7 @@
 	$lang['unpacking_zip_package'] = "અનપેકિંગ  ઝિપ પેકેજ";
 	$lang['upload_language_file'] = "હાલની ભાષા ફાઇલ અપલોડ કરો";
 
+	$lang['variable'] = "ચલ";
 	$lang['vaccine'] = "રસી";
 	$lang['vaccines'] = "રસીઓ";
 	$lang['vaccine_master'] = "રસીકરણ";
@@ -910,13 +999,16 @@
 	$lang['visit_time'] = "સમયની મુલાકાત લો";
 	$lang['visit_type'] = "પ્રકાર ની મુલાકાત લો";
 	$lang['visits'] = "મુલાકાતો";
-    $lang['verify'] = "ચકાસો";
+  	$lang['verify'] = "ચકાસો";
+    	$lang['version'] = "આવૃત્તિ";
 	$lang['verification_code'] = "ચકાસણી કોડ";
 	$lang['verify_email'] = "ઇમેઇલ ચકાસો";
 	$lang['voucher_no'] = "વાઉચર નં.";
 	$lang['voucher_date'] = "વાઉચર તારીખ";
+	$lang['view_larger_map']="મોટો નકશો જુઓ";
 	$lang['view_prescription'] = "પ્રિસ્ક્રિપ્શન જુઓ";
 	$lang['value'] = "મૂલ્ય";
+	$lang['visit_report'] = "તબીબી ઇતિહાસ અહેવાલ";
 
 	$lang['waiting'] = "રાહ ";
  	$lang['waiting_in'] = "માં પ્રતીક્ષામાં છે";
@@ -924,13 +1016,16 @@
 	$lang['whole_day'] = "આખો દિવસ";
 	$lang['website'] = "વેબસાઇટ";
 	$lang['website_text'] = "વેબસાઇટ ટેક્સ્ટ";
-	$lang['website_url'] = "વેબપૃષ્ઠ કડી";
+	$lang['website_url'] = "વેબપૃષ્ઠ URL";
 	$lang['working'] = "કાર્યરત";
 	$lang['working_days'] = "કાર્યકારી દિવસો";
+	$lang['working_key'] = "કામ કરતી કી";
 	$lang['non_working'] = "નોન વર્કીંગ";
 	$lang['we_provide'] = "અમે આપીશું";
 
 	$lang['year'] = "વર્ષ";
+	$lang['your_username'] = "તમારું  વપરાશકર્તા નામ";
+	$lang['your_password'] = "તમારો  પાસવર્ડ";
 
 	$lang['sunday'] = "રવિવાર";
 	$lang['monday'] = "સોમવાર";
@@ -987,50 +1082,47 @@
 	$lang['no_visits'] = "આ દર્દી માટે કોઈ મુલાકાત નથી ";
 	$lang['toggle_display'] = "(ડિસ્પ્લે  ટૉગલ કરવા માટે ક્લિક કરો)";
 	$lang['initial_password_message'] = "પ્રારંભિક પાસવર્ડ વપરાશકર્તાનામ તરીકે સમાન છે";
+	$lang['is_active_email']= "{ફીલ્ડ} સક્રિય નથી. કૃપા કરીને સંપર્ક સંચાલક કરો";
 	$lang['thanks_to_amazing_works'] = "ચિકિત્સા નીચેની અમેઝિંગ કામો વગર શક્ય બન્યું ન હોત.";
 	$lang['no_disease'] = "કોઈ રોગ ઉમેર્યા નથી. એક રોગ ઉમેરો.";
 	$lang['validate_date_or_day'] = "કૃપા કરી તારીખ દાખલ કરો અથવા દિવસો પસંદ કરો.";
 	$lang['non_working'] = "આ નોન વર્કિંગ ડે છે";
+	$lang['max_post_allowed'] ="(તમે મહત્તમ પોસ્ટ સુધી પહોંચી ગયા છો કે જે ઉમેરી શકાય છે)";
 	$lang['time_booked'] = "આ સમય પહેલેથી જ મહત્તમ દર્દીઓ સાથે બુક થયેલ છે!";
 	$lang['doctor_not_available'] = "ડાક્તરઆ સમય દરમિયાન ઉપલબ્ધ નથી";
 	$lang['image_for_compare'] = "કૃપા કરીને તુલના માટે છબીઓ પસંદ કરો";
 	$lang['error_saving_image'] = "છબી સાચવવાનો પ્રયાસ કરતી વખતે થોડી ભૂલ આવી.";
 	$lang['select_two'] = "કૃપા કરીને ફક્ત બે જ પસંદ કરો";
 	$lang['save_language_instructions'] = "(ફક્ત ટેક્સ્ટ બદલો અને સાચવવા માટે આગળ વધો)";
-
+	$lang['validate_code']= "ચકાસણી કોડ યોગ્ય નથી";
 	$lang['reset_password_instructions'] = "કૃપા કરીને તમારું વપરાશકર્તાનામ અથવા ઇમેઇલ સરનામું દાખલ કરો.તમને ઇમેઇલ દ્વારા એક નવો પાસવર્ડ બનાવવા માટે એક લિંક પ્રાપ્ત થશે.";
 	$lang['no_email_registered'] = "તે વપરાશકર્તાનામ અથવા ઇમેઇલ સાથે કોઈ વપરાશકર્તા રજીસ્ટર નથી.";
 	$lang['check_confirmation_link'] = "પુષ્ટિકરણ લિંક માટે તમારું ઇમેઇલ તપાસો.";
-
 	$lang['appointment_payment_success'] = "તમારું ચુકવણી સફળ થયું, બુકિંગની મુલાકાત માટે આભાર.";
 
 	$lang['paypal_cancel_salutation'] = "પ્રિય સભ્ય";
 	$lang['paypal_cancel_message'] = "માફ કરશો! તમારો છેલ્લો વ્યવહાર રદ થયો હતો.";
 
 	$lang['file_missing'] = "ફોલ્ડર ખૂટે છે.";
-
 	$lang['sms_username_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પ્રદાન કરેલ વપરાશકર્તા નામ દાખલ કરો";
 	$lang['sms_password_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પ્રદાન કરેલો પાસવર્ડ દાખલ કરો";
 	$lang['sms_senderid_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પ્રદાન કરાયેલ પ્રેષક આઈડી દાખલ કરો";
 	$lang['sms_countrycode_instruction'] = "મોબાઇલ નંબરમાં દેશનો કોડ શામેલ કરવા માટે તેને ખાલી રાખો";
 	$lang['sms_url_instruction'] = "એસએમએસ API પ્રદાતા દ્વારા પૂરી પાડવામાં આવેલ URL દાખલ કરો";
-
 	$lang['updating_to_latest'] = "ચિકિત્સાને નવીનતમ સંસ્કરણ પર અપડેટ કરી રહ્યું છે. <br/> આ પ્રક્રિયામાં થોડો સમય લાગી શકે છે. <br/>";
 	$lang['donot_close_browser'] = "<strong> પ્રક્રિયા પૂર્ણ થાય ત્યાં સુધી બ્રાઉઝર બંધ કરશો નહીં. </ strong> <br/>";
 	$lang['download_chikitsa'] = "છેલ્લી ચિકિત્સા ઝિપ ડાઉનલોડ કરી રહ્યું છે ... <br/>";
 	$lang['unzip_file'] = "ઝિપ ફાઇલને અનઝિપ કરી રહ્યું છે <br/>";
-
 	$lang['no_services'] = "કોઈ સેવાઓ ઉમેરાઈ નથી. એક સેવા ઉમેરો.";
-
 	$lang['extension_requires'] = 'આ એક્સ્ટેંશનને %1$s %2$s ની જરૂર છે';
 	$lang['compatible_version'] = '%1$s ની આ સંસ્કરણ સાથે સુસંગત';
-
+	
 	$lang['please_enter_first_name'] = "કૃપા કરીને પ્રથમ નામ દાખલ કરો";
 	$lang['please_enter_last_name'] = "કૃપા કરીને છેલ્લું નામ દાખલ કરો";
 	$lang['please_enter_mobile_number'] = "મહેરબાની કરીને મોબાઇલ નંબર દાખલ કરો";
 	$lang['please_enter_language_name'] = "ભાષા નામ દાખલ કરો";
-	
-	
+
+
 	$lang['australian_currency'] = "ઓસ્ટ્રેલિયન ડોલર (એયુડી)";
 	$lang['brazilian_currency'] = "બ્રાઝિલિયન રીઅલ (બીઆરએલ)";
 	$lang['canadian_currency'] = "કેનેડિયન ડોલર (સીએડી)";
@@ -1068,4 +1160,31 @@
 	$lang['qatari_currency'] = "કતાર રિયાલ (ક્યુએઆર)";
 	$lang['saudi_currency'] = "સાઉદી રિયાલ (એસએઆર)";
 	$lang['south_african_currency'] = "દક્ષિણ આફ્રિકન રૅન્ડ (ZAR)";
+	$lang['grace_hours']="ગ્રેસ અવર્સ";
+	$lang['minimum']="પ્રવેશ માટે ન્યૂનતમ કલાકો";
+	$lang['base_charge']="ન્યૂનતમ કલાકો માટે આધાર ચાર્જ";
+	
+	$lang['pending_lab_tests']="બાકી લેબ પરીક્ષણો";
+	$lang['complete_lab_tests']="પૂર્ણ લેબ પરીક્ષણો";
+	$lang['please_enter_particular']="વિશિષ્ટ દાખલ કરો.";
+	$lang['please_enter_particular_amount']="કૃપા કરીને માન્ય વિશેષ રકમ દાખલ કરો.";
+	$lang['please_enter_discount']="કૃપા કરી માન્ય ડિસ્કાઉન્ટની રકમ દાખલ કરો.";
+	$lang['please_enter_item']="કૃપા કરીને આઇટમ દાખલ કરો.";
+	$lang['please_enter_item_amount']="કૃપા કરીને માન્ય વસ્તુ રકમ દાખલ કરો.";
+	$lang['please_enter_item_quantity']="કૃપા કરીને આઇટમ જથ્થો દાખલ કરો.";
+	$lang['not_available_item_quantity']="જથ્થો ઉપલબ્ધ નથી.";
+	$lang['please_enter_fees_detail']="કૃપા કરી ફી વિગત દાખલ કરો.";
+	$lang['please_enter_fees_amount']="કૃપા કરીને માન્ય ફીની રકમ દાખલ કરો";
+	$lang['please_enter_treatment']="કૃપા કરીને સારવાર દાખલ કરો.";
+	$lang['please_enter_treatment_price']="કૃપા કરીને સારવાર ભાવ દાખલ કરો.";
+	$lang['please_enter_lab_test']="મહેરબાની કરીને લેબ ટેસ્ટ દાખલ કરો.";
+	$lang['please_enter_lab_test_price']="કૃપા કરીને માન્ય લેબ ટેસ્ટ ભાવ દાખલ કરો.";
+	$lang['logout']="લૉગ આઉટ";
+	$lang['clinic_close']="તે સમયે ક્લિનિક બંધ રહેશે.";
+	$lang['expand_all']="બધા વિસ્તૃત કરો";
+	$lang['collapse_all']="બધા સંકુચિત કરો";
+	$lang['remove_profile_picture']="પ્રોફાઇલ ચિત્ર દૂર કરો";
+	$lang['ready_to_leave']="છોડવા માટે તૈયાર છો?";
+	$lang['logout_message']=" જો તમે તમારું વર્તમાન સત્ર સમાપ્ત કરવા માટે તૈયાર છો તો નીચે લૉગ આઉટ ને પસંદ કરો.";	
+	$lang['base_charge']="ડે કેર માટે બેઝ ચાર્જ";	
 ?>

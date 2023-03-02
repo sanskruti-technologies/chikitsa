@@ -37,23 +37,23 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['form_validation_required']		= 'Il campo {field} è richiesto.';
+$lang['form_validation_required']		= 'Il campo {field} Ã¨ richiesto.';
 $lang['form_validation_isset']			= 'Il campo {field} deve avere un valore.';
 $lang['form_validation_valid_email']		= 'Il campo {field} deve contenere un indirizzo email valido.';
 $lang['form_validation_valid_emails']		= 'Il campo {field} deve contenere tutti gli indirizzi e-mail validi.';
 $lang['form_validation_valid_url']		= 'Il campo {field} deve contenere un URL valido.';
 $lang['form_validation_valid_ip']		= 'Il campo {field} deve contenere un IP valido.';
 $lang['form_validation_min_length']		= 'Il campo {field} deve essere almeno {param} caratteri di lunghezza.';
-$lang['form_validation_max_length']		= 'Il campo {field} non può superare i {param} caratteri di lunghezza.';
+$lang['form_validation_max_length']		= 'Il campo {field} non puÃ² superare i {param} caratteri di lunghezza.';
 $lang['form_validation_exact_length']		= 'Il campo {field} deve essere esattamente {param} caratteri di lunghezza.';
-$lang['form_validation_alpha']			= 'Il campo {field} può contenere solo caratteri alfabetici.';
-$lang['form_validation_alpha_numeric']		= 'Il campo {field} può contenere solo caratteri alfanumerici.';
-$lang['form_validation_alpha_numeric_spaces']	= 'Il campo {field} può contenere solo caratteri alfanumerici e spazi.';
-$lang['form_validation_alpha_dash']		= 'Il campo {field} può contenere solo caratteri alfanumerici, trattini e trattini.';
+$lang['form_validation_alpha']			= 'Il campo {field} puÃ² contenere solo caratteri alfabetici.';
+$lang['form_validation_alpha_numeric']		= 'Il campo {field} puÃ² contenere solo caratteri alfanumerici.';
+$lang['form_validation_alpha_numeric_spaces']	= 'Il campo {field} puÃ² contenere solo caratteri alfanumerici e spazi.';
+$lang['form_validation_alpha_dash']		= 'Il campo {field} puÃ² contenere solo caratteri alfanumerici, trattini e trattini.';
 $lang['form_validation_numeric']		= 'Il campo {field} deve contenere solo numeri. ';
 $lang['form_validation_is_numeric']		= 'Il campo {field} deve contenere solo caratteri numerici. ';
 $lang['form_validation_integer']		= 'Il campo {field} deve contenere un numero intero. ';
-$lang['form_validation_regex_match']		= 'Il campo {field} non è nel formato corretto. ';
+$lang['form_validation_regex_match']		= 'Il campo {field} non Ã¨ nel formato corretto. ';
 $lang['form_validation_matches']		= 'Il campo {field} non corrisponde al campo {param} ';
 $lang['form_validation_differs']		= 'Il campo {field} deve essere diverso dal campo {param} ';
 $lang['form_validation_is_unique'] 		= 'Il campo {field} deve contenere un valore unico. ';

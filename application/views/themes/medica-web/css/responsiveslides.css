@@ -1,0 +1,290 @@
+/*! http://responsiveslides.com v1.53 by @viljamis */
+
+.rslides {
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  }
+
+.rslides li {
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  display: none;
+  width: 100%;
+  left: 0;
+  top: 0;
+  }
+
+.rslides li:first-child {
+  position: relative;
+  display: block;
+  float: left;
+  }
+
+.rslides img {
+ 	display: block;
+	height: auto;
+	float: left;
+	border: 0;
+	width: 100%;
+  }
+.slider-info {
+	position: absolute;
+	bottom: 50px;
+	left: 50px;
+	padding:25px;
+	text-align: left;
+	-webkit-transition: background 0.2s ease;
+	-moz-transition: background 0.2s ease;
+	-o-transition: background 0.2s ease;
+	-ms-transition: background 0.2s ease;
+	transition: background 0.2s ease;
+	border-radius: 0.3em;
+	width: 40%;
+	background-color:rgba(255,255,255,0.5);
+	display:block;
+}
+.slider-info p{
+	font-family: 'Open Sans', sans-serif;
+	color: #007DAD;
+	font-size:4.5em;
+	text-transform: uppercase;
+}
+.slider-info span{
+	font-family: 'Open Sans', sans-serif;
+	width: 89%;
+	color: rgba(31, 31, 31, 0.99);
+	font-size: 0.875em;
+	text-transform: uppercase;
+	display: block;
+	-webkit-transition: background 0.2s ease;
+	-moz-transition: background 0.2s ease;
+	-o-transition: background 0.2s ease;
+	-ms-transition: background 0.2s ease;
+	transition: background 0.2s ease;
+	padding: 0.6em 0;
+}
+.slider-info a{
+	font-family: 'Open Sans', sans-serif;
+	background:#289cd8;
+	color: #FFF;
+	padding: 12px 20px;
+	font-size: 0.875em;
+	text-transform: uppercase;
+	display: block;
+	transition: 0.5s ease;
+	-o-transition: 0.5s ease;
+	-webkit-transition: 0.5s ease;
+	-webkit-transition: background 0.2s ease;
+    -moz-transition: background 0.2s ease;
+    -o-transition: background 0.2s ease;
+    -ms-transition: background 0.2s ease;
+    transition: background 0.2s ease;
+	width: 100px;
+    text-align: center;
+}
+.slider-info a:hover{
+	background: rgba(31, 31, 31, 0.99);
+	color:#FFF;
+}
+@media only screen and (max-width: 1366px) and (min-width: 1280px) {
+	.slider-info {
+		left: 10%;
+	}
+	.slider-info p {
+		font-size: 53px;
+	}
+	.slider-info span {
+		font-size:15px;
+	}
+}
+@media only screen and (max-width: 1280px) and (min-width: 1024px) {
+	.slider-info {
+		left: 8%;
+		top: 80px;
+	}
+	.slider-info p {
+		font-size: 4em;
+	}
+	.slider-info a {
+		left: 80%;
+		top:200px;
+	}
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 768px) {
+	.slider-info {
+		top: 28px;
+		left: 6%;
+	}
+	.slider-info p {
+		font-size: 2.8em;
+	}
+	.slider-info span {
+		width: 90%;
+		margin:0 auto;
+	}
+	.slider-info a {
+		top: 160%;
+		left: 70%;
+	}
+
+}
+@media only screen and (max-width: 768px) and (min-width: 640px) {
+	.slider-info {
+		top: 15px;
+		left: 5%;
+	}
+	.slider-info p {
+		font-size: 2em;
+	}
+	.slider-info span {
+		width: 90%;
+		margin:0 auto;
+	}
+	.slider-info a {
+		top: 207%;
+		left: 69%;
+	}
+	.slider-info a {
+		padding: 11px 20px;
+	}	
+}
+@media only screen and (max-width: 800px) and (min-width: 500px) {
+	.slider-info {
+		left: 5%;
+		top: 9%;
+	}
+	.slider-info p {
+		font-size: 16px;
+	}
+	.slider-info a{
+		width:80px;
+	}
+	.slider-info span{
+		font-size:12px;
+	}
+	.slider-info {
+		position: initial;
+		padding:25px;
+		text-align: left;
+		-webkit-transition: background 0.2s ease;
+		-moz-transition: background 0.2s ease;
+		-o-transition: background 0.2s ease;
+		-ms-transition: background 0.2s ease;
+		transition: background 0.2s ease;
+		border-radius: 0.3em;
+		width: 100%;
+		background-color:rgba(255,255,255,0.5);
+		display:block;
+	}
+	.slider-info p{
+		font-family: 'Open Sans', sans-serif;
+		color: #007DAD;
+		font-size:2em;
+		text-transform: uppercase;
+	}
+	.slider-info a{
+		font-family: 'Open Sans', sans-serif;
+		background:#289cd8;
+		color: #FFF;
+		padding: 8px 8px;
+		font-size: 0.875em;
+		text-transform: uppercase;
+		display: block;
+		transition: 0.5s ease;
+		-o-transition: 0.5s ease;
+		-webkit-transition: 0.5s ease;
+		-webkit-transition: background 0.2s ease;
+		-moz-transition: background 0.2s ease;
+		-o-transition: background 0.2s ease;
+		-ms-transition: background 0.2s ease;
+		transition: background 0.2s ease;
+		width: 100px;
+		text-align: center;
+	}
+}
+@media only screen and (max-width: 500px) and (min-width: 400px) {
+	.slider-info {
+		position: initial;
+		padding:25px;
+		text-align: left;
+		-webkit-transition: background 0.2s ease;
+		-moz-transition: background 0.2s ease;
+		-o-transition: background 0.2s ease;
+		-ms-transition: background 0.2s ease;
+		transition: background 0.2s ease;
+		border-radius: 0.3em;
+		width: 100%;
+		background-color:rgba(255,255,255,0.5);
+		display:block;
+	}
+	.slider-info p{
+		font-family: 'Open Sans', sans-serif;
+		color: #007DAD;
+		font-size:2em;
+		text-transform: uppercase;
+	}
+	.slider-info a{
+		font-family: 'Open Sans', sans-serif;
+		background:#289cd8;
+		color: #FFF;
+		padding: 8px 8px;
+		font-size: 0.875em;
+		text-transform: uppercase;
+		display: block;
+		transition: 0.5s ease;
+		-o-transition: 0.5s ease;
+		-webkit-transition: 0.5s ease;
+		-webkit-transition: background 0.2s ease;
+		-moz-transition: background 0.2s ease;
+		-o-transition: background 0.2s ease;
+		-ms-transition: background 0.2s ease;
+		transition: background 0.2s ease;
+		width: 100px;
+		text-align: center;
+	}
+}
+@media only screen and (max-width: 399px) and (min-width: 200px) {
+	.slider-info {
+		position: initial;
+		padding:25px;
+		text-align: left;
+		-webkit-transition: background 0.2s ease;
+		-moz-transition: background 0.2s ease;
+		-o-transition: background 0.2s ease;
+		-ms-transition: background 0.2s ease;
+		transition: background 0.2s ease;
+		border-radius: 0.3em;
+		width: 95%;
+		background-color:rgba(255,255,255,0.5);
+		display:block;
+	}
+	.slider-info p{
+		font-family: 'Open Sans', sans-serif;
+		color: #007DAD;
+		font-size:2em;
+		text-transform: uppercase;
+	}
+	.slider-info a{
+		font-family: 'Open Sans', sans-serif;
+		background:#289cd8;
+		color: #FFF;
+		padding: 8px 8px;
+		font-size: 0.875em;
+		text-transform: uppercase;
+		display: block;
+		transition: 0.5s ease;
+		-o-transition: 0.5s ease;
+		-webkit-transition: 0.5s ease;
+		-webkit-transition: background 0.2s ease;
+		-moz-transition: background 0.2s ease;
+		-o-transition: background 0.2s ease;
+		-ms-transition: background 0.2s ease;
+		transition: background 0.2s ease;
+		width: 100px;
+		text-align: center;
+	}
+}

@@ -2,122 +2,229 @@
 /*
 	This file is part of Chikitsa.
 
+
+
     Chikitsa is free software: you can redistribute it and/or modify
+
     it under the terms of the GNU General Public License as published by
+
     the Free Software Foundation, either version 3 of the License, or
+
     (at your option) any later version.
 
+
+
     Chikitsa is distributed in the hope that it will be useful,
+
     but WITHOUT ANY WARRANTY; without even the implied warranty of
+
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+
     GNU General Public License for more details.
 
+
+
     You should have received a copy of the GNU General Public License
+
     along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
+
 */
 ?>
 <script>
+
 	function number_format (number, decimals, dec_point, thousands_sep) {
+
 		// Strip all characters but numerical ones.
+
 		number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+
 		var n = !isFinite(+number) ? 0 : +number,
+
 			prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+
 			sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+
 			dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+
 			s = '',
+
 			toFixedFix = function (n, prec) {
+
 				var k = Math.pow(10, prec);
+
 				return '' + Math.round(n * k) / k;
+
 			};
+
 		// Fix for IE parseFloat(0.55).toFixed(0) = 0;
+
 		s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+
 		if (s[0].length > 3) {
+
 			s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+
 		}
+
 		if ((s[1] || '').length < prec) {
+
 			s[1] = s[1] || '';
+
 			s[1] += new Array(prec - s[1].length + 1).join('0');
+
 		}
+
 		return s.join(dec);
+
 	}
+
 	function currency_format(number){
+
 		var currencySymbol = '<?=$currency_symbol;?>';
+
 		var currencyPostfix = '<?=$currency_postfix;?>';
+
 		return currencySymbol + number_format(number, 2, '.', ',') + currencyPostfix;
+
 	}
+
 	$(window).load(function(){
+
 		<?php
+
 			if(isset($patient)){
+
 				?>$("#adjust_from_account_amount").html('<?=$patient['in_account_amount'];?>');
+
 				$("#adjust_from_account_display").html(currency_format(<?=$patient['in_account_amount'];?>));
+
 				<?php
+
 			}else{
+
 		?>
+
 		var searcharrpatient=[<?php $i = 0;
+
 		foreach ($patients as $p) {
+
 			if ($i > 0) { echo ",";}
+
 			echo '{value:"' . $p['first_name'] . " " . $p['middle_name'] . " " . $p['last_name'] . '",id:"' . $p['patient_id'] . '",in_account_amount:"'. $p['in_account_amount'] .'",display:"' . $p['display_id'] . '",num:"' . $p['phone_number'] . '"}';
+
 			$i++;
+
 		}?>];
 
+
+
 		$("#patient_name").autocomplete({
+
 			autoFocus: true,
+
 			source: searcharrpatient,
+
 			minLength: 1,//search after one characters
+
 			select: function(event,ui){
+
 				//do something
+
 				$("#patient_id").val(ui.item ? ui.item.id : '');
+
 				$("#adjust_from_account_amount").html(ui.item ? ui.item.in_account_amount : '');
+
 				$("#adjust_from_account_display").html(ui.item ? currency_format(ui.item.in_account_amount) : '');
 
+				$("#patient_name").val(ui.item ? ui.item.value : '');
+
+				return false;
+			},
+			change: function(event, ui) {
+				if (ui.item == null) {
+					$("#patient_name").val('');
+				}
+			},
+			response: function(event, ui) {
+				if (ui.content.length === 0)
+				{
+					$("#patient_name").val('');
+				}
 			}
+
 		});
+
 		<?php } ?>
+
 		$('#refund_date').datetimepicker({
+
 			timepicker:false,
+
 			format: '<?=$def_dateformate;?>',
+
 			scrollInput:false,
+
 			scrollMonth:false,
+
 			scrollTime:false,
+
 		});
+
 	});
+
 </script>
+
 <?php
+
 	if(isset($refund)){
-		$refund_amount = $refund['refund_amount'];
-		$refund_note = $refund['refund_note'];
-		$refund_date = date($def_dateformate,strtotime($refund['refund_date']));
+
+		$refund_amount = set_value('refund_amount',$refund['refund_amount']);
+
+		$refund_note = set_value('refund_note',$refund['refund_note']);
+
+		$refund_date = set_value('refund_date',date($def_dateformate,strtotime($refund['refund_date'])));
+
 	}else{
-		$refund_amount = "";
-		$refund_date = date($def_dateformate);
-		$refund_note = "";
+
+		$refund_amount = set_value('refund_amount',"");
+
+		$refund_date_value =set_value('refund_date','');
+
+		$refund_note = set_value('refund_note',"");
+
+		$patient_name_value=set_value('patient_name',"");
+
+		$patient_id_value=set_value('patient_id',"");
+	}
+	if($refund_date_value==''){
+		$refund_date=date($def_dateformate);
+	}else{
+		$refund_date=$refund_date_value;
 	}
 ?>
-<div id="page-inner">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-			<div class="panel-heading">
-				<div class="row">
-					<h2><?php echo $this->lang->line("issue_refund");?></h2>
-				</div>
-			</div>
-			<div class="panel-body table-responsive-25">
-			<?php if(isset($refund)){ ?>
-			<?php echo form_open('payment/edit_refund/'.$refund_id) ?>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+<!-- Page Heading -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
+			<h5 class="m-0 font-weight-bold text-primary"><?php echo $this->lang->line("issue_refund");?></h5>					
+		</div>
+		<div class="card-body">
+				<?php if(isset($refund)){ ?>
+				<?php echo form_open('payment/edit_refund/'.$refund_id) ?>
 			<?php }else{ ?>
-			<?php echo form_open('payment/add_issue_refund/') ?>
+				<?php echo form_open('payment/add_issue_refund/') ?>
 			<?php } ?>
 			<div class="col-md-12">
 				<label for="patient_name"><?php echo $this->lang->line('patient_name');?></label>
 				<?php if(isset($refund)){ //Edit Mode ?>
 					<input type="hidden" name="patient_id" id="patient_id" value="<?= $refund['patient_id']; ?>" />
 					<input name="patient_name" id="patient_name" type="text" disabled="disabled" class="form-control" value="<?= $patient_name;?>"/><br />
-					<?php echo form_error('patient_id','<	div class="alert alert-danger">','</div>'); ?>
+					<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
 				<?php }else{ //Insert Mode  ?>
-					<input name="patient_name" id="patient_name" type="text" class="form-control" value=""/><br />
-
-					<input type="hidden" name="patient_id" id="patient_id" value="" />
+					<input name="patient_name" id="patient_name" type="text" class="form-control" value="<?= $patient_name_value;?>"/><br />
+					<input type="hidden" name="patient_id" id="patient_id" value="<?= $patient_id_value;?>" />
 					<?php echo form_error('patient_id','<div class="alert alert-danger">','</div>'); ?>
 				<?php } ?>
 			</div>
@@ -150,15 +257,14 @@
 				</div>
 			</div>
 			<div class="col-md-12">
+				<div class="right">
 				<div class="form-group">
 					<input class="btn btn-primary btn-sm square-btn-adjust" type="submit" id="save_issue_refund" value="<?php echo $this->lang->line('save');?>" name="submit" />
 					<a href="<?=site_url('payment/issue_refund');?>" class="btn btn-primary btn-sm square-btn-adjust"><?php echo $this->lang->line('back');?></a>
 				</div>
+				</div>
 			</div>
-
 			<?php echo form_close(); ?>
-			</div>
-			</div>
 		</div>
 	</div>
 </div>

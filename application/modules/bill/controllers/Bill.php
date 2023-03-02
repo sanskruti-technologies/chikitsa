@@ -15,11 +15,12 @@
     You should have received a copy of the GNU General Public License
     along with Chikitsa.  If not, see <https://www.gnu.org/licenses/>.
 */
-?>
-<?php
 class Bill extends CI_Controller {
     function __construct() {
         parent::__construct();
+
+		$this->config->load('version');
+		
 		$this->load->model('settings/settings_model');
 		$this->load->model('doctor/doctor_model');
 		$this->load->model('admin/admin_model');
@@ -33,11 +34,12 @@ class Bill extends CI_Controller {
 
 		$this->load->helper('form');
 		$this->load->helper('currency_helper');
-		$this->load->helper('mainpage');
+		//$this->load->helper('mainpage');
 
         $this->load->library('session');
 		$this->load->library('form_validation');
 		$this->load->library('export');
+		$this->load->helper('header');
 
 		$this->lang->load('main',$this->session->userdata('prefered_language'));
     }
@@ -45,16 +47,25 @@ class Bill extends CI_Controller {
 		// Check If user has logged in or not
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
 		 	redirect('login/index');
-         } else {
+        }else if (!$this->menu_model->can_access("bill",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		}else{
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
 		  	$data['def_dateformate'] = $this->settings_model->get_date_formate();
+
 			$data['bills'] = $this->bill_model->get_bills();
 		    $data['doctors']=$this->doctor_model->get_doctors();
 			if($this->input->post('from_date')){
 				$data['from_date'] = $this->input->post('from_date');
 			}else{
-				$data['from_date'] = date('Y-m-d');
+				//$data['from_date'] = date('Y-m-d');
+				$data['from_date'] = date('01-m-Y');
 			}
+			
 			if($this->input->post('to_date')){
 				$data['to_date'] = $this->input->post('to_date');
 			}else{
@@ -69,13 +80,7 @@ class Bill extends CI_Controller {
 			$data['doctors']=$this->doctor_model->get_doctors();
 			$user_id = $this->session->userdata('user_id');
 			$clinic_id = $this->session->userdata('clinic_id');
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-			$header_data['software_name']= $this->settings_model->get_data_value("software_name");
+			$header_data = get_header_data();
 
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
@@ -86,7 +91,13 @@ class Bill extends CI_Controller {
 	public function insert($patient_id = NULL, $doctor_id = NULL,$appointment_id = NULL){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
-        } else {
+        }else if (!$this->menu_model->can_access("bill",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		} else {
 			$timezone = $this->settings_model->get_time_zone();
 			if (function_exists('date_default_timezone_set'))
 				date_default_timezone_set($timezone);
@@ -130,6 +141,7 @@ class Bill extends CI_Controller {
 			$data['discount'] = 0;
 			$data['fees_total'] = 0;
 			$data['particular_total'] = 0;
+			$data['vat_tax_total'] = 0;
 			$data['session_total'] = 0;
 			$data['treatment_total'] = 0;
 			$data['lab_test_total'] = 0;
@@ -143,14 +155,7 @@ class Bill extends CI_Controller {
 
 			$user_id  = $this->session->userdata('user_id');
 			$clinic_id = $this->session->userdata('clinic_id');
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-		    $header_data['software_name']= $this->settings_model->get_data_value("software_name");
-
+			$header_data = get_header_data();
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('bill_form', $data);
@@ -180,7 +185,13 @@ class Bill extends CI_Controller {
 	public function edit($bill_id){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
-        } else {
+        }else if (!$this->menu_model->can_access("bill",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		} else {
 			$timezone = $this->settings_model->get_time_zone();
 			if (function_exists('date_default_timezone_set'))
 				date_default_timezone_set($timezone);
@@ -197,7 +208,7 @@ class Bill extends CI_Controller {
 			}else{
 				$patient_id = $this->input->post('patient_id');
 				$doctor_id = $this->input->post('doctor_id');
-				if($bill_id == 0){
+				if($bill_id == 0){ 
 					$bill_id = $this->bill_model->create_bill_for_patient($patient_id,0,$doctor_id);
 				}
 				$data['patient_id'] = $patient_id;
@@ -205,7 +216,7 @@ class Bill extends CI_Controller {
 
 				if ($action == 'item') {
 					$item_id = $this->input->post('item_id');
-					$this->form_validation->set_rules('item_name', $this->lang->line("patient_id"), 'required');
+					$this->form_validation->set_rules('item_name', $this->lang->line("item_name"), 'required');
 					$this->form_validation->set_rules('item_amount', $this->lang->line("item_amount"), 'required|numeric');
 					$this->form_validation->set_rules('item_quantity', $this->lang->line("item_quantity"), 'required|callback_check_available_stock['.$item_id.']');
 					if ($this->form_validation->run() === FALSE) {
@@ -214,11 +225,13 @@ class Bill extends CI_Controller {
 
 						$amount = $this->input->post('item_amount');
 						$quantity = $this->input->post('item_quantity');
-						
-						
+
 						$tax_id = $this->input->post('item_tax_id');
+
 						$tax_rate = $this->input->post('item_tax_rate');
+
 						$tax_amount = $tax_rate * $amount / 100;
+ 
 						$this->bill_model->add_bill_item($action, $bill_id, $item, $quantity, $amount*$quantity, $amount,$item_id,$tax_amount,$tax_id);
 						$this->bill_model->recalculate_tax($bill_id);
 					}
@@ -232,7 +245,11 @@ class Bill extends CI_Controller {
 						$lab_test_id = $this->input->post('lab_test_id');
 						$test_price = $this->input->post('test_price');
 
-						$this->bill_model->add_bill_item($action, $bill_id, $lab_test, 1, $test_price,$test_price,NULL,NULL);
+						$tax_rate = $this->input->post('lab_rate');
+						$tax_amount = $tax_rate*$test_price/100;
+						$tax_id = $this->input->post('lab_rate_name_value');
+
+						$this->bill_model->add_bill_item($action, $bill_id, $lab_test, 1, $test_price,$test_price,NULL,$tax_amount);
             			$this->load->model('lab/lab_model');
             			$this->lab_model->add_test_visit_r($lab_test_id,'pending',NULL,$bill_id);
 						$this->bill_model->recalculate_tax($bill_id);
@@ -273,7 +290,11 @@ class Bill extends CI_Controller {
 					} else {
 						$treatment = $this->input->post('treatment');
 						$treatment_price = $this->input->post('treatment_price');
-						$tax_amount = $this->input->post('treatment_rate');
+						//$tax_amount = $this->input->post('treatment_rate');
+
+						$tax_rate = $this->input->post('treatment_rate');
+						$tax_amount = $tax_rate*$treatment_price/100;
+						$tax_id = $this->input->post('treatment_rate_name');
 
 						$this->bill_model->add_bill_item($action, $bill_id, $treatment, 1,$treatment_price,$treatment_price,NULL,$tax_amount);
 						$this->bill_model->recalculate_tax($bill_id);
@@ -286,7 +307,11 @@ class Bill extends CI_Controller {
 					} else {
 						$fees = $this->input->post('fees_detail');
 						$fees_amount = $this->input->post('fees_amount');
-						$this->bill_model->add_bill_item($action, $bill_id,$fees ,1, $fees_amount,$fees_amount);
+						$tax_rate = $this->input->post('tax_amount');
+						$tax_amount = $tax_rate*$fees_amount/100;
+						$tax_id = $this->input->post('tax_id');
+						
+						$this->bill_model->add_bill_item($action, $bill_id,$fees ,1, $fees_amount,$fees_amount,NULL,$tax_amount,$tax_id);
 						$this->bill_model->recalculate_tax($bill_id);
 					}
 				}elseif ($action == 'particular') {
@@ -301,6 +326,7 @@ class Bill extends CI_Controller {
 						$tax_rate = $this->input->post('tax_amount');
 						$tax_amount = $tax_rate*$particular_amount/100;
 						$tax_id = $this->input->post('tax_id');
+						
 						$this->bill_model->add_bill_item($action, $bill_id, $particular, 1, $particular_amount,$particular_amount,NULL,	$tax_amount,$tax_id);
 						$this->bill_model->recalculate_tax($bill_id);
 					}
@@ -321,6 +347,10 @@ class Bill extends CI_Controller {
 
 						$this->bill_model->add_bill_item($action, $bill_id, $tax_rate_name, 1, $tax_amount,$tax_amount,NULL,NULL,$tax_id);
 						$this->bill_model->recalculate_tax($bill_id);
+
+
+					
+						
 					}
 				}elseif ($action == 'discount') {
 					//echo $bill_id."<br/>";
@@ -339,6 +369,17 @@ class Bill extends CI_Controller {
 				}else{
 
 				}
+
+				//get bill payment data
+				$payment_bill_data=$this->bill_model->get_bill_payment_data($bill_id);
+				$payment_amount=0;
+				foreach($payment_bill_data as $payment){
+					$payment_amount=$payment_amount+$payment['adjust_amount'];
+				}
+				//Update Due Amount of Bill 
+				//get payment amount 
+					$due_amount=$this->bill_model->calculate_bill_due_amount($bill_id,$data['tax_type'],$payment_amount);				
+				 
 			}
 			$data['tax_rate_name'] = $this->settings_model->get_tax_rate_name();
 			$data['tax_rate_array'] = $this->settings_model->get_tax_rate_array();
@@ -388,6 +429,10 @@ class Bill extends CI_Controller {
 			$data['patient'] = $this->patient_model->get_patient_detail($patient_id);
 			$data['balance'] = $this->patient_model->get_balance_amount($bill_id);
 
+			$data['vat_tax_total']=0;
+			if($data['tax_type']=='bill' ){
+				$data['vat_tax_total'] = $this->bill_model->get_vat_tax_total($bill_id);
+			}
 			$data['particular_total'] = $this->bill_model->get_particular_total($bill_id);
 			$data['fees_total'] = $this->bill_model->get_total("fees",$bill_id);
 			$data['treatment_total'] = 0;
@@ -406,6 +451,7 @@ class Bill extends CI_Controller {
 
 			$data['particular_tax_total'] = $this->bill_model->get_tax_total("particular",$bill_id);
 			$data['treatment_tax_total'] = $this->bill_model->get_tax_total("treatment",$bill_id);
+			$data['lab_test_tax_total'] = $this->bill_model->get_tax_total("lab",$bill_id);
 			$data['session_tax_total'] = $this->bill_model->get_tax_total("session",$bill_id);
 
 			$data['session_total'] = $this->bill_model->get_total("session",$bill_id);
@@ -415,13 +461,7 @@ class Bill extends CI_Controller {
 			$data['discount'] = $this->bill_model->get_discount_amount($bill_id);
 			$user_id = $this->session->userdata('user_id');
 			$clinic_id = $this->session->userdata('clinic_id');
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-		    $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+			$header_data = get_header_data();
 
 			$doctor_id=$data['bill']['doctor_id'];
 			$data['doctor']=$this->doctor_model->get_doctor_doctor_id($doctor_id);
@@ -441,8 +481,26 @@ class Bill extends CI_Controller {
         //Check if user has logged in
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
-        } else {
+        }else if (!$this->menu_model->can_access("bill",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		} else {
             $this->patient_model->delete_bill_detail($bill_detail_id, $bill_id);
+
+			$data['tax_type'] = $this->settings_model->get_data_value('tax_type');
+			//get bill payment data
+			$payment_bill_data=$this->bill_model->get_bill_payment_data($bill_id);
+			$payment_amount=0;
+			foreach($payment_bill_data as $payment){
+				$payment_amount=$payment_amount+$payment['adjust_amount'];
+			}
+			//Update Due Amount of Bill 
+			//get payment amount 
+				$due_amount=$this->bill_model->calculate_bill_due_amount($bill_id,$data['tax_type'],$payment_amount);
+
 			$called_from = str_replace("_","/",$called_from);
             redirect($called_from);
         }
@@ -451,7 +509,13 @@ class Bill extends CI_Controller {
 		//Check if user has logged in
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index/');
-        } else {
+        }else if (!$this->menu_model->can_access("tax_report",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		} else {
 			$data['def_dateformate'] = $this->settings_model->get_date_formate();
 
 			$from_date = date('Y-m-d');
@@ -470,13 +534,7 @@ class Bill extends CI_Controller {
 			$data['tax_type'] = $tax_type;
 			$user_id = $this->session->userdata('user_id');
 			$clinic_id = $this->session->userdata('clinic_id');
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-	        $header_data['software_name']= $this->settings_model->get_data_value("software_name");
+			$header_data = get_header_data();
 
 			if($tax_type == "item"){
 				$data['tax_report'] = $this->bill_model->get_tax_report($from_date,$to_date);
@@ -507,7 +565,13 @@ class Bill extends CI_Controller {
 	public function print_tax_report($result){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
-        } else {
+        }else if (!$this->menu_model->can_access("tax_report",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		} else {
 			$data['tax_report'] = $result;
 			$data['def_dateformate'] = $this->settings_model->get_date_formate();
 			$data['bill_details'] = $this->bill_model->get_bill_details();
@@ -599,31 +663,302 @@ class Bill extends CI_Controller {
 		$tax_report[$i]['invoice_total'] = $grand_total + $grand_tax;
 		$this->export->to_excel($tax_report, 'tax_report');
 	}
-	public function print_receipt($bill_id) {
+	/*public function print_receipt($bill_id) {
+		  //Check if user has logged in
+		  if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+           redirect('login/index/');
+      } else {
+           $def_dateformate = $this->settings_model->get_date_formate();
+           $def_timeformate = $this->settings_model->get_time_formate();
+
+           $clinic = $this->settings_model->get_clinic_settings();
+
+           $invoice = $this->settings_model->get_invoice_settings();
+           $receipt_template = $this->patient_model->get_template();
+           $template = $receipt_template['template'];
+
+           $active_modules = $this->module_model->get_active_modules();
+			     $data['active_modules'] = $active_modules;
+
+           $data['particular_total'] = $this->bill_model->get_particular_total($bill_id);
+           $data['treatment_total'] = $this->bill_model->get_treatment_total($bill_id);
+			     $data['item_total'] = $this->bill_model->get_item_total($bill_id);
+           $data['fees_total'] = $this->bill_model->get_fee_total($bill_id);
+
+           $data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
+
+			     //Clinic Details
+			     $clinic_array = array('clinic_name','tag_line','clinic_address','landline','mobile','email');
+			     foreach($clinic_array as $clinic_detail){
+				         $template = str_replace("[$clinic_detail]", $clinic[$clinic_detail], $template);
+			     }
+			     $clinic_logo = "<img src='".base_url()."/".$clinic['clinic_logo']."'/>";
+			     $template = str_replace("[clinic_logo]", $clinic_logo, $template);
+
+
+			     //Bill Details
+			     $bill_array = array('bill_date','bill_id','bill_time');
+			     $bill = $this->bill_model->get_bill($bill_id);
+			     $patient_id = $bill['patient_id'];
+
+			     $doctor_id = $bill['doctor_id'];
+			     if($doctor_id == NULL || $doctor_id ==''){
+				       $visit_id =  $bill['visit_id'];
+				       $visit = $this->patient_model->get_visit_data($visit_id);
+				       $doctor_id = $visit['doctor_id'];
+			     }
+			     $doctor = $this->doctor_model->get_doctor_doctor_id($doctor_id);
+			     $doctor_name = $doctor['title']." ".$doctor['first_name']." ".$doctor['middle_name']." ".$doctor['last_name'];
+			     $template = str_replace("[doctor_name]", $doctor_name, $template);
+			     $template = str_replace("[reference_by]", $doctor_name, $template);
+
+      		 $bill_details = $this->bill_model->get_bill_detail($bill_id);
+      		 foreach($bill_array as $bill_detail){
+      				if($bill_detail == 'bill_date'){
+      					$bill_date = date($def_dateformate, strtotime($bill['bill_date']));
+      					$template = str_replace("[bill_date]", $bill_date, $template);
+      				}elseif($bill_detail == 'bill_time'){
+      					$bill_time = date($def_timeformate, strtotime($bill['bill_time']));
+      					$template = str_replace("[bill_time]", $bill_time, $template);
+      				}elseif($bill_detail == 'bill_id'){
+      					$bill_id = $invoice['static_prefix'] . sprintf("%0" . $invoice['left_pad'] . "d", $bill['bill_id']);
+      					$template = str_replace("[bill_id]", $bill_id, $template);
+      				}else{
+      					$template = str_replace("[$bill_detail]", $bill[$bill_detail], $template);
+      				}
+      		 }
+
+           //Patient Details
+      			$patient = $this->patient_model->get_patient_detail($patient_id);
+      			$addresses = $this->contact_model->get_contacts($patient['contact_id']);
+      			$patient_array = array('patient_name','age','sex','patient_address');
+      			foreach($patient_array as $patient_detail){
+      				if($patient_detail == 'patient_name'){
+      					$patient_name = $patient['first_name']." ".$patient['middle_name']." ".$patient['last_name'];
+      					$template = str_replace("[patient_name]",$patient_name, $template);
+      					$template = str_replace("[patient_id]",$patient_id, $template);
+      				}elseif($patient_detail == 'patient_address'){
+      					$patient_address = "<strong>(".$addresses['type'].")</strong><br/>".$addresses['address_line_1']."<br/>".$addresses['address_line_2']."<br/>".$addresses['area']."<br/>".$addresses['city'] . "," . $addresses['state'] . " " . $addresses['postal_code'] . "<br/>" . $addresses['country'];
+      					$template = str_replace("[$patient_detail]", $patient_address, $template);
+      				}elseif($patient_detail == 'sex'){
+      					$template = str_replace("[$patient_detail]", $patient['gender'], $template);
+      				}else{
+      					$template = str_replace("[$patient_detail]", $patient[$patient_detail], $template);
+      				}
+      			}
+
+            //Bill Table
+            $tax_type=$this->settings_model->get_data_value('tax_type');
+            if($tax_type == "item"){
+      				$tax_column_header = "</td><td style='width: 100px; text-align: right; padding: 5px; border: 1px solid black;'><strong>Tax</strong>";
+      			}else{
+      				$tax_column_header = "";
+      			}
+            $template = str_replace("[tax_column_header]", $tax_column_header, $template);
+
+            $particular_table = "";
+      			$sessions_table = "";
+      			$item_table = "";
+      			$treatment_table = "";
+      			$room_table = "";
+      			$fees_table = "";
+      			$col_string = "";
+
+            $start_pos = strpos($template, '[col:');
+			      if ($start_pos !== false) {
+              $end_pos= strpos($template, ']',$start_pos);
+              $length = abs($end_pos - $start_pos);
+      				$col_string = substr($template, $start_pos, $length+1);
+      				$columns = str_replace("[col:", "", $col_string);
+      				$columns = str_replace("]", "", $columns);
+      				$cols = explode("|",$columns);
+            }
+
+            $particular_array = $this->generate_bill_table('particular',$bill_details,$cols,$tax_type);
+            $particular_table = $particular_array['bill_table'];
+            $particular_amount = $particular_array['total_mrp'];
+            $particular_tax_amount = $particular_array['total_tax'];
+
+            $item_array = $this->generate_bill_table('item',$bill_details,$cols,$tax_type);
+            $item_table = $item_array['bill_table'];
+            $item_amount = $item_array['total_mrp'];
+            $item_tax_amount = $item_array['total_tax'];
+
+            $treatment_array = $this->generate_bill_table('treatment',$bill_details,$cols,$tax_type);
+            $treatment_table = $treatment_array['bill_table'];
+            $treatment_amount = $treatment_array['total_mrp'];
+            $treatment_tax_amount = $treatment_array['total_tax'];
+
+            $fees_array = $this->generate_bill_table('fees',$bill_details,$cols,$tax_type);
+            $fees_table = $fees_array['bill_table'];
+            $fees_amount = $fees_array['total_mrp'];
+            $fees_tax_amount = $fees_array['total_mrp'];
+
+            $session_array = $this->generate_bill_table('session',$bill_details,$cols,$tax_type);
+            $session_table = $session_array['bill_table'];
+            $session_amount = $session_array['total_mrp'];
+            $session_tax_amount = $session_array['total_tax'];
+
+            $room_array = $this->generate_bill_table('room',$bill_details,$cols,$tax_type);
+            $room_table = $room_array['bill_table'];
+            $room_amount = $room_array['total_mrp'];
+            $room_tax_amount = $room_array['total_mrp'];
+
+            $table = $particular_table . $item_table . $treatment_table.$fees_table.$sessions_table.$room_table;
+			      $template = str_replace("$col_string",$table, $template);
+
+            $discount_amount = $this->bill_model->get_discount_amount($bill['bill_id']);
+			      $discount = currency_format($discount_amount);
+          	if($tax_type == "item"){
+				        $discount = "<td style='text-align: right; padding: 5px; border: 1px solid black;'>"."(".$discount.")"."</td>";
+			      }
+			      $template = str_replace("[discount]",$discount, $template);
+
+            $tax_amount = 0;
+            if($tax_type == "bill"){
+    				  $tax_details = "</td>";
+    				  foreach($bill_details as $bill_detail){
+      					if($bill_detail['type']=='tax'){
+      						$tax_details .= "<td colspan='2' style='padding:5px;border:1px solid black;'>".$bill_detail['particular']."</td>";
+      						$tax_details .= "<td style='padding:5px;border:1px solid black;text-align:right;'><strong>".currency_format($bill_detail['amount'])."</strong></td>";
+      						$tax_amount = $tax_amount + $bill_detail['amount'];
+      						$tax_details .= "</tr><tr><td>";
+      					}
+      				}
+      			}else{
+      				$tax_details = "</td><td></td><td></td><td>";
+      			}
+      			$template = str_replace("[tax_details]", $tax_details, $template);
+
+            $total_amount = $particular_amount + $item_amount + $treatment_amount + $fees_amount + $session_amount + $room_amount;
+            $total_amount = $total_amount - $discount_amount;
+            $total_amount = $total_amount + $particular_tax_amount + $item_tax_amount + $treatment_tax_amount + $fees_tax_amount + $session_tax_amount + $room_tax_amount;
+
+            $total_amount = $total_amount + $tax_amount;
+            $total_amount = currency_format($total_amount);
+      			if($tax_type == "item"){
+      				$total_amount = "</td><td style='text-align: right; padding: 5px; border: 1px solid black;'>".$total_amount;
+      			}
+            $template = str_replace("[total]",$total_amount, $template);
+
+
+            $paid_amount = $this->payment_model->get_paid_amount($bill['bill_id']);
+   			    $paid_amount = currency_format($paid_amount);
+       			if($tax_type == "item"){
+				       $paid_amount = "</td><td style='text-align: right; padding: 5px; border: 1px solid black;'>".$paid_amount;
+			      }
+		 	      $template = str_replace("[paid_amount]",$paid_amount, $template);
+
+            echo $template;
+        }
+    }
+    function generate_bill_table($bill_type,$bill_details,$cols,$tax_type){
+      $bill_table = "";
+      $total_amount = 0;
+      $tax_amount = 0;
+      $total_mrp = 0;
+      foreach($bill_details as $bill_detail){
+
+        if($bill_detail['type']==$bill_type){
+          $bill_table .= "<tr>";
+          foreach($cols as $col){
+
+            if($col == 'mrp'){
+              $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+							$bill_table .= currency_format($bill_detail[$col])."</td>";
+              $total_mrp = $total_mrp + $bill_detail[$col];
+            }elseif($col == 'tax_amount'){
+              $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+							$bill_table .= currency_format($bill_detail[$col])."</td>";
+              $tax_amount = $tax_amount + $bill_detail['tax_amount'];
+            }elseif($col == 'amount'){
+              $amount = $bill_detail[$col];
+              if($tax_type == "item"){
+                $amount = $amount + $bill_detail['tax_amount'];
+              }
+              $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+							$bill_table .= currency_format($amount)."</td>";
+              $total_amount = $total_amount + $amount;
+
+            }elseif($col == 'particular'){
+              $bill_table .= "<td style='text-align:left;padding:5px;border:1px solid black;'>";
+							$bill_table .= $bill_detail[$col]."here</td>";
+            }elseif($col == 'quantity'){
+              $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+              $bill_table .= $bill_detail[$col]."</td>";
+            }else{
+              $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+							$bill_table .= $col."</td>";
+            }
+          }
+          $bill_table .= "</tr>";
+        }
+      }
+      if($bill_table != ""){
+        $bill_table .= "<tr>";
+        foreach($cols as $col){
+          if($col == 'mrp'){
+            $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'><strong>";
+            $bill_table .= currency_format($total_mrp)."</strong></td>";
+          }elseif($col == 'tax_amount'){
+            $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'><strong>";
+            $bill_table .= currency_format($tax_amount)."</strong></td>";
+          }elseif($col == 'particular'){
+            $bill_table .= "<td style='text-align:left;padding:5px;border:1px solid black;'>";
+            $bill_table .= "<strong>Sub Total - ".ucfirst($bill_type)."</strong></td>";
+          }elseif($col == 'quantity'){
+            $bill_table .= "<td style='text-align:left;padding:5px;border:1px solid black;'></td>";
+          }elseif($col == 'amount'){
+            $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'><strong>";
+            $bill_table .= currency_format($total_amount)."</strong></td>";
+          }else{
+            $bill_table .= "<td style='text-align:right;padding:5px;border:1px solid black;'>";
+            $bill_table .= $col."</td>";
+          }
+        }
+          $bill_table .= "</tr>";
+			}
+
+      $bill_array = array('bill_table' => $bill_table,
+                          'total_mrp' => $total_mrp,
+                          'total_tax' => $tax_amount,
+                          'total_amount' => $total_amount);
+      return $bill_array;
+    }*/
+
+    public function print_receipt($bill_id) {
 		//Check if user has logged in
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
-            redirect('login/index/');
-        } else {
+			redirect('login/index/');
+		}else if (!$this->menu_model->can_access("bill",$this->session->userdata('category'))){
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
+		 	$this->load->view('templates/menu');
+			$this->load->view('templates/access_forbidden');
+			$this->load->view('templates/footer');
+		} else {
+			$vat_tax_bill_id=$bill_id;
 			$active_modules = $this->module_model->get_active_modules();
 			$data['active_modules'] = $active_modules;
 
-            if (in_array("treatment", $active_modules)) {
+			if (in_array("treatment", $active_modules)) {
 				$data['treatment_total'] = $this->bill_model->get_treatment_total($bill_id);
 			}
 			$data['item_total'] = $this->bill_model->get_item_total($bill_id);
 
-            $data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
+			$data['paid_amount'] = $this->payment_model->get_paid_amount($bill_id);
 			$data['particular_total'] = $this->bill_model->get_particular_total($bill_id);
 			if (in_array("doctor", $active_modules)) {
 				$data['fees_total'] = $this->bill_model->get_fee_total($bill_id);
 			}
+			$currency_postfix = $this->settings_model->get_currency_postfix();
 
 			$def_dateformate = $this->settings_model->get_date_formate();
 			$def_timeformate = $this->settings_model->get_time_formate();
 			$invoice = $this->settings_model->get_invoice_settings();
 			$receipt_template = $this->patient_model->get_template();
 			$template = $receipt_template['template'];
-
+			//echo $template;
 			$clinic = $this->settings_model->get_clinic_settings();
 
 			//Clinic Details
@@ -638,6 +973,7 @@ class Bill extends CI_Controller {
 			//Bill Details
 			$bill_array = array('bill_date','bill_id','bill_time');
 			$bill = $this->bill_model->get_bill($bill_id);
+			$template = str_replace("[created_by]", $bill['created_by'], $template);
 			$patient_id = $bill['patient_id'];
 
 			$doctor_id = $bill['doctor_id'];
@@ -668,14 +1004,25 @@ class Bill extends CI_Controller {
 					$template = str_replace("[$bill_detail]", $bill[$bill_detail], $template);
 				}
 			}
+			
+			//
 			//Tax Details for Bill type
 			$tax_amount = 0;
 			$data['tax_type']=$this->settings_model->get_data_value('tax_type');
+
+			if($data['tax_type'] == "item"){
+				$tax_column='<td style="width: 100px; text-align: right; padding: 5px; border: 1px solid black;"><strong>Tax</strong></td>';
+			}else{
+				$tax_column="";
+			}
+			$template = str_replace("[tax_column]", $tax_column, $template);
+
 			if($data['tax_type'] == "bill"){
-				$tax_details = "</td>";
+				$tax_details = "Tax</td>";
 				foreach($bill_details as $bill_detail){
 
 					if($bill_detail['type']=='tax'){
+						//$tax_details .="<td colspan='2' style='padding:5px;border:1px solid black;'>Tax</td>";
 						$tax_details .= "<td colspan='2' style='padding:5px;border:1px solid black;'>".$bill_detail['particular']."</td>";
 						$tax_details .= "<td style='padding:5px;border:1px solid black;text-align:right;'><strong>".currency_format($bill_detail['amount'])."</strong></td>";
 						$tax_amount = $tax_amount + $bill_detail['amount'];
@@ -720,6 +1067,8 @@ class Bill extends CI_Controller {
 			$treatment_amount = 0;
 			$fees_amount = 0;
 			$room_amount = 0;
+			$vat_tax_table = "";
+			$vat_tax_amount = 0;
 			//Bill Columns
 			$start_pos = strpos($template, '[col:');
 			if ($start_pos !== false) {
@@ -732,7 +1081,6 @@ class Bill extends CI_Controller {
 
 
 				foreach($bill_details as $bill_detail){
-
 					if($bill_detail['type']=='particular'){
 						$particular_table .= "<tr>";
 						foreach($cols as $col){
@@ -752,6 +1100,15 @@ class Bill extends CI_Controller {
 						$particular_table .= "</tr>";
 						$particular_tax_amount=$bill_detail['tax_amount'];
 						$particular_amount = $particular_amount + $bill_detail['amount'];
+					}elseif($bill_detail['type']=='Vat Tax'){
+						$data['vat_tax_total']=0;
+						if($data['tax_type']=='bill' ){
+							$vat_tax_amount = $this->bill_model->get_vat_tax_total($vat_tax_bill_id);
+							$vat_tax_total = currency_format($vat_tax_amount);
+							//$vat="<td style='text-align: right; padding: 5px; border: 1px solid black;'>$vat_tax_total</td>";
+							$template = str_replace("[vat_tax]",$vat_tax_total, $template);
+			
+						}
 					}elseif($bill_detail['type']=='room'){
 						$room_table .= "<tr>";
 						foreach($cols as $col){
@@ -904,6 +1261,7 @@ class Bill extends CI_Controller {
 			}
 			$template = str_replace("[paid_amount]",$paid_amount, $template);
 
+
 			$discount_amount = $this->bill_model->get_discount_amount($bill['bill_id']);
 			$discount = currency_format($discount_amount);
 			if($data['tax_type'] == "item"){
@@ -911,16 +1269,58 @@ class Bill extends CI_Controller {
 			}
 			$template = str_replace("[discount]",$discount, $template);
 
-			$total_amount = $particular_amount + $item_amount + $treatment_amount + $fees_amount +$sessions_amount + $room_amount - $discount_amount + @$tax_rate + $particular_tax_amount + $session_tax_amount;
-
+			$total_amount = $vat_tax_amount+$particular_amount + $item_amount + $treatment_amount + $fees_amount +$sessions_amount + $room_amount - $discount_amount + @$tax_rate + $particular_tax_amount + $session_tax_amount;
 
 			$total_amount = $total_amount + $tax_amount;
+			$total_amount_value=$total_amount;
 			$total_amount = currency_format($total_amount);
 			if($data['tax_type'] == "item"){
 				$total_amount = "</td><td style='text-align: right; padding: 5px; border: 1px solid black;'>".$total_amount;
 			}
 			$template = str_replace("[total]",$total_amount, $template);
+			
 
+			//Get Payent Methods
+				$payments_details =  $this->payment_model->get_payments_detail_from_bill($bill['bill_id']);
+				
+				$col_string = substr($template, $start_pos, $length+1);
+				$columns = str_replace("[paycol:", "", $col_string);
+				$columns = str_replace("]", "", $columns);
+			
+				$columns= 'payment_mode|collected_by|payment_amount';
+			
+				$pay_cols = explode("|",$columns);
+				
+				$payment_table="";
+				$paid_amount_value=0;
+				foreach($payments_details as $paymnet){
+					$paid_amount_value=$paid_amount_value+$paymnet['pay_amount'];
+					$payment_table .= "<tr>";
+							foreach($pay_cols as $col){
+								
+								if($col=='payment_mode'){
+									$payment_table .= "<td colspan='2' style='text-align: left; padding: 5px; border: 1px solid black;'>";
+									$payment_table .= $paymnet['pay_mode']."</td>";
+							
+								}
+								if($col=='payment_amount'){
+									$payment_table .= "<td style='text-align: right; padding: 5px; border: 1px solid black;'>";
+									$payment_table .= currency_format($paymnet['pay_amount']).$currency_postfix."</td>";
+								}
+								if($col=='collected_by'){
+									$payment_table .= "<td style='text-align: left; padding: 5px; border: 1px solid black;'>";
+									$payment_table .= $paymnet['collected_by']."</td>";
+								}
+								
+							}
+						$payment_table .= "</tr>";
+				}
+				$template = str_replace("[paycol:payment_mode|collected_by|payment_amount]",$payment_table, $template);
+
+				$due_amount=$total_amount_value -$paid_amount_value;
+				$due_amount = currency_format($due_amount).$currency_postfix;
+				$template = str_replace("[due_amount]",$due_amount, $template);
+				
 			$template .="<input type='button' value='Print' id='print_button' onclick='window.print()'>
 			<style>
 				@media print{
@@ -930,8 +1330,10 @@ class Bill extends CI_Controller {
 
 				}
 			</style>";
-            echo $template;
-        }
-    }
+			echo $template;
+		}
+	}
+
+
 }
 ?>

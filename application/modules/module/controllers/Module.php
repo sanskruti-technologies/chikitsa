@@ -30,9 +30,11 @@ class Module extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('file');
 		$this->load->helper('unzip_helper');
-		$this->load->helper('mainpage');
+		//$this->load->helper('mainpage');
+		$this->load->helper('directory');
+		$this->load->helper('header');
 
-        $this->load->library('form_validation');
+		$this->load->library('form_validation');
 		$this->load->library('session');
 
 		$this->lang->load('main',$this->session->userdata('prefered_language'));
@@ -42,12 +44,16 @@ class Module extends CI_Controller {
 	}
 	public function do_not_remind(){
 		$this->settings_model->set_data_value('remind_date', date("2099-12-31"));
-    }
+	}
     public function index($message_type = NULL,$message = NULL) {
-		//Check if user has logged in
+		/* Check if user has logged in */
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
+			//get xml chikitsa module 
+			$data['module_chikitsa'] = $this->menu_model->get_xml_check_by_module_name("chikitsa");
+			
+			$data['def_dateformate'] = $this->settings_model->get_date_formate();
 			$data['modules'] = $this->module_model->get_modules();
 			$data['message']=$message;
 			$data['message_type']=$message_type;
@@ -63,16 +69,9 @@ class Module extends CI_Controller {
 			$data['software_name'] = $this->menu_model->get_data_value('software_name');
 			$clinic_id = $this->session->userdata('clinic_id');
 			$user_id = $this->session->userdata('user_id');
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-			$header_data['software_name']= $this->settings_model->get_data_value("software_name");
-
+			$header_data = get_header_data();
 			$this->load->view('templates/header',$header_data);
-		    $this->load->view('templates/menu');
+		 	$this->load->view('templates/menu');
 			$this->load->view('browse',$data);
 			$this->load->view('templates/footer');
         }
@@ -86,108 +85,140 @@ class Module extends CI_Controller {
     	    $yesterday = date('Y-m-d', strtotime('-1 days'));
 			$doc = new DOMDocument();
 
-      //Check Local XML file
-      if ($doc->load( base_url("about_chikitsa/$today.xml") ) === false){
-        $this->load->helper('download');
-  			// read file contents
-  			$data = file_get_contents("https://chikitsa.net/chikitsa.xml");
-  			write_file('./about_chikitsa/'.$today.'.xml', $data);
-  			//Delete yesterday's file
-  			unlink('./about_chikitsa/'.$yesterday.'.xml');
-        $this->check_valid_license();
-			if($doc->load( "https://chikitsa.net/chikitsa.xml" ) === false){
-				return FALSE;
-
-  			}
-      }
-
-				//xml file loading here
+      		/* Check Local XML file*/
+			if ($doc->load( base_url("about_chikitsa/$today.xml") ) === false){
+				$this->load->helper('download');
+					/* read file contents*/
+					$data = file_get_contents("https://chikitsa.net/chikitsa.xml");
+					write_file('./about_chikitsa/'.$today.'.xml', $data);
+					/*Delete yesterday's file*/
+					unlink('./about_chikitsa/'.$yesterday.'.xml');
+					$this->check_valid_license();
+					if($doc->load( "https://chikitsa.net/chikitsa.xml" ) === false){
+						return FALSE;
+					}
+			}
+				$chikitsa_xml_check = $this->menu_model->get_chikitsa_xml_check();
 				$modules = $this->module_model->get_modules();
 				$i = 0;
 				foreach($modules as $module) {
-					//Check for updates
 					$module_name = $module['module_name'];
 					$module_license_status[$i]['module_name'] = $module_name;
+					$download = $this->menu_model->get_xml_check_by_module_name($module_name);
+					
+					$chikitsa_content=json_decode($download['xml_content'],true);
+					$download_link=$chikitsa_content['download_link'];
+					$version=$download['xml_version'];
 
-					$downloads = $doc->getElementsByTagName( "download" );
+					if ($version > $module['module_version']){
+						$module_license_status[$i]['module_status'] = 'update_required';
+					}else{
+						$module_license_status[$i]['module_status'] = 'uptodate';
+					}
+
+					$i++;
+				}
+				
+				/*xml file loading here*/
+				/*foreach($modules as $module) {
+					/*Check for updates*/
+				/*	$module_name = $module['module_name'];
+					$module_license_status[$i]['module_name'] = $module_name;
+
+					$downloads = $doc->getElementsByTagName("download");
 					foreach( $downloads as $download ){
-						$extensions = $download->getElementsByTagName( "module" );
+						$extensions = $download->getElementsByTagName("module");
 						$extension = $extensions->item(0)->nodeValue;
 
 						if($extension == $module_name){
 							$versions = $download->getElementsByTagName( "version" );
 							$version = $versions->item(0)->nodeValue;
-
-							$download_links = $download->getElementsByTagName( "download_link" );
+              				$download_links = $download->getElementsByTagName( "download_link" );
 							$download_link = $download_links->item(0)->nodeValue;
+
 							if ($version > $module['module_version']){
 								$module_license_status[$i]['module_status'] = 'update_required';
 							}else{
 								$module_license_status[$i]['module_status'] = 'uptodate';
 							}
+
+                $i++;
 						}
 					}
-				}
+				}*/
+				
+				//print_r($module_license_status);
 				return $module_license_status;
-
 		}
 	}
-  public function check_valid_license(){
-    $modules = $this->module_model->get_modules();
-    $i = 0;
-    foreach($modules as $module) {
-      //Check for updates
-      $module_name = $module['module_name'];
-      $module_license_status[$i]['module_name'] = $module_name;
+	public function check_valid_license(){
+		$modules = $this->module_model->get_modules();
+		$i = 0;
+		foreach($modules as $module) {
+		/*Check for updates*/
+		$module_name = $module['module_name'];
+		$module_license_status[$i]['module_name'] = $module_name;
 
-				//Check if License is Valid
-				//http://YOURSITE.com/?edd_action=check_license&item_id=8&license=cc22c1ec86304b36883440e2e84cddff&url=http://licensedsite.com
+					/*Check if License is Valid*/
+					/*http://YOURSITE.com/?edd_action=check_license&item_id=8&license=cc22c1ec86304b36883440e2e84cddff&url=http://licensedsite.com*/
 
-					$parameters = array();
-					$parameters['edd_action'] = 'check_license';
-					$parameters['item_name'] = $module['module_display_name'];
-					$parameters['license'] = $module['license_key'];
-					$parameters['url'] = base_url();
+						$parameters = array();
+						$parameters['edd_action'] = 'check_license';
+						$parameters['item_name'] = $module['module_display_name'];
+						$parameters['license'] = $module['license_key'];
+						$parameters['url'] = base_url();
 
-					$encoded = "";
-					foreach($parameters as $name => $value) {
-						$encoded .= urlencode($name).'='.urlencode($value).'&';
+						$encoded = "";
+						foreach($parameters as $name => $value) {
+							$encoded .= urlencode($name).'='.urlencode($value).'&';
+						}
+
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+						curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+
+						$response = curl_exec($ch);
+						curl_close($ch);
+						/*echo $module_name."<br/>";
+						echo "<pre>";
+						print_r($response);
+						echo "</pre>";
+						*/
+						$data = json_decode($response, TRUE);
+
+						if($data['license']=='valid'){
+							if($data['expires']!=null){
+							$v_data['valid_till']=date('Y-m-d',strtotime($data['expires']));
+							//  $v_data['module_display_name']=$data['item_name'];
+							$v_data['module_name']=$module_name;
+							//add expiry date
+								$this->module_model->update_valid_till($v_data);
+							}
+						}
+
+						$module_license_status[$i]['license_status'] = $data['license'];
+						if($data['license'] == 'valid'){
+							$this->module_model->activate_license($module_name);
+						}else{
+							//  echo "Deactivate $module_name <br/>";
+							$this->module_model->deactivate_license($module_name);
+							//$this->module_model->deactivate_module($module_name);
+						}
+						$i++;
 					}
-
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
-					curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
-
-					$response = curl_exec($ch);
-					curl_close($ch);
-					$data = json_decode($response, TRUE);
-					$module_license_status[$i]['license_status'] = $data['license'];
-					if($data['license'] == 'valid'){
-						$this->module_model->activate_license($module_name);
-					}else{
-						$this->module_model->dectivate_license($module_name);
-					}
-					$i++;
-				}
 	}
 	public function add(){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
 			$data['def_dateformate'] = $this->settings_model->get_date_formate();
+			$data['modules'] = $this->module_model->get_modules();
 
 			$clinic_id = $this->session->userdata('clinic_id');
 			$user_id = $this->session->userdata('user_id');
-			$header_data['clinic_id'] = $clinic_id;
-			$header_data['clinic'] = $this->settings_model->get_clinic($clinic_id);
-			$header_data['active_modules'] = $this->module_model->get_active_modules();
-			$header_data['user_id'] = $user_id;
-			$header_data['user'] = $this->admin_model->get_user($user_id);
-			$header_data['login_page'] = get_main_page();
-			$header_data['software_name']= $this->settings_model->get_data_value("software_name");
-			
+			$header_data = get_header_data();
 			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('add_module',$data);
@@ -195,33 +226,34 @@ class Module extends CI_Controller {
 		}
 	}
 	public function upload() {
-		//Check if user has logged in
+		/* Check if user has logged in */
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			$this->load->view('templates/header');
+			$header_data = get_header_data();
+			$this->load->view('templates/header',$header_data);
 			$this->load->view('templates/menu');
 			$this->load->view('upload_module');
 			$this->load->view('templates/footer');
 		}
 	}
-	public function deactivate_module($module_id) {
-		//Check if user has logged in
+	public function deactivate_module($module_name) {
+		/* Check if user has logged in */
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			$this->module_model->deactivate_module($module_id);
-			$this->index();
+			$this->module_model->deactivate_module($module_name);
+			$this->deactivate_license_key($module_name);
         }
 	}
 	public function clear_data($module_name) {
-		//Check if user has logged in
+		/* Check if user has logged in */
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			//Execute SQL file
+			/* Execute SQL file */
 			$sql_file_name = "./application/modules/".$module_name."/". $module_name."_dd.sql";
-			//Read Files details
+			/*Read Files details */
 			$sqls = file($sql_file_name);
 			foreach($sqls as $statement){
 				$dbprefix =  $this->db->dbprefix;
@@ -231,12 +263,62 @@ class Module extends CI_Controller {
 			$this->index();
         }
 	}
+	function upload_new_language_variables(){
+	
+		$language_folders = directory_map('./application/language/');
+        $folders = array_keys($language_folders);
+
+		//$folders=array("english");
+		$language_folders=$this->settings_model->get_loaded_language();
+		//print_r($language_folders);
+		//$folders=$language_folders['language_name'];
+
+		foreach($language_folders as $folder){
+			$language=$folder['language_name'];
+			//echo $language;
+			$file_name='main_lang.php';
+			$language_data=$this->settings_model->get_language_by_file_name($language,$file_name);
+			
+			$destination='application/language/'.$language.'/main_lang.php';
+			include($destination);
+			$line_array=$lang;
+			
+			$new_language_array="";
+			foreach($language_data as $l_data){
+				
+				$key=$l_data['l_index'];
+				$value=$l_data['l_value'];
+				
+				if (!array_key_exists($key, $line_array)) {
+						//echo "<br/>key==".$key;
+						//add key value to file 
+						/*if($language=='arabic' || $language=='french' || $language=='gujarati' ){
+							$new_language_array .= '$lang[\''.$key.'\'] = \''.$value.'\';' . "\r\n";
+						}else{
+							$new_language_array .= '$lang[\''.$key.'\'] = "'.$value.'";' . "\r\n";
+						}*/
+						$new_language_array .= '$lang[\''.$key.'\'] = "'.$value.'";' . "\r\n";
+				}
+			}
+			//echo "<br/>".$new_language_array;
+			
+			$contents = file($destination, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+			$size = count($contents);
+			$contents[$size-2] = $new_language_array; // point it to the second last line and assign
+			$temp = implode("\n", $contents);
+			file_put_contents($destination, $temp);
+			
+		}
+
+		$this->lang->load('main',$this->session->userdata('prefered_language'));
+	}
+
 	public function activate_module($module_name) {
-		//Check if user has logged in
+		/* Check if user has logged in */
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			//Read required Chikitsa
+			/* Read required Chikitsa */
 			$readme_file = "./application/modules/".$module_name."/readme.txt";
 			$lines = file($readme_file);
 			$required_version = $lines[1];
@@ -254,26 +336,41 @@ class Module extends CI_Controller {
 				$this->load->view('templates/footer');
 			}else{
 
-				//Execute SQL file
+				/* Execute SQL file*/
 				$sql_file_name = "./application/modules/".$module_name."/". $module_name.".sql";
-				//Read Files details
+				/* Read Files details */
 				$sqls = file($sql_file_name);
 				foreach($sqls as $statement){
 					$dbprefix =  $this->db->dbprefix;
 					$statement = str_replace("%db_prefix%",$dbprefix,$statement);
 					$this->db->query($statement);
 				}
-				//Check for required modules
+
+				/* Uplod langauges */
+				
+				$this->upload_new_language_variables();
+
+				/* Check for required modules */
 				if($this->module_model->check_required_modules($module_name)){
-					$this->module_model->activate_module($module_name);
-					$activation_hook = $this->module_model->get_activation_hook($module_name);
-					if($activation_hook != NULL){
-						redirect($module_name."/".$activation_hook);
+
+					/* Check for License Key */
+					$module = $this->module_model->get_module_details_by_name($module_name);
+					$license_status = $module['license_status'];
+					if($license_status == 'active'){
+						$this->module_model->activate_module($module_name);
+						$activation_hook = $this->module_model->get_activation_hook($module_name);
+						if($activation_hook != NULL){
+							redirect($module_name."/".$activation_hook);
+						}else{
+						
+						redirect('module/index');
+						}
 					}else{
-						$this->index();
+					   redirect('module/index');
 					}
 
 				}else{
+					
 					$required_modules = $this->module_model->get_required_modules($module_name);
 					$data['error'] = "This Module requires Modules (".$required_modules.") to be active. Please activate them first.";
 					$this->load->view('templates/header');
@@ -284,12 +381,11 @@ class Module extends CI_Controller {
 			}
         }
 	}
-	//File Upload
+	/* File Upload */
 	function do_upload() {
-
-        $config['upload_path'] = './application/modules/';
+	    $config['upload_path'] = './application/modules/';
 		$config['allowed_types'] = '*';
-		$config['max_size'] = '4096';
+		$config['max_size'] = '8192';
 		$config['overwrite'] = TRUE;
 
 		$this->load->library('upload', $config);
@@ -311,26 +407,30 @@ class Module extends CI_Controller {
 			$filname_without_ext = pathinfo($filename, PATHINFO_FILENAME);
 			if(isset($file_upload['error'])){
 				$data['error'] = $file_upload['error'];
-				$this->load->view('templates/header');
+				$header_data = get_header_data();
+				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('upload_module',$data);
 				$this->load->view('templates/footer');
 			}elseif($file_upload['file_ext']!='.zip'){
 				$data['error'] = "The file you are trying to upload is not a .zip file. Please try again.";
-				$this->load->view('templates/header');
+				$header_data = get_header_data();
+				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('upload_module',$data);
 				$this->load->view('templates/footer');
 			}elseif(preg_match('/^[a-z_]+$/',$filname_without_ext)) {
 				$data['error'] = "";
 				$data['file_upload'] = $file_upload;
-				$this->load->view('templates/header');
+				$header_data = get_header_data();
+				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('extract_module',$data);
 				$this->load->view('templates/footer');
 			}else{
 				$data['error'] = "Make Sure the file-name doesn't have any special characters. File-name must be the name of module being installed.";
-				$this->load->view('templates/header');
+				$header_data = get_header_data();
+				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('upload_module',$data);
 				$this->load->view('templates/footer');
@@ -338,106 +438,106 @@ class Module extends CI_Controller {
 		}
 	}
 	public function license_key($module_name){
-		//Check if user has logged in
+		/* Check if user has logged in*/
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			$this->form_validation->set_rules('license_key', $this->lang->line("license_key"), 'required');
-
-			if ($this->form_validation->run() === FALSE){
-				$data['module_name'] = $module_name;
-				$data['module'] = $this->module_model->get_module_details_by_name($module_name);
-				$data['license_key'] = $this->module_model->get_license_key($module_name);
-				$this->load->view('templates/header');
-				$this->load->view('templates/menu');
-				$this->load->view('license_key',$data);
-				$this->load->view('templates/footer');
-			}else{
-				$license_key = $this->input->post('license_key');
-				$this->module_model->set_license_key($module_name,$license_key);
-				$this->index();
-			}
+    			$this->form_validation->set_rules('license_key', $this->lang->line("license_key"), 'required');
+    			if ($this->form_validation->run() === FALSE){
+    				$data['module_name'] = $module_name;
+    				$data['module'] = $this->module_model->get_module_details_by_name($module_name);
+    				$data['license_key'] = $this->module_model->get_license_key($module_name);
+    				$header_data = get_header_data();
+					$this->load->view('templates/header',$header_data);
+    				$this->load->view('templates/menu');
+    				$this->load->view('license_key',$data);
+    				$this->load->view('templates/footer');
+    			}else{
+    				    $license_key = $this->input->post('license_key');
+				        $this->module_model->set_license_key($module_name,$license_key);
+    			      $this->index();
+    			}
         }
 	}
-  public function add_module_and_license($module_name){
-      if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
-            redirect('login/index');
-      } else {
-            $data = array();
-            $doc = new DOMDocument();
-  					$doc->load( "http://chikitsa.net/chikitsa.xml" );//xml file loading here
-            $downloads = $doc->getElementsByTagName( "download" );
-  					foreach( $downloads as $download ){
-              $modules = $download->getElementsByTagName( "module" );
-              $module = $modules->item(0)->nodeValue;
-              if($module == $module_name){
-                $data['module_name'] = $module;
+	public function add_module_and_license($module_name){
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+				redirect('login/index');
+		} else {
+				$data = array();
+				$doc = new DOMDocument();
+						$doc->load( "http://chikitsa.net/chikitsa.xml" );/* xml file loading here */
+				$downloads = $doc->getElementsByTagName( "download" );
+						foreach( $downloads as $download ){
+				$modules = $download->getElementsByTagName( "module" );
+				$module = $modules->item(0)->nodeValue;
+				if($module == $module_name){
+					$data['module_name'] = $module;
 
-                $titles = $download->getElementsByTagName( "title" );
-    						$title = $titles->item(0)->nodeValue;
-                $data['module_display_name'] = $title;
+					$titles = $download->getElementsByTagName( "title" );
+								$title = $titles->item(0)->nodeValue;
+					$data['module_display_name'] = $title;
 
-                $descriptions = $download->getElementsByTagName( "description" );
-    						$description = $descriptions->item(0)->nodeValue;
-                $data['module_description'] = $description;
+					$descriptions = $download->getElementsByTagName( "description" );
+								$description = $descriptions->item(0)->nodeValue;
+					$data['module_description'] = $description;
 
-                $data['module_status'] = 0;
-                $versions = $download->getElementsByTagName( "version" );
-                $version = $versions->item(0)->nodeValue;
-                $data['module_version'] = $version;
-                $data['module_version'] = $version;
+					$data['module_status'] = 0;
+					$versions = $download->getElementsByTagName( "version" );
+					$version = $versions->item(0)->nodeValue;
+					$data['module_version'] = $version;
+					$data['module_version'] = $version;
 
-                $this->module_model->insert_module($data);
-                $this->license_key($module_name);
-              }
-            }
+					$this->module_model->insert_module($data);
+					$this->license_key($module_name);
+				}
+				}
 
-      }
-  }
-  public function download_extension($module_name){
-        if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
-            redirect('login/index');
-        } else {
+		}
+	}
+	public function download_extension($module_name){
+			if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+				redirect('login/index');
+			} else {
 
-          $module = $this->module_model->get_module_details_by_name($module_name);
+			$module = $this->module_model->get_module_details_by_name($module_name);
 
-      		$parameters = array();
-      		$parameters['edd_action'] = 'get_version';
-      		$parameters['item_name'] = $module['module_display_name'];
-      		$parameters['license'] = $module['license_key'];
-      		$parameters['url'] = base_url();
+				$parameters = array();
+				$parameters['edd_action'] = 'get_version';
+				$parameters['item_name'] = $module['module_display_name'];
+				$parameters['license'] = $module['license_key'];
+				$parameters['url'] = base_url();
 
-          $encoded = "";
-      		foreach($parameters as $name => $value) {
-      			$encoded .= urlencode($name).'='.urlencode($value).'&';
-      		}
+			$encoded = "";
+				foreach($parameters as $name => $value) {
+					$encoded .= urlencode($name).'='.urlencode($value).'&';
+				}
 
-          $ch = curl_init();
-      		curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
-      		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
-      		curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+			$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
 
 
-      		$response = curl_exec($ch);
-      		curl_close($ch);
+				$response = curl_exec($ch);
+				curl_close($ch);
 
-          $data = json_decode($response, TRUE);
-      		$download_link = $data['download_link'];
+			$data = json_decode($response, TRUE);
+				$download_link = $data['download_link'];
 
-      		$destination = "./uploads/".$module_name.".zip";
-      		copy($download_link, $destination);
+				$destination = "./uploads/".$module_name.".zip";
+				copy($download_link, $destination);
 
-      		$this->unzip_module($module_name);
-      		$this->change_log($module_name);
-          $this->index();
-        }
-  }
+				$this->unzip_module($module_name);
+				$this->change_log($module_name);
+			$this->index();
+			}
+	}
 	public function activate_license_key($module_name){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			//http://docs.easydigitaldownloads.com/article/384-software-licensing-api
+			/* http://docs.easydigitaldownloads.com/article/384-software-licensing-api */
 			$module = $this->module_model->get_module_details_by_name($module_name);
 
 			$parameters = array();
@@ -452,10 +552,10 @@ class Module extends CI_Controller {
 			}
 
 		    $ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
-	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+			  curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
+	          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+			  curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
 
 
 	        $response = curl_exec($ch);
@@ -466,9 +566,116 @@ class Module extends CI_Controller {
 				$this->module_model->activate_license($module_name);
 				$message_type = "success";
 				$message = "License Key is activated for ".$module['module_display_name'];
+             // if licence_key is valied then add valid_till
+                // print_r($data);
+                    if($data['license']=='valid'){
+                      if($data['expires']!=null){
+                        $v_data['valid_till']=date('Y-m-d',strtotime($data['expires']));
+                      //  $v_data['module_display_name']=$data['item_name'];
+                        $v_data['module_name']=$module_name;
+                        //add expiry date
+                          $this->module_model->update_valid_till($v_data);
+                      }
+                    }
 			}else{
 				$message_type = "error";
 				switch( $data['error'] ) {
+
+					case 'expired' :
+
+						$message = sprintf(
+							'Your license key expired on %s.' ,
+							date_i18n( get_option( 'date_format' ), strtotime( $license_data['expires'], current_time( 'timestamp' ) ) )
+						);
+						break;
+
+					case 'revoked' :
+
+						$message =  'Your license key has been disabled.' ;
+						break;
+
+					case 'missing' :
+
+						$message = 'Invalid license.' ;
+						break;
+
+					case 'invalid' :
+					case 'site_inactive' :
+
+						$message = 'Your license is not active for this URL.' ;
+						break;
+
+					case 'item_name_mismatch' :
+
+						$message = sprintf(  'This appears to be an invalid license key for %s.' , $module['module_display_name'] );
+						break;
+
+					case 'no_activations_left':
+
+						$message = 'Your license key has reached its activation limit.' ;
+						break;
+
+					case 'key_mismatch':
+
+						$message = 'License key incorrect. Please check and try again.' ;
+						break;
+
+					default :
+
+						$message =  'Error : ' .$data['error'] ;
+						break;
+				}
+			}
+
+			$this->index($message_type,$message);
+		}
+	}
+	public function deactivate_license_key($module_name){
+		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
+            redirect('login/index');
+        } else {
+			/* http://docs.easydigitaldownloads.com/article/384-software-licensing-api */
+			$module = $this->module_model->get_module_details_by_name($module_name);
+
+			$parameters = array();
+			$parameters['edd_action'] = 'deactivate_license';
+			$parameters['item_name'] = $module['module_display_name'];
+			$parameters['license'] = $module['license_key'];
+			$parameters['url'] = base_url();
+
+			$encoded = "";
+			foreach($parameters as $name => $value) {
+				$encoded .= urlencode($name).'='.urlencode($value).'&';
+			}
+
+		    $ch = curl_init();
+			  curl_setopt($ch, CURLOPT_URL, 'https://chikitsa.net/');
+	          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+			  curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+
+
+	        $response = curl_exec($ch);
+	        curl_close($ch);
+
+			$data = json_decode($response, TRUE);
+			if($data['success']){
+				$message_type = "success";
+				$message = "License Key is deactivated for ".$module['module_display_name'];
+				$this->module_model->deactivate_license($module_name);
+             // if licence_key is valied then add valid_till
+                    if($data['license']=='deactivated'){
+                      if($data['expires']!=null){
+                        //add expiry date
+						$v_data['valid_till']=date('Y-m-d',strtotime($data['expires']));
+                        $v_data['module_name']=$module_name;
+                        $this->module_model->update_valid_till($v_data);
+                      }
+                    }
+			}else{
+				$message_type = "error";
+				$message =   $data['error'] ;
+				/*switch( $data['error'] ) {
 
 					case 'expired' :
 
@@ -508,7 +715,7 @@ class Module extends CI_Controller {
 
 						$message =  'An error occurred, please try again.' ;
 						break;
-				}
+				}*/
 			}
 
 			$this->index($message_type,$message);
@@ -516,7 +723,7 @@ class Module extends CI_Controller {
 	}
 	public function take_backup(){
 		$db_prefix =  $this->db->dbprefix;
-		// Load the DB utility class
+		/* Load the DB utility class */
 		$this->load->dbutil();
 
 		$tables = $this->db->list_tables();
@@ -531,17 +738,17 @@ class Module extends CI_Controller {
 		}
 
 		$prefs = array(
-			'tables'        => $tables_array,			    // Array of tables to backup.
-			'ignore'        => array(),                     // List of tables to omit from the backup
-			'format'        => 'txt',                       // gzip, zip, txt
-			'filename'      => 'chikitsa-backup.sql',              // File name - NEEDED ONLY WITH ZIP FILES
-			'add_drop'      => TRUE,                        // Whether to add DROP TABLE statements to backup file
-			'add_insert'    => TRUE,                        // Whether to add INSERT data to backup file
-			'newline'       => "\n"                         // Newline character used in backup file
+			'tables'        => $tables_array,			    /* Array of tables to backup. */
+			'ignore'        => array(),                     /* List of tables to omit from the backup*/
+			'format'        => 'txt',                       /* gzip, zip, txt*/
+			'filename'      => 'chikitsa-backup.sql',              /* File name - NEEDED ONLY WITH ZIP FILES*/
+			'add_drop'      => TRUE,                        /* Whether to add DROP TABLE statements to backup file*/
+			'add_insert'    => TRUE,                        /* Whether to add INSERT data to backup file*/
+			'newline'       => "\n"                         /* Newline character used in backup file*/
 		);
-		// Backup your entire database and assign it to a variable
+		/* Backup your entire database and assign it to a variable */
 		$backup = $this->dbutil->backup($prefs);
-		// Load the file helper and write the file to your server
+		/* Load the file helper and write the file to your server*/
 		$this->load->helper('file');
 		write_file('chikitsa-backup.sql', $backup);
 
@@ -549,7 +756,7 @@ class Module extends CI_Controller {
 		$db_prefix_file = "prefix.txt";
 		write_file($db_prefix_file, $data);
 
-		//Take Backup of SQL And Folders
+		/*Take Backup of SQL And Folders*/
 
 		$this->load->library('zip');
 		$this->zip->read_file('chikitsa-backup.sql');
@@ -569,7 +776,8 @@ class Module extends CI_Controller {
 		$this->take_backup();
 		$data['file'] = $file;
 		$data['latest_version'] = $latest_version;
-		$this->load->view('templates/header');
+		$header_data = get_header_data();
+		$this->load->view('templates/header',$header_data);
 		$this->load->view('templates/menu');
 		$this->load->view('blank',$data);
 		$this->load->view('templates/footer');
@@ -586,7 +794,7 @@ class Module extends CI_Controller {
 		$destination = "./chikitsa.zip";
 		$uploads = "./uploads";
 		if(unzip($destination, $uploads, true, false)){
-			//Replace Files
+			/*Replace Files*/
 			full_copy($uploads."/Chikitsa".$latest_version, "./");
 			echo "Unzip Successfully completed";
 		}else{
@@ -626,21 +834,22 @@ class Module extends CI_Controller {
 
 		$this->unzip_module($module_name);
 		$this->change_log($module_name);
+
 	}
 	public function change_log($module_name){
 		if (!$this->session->userdata('user_name') || $this->session->userdata('user_name') == '') {
             redirect('login/index');
         } else {
-			//Execute SQL file
+			/*Execute SQL file*/
 			$sql_file_name = "./application/modules/".$module_name."/". $module_name.".sql";
-			//Read Files details
+			/*Read Files details*/
 			$sqls = file($sql_file_name);
 			foreach($sqls as $statement){
 				$dbprefix =  $this->db->dbprefix;
 				$statement = str_replace("%db_prefix%",$dbprefix,$statement);
 				$this->db->query($statement);
 			}
-			//Check for required modules
+			/*Check for required modules*/
 			$data['module_name'] = $module_name;
 			if($this->module_model->check_required_modules($module_name)){
 				$this->module_model->activate_module($module_name);
@@ -648,7 +857,8 @@ class Module extends CI_Controller {
 				if($activation_hook != NULL){
 					redirect($module_name."/".$activation_hook);
 				}else{
-					$this->load->view('templates/header');
+					$header_data = get_header_data();
+					$this->load->view('templates/header',$header_data);
 					$this->load->view('templates/menu');
 					$this->load->view('change_log',$data);
 					$this->load->view('templates/footer');
@@ -657,7 +867,8 @@ class Module extends CI_Controller {
 			}else{
 				$required_modules = $this->module_model->get_required_modules($module_name);
 				$data['error'] = "This Module requires Modules (".$required_modules.") to be active. Please activate them first.";
-				$this->load->view('templates/header');
+				$header_data = get_header_data();
+				$this->load->view('templates/header',$header_data);
 				$this->load->view('templates/menu');
 				$this->load->view('change_log',$data);
 				$this->load->view('templates/footer');
@@ -668,16 +879,15 @@ class Module extends CI_Controller {
 	public function unzip_module($module_name){
 		$file_name = "./uploads/".$module_name.".zip";
 		$uploads = "./uploads";
-		//echo $uploads;
+		/*echo $uploads;*/
 		if(unzip($file_name, $uploads, true, false)){
-			//Replace Files
+			/*Replace Files*/
 			full_copy($uploads."/".$module_name, "./application/modules/".$module_name);
-			//echo "Unzip Successfully completed";
+			/*echo "Unzip Successfully completed";*/
 		}else{
-			//echo "Error while unzipping the file";
+			/*echo "Error while unzipping the file";*/
 		}
 
 	}
 }
-
 ?>

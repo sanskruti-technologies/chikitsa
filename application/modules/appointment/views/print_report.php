@@ -99,7 +99,7 @@
 											}
 										?>
 										<td><?php if($consultation_duration != "--") {echo date('H:i:s',strtotime($consultation_duration));} else{echo $consultation_duration;} ?></td>
-										<!--td class="right"><?php echo currency_format($report['collection_amount']); ?></td-->
+										<!--td class="right"><?php echo currency_format($report['collection_amount']);if($currency_postfix) echo $currency_postfix['currency_postfix']; ?></td-->
 									</tr>
 								
 								<?php $i++; ?>

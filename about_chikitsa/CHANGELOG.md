@@ -2,6 +2,102 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.7] - 2022-01-31
+### Changed
+-Bill form added fees tax.
+
+## [2.0.6] - 2021-12-23
+### Changed
+-Minor Changes 
+-Correction in Time Helper for 10 mins interval
+
+
+## [2.0.5] - 2021-12-03
+### Changed
+-Minor Changes 
+
+## [2.0.4] - 2021-11-22
+### Changed
+-Minor Changes 
+
+## [2.0.3] - 2021-11-18
+### Changed
+-Minor Changes 
+
+## [2.0.2] - 2021-09-28
+### Changed
+-Minor Changes 
+
+## [2.0.1] - 2021-09-14
+### Changed
+- Allow to Change Favicon.
+
+## [2.0.0] - 2021-07-23
+### Changed
+Complete New Fresh Look.
+
+## [1.0.4] - 2021-06-16
+### Changed
+-  Patient Account Enable/Disable
+
+## [1.0.3] - 2021-04-27
+### Changed
+- Upload Language at time of Extension update and install
+- Use Multicolumns Autocomplete
+
+## [1.0.2] - 2021-04-21
+### Changed
+- Minor Corrections
+
+## [1.0.1] - 2021-04-19
+### Changed
+- Faster Install
+- Minor Changes
+
+## [1.0.0] - 2021-04-03
+### Changed
+- Minor Corrections
+## [0.9.9] - 2021-02-09
+### Changed
+- Medical History Report
+
+## [0.9.8] - 2021-01-23
+### Changed
+- Minor Corrections
+
+## [0.9.7] - 2021-01-19
+### Changed
+- Remove Auto Addition Of VAT Tax From Bill
+
+## [0.9.6] - 2021-01-18
+### Changed
+- Added User Who Created Bill and User Who Collected Payments
+
+## [0.9.5] - 2020-12-29
+### Changed
+- Add Vat Tax to Bill 
+- Filter Bill Records
+
+## [0.9.4] - 2020-11-11
+### Changed
+- Allow to edit Treatments in visit
+
+## [0.9.3] - 2020-10-09
+### Changed
+- Minor Corrections
+
+## [0.9.2] - 2020-06-16
+### Added
+- Show Added extensions in table
+- Do not allow an extension to activate if license key is not valid
+- If extension is already added, do not show on add extension page
+- Extension must deactivate automatically if license key expires
+- Allow to add Decimal Places, Decimal Symbol and Thousands Separator for Currency
+
+### Changed
+- Solved error in adding new language
+
+
 ## [0.9.1] - 2020-03-04
 ### Added
 - Validation in Inquiry Form
@@ -11,7 +107,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Datatable in Payment Page
 - Solved error in adding new language
-- Solved problem in adding multiple days in Exceptional Days 
+- Solved problem in adding multiple days in Exceptional Days
 
 
 ## [0.9.0] - 2020-02-18
@@ -21,7 +117,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.8.9] - 2019-01-02
 ### Changed
-- For Custom Detail 0.0.3	
+- For Custom Detail 0.0.3
 - Bill Bugs Solved
 
 ## [0.8.8] - 2019-12-18
@@ -56,31 +152,31 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Minor Fixes
 - Multiple Appointment overlap problem fixed
-  
+
 ## [0.8.2] - 2019-08-06
 ### Changed
 - Minor Fixes
-  
+
 ## [0.8.1] - 2019-08-01
 ### Added
 - Date Formats and Time Formats added
-### Changed 
+### Changed
 - Minor Fixes
 - Tax Calculation error solved
 - Change Language File
 
 
 ## [0.8.0] - 2019-07-08
-### Changed 
+### Changed
 - Minor Fixes
-  
+
 ## [0.7.9] - 2019-07-02
 ### Added
   - Edit All Language Variables.
 ### Changed
   - Correction in Tax Calculations
-  
-  
+
+
 ## [0.7.8] - 2019-06-05
 ### Added
 	- Config file will not replace on update
@@ -179,7 +275,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.6] - 2018-07-09
 ### Added
-- Filter in Bill 
+- Filter in Bill
 ### Changed
 - Taxes (Corrected problems)
 - Tax Report
@@ -188,7 +284,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.5] - 2018-06-18
 ### Added
-- Taxes 
+- Taxes
 ### Changed
 - Minor Fixes
 - Flexible Time Interval for Appointments
@@ -272,34 +368,34 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
   - System Administrator Role (above Administrator)
   - Required Modules Check while activating a module
-  
+
 ### Changed
   - Shifted Invoice Settings to Settings
   - Minor Fixes
-  
+
 ## [0.5.4] - 2017-08-03
 ### Changed
   - Minor Fixes
 
-  
+
 ## [0.5.3] - 2017-07-27
 ### Changed
   - Minor Fixes
 ### Added
   - One Click Update for Chikitsa (will be visible from next version)
-  
+
 ## [0.5.2] - 2017-07-11
 ### Changed
   - Minor Fixes
-  
+
 ## [0.5.1] - 2017-07-06
 ### Added
   - Multiple Contact Numbers in Patient
   - Numeric Validation in Bill Amounts
 ### Changed
   - Separate Page to add User instead of Above the table
-  
-  
+
+
 
 ## [0.5.0] - 2017-06-19
 ### Changed
@@ -309,15 +405,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
   - Bill On Visit Page
   - Select Multiple Doctor on Bill Detail Report
- 
+
 ## [0.4.8] - 2017-04-24
 ### Changed
  - Changes for Wamp Compatibility
- 
+
 ## [0.4.7] - 2017-04-22
 ### Changed
   - Solved Error in Modules
- 
+
 ## [0.4.6] - 2017-04-08
 ### Added
  - Title for Name
@@ -325,7 +421,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  - Faster Loading
  - Correction in Responsive behaviour
  - Removal of Limit in uploading Backup
- 
+
 ## [0.4.4] - 2017-03-22
 ### Added
  - Second Number for Patient
@@ -333,7 +429,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  - More Details can be added while adding patient in Add Appointment Form
 ### Changed
  - Added Totals in Excel Export for Bill Detail Report
- 
+
 ## [0.4.3] - 2017-03-10
 ### Added
  - Ready for Followup Reminders Changes in Alert Extension
@@ -345,7 +441,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.4.2] - 2017-02-21
 ### Changed
  - Correction in Link highlighting problems
- 
+
 ## [0.4.1] - 2017-02-15
 ### Changed
  - Correction in Link highlighting problems
@@ -355,7 +451,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.4.0] - 2017-01-28
 ### Changed
 - Display Followups Doctorwise
-- Corrected Highlight of Menu According to Active Page 
+- Corrected Highlight of Menu According to Active Page
 - View Appointment link in Appointment Report
 - Limit Time Field in Visit Page according to Clinic Timings
 - Allow to add Clinic Logo in Receipt (Requires Receipt Template to edit template)
@@ -459,7 +555,7 @@ and its function "the change log".
 
 ### Changed
 - Refer to a "change log" instead of a "CHANGELOG" throughout the site
-to differentiate between the file and the purpose of the file — the
+to differentiate between the file and the purpose of the file â€” the
 logging of changes.
 
 ### Removed
